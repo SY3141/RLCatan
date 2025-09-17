@@ -1,4 +1,4 @@
-# Project Name
+# RLcatan
 
 Developer Names: Rebecca Di Filippo, Sunny Yao, Matthew Cheung, Jake Read
 
