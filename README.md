@@ -1,6 +1,6 @@
 # Project Name
 
-Developer Names:
+Developer Names: Rebecca Di Filippo, Sunny Yao, Matthew Cheung, Jake Read
 
 Date of project start:
 
