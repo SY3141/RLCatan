@@ -40,17 +40,38 @@ Date2 & Name(s) & Description of changes\\
 information.}
 
 \subsection{Problem}
+The project aims to create an AI-enabled digital twin for the board game Settlers of Catan. The core problem is that Catan's complexity, with its numerous possible moves and game states, makes it challenging for human players to calculate optimal strategies. This project seeks to leverage AI, specifically reinforcement learning (RL), to overcome this limitation. **The AI will provide real-time decision support offering in-game advice to help players learn and improve, as well as post-game analysis to review critical moments.
 
 \subsection{Inputs and Outputs}
-
-\wss{Characterize the problem in terms of ``high level'' inputs and outputs.  
-Use abstraction so that you can avoid details.}
+The system's high-level inputs are the game state information of a Catan match. This includes the positions of roads, settlements, and cities, the resources and development cards held by each player, and the location of the robber. This information can be fed into the system in various ways, such as a manual entry of a static snapshot or **through real-time video feeds that are processed to detect the game state. The high-level outputs recommended actions for the player and the ability to simulate gameplay against one or more AI bots, each having their own unique playstyle **(e.g., longest road, largest army). **This includes suggesting the best move to make during a turn, such as where to build a road or what to trade. It also includes providing post-game advice, such as identifying a past decision that could have been made differently to alter the game's outcome.
 
 \subsection{Stakeholders}
+The primary stakeholders for this project are:
+\begin{itemize}
+    \item Players of Settlers of Catan: The end-users who will use the AI for in-game and post-game analysis to improve their skills, or train against various skilled AI bots.
+    \item Dr. Istvan David: The project supervisor who provides guidance, expertise, and oversight.
+    \item The Project Team: The developers responsible for designing, implementing, and testing the software.
+    \item The Department of Computing and Software (CAS) at McMaster University: The organization hosting the project, which benefits from the academic and technical achievements of its students and faculty.
+\end{itemize}
 
 \subsection{Environment}
+The project requires a hardware and software environment to support the various modules. The core of the system will run on a central processing unit (for example, a server or a high-powered laptop) capable of handling the computational demands of AI. 
 
-\wss{Hardware and Software Environment}
+On the software side, the system will need:
+\begin{itemize}
+    \item a game simulator to serve as a training environment for the RL agents
+    \item a reinforcement learning framework (for example, Farama Foundation's Gymnasium) to train the AI
+    \item a computer vision library (for example, YOLO) to process video feeds and translate them into a digital game state representation
+    \item a user-facing application for the player, for example a website or mobile application 
+    \item a visual display (for example, a virtual board or text) to show a digital representation of the game state and the AI's actions
+\end{itemize}
+
+On the hardware side, the project requires:
+\begin{itemize}
+    \item a computer with a processor and GPU to run the AI and computer vision modules
+    \item  devices (for example, laptops or smartphones) for the players to use the application and stream video of the game board
+    \item a physical Catan board game for testing the computer vision and digital twin functionalities
+\end{itemize}
 
 \section{Goals}
 
