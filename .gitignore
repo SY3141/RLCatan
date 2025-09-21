@@ -277,3 +277,14 @@ TSWLatexianTemp*
 
 # DS_Store file from Mac computers
 .DS_Store
+
+
+# .idea files from local projects
+.idea/.gitignore
+.idea/RLCatan.iml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/modules.xml
+.idea/vcs.xml
+
+# all pfs
+*.pdf
