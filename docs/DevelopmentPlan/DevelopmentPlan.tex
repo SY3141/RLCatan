@@ -22,9 +22,11 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
+Sept 17 & Sunny Yao & Draft of 3,4,8,9\\
 Sept 17 & Rebecca Di Filippo & Draft of 1,2,5,6,7,Team Charter\\
 Sept 21 & Rebecca Di Filippo & Revision of 1,2,5,6,7,Team Charter\\
 Sept 21 & Rebecca Di Filippo & Addition of individual Reflection\\
+Sept 21 & Sunny Yao & Draft of Intro, 10, Coding Standards\\
 ... & ... & ...\\
 \bottomrule
 \end{tabularx}
@@ -32,12 +34,10 @@ Sept 21 & Rebecca Di Filippo & Addition of individual Reflection\\
 
 \newpage{}
 
-\wss{Put your introductory blurb here.  Often the blurb is a brief roadmap of
-what is contained in the report.}
-
-\wss{Additional information on the development plan can be found in the
-\href{https://gitlab.cas.mcmaster.ca/courses/capstone/-/blob/main/Lectures/L02b_POCAndDevPlan/POCAndDevPlan.pdf?ref_type=heads}
-{lecture slides}.}
+\raggedright
+This document outlines the development plan for RLCatan, an
+AI agent that learns to play the board game Catan competitively 
+using reinforcement learning. 
 
 \section{Confidential Information}
 
@@ -83,7 +83,7 @@ issues and their closures.
     ensuring deadlines are met, and overall team coordination. This person will
     also be the main point of contact with the supervisor and the TA
   \item Notetaker: this person is responsible for creating meeting agendas and also
-    taking notes during meetings. This person will also be updating the Kaban
+    taking notes during meetings. This person will also be updating the Kanban
     board.
   \item IT: this person is responisble for managing the GitHub repository, including
     branches, pull requests, and issues. This person will also be resonsible for trouble
@@ -93,15 +93,7 @@ issues and their closures.
     ensuring that coding standards are being followed.
 \end{itemize}
 
-
 \section{Workflow Plan}
-
-\begin{itemize}
-	\item How will you be using git, including branches, pull request, etc.?
-	\item How will you be managing issues, including template issues, issue
-	classification, etc.?
-  \item Use of CI/CD
-\end{itemize}
 
 \raggedright
 We will be using GitHub for version control and collaboration.
@@ -115,11 +107,6 @@ consistency in reporting and classification of issues.
 
 \section{Project Decomposition and Scheduling}
 
-\begin{itemize}
-  \item How will you be using GitHub projects?
-  \item Include a link to your GitHub project
-\end{itemize}
-
 %\wss{How will the project be scheduled?  This is the big picture schedule, not
 %details. You will need to reproduce information that is in the course outline
 %for deadlines.}
@@ -129,25 +116,23 @@ We will be using GitHub Projects to manage our project tasks and milestones. We
 will create a project board with columns for "To Do", "In Progress", "In Review
 ", and "Done". Each task will be represented as a card on the board. These tasks
 will be prioritized based on their importance and deadlines. Every deadline will
-driectly correspond to deadlines from the course outline.
-The link to our GitHub project is *INSERT LINK HERE*
-
+directly correspond to deadlines from the course outline.
+The link to our GitHub project can be found
+\href{https://github.com/users/SY3141/projects/1}{here}.
 
 \section{Proof of Concept Demonstration Plan}
 
-What is the main risk, or risks, for the success of your project?  What will you
-demonstrate during your proof of concept demonstration to convince yourself that
-you will be able to overcome this risk?
-
-\medskip
-
 \raggedright
-To mitigate these risks, we will conduct regular Elo testing 
-against existing benchmark opponents to make sure the AI is improving or at least not regressing.
-To mitigate these risks, we will conduct regular elo testing 
-against existing benchmark opponents to make sure the AI is improving or at least not regressing.
-We will also conduct user testing sessions to gather feedback and 
-make iterative improvements to the interface. 
+The main risks for the success of our project are the AI not 
+being able toeffectively learn to play Catan at a high level, 
+and the user interface not being intuitive or user-friendly. 
+To mitigate these risks, we will conduct regular Elo testing
+against existing benchmark opponents to make sure the AI is 
+improving or at least not regressing. To mitigate these risks, 
+we will conduct regular elo testing against existing benchmark 
+opponents to make sure the AI is improving or at least not 
+regressing. We will also conduct user testing sessions to 
+gather feedback and make iterative improvements to the interface. 
 We will also ensure that our AI models are thoroughly tested and 
 validated before deployment.
 
@@ -161,15 +146,6 @@ We will also utilize React and JavaScript as
 our web framework for building the user interface and 
 digital twin. For computer vision models, we will be using
 openCV and yolov9 for image recognition and processing.
-
-
-\wss{The implementation decisions can, and likely will, change over the course
-of the project.  The initial documentation should be written in an abstract way;
-it should be agnostic of the implementation choices, unless the implementation
-choices are project constraints.  However, recording our initial thoughts on
-implementation helps understand the challenge level and feasibility of a
-project.  It may also help with early identification of areas where project
-members will need to augment their training.}
 
 Topics to discuss include the following:
 
