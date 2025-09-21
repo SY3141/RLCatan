@@ -33,10 +33,10 @@ Date2 & Name(s) & Description of changes\\
 \section{Problem Statement}
 
 \subsection{Problem}
-The project aims to create an AI-enabled digital twin for the board game Settlers of Catan. The core problem is that Catan's complexity, with its numerous possible moves and game states, makes it challenging for human players to calculate optimal strategies. This project seeks to leverage AI, specifically reinforcement learning (RL), to overcome this limitation. **The AI will provide real-time decision support offering in-game advice to help players learn and improve, as well as post-game analysis to review critical moments.
+The project aims to create an AI-enabled decision-support tool for the board game Settlers of Catan. The core problem is that Catan's complexity, with its numerous possible moves and game states, makes it challenging for human players to calculate optimal strategies. This challenge arises from the vast number of game states, the partially observable information (e.g., opponents' hidden cards), and the stochastic nature of dice rolls. This project seeks to overcome these limitations by using an AI reinforcement learning (RL) model to provide strategic guidance. The final product is a digital tool that uses computer vision to observe a physical game and offers strategic suggestions to the player via a device.
 
 \subsection{Inputs and Outputs}
-The system's high-level inputs are the game state information of a Catan match. This includes the positions of roads, settlements, and cities, the resources and development cards held by each player, and the location of the robber. This information can be fed into the system in various ways, such as a manual entry of a static snapshot or **through real-time video feeds that are processed to detect the game state. The high-level outputs recommended actions for the player and the ability to simulate gameplay against one or more AI bots, each having their own unique playstyle **(e.g., longest road, largest army). **This includes suggesting the best move to make during a turn, such as where to build a road or what to trade. It also includes providing post-game advice, such as identifying a past decision that could have been made differently to alter the game's outcome.
+The system's high-level inputs are the game state information of a Catan match, including all board and player data. This information is captured in real-time by a camera and processed to create a digital representation of the board. The high-level outputs are strategic recommendations for the player, delivered directly to their device. The AI will suggest the best moves and can also simulate gameplay against various AI bots. The tool also provides post-game advice, identifying past decisions that could have been made differently to alter the game's outcome.
 
 \subsection{Stakeholders}
 The primary stakeholders for this project are:
@@ -48,23 +48,7 @@ The primary stakeholders for this project are:
 \end{itemize}
 
 \subsection{Environment}
-The project requires a hardware and software environment to support the various modules. The core of the system will run on a central processing unit (for example, a server or a high-powered laptop) capable of handling the computational demands of AI. 
-
-On the software side, the system will need:
-\begin{itemize}
-    \item a game simulator to serve as a training environment for the RL agents
-    \item a reinforcement learning framework (for example, Farama Foundation's Gymnasium) to train the AI
-    \item a computer vision library (for example, YOLO) to process video feeds and translate them into a digital game state representation
-    \item a user-facing application for the player, for example a website or mobile application 
-    \item a visual display (for example, a virtual board or text) to show a digital representation of the game state and the AI's actions
-\end{itemize}
-
-On the hardware side, the project requires:
-\begin{itemize}
-    \item a computer with a processor and GPU to run the AI and computer vision modules
-    \item  devices (for example, laptops or smartphones) for the players to use the application and stream video of the game board
-    \item a physical Catan board game for testing the computer vision and digital twin functionalities
-\end{itemize}
+The project requires a hardware and software environment to support its modules. On the software side, the system will need a game simulator for training, a reinforcement learning framework for the AI, a computer vision library to process video, and a user-facing application for the player's device. On the hardware side, the project requires a computer with a processor and GPU to run the AI, devices for the players to use the application and stream video of the game board, and a physical Catan board game for testing.
 
 \section{Goals}
 
