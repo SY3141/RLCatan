@@ -30,47 +30,73 @@ Date2 & Name(s) & Description of changes\\
 \end{tabularx}
 \end{table}
 
-\section{Problem Statement}
+\section{Problem Statement}\label{sec:problem-statement}
 
-\subsection{Problem}
-The project aims to create an AI-enabled digital twin for the board game Settlers of Catan. The core problem is that Catan's complexity, with its numerous possible moves and game states, makes it challenging for human players to calculate optimal strategies. This project seeks to leverage AI, specifically reinforcement learning (RL), to overcome this limitation. **The AI will provide real-time decision support offering in-game advice to help players learn and improve, as well as post-game analysis to review critical moments.
+\subsection{Problem}\label{subsec:problem}
+The project aims to create an AI-enabled digital twin for the board game \emph{Settlers of Catan}.
+The core problem is that \emph{Catan}'s complexity, with its numerous possible moves and game states, makes it challenging for human players to calculate optimal strategies.
+This project seeks to leverage AI, specifically reinforcement learning (RL), to overcome this limitation.
+**The AI will provide real-time decision support offering in-game advice to help players learn and improve, as well as post-game analysis to review critical moments.
 
-\subsection{Inputs and Outputs}
-The system's high-level inputs are the game state information of a Catan match. This includes the positions of roads, settlements, and cities, the resources and development cards held by each player, and the location of the robber. This information can be fed into the system in various ways, such as a manual entry of a static snapshot or **through real-time video feeds that are processed to detect the game state. The high-level outputs recommended actions for the player and the ability to simulate gameplay against one or more AI bots, each having their own unique playstyle **(e.g., longest road, largest army). **This includes suggesting the best move to make during a turn, such as where to build a road or what to trade. It also includes providing post-game advice, such as identifying a past decision that could have been made differently to alter the game's outcome.
+\subsection{Inputs and Outputs}\label{subsec:inputs-and-outputs}
+The system's high-level inputs are the game state information of a \emph{Catan} match.
+This includes the positions of roads, settlements, and cities, the resources and development cards held by each player, and the location of the robber.
+This information can be fed into the system in various ways, such as a manual entry of a static snapshot or **through real-time video feeds that are processed to detect the game state.
+The high-level outputs recommended actions for the player and the ability to simulate gameplay against one or more AI bots, each having their own unique playstyle **(e.g., longest road, largest army).
+**This includes suggesting the best move to make during a turn, such as where to build a road or what to trade.
+It also includes providing post-game advice, such as identifying a past decision that could have been made differently to alter the game's outcome.
 
-\subsection{Stakeholders}
+\subsection{Stakeholders}\label{subsec:stakeholders}
 The primary stakeholders for this project are:
 \begin{itemize}
-    \item Players of Settlers of Catan: The end-users who will use the AI for in-game and post-game analysis to improve their skills, or train against various skilled AI bots.
+    \item Players of \emph{Settlers of Catan}: The end-users who will use the AI for in-game and post-game analysis to improve their skills, or train against various skilled AI bots.
     \item Dr. Istvan David: The project supervisor who provides guidance, expertise, and oversight.
     \item The Project Team: The developers responsible for designing, implementing, and testing the software.
     \item The Department of Computing and Software (CAS) at McMaster University: The organization hosting the project, which benefits from the academic and technical achievements of its students and faculty.
 \end{itemize}
 
-\subsection{Environment}
-The project requires a hardware and software environment to support the various modules. The core of the system will run on a central processing unit (for example, a server or a high-powered laptop) capable of handling the computational demands of AI. 
+\subsection{Environment}\label{subsec:environment}
+The project requires a hardware and software environment to support the various modules.
+The core of the system will run on a central processing unit (for example, a server or a high-powered laptop) capable of handling the computational demands of AI\@.
 
 On the software side, the system will need:
 \begin{itemize}
-    \item a game simulator to serve as a training environment for the RL agents
-    \item a reinforcement learning framework (for example, Farama Foundation's Gymnasium) to train the AI
-    \item a computer vision library (for example, YOLO) to process video feeds and translate them into a digital game state representation
-    \item a user-facing application for the player, for example a website or mobile application 
-    \item a visual display (for example, a virtual board or text) to show a digital representation of the game state and the AI's actions
+    \item A game simulator to serve as a training environment for the RL agents.
+    \item A reinforcement learning framework (for example, Farama Foundation's Gymnasium) to train the AI\@.
+    \item A computer vision library (for example, YOLO) to process video feeds and translate them into a digital game state representation.
+    \item A user-facing application for the player, for example a website or mobile application .
+    \item A visual display (for example, a virtual board or text) to show a digital representation of the game state and the AI's actions.
 \end{itemize}
 
 On the hardware side, the project requires:
 \begin{itemize}
-    \item a computer with a processor and GPU to run the AI and computer vision modules
-    \item  devices (for example, laptops or smartphones) for the players to use the application and stream video of the game board
-    \item a physical Catan board game for testing the computer vision and digital twin functionalities
+    \item A computer with a processor and GPU to run the AI and computer vision modules.
+    \item Devices (for example, laptops or smartphones) for the players to use the application and stream video of the game board.
+    \item A physical \emph{Catan} board game for testing the computer vision and digital twin functionalities.
 \end{itemize}
 
-\section{Goals}
+\section{Goals}\label{sec:goals}
+The following are the major goals for the project:
+\begin{itemize}
+    \item Create a simulation environment for \emph{Catan}, encoding game rules such that in a given state, a set of potential moves is returned.
+    \item Devise starting states/confer with experts to find some initial board setups and corresponding strategies to aid the model’s early learning.
+    \item Utilize the simulation environment to train a deep reinforcement learning model to play \emph{Catan} to at least the level of the average human player.
+    \item Use computer vision/sensors to transfer the current state of a physical table-top \emph{Catan} game to our simulation (Create a digital twin).
+    \item Send the move generated by the model back to the user in some form.
+    \item Develop a visualisation of the game on the digital twin’s side to help explain actions.
+\end{itemize}
 
-\section{Stretch Goals}
+\section{Stretch Goals}\label{sec:stretch-goals}
+In addition to the project’s primary goals the following are stretch goals we will aim to complete if possible:
+\begin{itemize}
+    \item Construct personas relating to various kinds of players and the strategies they will typically utilize in the game’s trading system in order to improve the model’s predictions.
+    \item Improve the model to the extent that it performs better than the average \emph{Catan} player, perhaps even finding strategies unknown to current competitive players.
+    \item Generate explanations of “what could’ve been” following a game using an LLM\@.
+    \item Further augment the physical board to simulation transfer via the use of multiple camera angles or smart glasses.
+\end{itemize}
 
-\section{Extras}
+
+\section{Extras}\label{sec:extras}
 
 \wss{For CAS 741: State whether the project is a research project. This
 designation, with the approval (or request) of the instructor, can be modified
