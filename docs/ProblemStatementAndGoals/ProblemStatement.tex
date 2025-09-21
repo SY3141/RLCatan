@@ -37,19 +37,19 @@ Sept. 21st & Matthew & Updated problem statement sections 1-1.4\\
 The project aims to create an AI-enabled decision-support tool for the board game \emph{Settlers of Catan}. The core problem is that \emph{Catan's} complexity, with its numerous possible moves and game states, makes it challenging for human players to calculate optimal strategies. This challenge arises from the vast number of game states, the partially observable information (e.g., opponents' hidden cards), and the stochastic nature of dice rolls. This project seeks to overcome these limitations by using an AI reinforcement learning (RL) model to provide strategic guidance. The final product is a digital tool that uses computer vision to observe a physical game and offers strategic suggestions to the player via a device.
 
 \subsection{Inputs and Outputs}
-The system's high-level inputs are the game state information of a \emph{Catan} match, including all board and player data. This information is captured in real-time by a camera and processed to create a digital representation of the board. The high-level outputs are strategic recommendations for the player, delivered directly to their device. The AI will suggest the best moves and can also simulate gameplay against various AI bots. The tool also provides post-game advice, identifying past decisions that could have been made differently to alter the game's outcome.
+The system's high-level inputs are the game state information of a \emph{Catan} match, including all board and player data. This information is captured in real-time by a camera and processed to create a digital representation of the board's state space. The high-level outputs are the next optimal move(s) for the player, delivered directly to their device. The AI can also simulate gameplay as a competing player. The tool also provides post-game advice, identifying past decisions that could have been made differently to alter the game's outcome.
 
 \subsection{Stakeholders}\label{subsec:stakeholders}
 The primary stakeholders for this project are:
 \begin{itemize}
-    \item Players of \emph{Settlers of Catan}: The end-users who will use the AI for in-game and post-game analysis to improve their skills, or train against various skilled AI bots.
+    \item Players of \emph{Settlers of Catan}: The end-users who will use the AI for in-game and post-game analysis to improve their skills, or to train against skilled AI bots.
     \item Dr. Istvan David: The project supervisor who provides guidance, expertise, and oversight.
     \item The Project Team: The developers responsible for designing, implementing, and testing the software.
     \item The Department of Computing and Software (CAS) at McMaster University: The organization hosting the project, which benefits from the academic and technical achievements of its students and faculty.
 \end{itemize}
 
 \subsection{Environment}
-The project requires a hardware and software environment to support its modules. On the software side, the system will need a game simulator for training, a reinforcement learning framework for the AI, a computer vision library to process video, and a user-facing application for the player's device. On the hardware side, the project requires a computer with a processor and GPU to run the AI, devices for the players to use the application and stream video of the game board, and a physical \emph{Catan} board game for testing.
+The project requires a hardware and software environment to support its modules. On the software side, the system will need a game simulator for training, a reinforcement learning framework for the AI, a computer vision library to process video, and a user-facing application for the player's device. On the hardware side, the project requires a GPU to train the model, a device with a processor to run the AI, devices for the players to use the application and stream video of the game board, and a physical \emph{Catan} board game for testing.
 
 \section{Goals}\label{sec:goals}
 The following are the major goals for the project:
@@ -68,23 +68,20 @@ In addition to the project’s primary goals the following are stretch goals we 
     \item Construct personas relating to various kinds of players and the strategies they will typically utilize in the game’s trading system in order to improve the model’s predictions.
     \item Improve the model to the extent that it performs better than the average \emph{Catan} player, perhaps even finding strategies unknown to current competitive players.
     \item Generate explanations of “what could’ve been” following a game using an LLM\@.
-    \item Further augment the physical board to simulation transfer via the use of multiple camera angles or smart glasses.
+    \item Further augment the physical board-to-simulation transfer via the use of multiple camera angles or smart glasses.
 \end{itemize}
 
 
 \section{Extras}\label{sec:extras}
 
-\wss{For CAS 741: State whether the project is a research project. This
-designation, with the approval (or request) of the instructor, can be modified
-over the course of the term.}
 
-\wss{For SE Capstone: List your extras.  Potential extras include usability
-testing, code walkthroughs, user documentation, formal proof, GenderMag
-personas, Design Thinking, etc.  (The full list is on the course outline and in
-Lecture 02.) Normally the number of extras will be two.  Approval of the extras
-will be part of the discussion with the instructor for approving the project.
-The extras, with the approval (or request) of the instructor, can be modified
-over the course of the term.}
+\raggedright
+
+The extras for this project include:
+\begin{itemize}
+    \item User instruction video
+    \item Performance report
+\end{itemize}
 
 \newpage{}
 
