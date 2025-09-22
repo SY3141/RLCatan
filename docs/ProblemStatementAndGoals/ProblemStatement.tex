@@ -27,6 +27,7 @@ Sept. 17th & Matthew & Added preliminary problem statement for sections 1-1.4\\
 Sept. 21st & Jake & Added goals and stretch goals sections and polished document\\
 Sept. 21st & Jake & Added personal reflection\\
 Sept. 21st & Matthew & Updated problem statement sections 1-1.4\\
+Sept. 21st & Jake & Rewrote problem statement to focus more on the What than the How
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -34,10 +35,28 @@ Sept. 21st & Matthew & Updated problem statement sections 1-1.4\\
 \section{Problem Statement}\label{sec:problem-statement}
 
 \subsection{Problem}
-The project aims to create an AI-enabled decision-support tool for the board game \emph{Settlers of Catan}. The core problem is that \emph{Catan's} complexity, with its numerous possible moves and game states, makes it challenging for human players to calculate optimal strategies. This challenge arises from the vast number of game states, the partially observable information (e.g., opponents' hidden cards), and the stochastic nature of dice rolls. This project seeks to overcome these limitations by using an AI reinforcement learning (RL) model to provide strategic guidance. The final product is a digital tool that uses computer vision to observe a physical game and offers strategic suggestions to the player via a device.
+\emph{Settlers of Catan} is a strategic board game where players act as settlers, competing to build settlements and cities across the map by collecting and trading resources like wheat, wood, brick, etc.
+It's one of the most popular modern board games, with around 45 million copies sold.
+It also has a growing competitive scene, complete with Elo ratings in a manner similar to chess.
+Unlike chess however, there are no existing AI bots capable of playing \emph{Catan} to the level of a human player.
+This is due to the large state-space of potential moves on a given turn, and the stochastic nature of the game with its dice rolls, as well as only partially observable information (e.g., opponents' hidden cards).
+This same nature makes it impossible for humans to calculate optimal strategies, as we can't see far enough ahead.
+A bot capable of playing \emph{Catan} would be useful for both new and experienced players, aiding in learning the complexities of the game, and providing optimal moves in a given situation.
+It would also be perfect for \emph{Catan} fans with no one else to play with.
+
+This project proposes the creation of an AI-enabled decision-support tool for the board game \emph{Settlers of Catan}.
+We aim to overcome the aforementioned bot development limitations by using computer-automated decision-making, supported by deep reinforcement learning (DRL).
+DRL is a variant of traditional Markovian RL that represents the learned policy as a deep neural network (DNN).
+This method works particularly well in dense problem spaces, such as seen in \emph{Catan}.
+Due to the nature of this tool, it may even be able to discover entirely new strategies unknown to human players.
+The final product will be a digital twin, a tool that uses computer vision to observe a physical game and offer strategic suggestions to the player based on its underlying DRL model.
 
 \subsection{Inputs and Outputs}
-The system's high-level inputs are the game state information of a \emph{Catan} match, including all board and player data. This information is captured in real-time by a camera and processed to create a digital representation of the board's state space. The high-level outputs are the next optimal move(s) for the player, delivered directly to their device. The AI can also simulate gameplay as a competing player. The tool also provides post-game advice, identifying past decisions that could have been made differently to alter the game's outcome.
+The system's high-level inputs are the game state information of a \emph{Catan} match, including all board and player data.
+This information is captured in real-time by a camera and processed to create a digital representation of the board's state space.
+The high-level outputs are the next optimal move(s) for the player, delivered directly to their device.
+The AI can also simulate gameplay as a competing player.
+The tool also provides post-game advice, identifying past decisions that could have been made differently to alter the game's outcome.
 
 \subsection{Stakeholders}\label{subsec:stakeholders}
 The primary stakeholders for this project are:
