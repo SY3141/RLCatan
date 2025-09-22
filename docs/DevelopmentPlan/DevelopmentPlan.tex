@@ -56,15 +56,16 @@ There is no IP to protect in this project.
 \section{Team Meeting Plan}
 
 \raggedright
-We will schedule a meeting every time we have an addressable 
+Our team regularly meets 4:30-6:30pm every Thursday.
+We will schedule additional meetings every time we have an addressable 
 agenda. Virtual meetings will be held through a Discord call 
 and physical meetings will be held at tutorial locations or ETB.
  Meetings may be hybrid depending on schedules. We will schedule
   meetings with our advisor when we require resources or 
-  expertise. Meetings will be structured with a set agenda 
-  before scheduling to address all of the points 
-  by the liaison.
+  expertise. Meetings will be structured with a set agenda devised by the notetaker
+  before scheduling to address all of the topics we need to discuss.
 
+\medskip
 
 \raggedright
 We will be using Discord as our main communication 
@@ -81,23 +82,23 @@ issues and their closures.
 \begin{itemize}
   \item Team Leader: this person is responsible for scheduling meetings,
     ensuring deadlines are met, and overall team coordination. This person will
-    also be the main point of contact with the supervisor and the TA
+    also be the main point of contact with the supervisor and the TA.
   \item Notetaker: this person is responsible for creating meeting agendas and also
     taking notes during meetings. This person will also be updating the Kanban
     board.
   \item IT: this person is responisble for managing the GitHub repository, including
     branches, pull requests, and issues. This person will also be resonsible for trouble
     shooting any technical issues that arise.
-  \item Reviewer: this person is responsible for reviewing code and documentation
-    to ensure quality and consistency. This person will also be responsible for
-    ensuring that coding standards are being followed.
+  \item Researcher: this person is responsible for researching any topics that
+    the team is unfamiliar with. This person will also be responsible for finding
+    relevant papers and articles to help the team understand the project better.
 \end{itemize}
 
 \section{Workflow Plan}
 
 \raggedright
 We will be using GitHub for version control and collaboration.
-To manage development, we will create branches for each main feature,
+To manage development, we will create branches for each task on the Kanban Board,
 along with sub-branches for individual team members work. Pull requests 
 will be used to review and merge code changes, ensuring quality and 
 consistency. GitHub Issues will be used to track tasks and bugs, with 
@@ -120,21 +121,23 @@ directly correspond to deadlines from the course outline.
 The link to our GitHub project can be found
 \href{https://github.com/users/SY3141/projects/1}{here}.
 
+
+*ADD Scheduling******
+
 \section{Proof of Concept Demonstration Plan}
 
 \raggedright
 The main risks for the success of our project are the AI not 
-being able toeffectively learn to play Catan at a high level, 
+being able to effectively learn to play Catan at a high level, 
 and the user interface not being intuitive or user-friendly. 
 To mitigate these risks, we will conduct regular Elo testing
 against existing benchmark opponents to make sure the AI is 
-improving or at least not regressing. To mitigate these risks, 
-we will conduct regular elo testing against existing benchmark 
-opponents to make sure the AI is improving or at least not 
-regressing. We will also conduct user testing sessions to 
-gather feedback and make iterative improvements to the interface. 
-We will also ensure that our AI models are thoroughly tested and 
-validated before deployment.
+improving or at least not regressing. We will also conduct user 
+testing sessions to  gather feedback and make iterative improvements to the interface. 
+Lastly we will ensure that our AI models are thoroughly tested and 
+validated before deployment. When we demonstrate our proof of concept,
+we will showcase that the AI is able to win a game of Catan, even if
+it is not performing at a high level at this stage.
 
 \section{Expected Technology}
 
@@ -145,35 +148,25 @@ libary for simulating Catan games and training our models.
 We will also utilize React and JavaScript as 
 our web framework for building the user interface and 
 digital twin. For computer vision models, we will be using
-openCV and yolov9 for image recognition and processing.
+openCV and yolov9 for image recognition and processing. We
+will not be using CI/CD, since our project doesnt require 100\% uptime.
 
-Topics to discuss include the following:
-
-\begin{itemize}
-\item Specific programming language
-\item Specific libraries
-\item Pre-trained models
-\item Specific linter tool (if appropriate)
-\item Specific unit testing framework
-\item Investigation of code coverage measuring tools
-\item Specific plans for Continuous Integration (CI), or an explanation that CI
-  is not being done
-\item Specific performance measuring tools (like Valgrind), if
-  appropriate
-\item Tools you will likely be using?
-\end{itemize}
-
-\wss{git, GitHub and GitHub projects should be part of your technology.}
 
 \section{Coding Standard}
 
-\wss{What coding standard will you adopt?}
+Since our projects backend is primarily in Python, we will be following the PEP 8 Coding
+Standard. The link to this standard can be found
+\href{https://peps.python.org/pep-0008/}{here}.
+
+\medskip
+
+Our frontend is primarily in JavaScript and React, so we will be following the google style guide
+coding standard. The link to this standard can be found \href{https://google.github.io/styleguide/jsguide.html}{here}.
 
 \newpage{}
 
 \section*{Appendix --- Reflection}
 
-\wss{Not required for CAS 741}
 
 \input{../Reflection.tex}
 
@@ -190,9 +183,6 @@ Topics to discuss include the following:
 
 \section*{Appendix --- Team Charter}
 
-\wss{borrows from
-\href{https://engineering.up.edu/industry_partnerships/files/team-charter.pdf}
-{University of Portland Team Charter}}
 
 \subsection*{External Goals}
 
@@ -203,9 +193,9 @@ Topics to discuss include the following:
 %interviews, or to get an A+, etc.}
 
 \raggedright
-Our teams external goals for this project are to create a have a strong understanding
+Our teams external goals for this project are to attain a strong understanding
 of reinforcement learning and computer vision, to be able to build a hireable portfolio. 
-We also want to get a A/A+ in the course, since we are putting alot of effort into the
+We also are aiming to get a A/A+ in the course, since we plan to put a lot of effort into the
 project.
 
 \subsection*{Attendance}
@@ -219,7 +209,7 @@ project.
 Our team meets every week at 4:30-6:30 pm on Thursday. All other meetings are 
 scheduled on a weekly basis, depending on deadlines and amount of work. It is expected that all
 team members attend every meeting and arrive on time. If a team member is unable
-to attend a meeting they must notify the team at least 24 hours in advance. If a 
+to attend a meeting they must notify the team at least 12 hours in advance (withholding an emergency situation). If a 
 team member is going to be late or must leave early they must notify the team prior
 to the meeting. 
 
@@ -232,7 +222,7 @@ to the meeting.
 An acceptable excuse for missing a meeting or deadline includes sickness, family
 emergencies, or academic obligations. On the other hand, unacceptable excuses include
 forgetting, being lazy, or not prioritizing the team. Again, it is expected that the team
-knows 24 hours in advance if a member is going to miss a meeting or deadline. This time
+knows 12 hours in advance if a member is going to miss a meeting or deadline. This time
 frame allows the team to adjust their plans accordingly.
 
 \subsubsection*{In Case of Emergency}
@@ -243,7 +233,7 @@ frame allows the team to adjust their plans accordingly.
 
 \raggedright
 In case of an emergency, the team member must notify the team as soon as possible, before
-the meeting or deadline. If a deadline cannot be met other members will distribute 
+the meeting or deadline. If a deadline cannot be met, other members will distribute 
 the work among themselves to ensure the deadline is met. Its important to note that 
 1-2 missed deadline with little notice is acceptable, but repeated offenses will not 
 be tolerated.
@@ -258,10 +248,10 @@ be tolerated.
 
 \raggedright
 It is expected that all team members come to meetings prepared with the assigned
-task each week. It is expected that all tasks we complete are of high quality
+task completed for each week. It is expected that all tasks we complete are of high quality
 and have been reviewed by at least one other team member before submission. Each
 deliverable will be reviewed by all team members before submission to ensure quality 
-and consistency.
+and consistency. Lastly, all coding should follow the agreed upon coding standards.
 
 
 \subsubsection*{Attitude}
@@ -278,8 +268,6 @@ arise, the team will discuss the issue and come to a resolution that works for e
 If a team member is not contributing to the team, the team leader will address the issue
 with the member privately. If the issue persists, the team will discuss the issue with
 the TA or instructor.
-
-*Code of conduct????*
 
 \subsubsection*{Stay on Track}
 
@@ -315,6 +303,6 @@ We also plan to play \textit{Catan} together outside of meetings.
 \raggedright
 Our team will converse together before making any major decisions. We will try to reach
 a consensus, but if we are unable to do so we will vote through discord polls. In the event
-there is a disagrement , the team leader will have the final say.
+there is a disagreement , the team leader will have the final say.
 
 \end{document}
