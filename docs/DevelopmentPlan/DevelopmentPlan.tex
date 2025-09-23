@@ -22,13 +22,7 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
-Sept 17 & Sunny Yao & Draft of 3,4,8,9\\
-Sept 17 & Rebecca Di Filippo & Draft of 1,2,5,6,7,Team Charter\\
-Sept 21 & Rebecca Di Filippo & Revision of 1,2,5,6,7,Team Charter\\
-Sept 21 & Sunny Yao & Draft of Intro, 10, Coding Standards\\
-Sept 22 & Rebecca Di Filippo & Addition of individual Reflection\\
-Sept 22 & Rebecca Di Filippo & Updated Proj Scheduling\\
-... & ... & ...\\
+Sept. 22 & Sunny,Rebecca & inital dev plan created for milestone 1\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -54,6 +48,8 @@ There is no IP to protect in this project.
 
 \raggedright{AlgoCatan is adopting the MIT License, which can be found at \href{https://github.com/SY3141/RLCatan/blob/main/LICENSE}{this link}.}
 
+
+
 \section{Team Meeting Plan}
 
 \raggedright
@@ -66,7 +62,7 @@ and physical meetings will be held at tutorial locations or ETB.
   expertise. Meetings will be structured with a set agenda devised by the notetaker
   before scheduling to address all of the topics we need to discuss.
 
-\medskip
+\section{Team Communication Plan}
 
 \raggedright
 We will be using Discord as our main communication 
@@ -77,23 +73,27 @@ our advisor.
 We will also use GitHub Issues for tracking existing 
 issues and their closures.
 
+
 \section{Team Member Roles}
 
 \raggedright
 \begin{itemize}
-  \item Team Leader: this person is responsible for scheduling meetings,
+  \item Team Leader(Jake): this person is responsible for scheduling meetings,
     ensuring deadlines are met, and overall team coordination. This person will
     also be the main point of contact with the supervisor and the TA.
-  \item Notetaker: this person is responsible for creating meeting agendas and also
+  \item Notetaker(Rebecca): this person is responsible for creating meeting agendas and also
     taking notes during meetings. This person will also be updating the Kanban
     board.
-  \item IT: this person is responisble for managing the GitHub repository, including
-    branches, pull requests, and issues. This person will also be resonsible for trouble
-    shooting any technical issues that arise.
-  \item Researcher: this person is responsible for researching any topics that
+  \item IT(Sunny): this person is responsible for managing the GitHub repository, including
+    branches, pull requests, and issues. This person will also be resonsible for trouble-shooting
+    any technical issues that arise.
+  \item Researcher(Matthew): this person is responsible for researching any topics that
     the team is unfamiliar with. This person will also be responsible for finding
     relevant papers and articles to help the team understand the project better.
 \end{itemize}
+As the project progresses, these roles may shift depending on individual strengths
+and interests. If any roles are too demanding, we will consider redistributing tasks to
+ensure a balanced workload.
 
 \section{Workflow Plan}
 
@@ -109,21 +109,47 @@ consistency in reporting and classification of issues.
 
 \section{Project Decomposition and Scheduling}
 
-%\wss{How will the project be scheduled?  This is the big picture schedule, not
-%details. You will need to reproduce information that is in the course outline
-%for deadlines.}
 
 \raggedright
-We will be using GitHub Projects to manage our project tasks and milestones. We
-will create a project board with columns for "To Do", "In Progress", "In Review
-", and "Done". Each task will be represented as a card on the board. These tasks
-will be prioritized based on their importance and deadlines. Every deadline will
-directly correspond to deadlines from the course outline.
-The link to our GitHub project can be found
-\href{https://github.com/users/SY3141/projects/1}{here}.
+We will be using GitHub Projects to manage our project tasks and 
+track milestones. Our project Kanban board will have columns for ``To Do'', ``In Progress'', ``In Review'',
+and ``Done'', with each task represented as a card that moves across the columns as it progresses. Tasks
+and milestones will be scheduled according to the deadlines outlined in the course, ensuring that
+the team meets all deliverable requirements on time. The teams Notetaker is resonsible for keeping
+this board up to date. Large tasks will be broken down into smaller,
+manageable subtasks to make progress easier to track and estimate. Task assignments will be based
+on each team member’s strengths, experience, and availability. To use our resources realistically,
+we will estimate the time required for each task, monitor progress. If needed we will adjust the
+schedule or reassign tasks.
 
+\medskip
+The link to our GitHub project board can be found \href{https://github.com/users/SY3141/projects/1}{here}.
 
-*ADD Scheduling******
+\medskip
+The major milestones for our project are as follows:
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \textbf{Milestone} & \textbf{Due Date} \\ \hline
+  Team Formed, Project Selected & Sept. 15 \\ \hline
+  Problem Statement, POC Plan, Development Plan & Sept. 22 \\ \hline
+  Requirements Document \& Hazard Analysis Revision & Oct. 6 \\ \hline
+  V\&V Plan Revision & Oct. 27 \\ \hline
+  Design Document Revision & Nov. 10 \\ \hline
+  Proof of Concept Demonstration & Nov. 17 \\ \hline
+  Design Document Revision & Jan. 19 \\ \hline
+  Revision 0 Demonstration & Feb. 2 \\ \hline
+  V\&V Report \& Extras Revision 0 & March 9 \\ \hline
+  Final Demonstration (Revision 1) & March 23 \\ \hline
+  EXPO Demonstration & TBA \\ \hline
+  Final Documentation (Revision 1) & April 6 \\ \hline
+  
+  \end{tabular}
+  \caption{Project Milestones and Due Dates}
+  \label{tab:project-milestones}
+  \end{table}
+
 
 \section{Proof of Concept Demonstration Plan}
 
@@ -199,8 +225,44 @@ coding standard. The link to this standard can be found \href{https://google.git
         We did not come to any disagreements during this deliverable.
 \end{enumerate}
 
+\subsection*{Rebecca Di Filippo:}\label{subsec:rebecca-difilippo-reflection}
+\begin{enumerate}
+  \item Creating a development plan before starting a project helps the team organize the scope,
+   timeline, and responsibilities. It acts as a roadmap so we don’t waste time
+    moving in the wrong direction. The developmet plan also makes sure everyone is on the same page 
+    about attendance, meetings, roles and responsibilities. Without a plan, there is possibility of miscommunication,
+    disorganization, and going in the wrong direction.
+  \item The biggest advantage of CI is that it automatically runs tests when you make a commit
+   or open a pull request. That way, you know right when you commit if the code is safe to merge, which helps 
+   avoid integration problems and conflicts. CD makes deploying new versions faster and more reliable,
+    which saves time and helps avoid mistakes. The downside to CI/CD is that it can take some effort,
+    and it’s annoying when builds are slow.
+  \item Our group didn’t have major disagreements. The closest thing to a disagreement was, at first we
+  thought CI/CD would be too difficult and unnecessary for the project. However, after discussing it
+  with Dr. Istvan David, we concluded that it is worth including given the scope of our project. Its also
+  a good learning experience.
+\end{enumerate}
+
 \newpage{}
 
+\subsection*{Sunny Yao:}\label{subsec:sunny-yao-reflection}
+\begin{enumerate}
+  \item I have the opinion that initial planning is always highly important.
+  It gets the team on the same page and sets expectations for the project. 
+  Most importantly, it helps set the vision for the project and define project scope.
+  This lets members think about the technologies that will be used and the potential challenges. 
+  \item An advantage of CI/CD is that it automates initial testing of future
+commits and pull requests. This helps catch bugs early and avoid builds crashing in production.
+The main disadvantage is the maintenance overhead from the setup as well as the
+time barrier needed for each pull request. This can then incentivize 
+developers to make large infrequent commits to reduce the number of times that
+the CI/CD pipeline needs to be run.
+  \item We disagreed on initial project selection but each member was given
+a chance to make their case through votes and meeting discussions. This helped to
+reach a consensus on project direction. In addition, we were able to meet with our 
+supervisor to get further motivations to pursue our final project idea.
+\end{enumerate}
+\newpage{}
 \section*{Appendix --- Team Charter}
 
 
@@ -292,7 +354,7 @@ the TA or instructor.
 \subsubsection*{Stay on Track}
 
 Our team will stay on track by setting clear weekly goals, 
-using github Kanban boards to monitor progress, and 
+using GitHub Kanban boards to monitor progress, and
 holding regular check-ins to ensure accountability. Tasks 
 will be distributed fairly according to skills and proficiencies, 
 and progress will be tracked through version control commits and 
