@@ -51,7 +51,7 @@ This method works particularly well in dense problem spaces, such as seen in \em
 Due to the nature of this tool, it may even be able to discover entirely new strategies unknown to human players.
 The final product will be a digital twin, a tool that uses computer vision to observe a physical game and offer strategic suggestions to the player based on its underlying DRL model.
 
-\subsection{Inputs and Outputs}
+\subsection{Inputs and Outputs}\label{subsec:inputs-and-outputs}
 The system's high-level inputs are the game state information of a \emph{Catan} match, including all board and player data.
 This information is captured in real-time by a camera and processed to create a digital representation of the board's state space.
 The high-level outputs are the next optimal move(s) for the player, delivered directly to their device.
@@ -67,8 +67,10 @@ The primary stakeholders for this project are:
     \item The Department of Computing and Software (CAS) at McMaster University: The organization hosting the project, which benefits from the academic and technical achievements of its students and faculty.
 \end{itemize}
 
-\subsection{Environment}
-The project requires a hardware and software environment to support its modules. On the software side, the system will need a game simulator for training, a reinforcement learning framework for the AI, a computer vision library to process video, and a user-facing application for the player's device. On the hardware side, the project requires a GPU to train the model, a device with a processor to run the AI, devices for the players to use the application and stream video of the game board, and a physical \emph{Catan} board game for testing.
+\subsection{Environment}\label{subsec:environment}
+The project requires a hardware and software environment to support its modules.
+On the software side, the system will need a game simulator for training, a reinforcement learning framework for the AI, a computer vision library to process video, and a user-facing application for the player's device.
+On the hardware side, the project requires a GPU to train the model, a device with a processor to run the AI, devices for the players to use the application and stream video of the game board, and a physical \emph{Catan} board game for testing.
 
 \section{Goals}\label{sec:goals}
 The following are the major goals for the project:
@@ -145,7 +147,6 @@ The extras for this project include:
         He was able to give us rough estimates regarding the scope/viability of various goals, which was a great help.
         The nature of our project made it quite simple to separate goals however, as the design process is rather modular (build simulation, train model, return data, etc.).
         The existing project description provided in the potential projects document also helped in this regard, as certain milestones were already marked as optional, making them clear contenders for stretch goals.
-
 \end{enumerate}
 
 \end{document}
