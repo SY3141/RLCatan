@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7dbf9937-4e62-4154-9ad4-2525a3bef9c7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/docs/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/docs/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/DevelopmentPlan/DevelopmentPlan.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/DevelopmentPlan/DevelopmentPlan.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/ProblemStatementAndGoals/ProblemStatement.pdf" beforeDir="false" />
+    <list default="true" id="7dbf9937-4e62-4154-9ad4-2525a3bef9c7" name="Changes" comment="General small wording changes">
+      <change beforePath="$PROJECT_DIR$/docs/DevelopmentPlan/DevelopmentPlan.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/DevelopmentPlan/DevelopmentPlan.tex" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,5 +87,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="General small wording changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="General small wording changes" />
   </component>
 </project>
