@@ -31,7 +31,7 @@ Sept. 22 & Sunny,Rebecca & inital dev plan created for milestone 1\\
 
 \raggedright
 This document outlines the development plan for RLCatan, an
-AI agent that learns to play the board game Catan competitively 
+AI agent that learns to play the board game \emph{Catan} competitively 
 using reinforcement learning. 
 
 \section{Confidential Information}
@@ -105,7 +105,9 @@ will be used to review and merge code changes, ensuring quality and
 consistency. GitHub Issues will be used to track tasks and bugs, with 
 issues assigned to specific team members or whoever is available.
 To streamline this process, we will also use issue templates for 
-consistency in reporting and classification of issues. 
+consistency in reporting and classification of issues.  We will be
+using CI for automated testing. For CD, we will develop deployment pipelines in the
+event that we have access to a computing node where we can train our RL agent.
 
 \section{Project Decomposition and Scheduling}
 
@@ -155,7 +157,7 @@ The major milestones for our project are as follows:
 
 \raggedright
 The main risks for the success of our project are the AI not 
-being able to effectively learn to play Catan at a high level, 
+being able to effectively learn to play \emph{Catan} at a high level, 
 and the user interface not being intuitive or user-friendly. 
 To mitigate these risks, we will conduct regular Elo testing
 against existing benchmark opponents to make sure the AI is 
@@ -163,7 +165,7 @@ improving or at least not regressing. We will also conduct user
 testing sessions to  gather feedback and make iterative improvements to the interface. 
 Lastly we will ensure that our AI models are thoroughly tested and 
 validated before deployment. When we demonstrate our proof of concept,
-we will showcase that the AI is able to win a game of Catan, even if
+we will showcase that the AI is able to win a game of \emph{Catan}, even if
 it is not performing at a high level at this stage.
 
 \section{Expected Technology}
@@ -171,12 +173,12 @@ it is not performing at a high level at this stage.
 \raggedright
 We expect to use Python as our primary programming 
 language, as well as using the Catanatron open source 
-libary for simulating Catan games and training our models.
+libary for simulating \emph{Catan} games and training our models.
 We will also utilize React and JavaScript as 
 our web framework for building the user interface and 
 digital twin. For computer vision models, we will be using
-openCV and yolov9 for image recognition and processing. We
-will not be using CI/CD, since our project doesnt require 100\% uptime.
+openCV and yolov9 for image recognition and processing. We will be using
+CI for automated testing and potentially CD for deployment pipelines.
 
 
 \section{Coding Standard}
