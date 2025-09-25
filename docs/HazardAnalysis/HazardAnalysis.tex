@@ -55,27 +55,42 @@ Date2 & Name(s) & Description of changes\\
 
 \section{Introduction}
 
-\wss{You can include your definition of what a hazard is here.}
+\raggedright{
+    A hazard is defined as a property or condition in the system together
+    with a condition in the environment that has the potential to cause harm or
+    damage. We define harm as the underperformance of our system in Catan
+    that leads to the incorrect instruction of players. In addition, we consider
+    disruption of play, loss of game data/state as harm.
+}
 
 \section{Scope and Purpose of Hazard Analysis}
+\raggedright{
+    The loss that can be incurred because of the hazards defined above include the
+    forfeiture or inability to continue a game of Catan. This can affect the 
+    user experience of our software and lead to a loss of trust in the product.
 
-\wss{You should say what \textbf{loss} could be incurred because of the
-hazards.}
+}
 
 \section{System Boundaries and Components}
 
-\wss{Dividing the system into components will help you brainstorm the hazards.
-You shouldn't do a full design of the components, just get a feel for the major
-ones.  For projects that involve hardware, the components will typically include
-each individual piece of hardware.  If your software will have a database, or an
-important library, these are also potential components.}
+Components: 
+\begin{itemize}
+\item The board representation
+\item The game state digital twin
+\item The AI model
+\item User Interface
+\item Game State Database
+\end{itemize}
+
 
 \section{Critical Assumptions}
 
-\wss{These assumptions that are made about the software or system.  You should
-minimize the number of assumptions that remove potential hazards.  For instance,
-you could assume a part will never fail, but it is generally better to include
-this potential failure mode.}
+\raggedright{
+We assume that the users of our system will be familiar with the rules of Catan and
+know how to play the game. We also assume that the users will have a basic understanding
+of how to interact with a digital interface. We also assume that existing consumer
+hardware will be able to run full depth processing of our AI model.
+}   
 
 \section{Failure Mode and Effect Analysis}
 
