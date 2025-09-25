@@ -100,14 +100,17 @@ ensure a balanced workload.
 \raggedright
 We will be using GitHub for version control and collaboration.
 To manage development, we will create branches for each task on the Kanban Board,
-along with sub-branches for individual team members work. Pull requests 
-will be used to review and merge code changes, ensuring quality and 
+along with sub-branches for individual team members work.
+Should this prove infeasible, we may deviate from this fine-grained strategy, opting to group multiple items in single pull requests.
+Pull requests will be used to review and merge code changes, ensuring quality and
 consistency. GitHub Issues will be used to track tasks and bugs, with 
 issues assigned to specific team members or whoever is available.
+Issue categories will be managed via tags, labelling them as front-end, back-end, heuristics, etc.
 To streamline this process, we will also use issue templates for 
 consistency in reporting and classification of issues.  We will be
 using CI for automated testing. For CD, we will develop deployment pipelines in the
 event that we have access to a computing node where we can train our RL agent.
+We also plan to utilize SonarQube for static code analysis.
 
 \section{Project Decomposition and Scheduling}
 
@@ -165,8 +168,8 @@ improving or at least not regressing. We will also conduct user
 testing sessions to  gather feedback and make iterative improvements to the interface. 
 Lastly we will ensure that our AI models are thoroughly tested and 
 validated before deployment. When we demonstrate our proof of concept,
-we will showcase that the AI is able to win a game of \emph{Catan}, even if
-it is not performing at a high level at this stage.
+we will showcase that the AI is able to read gamestate and return valid moves
+in \emph{Catan}, even if it is not performing at a high level at this stage. 
 
 \section{Expected Technology}
 
@@ -177,8 +180,8 @@ libary for simulating \emph{Catan} games and training our models.
 We will also utilize React and JavaScript as 
 our web framework for building the user interface and 
 digital twin. For computer vision models, we will be using
-openCV and yolov9 for image recognition and processing. We will be using
-CI for automated testing and potentially CD for deployment pipelines.
+openCV and yolov9 for image recognition and processing.
+We will be using GitHub Actions to implement CI for automated testing and potentially CD for deployment pipelines.
 
 
 \section{Coding Standard}
@@ -245,26 +248,43 @@ coding standard. The link to this standard can be found \href{https://google.git
   a good learning experience.
 \end{enumerate}
 
-\newpage{}
-
 \subsection*{Sunny Yao:}\label{subsec:sunny-yao-reflection}
 \begin{enumerate}
   \item I have the opinion that initial planning is always highly important.
-  It gets the team on the same page and sets expectations for the project. 
+  It gets the team on the same page and sets expectations for the project.
   Most importantly, it helps set the vision for the project and define project scope.
-  This lets members think about the technologies that will be used and the potential challenges. 
+  This lets members think about the technologies that will be used and the potential challenges.
   \item An advantage of CI/CD is that it automates initial testing of future
 commits and pull requests. This helps catch bugs early and avoid builds crashing in production.
 The main disadvantage is the maintenance overhead from the setup as well as the
-time barrier needed for each pull request. This can then incentivize 
+time barrier needed for each pull request. This can then incentivize
 developers to make large infrequent commits to reduce the number of times that
 the CI/CD pipeline needs to be run.
   \item We disagreed on initial project selection but each member was given
 a chance to make their case through votes and meeting discussions. This helped to
-reach a consensus on project direction. In addition, we were able to meet with our 
+reach a consensus on project direction. In addition, we were able to meet with our
 supervisor to get further motivations to pursue our final project idea.
 \end{enumerate}
-\newpage{}
+
+\subsection*{Matthew Cheung:}\label{subsec:matthew-cheung-reflection}
+\begin{enumerate}
+  \item Making a development plan is important because it acts as a roadmap for the entire project.
+  It makes the team to sit down and explicitly think about the next steps we want to take to reach our goal.
+  Without it, we would start coding without direction and end up wasting a ton of time developing the wrong things.
+  The plan also helps us limit the scope of the project, setting distinct boundaries and limits to whatever work we do.
+
+  \item The biggest advantage for CI/CD is how it automates tedious tasks in the project.
+  By automatically building and testing our code it saves the team valuable time during development.
+  This catches bugs earlier and ensures of no integration problems when we try to merge code, keeping the project stable.
+  However, the downside is the overhead costs it takes to set up.
+  It can be a lot of work to get the pipelines running, and for a small team like ours, the time could be costly.
+  Additionally, if the builds are slow, it can become annoying and slow down our workflow.
+
+  \item We had some initial disagreements for our project choice, where we were debating between two different projects, but we ended up being force to choose Catan anyway due to prof availability so it didn't really matter.
+  Once we got over the initial hurdle and started breaking down the work, we all got on the same page and were ready to work.
+
+\end{enumerate}
+
 \section*{Appendix --- Team Charter}
 
 
