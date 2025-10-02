@@ -285,6 +285,7 @@ TSWLatexianTemp*
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/modules.xml
 .idea/vcs.xml
+.idea/workspace.xml
 
 # all pfs
 *.pdf
