@@ -68,7 +68,7 @@ Date2 & Name(s) & Description of changes\\
 
 A hazard is defined as a property or condition in the system together
 with a condition in the environment that has the potential to cause harm or
-damage. We define harm as the underperformance of our system in Catan
+damage. We define harm as the underperformance of our system
 that leads to the incorrect instruction of players. In addition, we consider
 disruption of play, loss of game data/state as harm.
 
@@ -79,7 +79,7 @@ disruption of play, loss of game data/state as harm.
 hazards.}
 
 
-The loss that can be incurred because of the hazards defined above include the
+The loss that can be incurred because of the hazards include the
 forfeiture or inability to continue a game of Catan. This can affect the
 user experience of our software and lead to a loss of trust in the product.
 
@@ -249,7 +249,7 @@ The following safety and security requirements have been derived from the hazard
 Each requirement is traced to a hazard in the FMEA table (Table 3):
 
 \begin{itemize}
-    \item SR-1: The system should enable users to manually confirm the parsed board state before generating advice.
+    \item SR-1: The system shall enable users to manually confirm the parsed board state before generating advice.
     \item SR-2: The system shall provide a resynchronization mechanism (manual correction or re-scan).
     \item SR-3: The system shall validate all AI-suggested moves against the official rules of Catan before display.
     \item SR-4: The system shall ensure advice is displayed within 5 seconds of request.
