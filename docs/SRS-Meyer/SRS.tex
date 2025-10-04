@@ -1,0 +1,142 @@
+\documentclass{article}
+
+
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\title{Software Requirements Specification for RLCatan\\\progname}
+
+\author{\authname}
+
+\date{}
+
+\input{../Comments}
+\input{../Common}
+
+\begin{document}
+
+\maketitle
+
+\begin{table}[hp]
+\caption{Revision History} \label{TblRevisionHistory}
+\begin{tabularx}{\textwidth}{llX}
+\toprule
+\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+\midrule
+... & ... & ...\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section*{(G) Goals}\label{sec:srs-goals}
+\renewcommand{\thesubsection}{G.\arabic{subsection}}
+
+\subsection{Context and Overall Objective}\label{subsec:context-and-overall-objective}
+
+\subsection{Current Situation}\label{subsec:current-situation}
+
+\subsection{Expected Benefits}\label{subsec:expected-benefits}
+
+\subsection{Functionality Overview}\label{subsec:functionality-overview}
+
+\subsection{High-Level Usage Scenarios}\label{subsec:high-level-usage-scenarios}
+
+\subsection{Limitations and Exclusions}\label{subsec:limitations-and-exclusions}
+
+\subsection{Stakeholders and Requirements Sources}\label{subsec:stakeholders-and-requirements-sources}
+
+\newpage{}
+
+
+\section*{(E) Environment}\label{sec:srs-environment}
+\renewcommand{\thesubsection}{E.\arabic{subsection}}
+\setcounter{subsection}{0}
+
+\subsection{Glossary}\label{subsec:glossary}
+
+\subsection{Components}\label{subsec:components2}
+
+\subsection{Constraints}\label{subsec:constraints}
+
+\subsection{Assumptions}\label{subsec:assumptions}
+
+\subsection{Effects}\label{subsec:effects}
+
+\subsection{Invariants}\label{subsec:invariants}
+
+\newpage{}
+
+
+\section*{(S) System}\label{sec:srs-system}
+\renewcommand{\thesubsection}{S.\arabic{subsection}}
+\setcounter{subsection}{0}
+
+\subsection{Components}\label{subsec:components}
+The system is separated into six major components:
+
+\begin{itemize}
+    \item Board Representation: The training
+    environment for the model, acting as a representation of the game’s state and the
+    moves that can be made on a given turn.
+
+    \item Game state digital twin: The component
+    in charge of transferring a static/real-time physical board state to the board
+    representation, via CV or sensors.
+
+    \item AI model: The pre-trained model,
+    responsible for providing a move prompt to be sent to the user.
+
+    \item User Interface: The visual
+    representation of the current game state, appended with the move suggested by
+    the model, displayed to the user so they can make use of the model’s advice.
+
+    \item Game State Database: A database for
+    storing each game state in a given game, for traceability and for providing
+    context to an LLM for post-game review.
+
+    \item Communication Layer: The component
+    in charge of communication between various components, such as sending the read
+    board state to the board representation or transferring the model’s provided
+    move to the UI\@.
+\end{itemize}
+
+\subsection{Functionality}\label{subsec:functionality}
+
+\subsection{Interfaces}\label{subsec:interfaces}
+
+\subsection{Detailed Usage Scenarios}\label{subsec:detailed-usage-scenarios}
+
+\subsection{Prioritization}\label{subsec:prioritization}
+
+\subsection{Verification and Acceptance Criteria}\label{subsec:verification-and-acceptance-criteria}
+
+\subsection{Requirements Process and Report}\label{subsec:requirements-process-and-report}
+
+\newpage{}
+
+
+\section*{(P) Project}\label{sec:srs_project}
+\renewcommand{\thesubsection}{P.\arabic{subsection}}
+\setcounter{subsection}{0}
+
+\subsection{Roles and Personel}
+
+\subsection{Imposed Technical Choices}
+
+\subsection{Schedule and Milestones}
+
+\subsection{Tasks and Deliverables}
+
+\subsection{Requiremed Technology Elements}
+
+\subsection{Risk and Mitigation Analysis}
+
+\subsection{Requirements Process and Report}
+
+\newpage{}
+
+
+\section*{Appendix --- Reflection}
+\input{../SRS_Reflection.tex}
+
+\end{document}
