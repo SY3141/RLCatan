@@ -32,47 +32,47 @@
 \renewcommand{\thesubsection}{G.\arabic{subsection}}
 
 \subsection{Context and Overall Objective}\label{subsec:context-and-overall-objective}
-The project aims to create an AI agent, named \textbf{RLCatan}, that learns to play the board game Catan competitively using deep reinforcement learning. The purpose is to develop a decision-making support tool that aids players by providing strategic advice. This tool will also serve as a powerful AI opponent for practice. The project addresses the challenges of creating an AI for a game with a large state space, stochastic elements like dice rolls, and partially observable information. The final product will be a digital twin that uses computer vision to observe a physical game and provide real-time strategic suggestions.
+The project aims to create an AI agent, named \textbf{RLCatan}, that learns to play the board game \emph{Catan} competitively using deep reinforcement learning. The purpose is to develop a decision-making support tool that aids players by providing strategic advice. This tool will also serve as a powerful AI opponent for practice. The project addresses the challenges of creating an AI for a game with a large state space, stochastic elements like dice rolls, and partially observable information. The final product will be a digital twin that uses computer vision to observe a physical game and provide real-time strategic suggestions.
 
 \subsection{Current Situation}\label{subsec:current-situation}
-Despite its popularity, the inherent complexity of Catan presents a significant technical challenge for AI development. This complexity limits players' ability to practice against a consistently challenging opponent and prevents a deeper, data-driven understanding of the game's optimal strategies. The lack of a high-level AI bot also restricts training opportunities for competitive players who wish to improve their game. The RLCatan project will address this limitation by creating a tool designed to tackle these specific technical hurdles.
+Despite its popularity, the inherent complexity of \emph{Catan} presents a significant technical challenge for AI development. This complexity limits players' ability to practice against a consistently challenging opponent and prevents a deeper, data-driven understanding of the game's optimal strategies. The lack of a high-level AI bot also restricts training opportunities for competitive players who wish to improve their game. The RLCatan project will address this limitation by creating a tool designed to tackle these specific technical hurdles.
 
 \subsection{Expected Benefits}\label{subsec:expected-benefits}
 \begin{itemize}
-    \item \textbf{Enhanced Player Skill and Engagement} – The RLCatan AI provides in-game advice, helping novice players understand the game and allowing advanced players to refine strategies.
-    \item \textbf{Strategic Insights and Learning} – Offers post-game advice by analyzing key moments and explaining alternative moves to improve understanding and performance.
-    \item \textbf{AI Innovation and Research Contribution} – The project contributes to AI research by addressing large state spaces, stochastic elements, and partially observable environments, demonstrating the team's technical capabilities.
+    \item {Enhanced Player Skill and Engagement} – The RLCatan AI provides in-game advice, helping novice players understand the game and allowing advanced players to refine strategies.
+    \item {Strategic Insights and Learning} – Offers post-game advice by analyzing key moments and explaining alternative moves to improve understanding and performance.
+    \item {AI Innovation and Research Contribution} – The project contributes to AI research by addressing large state spaces, stochastic elements, and partially observable environments, demonstrating the team's technical capabilities.
 \end{itemize}
 
 \subsection{Functionality Overview}\label{subsec:functionality-overview}
 \begin{itemize}
-    \item \textbf{Game state capture} – A camera captures the physical board state.
-    \item \textbf{Data processing} – Converts captured images into a digital representation of the board and player data.
-    \item \textbf{AI analysis} – Reinforcement learning model determines optimal actions.
-    \item \textbf{Output} – Provides move suggestions to the player's device.
-    \item \textbf{Post-game advice} – Offers insights on key moments after the game concludes.
-    \item \textbf{Simulation} – AI can simulate gameplay as a competing player.
+    \item {Game state capture} – A camera captures the physical board state.
+    \item {Data processing} – Converts captured images into a digital representation of the board and player data.
+    \item {AI analysis} – Reinforcement learning model determines optimal actions.
+    \item {Output} – Provides move suggestions to the player's device.
+    \item {Post-game advice} – Offers insights on key moments after the game concludes.
+    \item {Simulation} – AI can simulate gameplay as a competing player.
 \end{itemize}
 
 \subsection{High-Level Usage Scenarios}\label{subsec:high-level-usage-scenarios}
 \begin{itemize}
-    \item \textbf{Scenario 1: In-game advice} – Players show the current board state; the system suggests the optimal next move.
-    \item \textbf{Scenario 2: Post-game analysis} – Players review performance; the system highlights key moments and alternative strategies.
-    \item \textbf{Scenario 3: Training against the AI} – Players play a full game against RLCatan, which acts as a competitive opponent for practice.
+    \item {Scenario 1: In-game advice} – Players show the current board state; the system suggests the optimal next move.
+    \item {Scenario 2: Post-game analysis} – Players review performance; the system highlights key moments and alternative strategies.
+    \item {Scenario 3: Training against the AI} – Players play a full game against RLCatan, which acts as a competitive opponent for practice.
 \end{itemize}
 
 \subsection{Limitations and Exclusions}\label{subsec:limitations-and-exclusions}
 \begin{itemize}
-    \item \textbf{Physical interaction with the board} – The system will not move pieces or manipulate the board.
-    \item \textbf{Full real-time tracking} – Focus is on capturing static frames, not continuous video streams.
-    \item \textbf{Hidden information tracking} – The AI will not access information that is hidden from players.
-    \item \textbf{Support for expansions} – The scope is limited to standard Settlers of Catan rules; expansions are excluded.
+    \item {Physical interaction with the board} – The system will not move pieces or manipulate the board.
+    \item {Full real-time tracking} – Focus is on capturing static frames, not continuous video streams.
+    \item {Hidden information tracking} – The AI will not access information that is hidden from players.
+    \item {Support for expansions} – The scope is limited to standard Settlers of \emph{Catan} rules; expansions are excluded.
 \end{itemize}
 
 \subsection{Stakeholders and Requirements Sources}\label{subsec:stakeholders-and-requirements-sources}
 \textbf{Stakeholders:}
 \begin{itemize}
-    \item Players of Catan – End-users seeking skill improvement.
+    \item Players of \emph{Catan} – End-users seeking skill improvement.
     \item Project Supervisor – Dr. Istvan David.
     \item Department of Computing and Software (CAS) – Hosting organization.
 \end{itemize}
@@ -80,7 +80,7 @@ Despite its popularity, the inherent complexity of Catan presents a significant 
 \textbf{Requirements Sources:}
 \begin{itemize}
     \item Project documentation – Initial description provided by Dr. Istvan David.
-    \item Competitive Catan players – Consulted for strategic insights and advanced gameplay knowledge.
+    \item Competitive \emph{Catan} players – Consulted for strategic insights and advanced gameplay knowledge.
     \item Open-source libraries – Catanatron, OpenCV, YOLOv9 inform technical requirements.
     \item Academic research – Reinforcement learning and computer vision papers guide AI design.
     \item Industry standards – PEP 8 and Google style guides define coding standards.
@@ -96,63 +96,63 @@ Despite its popularity, the inherent complexity of Catan presents a significant 
 
 \subsection{Glossary}\label{subsec:glossary}
 \begin{itemize}
-    \item \textbf{Catan} – A strategy board game called \textit{Settlers of Catan} where players collect resources, build roads/settlements, and trade to earn points.
-    \item \textbf{AI (Artificial Intelligence)} – Field of computer science and engineering that focuses on creating systems capable of performing tasks that usually require the intelligence of a human.
-    \item \textbf{RL (Reinforcement Learning)} – A type of machine learning where an agent learns how to make decisions by interacting with an environment and receiving rewards or penalties for actions taken.
-    \item \textbf{Digital twin} – A digital system that mirrors a physical one. In this project, it specifically refers to a digital representation of the physical Catan game board, updated in real time.
-    \item \textbf{CV (Computer Vision)} – An area of artificial intelligence that trains computers to interpret and understand the visual world (in our case, the physical Catan board) by extracting meaningful information from digital images and videos.
-    \item \textbf{LLM (Large Language Model)} – A machine learning model trained on a very large amount of text data to generate and understand natural language.
-    \item \textbf{Game state} – The current configuration of the game, including player resources, board layout (roads, settlements, cities), and dice rolls.
+    \item {Catan} – A strategy board game called \textit{Settlers of \emph{Catan}} where players collect resources, build roads/settlements, and trade to earn points.
+    \item {AI (Artificial Intelligence)} – Field of computer science and engineering that focuses on creating systems capable of performing tasks that usually require the intelligence of a human.
+    \item {RL (Reinforcement Learning)} – A type of machine learning where an agent learns how to make decisions by interacting with an environment and receiving rewards or penalties for actions taken.
+    \item {Digital twin} – A digital system that mirrors a physical one. In this project, it specifically refers to a digital representation of the physical \emph{Catan} game board, updated in real time.
+    \item {CV (Computer Vision)} – An area of artificial intelligence that trains computers to interpret and understand the visual world (in our case, the physical \emph{Catan} board) by extracting meaningful information from digital images and videos.
+    \item {LLM (Large Language Model)} – A machine learning model trained on a very large amount of text data to generate and understand natural language.
+    \item {Game state} – The current configuration of the game, including player resources, board layout (roads, settlements, cities), and dice rolls.
 \end{itemize}
 
 \subsection{Components}\label{subsec:components2}
 \begin{itemize}
-    \item \textbf{Physical Catan board and pieces} – The physical game setup that the system observes.
-    \item \textbf{Players} – Human participants who interact with the physical game and receive decision support.
-    \item \textbf{Cameras/Sensors} – Hardware that captures the physical board state for the digital twin.
-    \item \textbf{OpenAI Gym} – Provides a training/testing environment for reinforcement learning agents.
-    \item \textbf{Reinforcement Learning Agent} – Learns strategies through the simulator and connects with the digital twin for real-time decision support.
-    \item \textbf{Visualization Interface} – Displays the current game state and AI recommendations to users.
-    \item \textbf{Optional components:}
+    \item {Physical \emph{Catan} board and pieces} – The physical game setup that the system observes.
+    \item {Players} – Human participants who interact with the physical game and receive decision support.
+    \item {Cameras/Sensors} – Hardware that captures the physical board state for the digital twin.
+    \item {OpenAI Gym} – Provides a training/testing environment for reinforcement learning agents.
+    \item {Reinforcement Learning Agent} – Learns strategies through the simulator and connects with the digital twin for real-time decision support.
+    \item {Visualization Interface} – Displays the current game state and AI recommendations to users.
+    \item {Optional components:}
     \begin{itemize}
-        \item \textbf{Smart glasses} – Provide players with an augmented view of the game and recommendations.
-        \item \textbf{LLM service/API} – Generates natural language explanations of strategies.
+        \item {Smart glasses} – Provide players with an augmented view of the game and recommendations.
+        \item {LLM service/API} – Generates natural language explanations of strategies.
     \end{itemize}
 \end{itemize}
 
 \subsection{Constraints}\label{subsec:constraints}
 \begin{itemize}
-    \item \textbf{Game rules of Catan} – The RL agent must strictly follow the official rules of the game.
-    \item \textbf{Real-time operation} – The system must process board states and provide recommendations fast enough to be useful during live play.
-    \item \textbf{Camera limits (Computer Vision)} – Accuracy of game state detection is restricted by available hardware (resolution of camera, field of view, lighting).
-    \item \textbf{Simulator environment} – The RL agent is limited to the APIs and mechanics provided by the Catan simulator.
-    \item \textbf{Computational resources} – Training and running the RL agent is bounded by available GPU/CPU capacity.
-    \item \textbf{Timeframe} – The project must be completed within the allocated time frame.
+    \item {Game rules of \emph{Catan}} – The RL agent must strictly follow the official rules of the game.
+    \item {Real-time operation} – The system must process board states and provide recommendations fast enough to be useful during live play.
+    \item {Camera limits (Computer Vision)} – Accuracy of game state detection is restricted by available hardware (resolution of camera, field of view, lighting).
+    \item {Simulator environment} – The RL agent is limited to the APIs and mechanics provided by the \emph{Catan} simulator.
+    \item {Computational resources} – Training and running the RL agent is bounded by available GPU/CPU capacity.
+    \item {Timeframe} – The project must be completed within the allocated time frame.
 \end{itemize}
 
 \subsection{Assumptions}\label{subsec:assumptions}
 \begin{itemize}
-    \item \textbf{Players will follow standard Catan rules} – The system assumes human players won’t cheat or make illegal moves.
-    \item \textbf{Stable lighting and camera angle} – The computer vision module assumes it can reliably see the board, even if real-world conditions could vary.
-    \item \textbf{Network and device reliability} – The system assumes the player’s device and connection work well enough for real-time suggestions.
+    \item {Players will follow standard \emph{Catan} rules} – The system assumes human players won’t cheat or make illegal moves.
+    \item {Stable lighting and camera angle} – The computer vision module assumes it can reliably see the board, even if real-world conditions could vary.
+    \item {Network and device reliability} – The system assumes the player’s device and connection work well enough for real-time suggestions.
 \end{itemize}
 
 \subsection{Effects}\label{subsec:effects}
 \begin{itemize}
-    \item \textbf{Player decision support} – The AI provides move suggestions, affecting the decisions players make in real time.
-    \item \textbf{Learning and adaptation} – The RL agent improves over time, indirectly affecting the level of challenge and advice for players.
-    \item \textbf{Post-game analysis} – Feedback and suggestions might influence how players approach future games.
-    \item \textbf{Device usage} – The system uses computational resources on player devices or servers for inference and visualization.
-    \item \textbf{Game pacing} – Real-time suggestions could speed up or slow down the flow of the game.
+    \item {Player decision support} – The AI provides move suggestions, affecting the decisions players make in real time.
+    \item {Learning and adaptation} – The RL agent improves over time, indirectly affecting the level of challenge and advice for players.
+    \item {Post-game analysis} – Feedback and suggestions might influence how players approach future games.
+    \item {Device usage} – The system uses computational resources on player devices or servers for inference and visualization.
+    \item {Game pacing} – Real-time suggestions could speed up or slow down the flow of the game.
 \end{itemize}
 
 \subsection{Invariants}\label{subsec:invariants}
 \begin{itemize}
-    \item \textbf{Board orientation is fixed} – The physical board doesn’t get flipped or moved, so the computer vision module can track it accurately.
-    \item \textbf{Player order remains constant} – The sequence of turns doesn’t change unexpectedly.
-    \item \textbf{Player set is fixed} – No new players join, and no existing players leave mid-game.
-    \item \textbf{Game components stay in place} – Settlements, roads, and resources aren’t physically moved outside of normal game actions.
-    \item \textbf{Camera/viewing angle remains stable} – The vision system continues to see the board from the expected perspective.
+    \item {Board orientation is fixed} – The physical board doesn’t get flipped or moved, so the computer vision module can track it accurately.
+    \item {Player order remains constant} – The sequence of turns doesn’t change unexpectedly.
+    \item {Player set is fixed} – No new players join, and no existing players leave mid-game.
+    \item {Game components stay in place} – Settlements, roads, and resources aren’t physically moved outside of normal game actions.
+    \item {Camera/viewing angle remains stable} – The vision system continues to see the board from the expected perspective.
 \end{itemize}
 
 \newpage{}
@@ -214,22 +214,22 @@ The system is separated into six major components:
 
 \subsection{Roles and Personnel}\label{subsec:roles}
 \begin{itemize}
-    \item \textbf{Team Leader (Jake)} – Schedules meetings, coordinates the team, and acts as the primary point of contact with the supervisor and teaching assistant.
-    \item \textbf{Notetaker (Rebecca)} – Creates agendas, takes meeting notes, and updates the Kanban board to track project progress.
-    \item \textbf{IT/DevOps (Sunny)} – Manages the GitHub repository, oversees deployment processes, and handles technical and integration issues.
-    \item \textbf{Researcher (Matthew)} – Locates relevant academic papers and resources, researches unfamiliar topics, and provides insights to guide technical and conceptual understanding.
-    \item \textbf{Supervisor – Dr. Istvan David} – Provides guidance, technical expertise, and oversight for the project. Offers advice on project scope, architecture, and milestone management.
-    \item \textbf{Teaching Assistant – Tiago de Moraes Machado} – Provides assistance with course-related questions, clarifications, and support for project development. Acts as a point of contact for feedback and additional resources.
+    \item {Team Leader (Jake)} – Schedules meetings, coordinates the team, and acts as the primary point of contact with the supervisor and teaching assistant.
+    \item {Notetaker (Rebecca)} – Creates agendas, takes meeting notes, and updates the Kanban board to track project progress.
+    \item {IT/DevOps (Sunny)} – Manages the GitHub repository, oversees deployment processes, and handles technical and integration issues.
+    \item {Researcher (Matthew)} – Locates relevant academic papers and resources, researches unfamiliar topics, and provides insights to guide technical and conceptual understanding.
+    \item {Supervisor – Dr. Istvan David} – Provides guidance, technical expertise, and oversight for the project. Offers advice on project scope, architecture, and milestone management.
+    \item {Teaching Assistant – Tiago de Moraes Machado} – Provides assistance with course-related questions, clarifications, and support for project development. Acts as a point of contact for feedback and additional resources.
 \end{itemize}
 
 \subsection{Imposed Technical Choices}\label{subsec:technicalchoices}
 \begin{itemize}
-    \item \textbf{Programming languages} – Python for backend and AI development; JavaScript with React for frontend implementation.
-    \item \textbf{AI framework} – Reinforcement learning agent trained using the OpenAI Gym Catan simulator.
-    \item \textbf{Computer vision} – Implemented using OpenCV and/or YOLOv9 for board state detection and tracking.
-    \item \textbf{Version control and collaboration} – GitHub for repository management with branching, pull requests, CI/CD pipelines, and a Kanban board for task tracking.
-    \item \textbf{Coding standards} – PEP8 for Python code and Google Style Guide for JavaScript/React.
-    \item \textbf{License} – MIT License for open-source code distribution and collaboration.
+    \item {Programming languages} – Python for backend and AI development; JavaScript with React for frontend implementation.
+    \item {AI framework} – Reinforcement learning agent trained using the OpenAI Gym \emph{Catan} simulator.
+    \item {Computer vision} – Implemented using OpenCV and/or YOLOv9 for board state detection and tracking.
+    \item {Version control and collaboration} – GitHub for repository management with branching, pull requests, CI/CD pipelines, and a Kanban board for task tracking.
+    \item {Coding standards} – PEP8 for Python code and Google Style Guide for JavaScript/React.
+    \item {License} – MIT License for open-source code distribution and collaboration.
 \end{itemize}
 
 \subsection{Schedule and Milestones}\label{subsec:schedule}
@@ -241,37 +241,37 @@ The system is separated into six major components:
 
 \subsection{Required Technology Elements}\label{subsec:requiredtech}
 \begin{itemize}
-    \item \textbf{Primary Programming Language} – Python is the primary language for the project's backend development.
-    \item \textbf{Game Simulation Library} – The project will utilize the open-source library Catanatron for simulating Catan games and training the AI model.
-    \item \textbf{Web Framework} – React and JavaScript will be used to build the user interface and digital twin.
-    \item \textbf{Computer Vision Libraries} – OpenCV and YOLOv9 will be used for image recognition and processing of the physical board state.
-    \item \textbf{Hardware} – The project will require a GPU for training the reinforcement learning model.
-    \item \textbf{Version Control} – GitHub will be used for version control and collaboration.
-    \item \textbf{Static Code Analysis} – SonarQube is planned for static code analysis.
-    \item \textbf{Continuous Integration/Continuous Deployment (CI/CD)} – GitHub Actions will be used to implement CI for automated testing, and potentially CD for deployment pipelines. Deployment pipelines will be developed if a computing node for RL agent training is available.
+    \item {Primary Programming Language} – Python is the primary language for the project's backend development.
+    \item {Game Simulation Library} – The project will utilize the open-source library Catanatron for simulating \emph{Catan} games and training the AI model.
+    \item {Web Framework} – React and JavaScript will be used to build the user interface and digital twin.
+    \item {Computer Vision Libraries} – OpenCV and YOLOv9 will be used for image recognition and processing of the physical board state.
+    \item {Hardware} – The project will require a GPU for training the reinforcement learning model.
+    \item {Version Control} – GitHub will be used for version control and collaboration.
+    \item {Static Code Analysis} – SonarQube is planned for static code analysis.
+    \item {Continuous Integration/Continuous Deployment (CI/CD)} – GitHub Actions will be used to implement CI for automated testing, and potentially CD for deployment pipelines. Deployment pipelines will be developed if a computing node for RL agent training is available.
 \end{itemize}
 
 \subsection{Risk and Mitigation Analysis}\label{subsec:risk}
 \begin{itemize}
-    \item \textbf{Risk: AI Fails to Learn Effectively}
+    \item {Risk: AI Fails to Learn Effectively}
     \begin{itemize}
-        \item Description: The AI agent may not be able to learn to play Catan at a high level due to the game's complexity and stochastic nature.
+        \item Description: The AI agent may not be able to learn to play \emph{Catan} at a high level due to the game's complexity and stochastic nature.
         \item Mitigation: Regular Elo testing against benchmark opponents to ensure improvement. Proof of concept will demonstrate valid move generation even if performance is limited.
     \end{itemize}
 
-    \item \textbf{Risk: User Interface is Not User-Friendly}
+    \item {Risk: User Interface is Not User-Friendly}
     \begin{itemize}
         \item Description: The user interface may not be intuitive or user-friendly for a wider audience.
         \item Mitigation: Conduct user testing sessions, gather feedback, and make iterative improvements.
     \end{itemize}
 
-    \item \textbf{Risk: Technical Issues with External Libraries}
+    \item {Risk: Technical Issues with External Libraries}
     \begin{itemize}
         \item Description: Technical issues may arise with external technologies like Catanatron, OpenCV, or YOLOv9.
         \item Mitigation: Team collaboratively addresses issues as they arise; members are responsible for thorough testing and validation before deployment.
     \end{itemize}
 
-    \item \textbf{Risk: Unrealistic Schedule or Workload}
+    \item {Risk: Unrealistic Schedule or Workload}
     \begin{itemize}
         \item Description: Tasks may take longer than expected or workload may become unbalanced among team members.
         \item Mitigation: Use GitHub Kanban board to manage tasks and milestones; notetaker updates board; time estimates and reassignment of tasks as needed.
@@ -280,8 +280,8 @@ The system is separated into six major components:
 
 \subsection{Requirements Process and Report}\label{subsec:reqprocess}
 \begin{itemize}
-    \item \textbf{Initial Elicitation}: Requirements gathered through problem statement developed by the team, consulting key stakeholders including the project supervisor.
-    \item \textbf{Elicitation Plan}:
+    \item {Initial Elicitation}: Requirements gathered through problem statement developed by the team, consulting key stakeholders including the project supervisor.
+    \item {Elicitation Plan}:
     \begin{itemize}
         \item Meetings: Weekly team meetings to discuss progress, challenges, and refine requirements; additional meetings as needed.
         \item Communication: Discord server for informal discussions; separate Discord group for formal communication with advisor.
