@@ -296,7 +296,7 @@ The following requirements are planned for future implementation:
 
 \wss{Not required for CAS 741}
 
-\input{../Reflection.tex}
+% \input{../Reflection.tex}
 
 \begin{enumerate}
     \item What went well while writing this deliverable? 
@@ -309,6 +309,38 @@ The following requirements are planned for future implementation:
     \item Other than the risk of physical harm (some projects may not have any
     appreciable risks of this form), list at least 2 other types of risk in
     software products. Why are they important to consider?
+\end{enumerate}
+
+\subsection*{Jake Read}\label{subsec:jake-read-reflection}
+\begin{enumerate}
+    \item For the most part, this delivery went rather smoothly.
+    Our project was rather simple to separate into components and boundaries, which made getting started quite simple.
+    Once everything was set up, it wasn't too hard to think up potential hazards, and the requirements stemming from them quickly became clear.
+    Overall I had a much more enjoyable time working on this deliverable than I did on the SRS.
+
+    \item Funnily enough, the most challenging part of this deliverable for me was setting up the FMEA table.
+    Getting the formatting right took a lot of trial and error, and I had to look up a lot of documentation to figure out how to get the table to look decent.
+    It's just so wide, and has to span multiple pages, which made it difficult to get right.
+    It took about as long to format the table as it did to fill it in the end.
+
+    \item We hadn't really considered much in regard to risk before this document.
+    That being said, there are some risks that were pretty obvious given the nature of the project, such as the CV component misreading the board state.
+    Ones like this we had in the back of our minds, so they were quick to put into words.
+    Other risks, such as loss of synchronization between the physical and digital board, were things we hadn't really thought of before.
+    The idea occurred to me while trying to think of potential failure modes for the digital twin component, so I reached out to our supervising professor to see if it was a valid concern.
+    He agreed that it was, so I added it to the table.
+    Another category of risks we hadn't considered were the ones related to connectivity issues.
+    (Well, maybe the rest of the team had thought of them, but it hadn't crossed my mind.)
+    These came directly from thinking about what could go wrong with the communication layer component, so it's cool to see how the hazard analysis process can actually lead to new insights.
+    To be honest, I'm typically fairly skeptical of how helpful a lot of documentation-heavy deliverables are, but this one I can actually see the value in.
+
+    \item As I mentioned above, one of the major sources of risk in software products is connectivity issues.
+    It's easy to forget that not all users will have a perfect internet connection, and that servers can go down, when you're in the middle of development.
+    If you don't have a plan when you do run into these issues, it can be a bit of a pain to deal with.
+    Obviously another type of risk is security vulnerabilities.
+    It's not really relevant to our project since we don't handle sensitive data, which is why we don't have hazards relating to it.
+    For software that does handle sensitive data, it's of course not something you can just ignore.
+    User data getting leaked is a big issue that will negatively impact the users and could potentially lead to legal troubles.
 \end{enumerate}
 
 \end{document}
