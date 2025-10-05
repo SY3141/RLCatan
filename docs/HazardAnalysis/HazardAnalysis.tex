@@ -1,4 +1,6 @@
 \documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
 
 \usepackage{booktabs}
 \usepackage{tabularx}
@@ -92,15 +94,26 @@ ones.  For projects that involve hardware, the components will typically include
 each individual piece of hardware.  If your software will have a database, or an
 important library, these are also potential components.}
 
+
+
 Components: 
 \begin{itemize}
-\item The board representation
-\item The game state digital twin
-\item The AI model
+
 \item User Interface
+\item Game State Digital Twin
+\item AI Model
+\item Board Representation
 \item Game State Database
+\item Camera Feed
+
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Component_Diagram_hazards.png}
+    \caption{\textit{System components: User Interface, Game State Digital Twin, AI Model, Board Representation, Game State Database, and Camera Feed.}}
+    \label{fig:component-diagram}
+\end{figure}
 
 \section{Critical Assumptions}
 
