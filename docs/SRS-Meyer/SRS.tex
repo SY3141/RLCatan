@@ -32,20 +32,62 @@
 \renewcommand{\thesubsection}{G.\arabic{subsection}}
 
 \subsection{Context and Overall Objective}\label{subsec:context-and-overall-objective}
+The project aims to create an AI agent, named \textbf{RLCatan}, that learns to play the board game Catan competitively using deep reinforcement learning. The purpose is to develop a decision-making support tool that aids players by providing strategic advice. This tool will also serve as a powerful AI opponent for practice. The project addresses the challenges of creating an AI for a game with a large state space, stochastic elements like dice rolls, and partially observable information. The final product will be a digital twin that uses computer vision to observe a physical game and provide real-time strategic suggestions.
 
 \subsection{Current Situation}\label{subsec:current-situation}
+Despite its popularity, the inherent complexity of Catan presents a significant technical challenge for AI development. This complexity limits players' ability to practice against a consistently challenging opponent and prevents a deeper, data-driven understanding of the game's optimal strategies. The lack of a high-level AI bot also restricts training opportunities for competitive players who wish to improve their game. The RLCatan project will address this limitation by creating a tool designed to tackle these specific technical hurdles.
 
 \subsection{Expected Benefits}\label{subsec:expected-benefits}
+\begin{itemize}
+    \item \textbf{Enhanced Player Skill and Engagement} – The RLCatan AI provides in-game advice, helping novice players understand the game and allowing advanced players to refine strategies.
+    \item \textbf{Strategic Insights and Learning} – Offers post-game advice by analyzing key moments and explaining alternative moves to improve understanding and performance.
+    \item \textbf{AI Innovation and Research Contribution} – The project contributes to AI research by addressing large state spaces, stochastic elements, and partially observable environments, demonstrating the team's technical capabilities.
+\end{itemize}
 
 \subsection{Functionality Overview}\label{subsec:functionality-overview}
+\begin{itemize}
+    \item \textbf{Game state capture} – A camera captures the physical board state.
+    \item \textbf{Data processing} – Converts captured images into a digital representation of the board and player data.
+    \item \textbf{AI analysis} – Reinforcement learning model determines optimal actions.
+    \item \textbf{Output} – Provides move suggestions to the player's device.
+    \item \textbf{Post-game advice} – Offers insights on key moments after the game concludes.
+    \item \textbf{Simulation} – AI can simulate gameplay as a competing player.
+\end{itemize}
 
 \subsection{High-Level Usage Scenarios}\label{subsec:high-level-usage-scenarios}
+\begin{itemize}
+    \item \textbf{Scenario 1: In-game advice} – Players show the current board state; the system suggests the optimal next move.
+    \item \textbf{Scenario 2: Post-game analysis} – Players review performance; the system highlights key moments and alternative strategies.
+    \item \textbf{Scenario 3: Training against the AI} – Players play a full game against RLCatan, which acts as a competitive opponent for practice.
+\end{itemize}
 
 \subsection{Limitations and Exclusions}\label{subsec:limitations-and-exclusions}
+\begin{itemize}
+    \item \textbf{Physical interaction with the board} – The system will not move pieces or manipulate the board.
+    \item \textbf{Full real-time tracking} – Focus is on capturing static frames, not continuous video streams.
+    \item \textbf{Hidden information tracking} – The AI will not access information that is hidden from players.
+    \item \textbf{Support for expansions} – The scope is limited to standard Settlers of Catan rules; expansions are excluded.
+\end{itemize}
 
 \subsection{Stakeholders and Requirements Sources}\label{subsec:stakeholders-and-requirements-sources}
+\textbf{Stakeholders:}
+\begin{itemize}
+    \item Players of Catan – End-users seeking skill improvement.
+    \item Project Supervisor – Dr. Istvan David.
+    \item Department of Computing and Software (CAS) – Hosting organization.
+\end{itemize}
+
+\textbf{Requirements Sources:}
+\begin{itemize}
+    \item Project documentation – Initial description provided by Dr. Istvan David.
+    \item Competitive Catan players – Consulted for strategic insights and advanced gameplay knowledge.
+    \item Open-source libraries – Catanatron, OpenCV, YOLOv9 inform technical requirements.
+    \item Academic research – Reinforcement learning and computer vision papers guide AI design.
+    \item Industry standards – PEP 8 and Google style guides define coding standards.
+\end{itemize}
 
 \newpage{}
+
 
 
 \section*{(E) Environment}\label{sec:srs-environment}
@@ -198,12 +240,55 @@ The system is separated into six major components:
 
 
 \subsection{Required Technology Elements}\label{subsec:requiredtech}
-
+\begin{itemize}
+    \item \textbf{Primary Programming Language} – Python is the primary language for the project's backend development.
+    \item \textbf{Game Simulation Library} – The project will utilize the open-source library Catanatron for simulating Catan games and training the AI model.
+    \item \textbf{Web Framework} – React and JavaScript will be used to build the user interface and digital twin.
+    \item \textbf{Computer Vision Libraries} – OpenCV and YOLOv9 will be used for image recognition and processing of the physical board state.
+    \item \textbf{Hardware} – The project will require a GPU for training the reinforcement learning model.
+    \item \textbf{Version Control} – GitHub will be used for version control and collaboration.
+    \item \textbf{Static Code Analysis} – SonarQube is planned for static code analysis.
+    \item \textbf{Continuous Integration/Continuous Deployment (CI/CD)} – GitHub Actions will be used to implement CI for automated testing, and potentially CD for deployment pipelines. Deployment pipelines will be developed if a computing node for RL agent training is available.
+\end{itemize}
 
 \subsection{Risk and Mitigation Analysis}\label{subsec:risk}
+\begin{itemize}
+    \item \textbf{Risk: AI Fails to Learn Effectively}
+    \begin{itemize}
+        \item Description: The AI agent may not be able to learn to play Catan at a high level due to the game's complexity and stochastic nature.
+        \item Mitigation: Regular Elo testing against benchmark opponents to ensure improvement. Proof of concept will demonstrate valid move generation even if performance is limited.
+    \end{itemize}
+
+    \item \textbf{Risk: User Interface is Not User-Friendly}
+    \begin{itemize}
+        \item Description: The user interface may not be intuitive or user-friendly for a wider audience.
+        \item Mitigation: Conduct user testing sessions, gather feedback, and make iterative improvements.
+    \end{itemize}
+
+    \item \textbf{Risk: Technical Issues with External Libraries}
+    \begin{itemize}
+        \item Description: Technical issues may arise with external technologies like Catanatron, OpenCV, or YOLOv9.
+        \item Mitigation: Team collaboratively addresses issues as they arise; members are responsible for thorough testing and validation before deployment.
+    \end{itemize}
+
+    \item \textbf{Risk: Unrealistic Schedule or Workload}
+    \begin{itemize}
+        \item Description: Tasks may take longer than expected or workload may become unbalanced among team members.
+        \item Mitigation: Use GitHub Kanban board to manage tasks and milestones; notetaker updates board; time estimates and reassignment of tasks as needed.
+    \end{itemize}
+\end{itemize}
 
 \subsection{Requirements Process and Report}\label{subsec:reqprocess}
-
+\begin{itemize}
+    \item \textbf{Initial Elicitation}: Requirements gathered through problem statement developed by the team, consulting key stakeholders including the project supervisor.
+    \item \textbf{Elicitation Plan}:
+    \begin{itemize}
+        \item Meetings: Weekly team meetings to discuss progress, challenges, and refine requirements; additional meetings as needed.
+        \item Communication: Discord server for informal discussions; separate Discord group for formal communication with advisor.
+        \item Documentation: Tasks and issues tracked via GitHub Issues with labels, assignments, and templates for consistency.
+        \item Process Update: Section updated as project progresses to reflect lessons learned, feedback from requirements document reviews, and revisions.
+    \end{itemize}
+\end{itemize}
 
 \newpage{}
 
