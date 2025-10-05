@@ -55,12 +55,12 @@
 \subsection{Glossary}\label{subsec:glossary}
 \begin{itemize}
     \item \textbf{Catan} – A strategy board game called \textit{Settlers of Catan} where players collect resources, build roads/settlements, and trade to earn points.
-    \item \textbf{AI (Artificial Intelligence)} – Field of computer science and engineering focused on creating systems capable of performing tasks that usually require human intelligence.
+    \item \textbf{AI (Artificial Intelligence)} – Field of computer science and engineering that focuses on creating systems capable of performing tasks that usually require the intelligence of a human.
     \item \textbf{RL (Reinforcement Learning)} – A type of machine learning where an agent learns how to make decisions by interacting with an environment and receiving rewards or penalties for actions taken.
-    \item \textbf{Digital twin} – A digital system that mirrors a physical one. In this project, it refers to a digital representation of the physical Catan game board, updated in real time.
-    \item \textbf{CV (Computer Vision)} – Enables a system to interpret and process visual data. In this project, it refers to the camera system that understands and tracks the physical Catan board state.
-    \item \textbf{LLM (Large Language Model)} – A machine learning model trained on vast amounts of text data to generate and understand natural language.
-    \item \textbf{Game state} – The current configuration of the game, including player resources, board layout (roads, settlements, cities), dice rolls, and ongoing trades.
+    \item \textbf{Digital twin} – A digital system that mirrors a physical one. In this project, it specifically refers to a digital representation of the physical Catan game board, updated in real time.
+    \item \textbf{CV (Computer Vision)} – An area of artificial intelligence that trains computers to interpret and understand the visual world (in our case, the physical Catan board) by extracting meaningful information from digital images and videos.
+    \item \textbf{LLM (Large Language Model)} – A machine learning model trained on a very large amount of text data to generate and understand natural language.
+    \item \textbf{Game state} – The current configuration of the game, including player resources, board layout (roads, settlements, cities), and dice rolls.
 \end{itemize}
 
 \subsection{Components}\label{subsec:components2}
@@ -68,7 +68,7 @@
     \item \textbf{Physical Catan board and pieces} – The physical game setup that the system observes.
     \item \textbf{Players} – Human participants who interact with the physical game and receive decision support.
     \item \textbf{Cameras/Sensors} – Hardware that captures the physical board state for the digital twin.
-    \item \textbf{OpenAI Gym} – Provides a training and testing environment for reinforcement learning agents.
+    \item \textbf{OpenAI Gym} – Provides a training/testing environment for reinforcement learning agents.
     \item \textbf{Reinforcement Learning Agent} – Learns strategies through the simulator and connects with the digital twin for real-time decision support.
     \item \textbf{Visualization Interface} – Displays the current game state and AI recommendations to users.
     \item \textbf{Optional components:}
@@ -82,38 +82,39 @@
 \begin{itemize}
     \item \textbf{Game rules of Catan} – The RL agent must strictly follow the official rules of the game.
     \item \textbf{Real-time operation} – The system must process board states and provide recommendations fast enough to be useful during live play.
-    \item \textbf{Camera limits (Computer Vision)} – Accuracy of game state detection is restricted by available hardware (camera resolution, field of view, lighting).
+    \item \textbf{Camera limits (Computer Vision)} – Accuracy of game state detection is restricted by available hardware (resolution of camera, field of view, lighting).
     \item \textbf{Simulator environment} – The RL agent is limited to the APIs and mechanics provided by the Catan simulator.
-    \item \textbf{Computational resources} – Training and running the RL agent are bounded by available GPU/CPU capacity.
+    \item \textbf{Computational resources} – Training and running the RL agent is bounded by available GPU/CPU capacity.
     \item \textbf{Timeframe} – The project must be completed within the allocated time frame.
 \end{itemize}
 
 \subsection{Assumptions}\label{subsec:assumptions}
 \begin{itemize}
-    \item \textbf{Players will follow standard Catan rules} – It is assumed that human players won’t cheat or make illegal moves.
-    \item \textbf{Stable lighting and camera angle} – The computer vision module assumes it can reliably see the board under stable conditions.
-    \item \textbf{Network and device reliability} – It is assumed that player devices and connections work well enough for real-time suggestions.
+    \item \textbf{Players will follow standard Catan rules} – The system assumes human players won’t cheat or make illegal moves.
+    \item \textbf{Stable lighting and camera angle} – The computer vision module assumes it can reliably see the board, even if real-world conditions could vary.
+    \item \textbf{Network and device reliability} – The system assumes the player’s device and connection work well enough for real-time suggestions.
 \end{itemize}
 
 \subsection{Effects}\label{subsec:effects}
 \begin{itemize}
-    \item \textbf{Player decision support} – The AI provides move suggestions, affecting player decisions in real time.
-    \item \textbf{Learning and adaptation} – The RL agent improves over time, affecting the challenge and quality of advice given to players.
-    \item \textbf{Post-game analysis} – Feedback and suggestions may influence how players approach future games.
-    \item \textbf{Device usage} – The system utilizes computational resources on player devices or servers for inference and visualization.
-    \item \textbf{Game pacing} – Real-time suggestions could alter the flow and pacing of the game.
+    \item \textbf{Player decision support} – The AI provides move suggestions, affecting the decisions players make in real time.
+    \item \textbf{Learning and adaptation} – The RL agent improves over time, indirectly affecting the level of challenge and advice for players.
+    \item \textbf{Post-game analysis} – Feedback and suggestions might influence how players approach future games.
+    \item \textbf{Device usage} – The system uses computational resources on player devices or servers for inference and visualization.
+    \item \textbf{Game pacing} – Real-time suggestions could speed up or slow down the flow of the game.
 \end{itemize}
 
 \subsection{Invariants}\label{subsec:invariants}
 \begin{itemize}
-    \item \textbf{Board orientation is fixed} – The physical board remains stable, allowing accurate computer vision tracking.
-    \item \textbf{Player order remains constant} – The sequence of turns does not change unexpectedly.
-    \item \textbf{Player set is fixed} – No new players join or leave mid-game.
-    \item \textbf{Game components stay in place} – Settlements, roads, and resources are only moved through valid game actions.
-    \item \textbf{Camera/viewing angle remains stable} – The vision system continuously views the board from a consistent perspective.
+    \item \textbf{Board orientation is fixed} – The physical board doesn’t get flipped or moved, so the computer vision module can track it accurately.
+    \item \textbf{Player order remains constant} – The sequence of turns doesn’t change unexpectedly.
+    \item \textbf{Player set is fixed} – No new players join, and no existing players leave mid-game.
+    \item \textbf{Game components stay in place} – Settlements, roads, and resources aren’t physically moved outside of normal game actions.
+    \item \textbf{Camera/viewing angle remains stable} – The vision system continues to see the board from the expected perspective.
 \end{itemize}
 
 \newpage{}
+
 
 
 
