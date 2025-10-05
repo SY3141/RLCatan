@@ -106,13 +106,13 @@ Despite its popularity, the inherent complexity of \emph{Catan} presents a signi
 \end{itemize}
 
 \subsection{Components}\label{subsec:components2}
+\raggedright The following are a list of elements of the environment that may effect or be affected by the system and the project. It includes other systems to which the system must be interfaced:
 \begin{itemize}
     \item {Physical \emph{Catan} board and pieces} – The physical game setup that the system observes.
     \item {Players} – Human participants who interact with the physical game and receive decision support.
     \item {Cameras/Sensors} – Hardware that captures the physical board state for the digital twin.
     \item {OpenAI Gym} – Provides a training/testing environment for reinforcement learning agents.
     \item {Reinforcement Learning Agent} – Learns strategies through the simulator and connects with the digital twin for real-time decision support.
-    \item {Visualization Interface} – Displays the current game state and AI recommendations to users.
     \item {Optional components:}
     \begin{itemize}
         \item {Smart glasses} – Provide players with an augmented view of the game and recommendations.
@@ -155,6 +155,59 @@ Despite its popularity, the inherent complexity of \emph{Catan} presents a signi
     \item {Camera/viewing angle remains stable} – The vision system continues to see the board from the expected perspective.
 \end{itemize}
 
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|p{10cm}|c|}
+    \hline
+    \textbf{Name} & \textbf{Requirement} & \textbf{Ref} \\
+    \hline
+    FR.E.1 & System shall capture the physical Catan board state using cameras/sensors. & E.2, E.6 \\
+    \hline
+    FR.E.2 & System shall maintain a digital twin of the board that reflects player actions in real time. & E.1, E.2, E.6 \\
+    \hline
+    FR.E.3 & System shall provide move suggestions to human players based on the current game state. & E.5 \\
+    \hline
+    FR.E.4 & System shall allow the RL agent to interact with the Catan simulator for training. & E.2, E.3 \\
+    \hline
+    FR.E.5 & System shall simulate gameplay for practice sessions against the AI. & E.5 \\
+    \hline
+    FR.E.6 & System shall track player resources, roads, settlements, and cities accurately. & E.1, E.6 \\
+    \hline
+    FR.E.7 & System shall provide post-game analysis and feedback. & E.5 \\
+    \hline
+    \end{tabular}
+    \caption{Functional Requirements}
+    \label{tab:fr}
+    \end{table}
+    
+    
+    \begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|p{10cm}|c|}
+    \hline
+    \textbf{Name} & \textbf{Requirement} & \textbf{Ref} \\
+    \hline
+    NFR.E.1 & System shall provide recommendations in real time within in under 5 seconds. & E.3, E.4 \\
+    \hline
+    NFR.E.2 & System shall operate accurately given stable lighting and camera angles. & E.4, E.6 \\
+    \hline
+    NFR.E.3 & System shall reliably track the board without misidentifying components. & E.3, E.6 \\
+    \hline
+    NFR.E.4 & System shall handle RL computations within available GPU/CPU capacity. & E.3 \\
+    \hline
+    NFR.E.5 & System shall maintain a fixed board orientation and player order during gameplay. & E.6 \\
+    \hline
+    NFR.E.6 & System shall ensure data consistency for player resources and game state throughout a session. & E.6 \\
+    \hline
+    NFR.E.7 & System shall function correctly assuming network and device reliability. & E.4 \\
+    \hline
+    \end{tabular}
+    \caption{Non-Functional Requirements}
+    \label{tab:nfr}
+    \end{table}
+    
+    
 \newpage{}
 
 
@@ -226,7 +279,7 @@ The system is separated into six major components:
 \begin{itemize}
     \item {Programming languages} – Python for backend and AI development; JavaScript with React for frontend implementation.
     \item {AI framework} – Reinforcement learning agent trained using the OpenAI Gym \emph{Catan} simulator.
-    \item {Computer vision} – Implemented using OpenCV and/or YOLOv9 for board state detection and tracking.
+    \item {Computer vision} – Implemented using either OpenCV,YOLOv9 or 0MQ for board state detection and tracking.
     \item {Version control and collaboration} – GitHub for repository management with branching, pull requests, CI/CD pipelines, and a Kanban board for task tracking.
     \item {Coding standards} – PEP8 for Python code and Google Style Guide for JavaScript/React.
     \item {License} – MIT License for open-source code distribution and collaboration.
