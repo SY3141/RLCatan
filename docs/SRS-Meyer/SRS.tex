@@ -249,15 +249,155 @@ The system is separated into six major components:
 \subsection{Functionality}\label{subsec:functionality}
 
 \subsection{Interfaces}\label{subsec:interfaces}
-
 \subsection{Detailed Usage Scenarios}\label{subsec:detailed-usage-scenarios}
 
+\noindent\textbf{Use Case Name:} Human vs RL Agent Gameplay Session
+
+\noindent\textbf{Primary Actor:} Human Player
+
+\noindent\textbf{Stakeholders and Interests:}
+\begin{itemize}
+    \item Human Player: Wants a challenging and fair game experience.
+    \item Developer: Tests agent's usability and robustness against non-scripted behavior.
+\end{itemize}
+
+\noindent\textbf{Preconditions:}
+\begin{itemize}
+    \item User interface allows human-agent interaction.
+    \item RL agent is loaded and operational.
+\end{itemize}
+
+\noindent\textbf{Postconditions (Success Guarantees):}
+\begin{itemize}
+    \item Game runs to completion with all moves recorded.
+    \item Agent responds to human actions appropriately.
+\end{itemize}
+
+\noindent\textbf{Postconditions (Failure Guarantees):}
+\begin{itemize}
+    \item If crash occurs, session ends with error logs.
+\end{itemize}
+
+\noindent\textbf{Main Success Scenario (Basic Flow):}
+\begin{itemize}
+    \item Human starts a new game session.
+    \item Game environment is initialized.
+    \item Player and RL agent alternate turns.
+    \item Agent observes player actions and adapts accordingly.
+    \item Game concludes, and results are displayed.
+\end{itemize}
+
+\noindent\textbf{Justification:}
+
+Testing the agent against human input ensures it handles unpredictable behaviors and can offer a meaningful challenge. This scenario is also key for validating real-world deployment feasibility.
+
+
+
 \subsection{Prioritization}\label{subsec:prioritization}
+M → Must have
+• S → Should have
+• C → Could have
+• W → Won't have //
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Requirement ID & Requirement Name 2 & Priority Level 3 & Reasoning \\
+\hline
+R1 & Row 1, Col 2 & Row 1, Col 3 & Row 1, Col 4 \\
+\hline
+R2 & Row 2, Col 2 & Row 2, Col 3 & Row 2, Col 4 \\
+\hline
+R3 & Row 3, Col 2 & Row 3, Col 3 & Row 3, Col 4 \\
+\hline
+R4 & Row 4, Col 2 & Row 4, Col 3 & Row 4, Col 4 \\
+\hline
+R5 & Row 5, Col 2 & Row 5, Col 3 & Row 5, Col 4 \\
+\hline
+\end{tabular}
+
 
 \subsection{Verification and Acceptance Criteria}\label{subsec:verification-and-acceptance-criteria}
 
-\subsection{Requirements Process and Report}\label{subsec:requirements-process-and-report}
+\noindent\textbf{Validation Overview:}
 
+To validate compatibility, simulation interoperability testing will be performed. The RL agent will be tested in multiple versions of the environment. The validation of the functional requirements outlined for the RLCatan agent will be conducted throughout the development lifecycle, with a strong focus on acceptance testing and simulation-based evaluation.
+
+Early validation efforts will involve the use of simplified Catan game environments and prototypes of the RL agent's architecture. Key stakeholders, such as AI researchers, game designers, and domain experts, will participate in these early-stage reviews.
+
+\noindent\textbf{Unit Testing:}
+
+Unit testing will be employed to verify the correctness of individual components, including:
+\begin{itemize}
+    \item State representation
+    \item Reward computation
+    \item Policy/action selection mechanisms
+\end{itemize}
+
+By isolating and testing these components, the development team can catch logical and algorithmic errors early, ensuring reliable behavior in the broader simulation environment.
+
+\noindent\textbf{Validation of Non-Functional Requirements:}
+
+\noindent\textbf{Cross-Platform Environment Compatibility:}
+
+The agent will be tested in different Catan environments (e.g., Python implementations, or standardized OpenAI Gym-style interfaces) to ensure stable and consistent behavior across frameworks.
+
+\noindent\textbf{Real-Time Decision Making:}
+
+To validate real-time decision-making capabilities:
+\begin{itemize}
+    \item Latency profiling and timing tests will be conducted.
+    \item Verifying that the agent makes decisions within predefined time limits during gameplay, particularly in competitive or interactive scenarios.
+    \item Continuous integration (CI) pipelines will ensure model updates or algorithm changes do not degrade response time.
+\end{itemize}
+
+\noindent\textbf{Strategic Planning and Reward Optimization:}
+
+To ensure the RL agent optimizes for long-term goals (e.g., winning the game rather than maximizing short-term resource gain):
+\begin{itemize}
+    \item Longitudinal performance testing will be conducted.
+    \item Thousands of game simulations will be run to track:
+    \begin{itemize}
+        \item Policy convergence
+        \item Learning curves
+        \item Win rates across different strategies and game configurations
+    \end{itemize}
+\end{itemize}
+
+\noindent\textbf{Data Privacy and Ethical Compliance:}
+
+Although the RL agent may not handle personal data directly:
+\begin{itemize}
+    \item Ethical compliance testing will ensure training data (e.g., human gameplay data) respects privacy guidelines.
+    \item No identifiable user data will be stored or processed without consent.
+    \item Data source validation and usage audits will ensure compliance with academic and industry standards.
+\end{itemize}
+
+\noindent\textbf{State and Action Accuracy:}
+
+To validate the agent’s perception and behavior:
+\begin{itemize}
+    \item Sanity tests and assertion-based checks will be implemented.
+    \item Ensure the agent:
+    \begin{itemize}
+        \item Acts according to official game rules
+        \item Respects legal action constraints
+        \item Maintains valid internal state representations
+    \end{itemize}
+\end{itemize}
+
+\noindent\textbf{Scalability and Training Stability:}
+
+To test the system’s ability to handle increased complexity:
+\begin{itemize}
+    \item Performance testing such as:
+    \begin{itemize}
+        \item Load testing
+        \item Stress testing
+        \item Distributed training simulations
+    \end{itemize}
+    \item Ensure the training pipeline can support large-scale experiments without crashing.
+    \item Validate that the agent remains stable under diverse training scenarios.
+\end{itemize}
 \newpage{}
 
 
