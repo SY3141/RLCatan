@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7dbf9937-4e62-4154-9ad4-2525a3bef9c7" name="Changes" comment="General small wording changes">
-      <change beforePath="$PROJECT_DIR$/docs/DevelopmentPlan/DevelopmentPlan.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/DevelopmentPlan/DevelopmentPlan.tex" afterDir="false" />
+    <list default="true" id="7dbf9937-4e62-4154-9ad4-2525a3bef9c7" name="Changes" comment="Added my reflections to both the hazard analysis and srs docs">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/HazardAnalysis/HazardAnalysis.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/HazardAnalysis/HazardAnalysis.tex" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,9 +25,12 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/SY3141/RLCatan.git&quot;,
-    &quot;accountId&quot;: &quot;e8cde830-0380-4c6f-aee5-14bebc75d74d&quot;
+    &quot;accountId&quot;: &quot;1ce302fc-8ffc-4ab2-ad21-d4c2d2f31498&quot;
   }
 }</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -37,29 +41,47 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;LaTeX.HazardAnalysis.executor&quot;: &quot;Run&quot;,
+    &quot;LaTeX.SRS.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Coding/RLCatan&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/jaker/OneDrive/Academics/University/Year 4 Courses/Capstone/RLCatan/docs/SRS-Meyer&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jaker\OneDrive\Academics\University\Year 4 Courses\Capstone\RLCatan\docs\SRS-Meyer" />
+      <recent name="C:\Users\jaker\OneDrive\Academics\University\Year 4 Courses\Capstone\RLCatan" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jaker\OneDrive\Academics\University\Year 4 Courses\Capstone\RLCatan\docs\SRS-Meyer" />
+      <recent name="C:\Users\jaker\OneDrive\Academics\University\Year 4 Courses\Capstone\RLCatan\docs" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-PY-252.25557.178" />
-        <option value="bundled-python-sdk-ce6832f46686-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.178" />
+        <option value="bundled-js-predefined-d6986cc7102b-9c94529fcfe0-JavaScript-PY-252.26199.168" />
+        <option value="bundled-python-sdk-b3d66beaba9a-c6efb3732140-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.26199.168" />
       </set>
     </attachedChunks>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="7dbf9937-4e62-4154-9ad4-2525a3bef9c7" name="Changes" comment="" />
@@ -71,7 +93,74 @@
       <workItem from="1758490594755" duration="1303000" />
       <workItem from="1758491910768" duration="8134000" />
       <workItem from="1758577207984" duration="6837000" />
+      <workItem from="1758667341576" duration="47000" />
+      <workItem from="1758837283669" duration="2509000" />
+      <workItem from="1759087144356" duration="33000" />
+      <workItem from="1759180539207" duration="1240000" />
+      <workItem from="1759246839367" duration="16549000" />
+      <workItem from="1759346852755" duration="19000" />
+      <workItem from="1759362413330" duration="7446000" />
+      <workItem from="1759436968503" duration="1088000" />
+      <workItem from="1759604933010" duration="14503000" />
+      <workItem from="1759693118059" duration="12128000" />
     </task>
+    <task id="LOCAL-00001" summary="Typo fixes">
+      <option name="closed" value="true" />
+      <created>1758597637730</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1758597637730</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Removed solution paragraph in problem statement">
+      <option name="closed" value="true" />
+      <created>1758597972562</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1758597972562</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Fixed typo">
+      <option name="closed" value="true" />
+      <created>1758598098305</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1758598098305</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Working on replacing word doc">
+      <option name="closed" value="true" />
+      <created>1759616563721</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1759616563721</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Hopefully deleting word doc">
+      <option name="closed" value="true" />
+      <created>1759616691365</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1759616691365</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added a LaTeX version of Meyer template I created">
+      <option name="closed" value="true" />
+      <created>1759616939492</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1759616939493</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Added my reflections to both the hazard analysis and srs docs">
+      <option name="closed" value="true" />
+      <created>1759636072071</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1759636072071</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -90,6 +179,13 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="General small wording changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="General small wording changes" />
+    <MESSAGE value="Typo fixes" />
+    <MESSAGE value="Removed solution paragraph in problem statement" />
+    <MESSAGE value="Fixed typo" />
+    <MESSAGE value="Working on replacing word doc" />
+    <MESSAGE value="Hopefully deleting word doc" />
+    <MESSAGE value="Added a LaTeX version of Meyer template I created" />
+    <MESSAGE value="Added my reflections to both the hazard analysis and srs docs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added my reflections to both the hazard analysis and srs docs" />
   </component>
 </project>

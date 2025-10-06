@@ -57,6 +57,8 @@ Date2 & Name(s) & Description of changes\\
 ~\newpage
 
 \tableofcontents
+\listoftables
+\listoffigures
 
 ~\newpage
 
@@ -141,14 +143,17 @@ documentation, and/or test cases.}
 
 % Finally, a table that spans multiple pages and doesn't look horrendous, only took 2 hours to get the formatting right...
 \begin{landscape}
+    The following FMEA table summarizes identified hazards, their effects and causes, and corresponding mitigation strategies.
+    Each row represents a unique failure mode for one of the components listed in Figure~\ref{fig:component-diagram}.
+
     % Layout setup
     \renewcommand{\arraystretch}{1.3}
     \begin{tabularx}{\linewidth}{|P{2.5cm}|Y|Y|Y|Y|P{1cm}|P{1cm}|}
 
         % Header
-        \caption{Failure Mode and Effect Analysis (FMEA)} \\
+        \caption{Failure Mode and Effect Analysis (FMEA)} \label{TblFMEA} \\
         \hline
-        \textbf{Design Function} &
+        \textbf{Component} &
         \textbf{Failure Modes} &
         \textbf{Effects of Failure} &
         \textbf{Causes of Failure} &
@@ -160,7 +165,7 @@ documentation, and/or test cases.}
 
         % Subsequent pages header
         \hline
-        \textbf{Design Function} &
+        \textbf{Component} &
         \textbf{Failure Modes} &
         \textbf{Effects of Failure} &
         \textbf{Causes of Failure} &
@@ -180,12 +185,10 @@ documentation, and/or test cases.}
         \endlastfoot
 
         % Table Rows...
-
-        \raggedright
         Board Representation &
         Incorrect parsing of the physical board state (e.g., misidentifies road or settlement). &
         AI advice is based on false information, leading to invalid or poor recommendations. &
-        CV model misclassifies pieces due to lighting, angle, or occlusion. &
+        - CV model misclassifies pieces due to lighting, angle, or occlusion. &
         Give the option for users to manually confirm the parsed board state before generating advice. &
         SR-1 &
         H1-a \\
@@ -195,7 +198,7 @@ documentation, and/or test cases.}
         Game State Digital Twin &
         Loss of synchronization between physical game and digital twin. &
         System provides advice for the wrong game state, disrupting play. &
-        Failure to read new game state to model, or additional moves made by players after CV scan. &
+        - Failure to read new game state to model. \newline - Additional moves made by players after CV scan. &
         Provide a resynchronization mechanism, such as an option to rescan the board or manually enter current state. &
         SR-2 &
         H2-a \\
@@ -205,27 +208,44 @@ documentation, and/or test cases.}
         AI Model &
         AI suggests an illegal or nonsensical move. &
         Users may become confused or game flow disrupted if they attempt an invalid action. &
-        AI loses track of game state or misinterprets or rules are not properly encoded. &
+        -AI loses track of game state. \newline AI misinterprets rules. \newline - Rules are not properly encoded. &
         AI-suggested moves are validated against the official rules of Catan before display. &
         SR-3 &
         H3-a \\
+
+        &
+        Trained model diverges from expected behaviour. &
+        System makes suboptimal or inconsistent suggestions. &
+        - Model overfits. \newline - Inconsistencies in training environment. \newline - Poor heuristics. &
+        Maintain rollback capability, and allow user to select older models. &
+        SR-12 &
+        H3-b \\
+
 
         \hline
 
         User Interface &
         Advice not displayed on time. &
         Player's turn timer runs out, causing them to miss their turn as they wait. &
-        Model takes too long to compute next move, or there are delays in CV processing. &
+        - Model takes too long to compute next move. \newline - There are delays in CV processing. &
         Limit the processing time of the model or timeout early and inform user of failure before their turn ends. &
         SR-4 \newline SR-5 &
         H4-a \\
+
+        &
+        Incorrect or confusing rendering of the game state. &
+        Players misinterpret advice or system status, leading to wrong actions. &
+        Suggested move is not easy to quickly spot on the displayed board. &
+        Visually distinguish the move(s) suggested by AI, e.g., using highlights or arrows. &
+        SR-9 &
+        H4-b \\
 
         \hline
 
         Game State Database &
         Failure to save game states. &
         LLM is unable to summarize "what could have been" from previous game states. &
-        Game moves too quickly for state to be saved (Mostly applicable to bot vs. bot games). &
+        - Game moves too quickly for state to be saved (Mostly applicable to bot vs. bot games). &
         Ensure that the current game state is saved correctly before the recommended move is sent to the user. &
         SR-6 &
         H5-a \\
@@ -235,20 +255,35 @@ documentation, and/or test cases.}
         Communication Layer (Phone/Server) &
         Dropped connection between user device and processing server. &
         Advice delayed or not delivered, leading to disrupted play. &
-        External server goes down, or WiFi connectivity issues occur. &
+        - External server goes down \newline - WiFi connectivity issues occur. &
         Attempt to reconnect, and notify the user that connection has dropped. &
         SR-7 \newline SR-8 &
         H6-a \\
 
         \hline
 
-        Visualization &
-        Incorrect or confusing rendering of the game state. &
-        Players misinterpret advice or system status, leading to wrong actions. &
-        Suggested move is not easy to quickly spot on the displayed board. &
-        Visually distinguish the move(s) suggested by AI, e.g., using highlights or arrows. &
-        SR-9 &
+        Camera Feed &
+        Game stream is cut off. &
+        The model will have no data with which to make predictions, so no move will be displayed to the user. &
+        - Recording device runs out of battery. \newline - Recording device is damaged. &
+        Notify user when stream cuts out, to give them a chance to fix it, or at least be aware of why move predictions have ended. &
+        SR-10 &
         H7-a \\
+
+        &
+        Camera is unable to view entire board. &
+        Model receives incomplete or garbage data. &
+        - Camera is misaligned. \newline - Camera is blocked by some object (e.g. another player). &
+        Detect a lack of data from the stream and warn user that camera may be misaligned or blocked. &
+        SR-11 &
+        H7-b \\
+
+        &
+        Game streams/snapshots contain identifiable players/background content. &
+        Unintended sharing or exposure of personal information. &
+        - Limit recording to within the bounds of the board. &
+        SR-13 &
+        H7-c \\
 
     \end{tabularx}
 \end{landscape}
@@ -259,7 +294,7 @@ documentation, and/or test cases.}
 rationale design process how and why to fake it.)}
 
 The following safety and security requirements have been derived from the hazard analysis above.
-Each requirement is traced to a hazard in the FMEA table (Table 3):
+Each requirement is traced to a hazard in the FMEA table (Table~\ref{TblFMEA}):
 
 \begin{itemize}
     \item SR-1: The system shall enable users to manually confirm the parsed board state before generating advice.
@@ -271,6 +306,10 @@ Each requirement is traced to a hazard in the FMEA table (Table 3):
     \item SR-7: The system shall notify the user of connection loss within 5 seconds.
     \item SR-8: The system shall attempt automatic reconnection at least 3 times before failing.
     \item SR-9: The system shall visually distinguish the move(s) suggested by AI.
+    \item SR-10: The system shall notify the user in the event board streaming ceases.
+    \item SR-11: The system shall warn the user when incomplete game data is read where possible.
+    \item SR-12: The system shall enable the user to roll-back to previous model versions.
+    \item SR-13: The system shall only capture and process game board area, not player faces or personal content.
 \end{itemize}
 
 
@@ -292,14 +331,18 @@ The following requirements will be implemented as part of the capstone timeline:
           This will be most useful while training the AI, which is naturally within the scope of the capstone.
     \item SR-9: Clear visualization of AI suggestions is important for user experience and should be relatively straightforward to implement.
           This will help users quickly understand the AI's advice, which is a core functionality of the system.
+    \item SR-12: We will likely make mistakes when training the model, so the ability to roll back to old model versions will be critical in development.
 \end{itemize}
 
 The following requirements are planned for future implementation:
 \begin{itemize}
     \item SR-4: While timely advice is important, it may be challenging to guarantee a strict time limit during the initial development phase.
     \item SR-7: Connection loss handling is important, but it may be less critical during initial development when the focus is on core functionalities.
-          For now we'll assume a stable connection.
+          For now, we'll assume a stable connection.
     \item SR-8: See SR-7.
+    \item SR-10: While error messages for streaming failures are important, this will be a rare occurrence, and thus is not a priority.
+    \item SR-11: Camera misalignment may be a problem users face when using the tool, but for demos we'll ensure the camera feed is correct, so it's not critical for the scope of capstone.
+    \item SR-13: The video stream exposing personal details is only a concern once the tool is released.
 \end{itemize}
 
 
