@@ -47,9 +47,8 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
-Date1 & Name(s) & Description of changes\\
-Date2 & Name(s) & Description of changes\\
-... & ... & ...\\
+2025-10-05 & Jake Read, Sunny Yang, Description of changes\\
+
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -66,10 +65,15 @@ Date2 & Name(s) & Description of changes\\
 
 \wss{You are free to modify this template.}
 
-\section{Introduction}
+\section{Introduction}\label{sec:introduction}
 
 \wss{You can include your definition of what a hazard is here.}
 
+\subsection{Background}\label{subsec:background}
+Our project, RLCatan, is an AI-assisted tool that observes a physical game of Catan via camera feed and provides real-time strategic advice to players.
+The system integrates computer vision, game state modeling, and AI-based decision-making.
+
+\subsection{Hazard Definition}\label{subsec:hazard-definition}
 A hazard is defined as a property or condition in the system together
 with a condition in the environment that has the potential to cause harm or
 damage. We define harm as the underperformance of our system
@@ -77,7 +81,7 @@ that leads to the incorrect instruction of players. In addition, we consider
 disruption of play, loss of game data/state as harm.
 
 
-\section{Scope and Purpose of Hazard Analysis}
+\section{Scope and Purpose of Hazard Analysis}\label{sec:scope-and-purpose-of-hazard-analysis}
 
 \wss{You should say what \textbf{loss} could be incurred because of the
 hazards.}
@@ -88,7 +92,7 @@ forfeiture or inability to continue a game of Catan. This can affect the
 user experience of our software and lead to a loss of trust in the product.
 
 
-\section{System Boundaries and Components}
+\section{System Boundaries and Components}\label{sec:system-boundaries-and-components}
 
 \wss{Dividing the system into components will help you brainstorm the hazards.
 You shouldn't do a full design of the components, just get a feel for the major
@@ -117,7 +121,7 @@ Components:
     \label{fig:component-diagram}
 \end{figure}
 
-\section{Critical Assumptions}
+\section{Critical Assumptions}\label{sec:critical-assumptions}
 
 \wss{These assumptions that are made about the software or system.  You should
 minimize the number of assumptions that remove potential hazards.  For instance,
@@ -130,7 +134,7 @@ know how to play the game. Another assumption is that the users will have a basi
 of how to interact with a digital interface. Finally, we assume that existing consumer
 hardware will be able to run full-depth processing of our AI model.
 
-\section{Failure Mode and Effect Analysis}
+\section{Failure Mode and Effect Analysis}\label{sec:failure-mode-and-effect-analysis}
 
 \wss{Include your FMEA table here. This is the most important part of this document.}
 \wss{The safety requirements in the table do not have to have the prefix SR.
@@ -279,7 +283,8 @@ documentation, and/or test cases.}
         H7-b \\
 
         &
-        Game streams/snapshots contain identifiable players/background content. &
+        Game streams/snapshots contain identifiable players/background content.
+        &
         Unintended sharing or exposure of personal information. &
         - Limit recording to within the bounds of the board. &
         SR-13 &
@@ -288,7 +293,7 @@ documentation, and/or test cases.}
     \end{tabularx}
 \end{landscape}
 
-\section{Safety and Security Requirements}
+\section{Safety and Security Requirements}\label{sec:safety-and-security-requirements}
 
 \wss{Newly discovered requirements.  These should also be added to the SRS.  (A
 rationale design process how and why to fake it.)}
@@ -313,11 +318,12 @@ Each requirement is traced to a hazard in the FMEA table (Table~\ref{TblFMEA}):
 \end{itemize}
 
 
-\section{Roadmap}
+\section{Roadmap}\label{sec:roadmap}
 
 \wss{Which safety requirements will be implemented as part of the capstone timeline?
 Which requirements will be implemented in the future?}
 
+\subsection{Requirements Planned During Capstone}\label{subsec:requirements-planned-during-capstone}
 The following requirements will be implemented as part of the capstone timeline:
 \begin{itemize}
     \item SR-1: Being able to confirm the board state is crucial in the early stages to ensure the system is functioning correctly.
@@ -334,6 +340,7 @@ The following requirements will be implemented as part of the capstone timeline:
     \item SR-12: We will likely make mistakes when training the model, so the ability to roll back to old model versions will be critical in development.
 \end{itemize}
 
+\subsection{Delayed Requirements}\label{subsec:delayed-requirements}
 The following requirements are planned for future implementation:
 \begin{itemize}
     \item SR-4: While timely advice is important, it may be challenging to guarantee a strict time limit during the initial development phase.
