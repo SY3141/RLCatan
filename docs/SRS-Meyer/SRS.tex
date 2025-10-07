@@ -223,20 +223,20 @@ Despite its popularity, the inherent complexity of \emph{Catan} presents a signi
 The system is separated into six major components:
 
 \begin{itemize}
-    \item Board Representation: The training
-    environment for the model, acting as a representation of the game’s state and the
-    moves that can be made on a given turn.
-
-    \item Game state digital twin: The component
+    \item Board Representation: The component
     in charge of transferring a static/real-time physical board state to the board
     representation, via CV or sensors.
+
+    \item Game state digital twin: The training
+    environment for the model, acting as a representation of the game's state and the
+    moves that can be made on a given turn.
 
     \item AI model: The pre-trained model,
     responsible for providing a move prompt to be sent to the user.
 
     \item User Interface: The visual
     representation of the current game state, appended with the move suggested by
-    the model, displayed to the user so they can make use of the model’s advice.
+    the model, displayed to the user so they can make use of the model's advice.
 
     \item Game State Database: A database for
     storing each game state in a given game, for traceability and for providing
@@ -248,7 +248,106 @@ The system is separated into six major components:
     move to the UI\@.
 \end{itemize}
 
+
 \subsection{Functionality}\label{subsec:functionality}
+
+\subsubsection{Board Representation}
+\label{subsubsec:board-representation}
+
+\textbf{Functional Requirements}
+
+\begin{itemize}
+  \item R11 Display a hexagonal grid of 19 tiles arranged in the standard 
+  Catan layout.
+  \item R12 Each tile must represent a terrain type: forest, field, hill, 
+  pasture, mountain, or desert.
+  \item R13 Assign resource values (2--12) to tiles, excluding the desert tile.
+  \item R14 Support placement of player settlements and roads along hex edges
+        and vertices.
+  \item R15 Allow dynamic updates to show built structures or resource changes.
+  elements.
+\end{itemize}
+
+\subsubsection{Game State Digital Twin}
+
+\textbf{Functional Requirements}
+
+\begin{itemize}
+  \item R21 Maintain a synchronized digital model of the physical Catan game state.
+  \item R22 Track all player assets including settlements, cities, roads, and cards.
+  \item R23 Record the current turn, dice rolls, and resource distributions in real time.
+  \item R24 Update automatically based on player actions or external camera feeds.
+  \item R25 Provide an interface for querying current board and player information.
+\end{itemize}
+
+\subsubsection{AI Model}
+
+\textbf{Functional Requirements}
+
+\begin{itemize}
+  \item R31 Analyze the digital game state to predict optimal player strategies.
+  \item R32 Evaluate potential moves based on resource availability and board position.
+  \item R33 Adapt to changing game conditions through reinforcement or supervised learning.
+  \item R34 Provide move recommendations with confidence scores and reasoning.
+\end{itemize}
+
+\subsubsection{User Interface}
+
+\textbf{Functional Requirements}
+
+\begin{itemize}
+  \item R41 Provide an interactive visual layout of the Catan board and game state.
+  \item R42 Display real-time updates for player moves, resource changes, and dice rolls.
+  \item R43 Allow players to perform actions such as building, trading, and ending turns.
+  \item R44 Offer intuitive menus, tooltips, and icons for ease of navigation and clarity.
+  \item R45 Support both desktop and mobile layouts for accessibility and responsiveness.
+
+\end{itemize}
+
+\subsubsection{Game State Database}
+
+\textbf{Functional Requirements}
+
+\begin{itemize}
+  \item R51 Store complete and consistent records of all ongoing and past Catan games.
+  \item R52 Maintain player profiles, scores, resource inventories, and game metadata.
+  \item R53 Support efficient read and write operations for real-time state updates.
+  \item R54 Ensure data persistence across sessions and recovery after interruptions.
+  \item R55 Provide structured access to game history for analysis or replay features.
+
+\end{itemize}
+
+\subsubsection{Communication Layer}
+
+\textbf{Functional Requirements}
+
+\begin{itemize}
+  \item R61 Enable reliable data exchange between the user interface, digital twin,
+        AI model, and database.
+  \item R62 Support both synchronous and asynchronous message passing mechanisms.
+  \item R63 Use standardized communication protocols such as REST or WebSocket APIs.
+  \item R64 Ensure low-latency updates to maintain real-time synchronization of states.
+  \item R65 Provide secure authentication and encryption for all transmitted data.
+
+\end{itemize}
+
+\subsubsection{Non-Functional Requirements}
+
+\begin{itemize}
+  \item NFR 1 \textbf{Scalability:} Support multiple concurrent games without
+        performance degradation.
+  \item NFR 2 \textbf{Usability:} Provide an intuitive interface accessible to users
+        with minimal training.
+  \item NFR 3 \textbf{Maintainability:} Codebase should follow modular design for easy
+        updates and debugging.
+  \item NFR 4 \textbf{Portability:} Ensure compatibility across major operating systems
+        and browsers.
+  \item NFR 5 \textbf{Data Integrity:} Prevent data corruption through validation and
+        transactional consistency.
+  \item NFR 6 \textbf{Availability:} Recover from system failures automatically within
+        one minute of downtime.
+\end{itemize}
+
 
 \subsection{Interfaces}\label{subsec:interfaces}
 \subsection{Detailed Usage Scenarios}\label{subsec:detailed-usage-scenarios}
@@ -299,21 +398,212 @@ Testing the agent against human input ensures it handles unpredictable behaviors
 M → Must have
 • S → Should have
 • C → Could have
-• W → Won't have //
+• W → Won't have 
 
-\begin{tabular}{|c|c|c|c|}
+\subsubsection*{Board Representation}
+
+\begin{tabular}{|c|c|c|c|c|}
 \hline
-Requirement ID & Requirement Name 2 & Priority Level 3 & Reasoning \\
+\textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
+\textbf{Reasoning} & \textbf{Date} \\
 \hline
-R1 & Row 1, Col 2 & Row 1, Col 3 & Row 1, Col 4 \\
+R11 & Hexagonal Tile Layout & M &
+\parbox[t]{4cm}{Core to the Catan game structure and board logic.} &
+2025-11-06 \\
 \hline
-R2 & Row 2, Col 2 & Row 2, Col 3 & Row 2, Col 4 \\
+R12 & Terrain Type Assignment & M &
+\parbox[t]{4cm}{Each hex must produce specific resources for gameplay.} &
+2025-11-07 \\
 \hline
-R3 & Row 3, Col 2 & Row 3, Col 3 & Row 3, Col 4 \\
+R13 & Resource Value Display & S &
+\parbox[t]{4cm}{Improves player awareness of probabilities and
+strategic planning.} &
+2025-11-09 \\
 \hline
-R4 & Row 4, Col 2 & Row 4, Col 3 & Row 4, Col 4 \\
+R14 & Settlement/Road Placement & M &
+\parbox[t]{4cm}{Enables player interaction through building and
+expansion.} &
+2025-11-11 \\
 \hline
-R5 & Row 5, Col 2 & Row 5, Col 3 & Row 5, Col 4 \\
+R15 & Dynamic Board Updates & S &
+\parbox[t]{4cm}{Keeps the visual board synchronized with real-time
+player actions.} &
+2025-11-12 \\
+\hline
+\end{tabular}
+
+\vspace{1em}
+
+\subsubsection*{Game State Digital Twin}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
+\textbf{Reasoning} & \textbf{Date} \\
+\hline
+R21 & State Synchronization & M &
+\parbox[t]{4cm}{Ensures the digital model matches the physical game
+at all times.} &
+2025-10-27 \\
+\hline
+R22 & Player Asset Tracking & M &
+\parbox[t]{4cm}{Tracks settlements, cities, roads, and resources
+accurately.} &
+2025-10-27 \\
+\hline
+R23 & Turn and Dice Recording & S &
+\parbox[t]{4cm}{Records turn data for game history and replay
+features.} &
+2025-10-27 \\
+\hline
+R24 & Automatic Updates & M &
+\parbox[t]{4cm}{Reflects player actions immediately to maintain
+consistency.} &
+2025-10-27 \\
+\hline
+R25 & Query Interface & S &
+\parbox[t]{4cm}{Provides structured access to current board and
+player information.} &
+2025-10-27 \\
+\hline
+\end{tabular}
+
+\vspace{1em}
+
+\subsubsection*{AI Model}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
+\textbf{Reasoning} & \textbf{Date} \\
+\hline
+R31 & Strategy Prediction & M &
+\parbox[t]{4cm}{Analyzes the game state to suggest optimal player
+moves.} &
+2025-12-06 \\
+\hline
+R32 & Adaptive Learning & S &
+\parbox[t]{4cm}{Improves predictions using past games and player
+behavior.} &
+2025-12-06 \\
+\hline
+R33 & Confidence Scoring & C &
+\parbox[t]{4cm}{Displays confidence levels for AI recommendations.} &
+2025-12-12 \\
+\hline
+R34 & Integration with Twin & M &
+\parbox[t]{4cm}{Maintains synchronized data exchange with the digital
+twin.} &
+2025-12-18 \\
+\hline
+
+\end{tabular}
+
+\vspace{1em}
+
+\subsubsection*{User Interface}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
+\textbf{Reasoning} & \textbf{Date} \\
+\hline
+R41 & Interactive Board View & M &
+\parbox[t]{4cm}{Displays real-time board updates and player actions
+clearly.} &
+2025-11-06 \\
+\hline
+R42 & Action Controls & M &
+\parbox[t]{4cm}{Allows players to build, trade, and manage turns
+easily.} &
+2025-11-06 \\
+\hline
+R43 & Multi-Platform Support & S &
+\parbox[t]{4cm}{Ensures compatibility with desktop and mobile
+devices.} &
+2025-11-06 \\
+\hline
+R44 & Visual Indicators & S &
+\parbox[t]{4cm}{Shows player resources, turns, and notifications for
+clarity.} &
+2025-11-06 \\
+\hline
+R45 & AI Suggestion Display & C &
+\parbox[t]{4cm}{Provides a clear interface for AI recommendations
+and feedback.} &
+2025-11-06 \\
+\hline
+\end{tabular}
+
+\vspace{1em}
+
+\subsubsection*{Game State Database}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
+\textbf{Reasoning} & \textbf{Date} \\
+\hline
+R51 & Persistent Storage & M &
+\parbox[t]{4cm}{Maintains all game and player data across sessions
+and restarts.} &
+2025-10-22 \\
+\hline
+R52 & Fast Query Access & S &
+\parbox[t]{4cm}{Retrieves current state information efficiently
+during gameplay.} &
+2025-10-22 \\
+\hline
+R53 & Data Integrity & M &
+\parbox[t]{4cm}{Prevents corruption and ensures consistency between
+tables.} &
+2025-10-24 \\
+\hline
+R54 & Historical Logging & C &
+\parbox[t]{4cm}{Stores previous games for analytics and replay
+purposes.} &
+2025-10-27 \\
+\hline
+R55 & Integration with Twin & M &
+\parbox[t]{4cm}{Synchronizes database updates with digital twin
+actions.} &
+2025-10-30 \\
+\hline
+\end{tabular}
+
+\vspace{1em}
+
+\subsubsection*{Communication Layer}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
+\textbf{Reasoning} & \textbf{Date} \\
+\hline
+R61 & Real-Time Data Exchange & M &
+\parbox[t]{4cm}{Ensures components remain synchronized during
+gameplay.} &
+2025-11-09 \\
+\hline
+R62 & API Protocol Support & M &
+\parbox[t]{4cm}{Uses REST or WebSocket APIs for efficient
+communication.} &
+2025-11-10 \\
+\hline
+R63 & Security and Encryption & S &
+\parbox[t]{4cm}{Protects messages and user data from unauthorized
+access.} &
+2025-11-12 \\
+\hline
+R64 & Error Handling & S &
+\parbox[t]{4cm}{Handles message loss or disconnection through
+recovery methods.} &
+2025-11-13 \\
+\hline
+R65 & Scalability & C &
+\parbox[t]{4cm}{Allows new modules to connect without major system
+changes.} &
+2025-11-14 \\
 \hline
 \end{tabular}
 
