@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7dbf9937-4e62-4154-9ad4-2525a3bef9c7" name="Changes" comment="Added my reflections to both the hazard analysis and srs docs">
+    <list default="true" id="7dbf9937-4e62-4154-9ad4-2525a3bef9c7" name="Changes" comment="Missed the revision history, it's done now">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/HazardAnalysis/HazardAnalysis.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/HazardAnalysis/HazardAnalysis.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/SRS-Meyer/SRS.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/SRS-Meyer/SRS.tex" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +102,8 @@
       <workItem from="1759362413330" duration="7446000" />
       <workItem from="1759436968503" duration="1088000" />
       <workItem from="1759604933010" duration="14503000" />
-      <workItem from="1759693118059" duration="12128000" />
+      <workItem from="1759693118059" duration="13829000" />
+      <workItem from="1759782682773" duration="2579000" />
     </task>
     <task id="LOCAL-00001" summary="Typo fixes">
       <option name="closed" value="true" />
@@ -160,7 +161,31 @@
       <option name="project" value="LOCAL" />
       <updated>1759636072071</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Updated hazard analysis with a few new hazards, and altered the components it discusses to match our new system model. Also added lists of tables and figures.">
+      <option name="closed" value="true" />
+      <created>1759721200849</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1759721200849</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Tidied up the hazard analysis doc, adding some new subsections to split long parts up, and adding the last required elements. Should be good to go now.">
+      <option name="closed" value="true" />
+      <created>1759721927476</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1759721927476</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Missed the revision history, it's done now">
+      <option name="closed" value="true" />
+      <created>1759722452234</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1759722452234</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,6 +211,9 @@
     <MESSAGE value="Hopefully deleting word doc" />
     <MESSAGE value="Added a LaTeX version of Meyer template I created" />
     <MESSAGE value="Added my reflections to both the hazard analysis and srs docs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added my reflections to both the hazard analysis and srs docs" />
+    <MESSAGE value="Updated hazard analysis with a few new hazards, and altered the components it discusses to match our new system model. Also added lists of tables and figures." />
+    <MESSAGE value="Tidied up the hazard analysis doc, adding some new subsections to split long parts up, and adding the last required elements. Should be good to go now." />
+    <MESSAGE value="Missed the revision history, it's done now" />
+    <option name="LAST_COMMIT_MESSAGE" value="Missed the revision history, it's done now" />
   </component>
 </project>

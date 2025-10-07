@@ -3,6 +3,8 @@
 
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{amsopn}
 
 \title{Software Requirements Specification for RLCatan\\\progname}
 
@@ -482,6 +484,38 @@ To test the system’s ability to handle increased complexity:
         \item Process Update: Section updated as project progresses to reflect lessons learned, feedback from requirements document reviews, and revisions.
     \end{itemize}
 \end{itemize}
+
+\newpage{}
+
+\subsection{Formalization of the Learning Objective}
+\label{sec:formalization}
+
+The reinforcement learning (RL) agent is modeled as a Markov Decision Process (MDP), defined by the tuple
+\[
+(S, A, P, R, \gamma)
+\]
+where:
+\begin{itemize}
+    \item $S$ is the set of all possible game states (e.g., the current board configuration, player hands, road/settlement locations, etc.)
+    \item $A$ is the set of actions available to the agent (e.g., build, trade, play development cards, etc.)
+    \item $P(s' \mid s, a)$ is the transition probability between states
+    \item $R(s, a)$ is the scalar reward obtained after performing action $a$ in state $s$
+    \item $\gamma \in [0, 1]$ is the discount factor applied to future rewards
+\end{itemize}
+
+The agent seeks a policy $\pi(a \mid s)$ that maximizes the expected discounted return:
+\[
+\pi^* = \arg\max_{\pi} \mathbb{E}_{\pi}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t)\right]
+\]
+
+In the deep reinforcement learning (DRL) formulation used by this project, the policy $\pi(a \mid s)$ or the action-value function $Q(s, a)$ is represented by a deep neural network parameterized by weights $\theta$. The objective is then to learn $\theta$ that minimizes the temporal-difference loss:
+\[
+L(\theta) = \mathbb{E}_{(s, a, r, s')} \left[ \left( r + \gamma \max_{a'} Q_{\theta^-}(s', a') - Q_{\theta}(s, a) \right)^2 \right]
+\]
+where $Q_{\theta^-}$ denotes a target network with fixed parameters for stability during training.
+
+The input $s$ to the neural network encodes the current game state (board configuration, available resources, and player status), and the output $Q_{\theta}(s, a)$ estimates the expected long-term reward for each possible action.
+% The trained model thus implements the decision-making component of the system’s functional requirements (R4–R6).
 
 \newpage{}
 
