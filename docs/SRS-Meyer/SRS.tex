@@ -36,6 +36,31 @@
 \end{tabularx}
 \end{table}
 
+\section*{Changes from Orginal SRS meyer layout}
+
+\begin{table}[hp]
+\begin{tabularx}{\textwidth}{lX} % only 2 columns
+    \toprule
+    \textbf{Change} & \textbf{Reason} \\
+    \midrule
+    Moved Glossary (E.1) to beginning of document & Level 4 says "Document is written so that: 1. Terms and acronyms are always defined before first use and there is a list providing full expansion of all acronyms with links to where they are defined in the text.  2. Information is defined in only one place (i.e. no redundant information)." \\
+    \bottomrule
+    \end{tabularx}
+\end{table}
+
+\section*{Glossary (Moved from E.1)}
+\begin{itemize}
+    \item {\Catan{}} – A strategy board game called \textit{Settlers of \emph{\Catan{}}} where players collect resources, build roads/settlements, and trade to earn points.
+    \item {\AI{}} – Field of computer science and engineering that focuses on creating systems capable of performing tasks that usually require the intelligence of a human.
+    \item {\RL{}} – A type of machine learning called Reinforcement Learning where an agent learns how to make decisions by interacting with an environment and receiving rewards or penalties for actions taken.
+    \item {\DigitalTwin{}} – A digital system that mirrors a physical one. In this project, it specifically refers to a digital representation of the physical \emph{\Catan{}} game board, updated in real time.
+    \item {\CV{}} – An area of \AI{} that trains computers to interpret and understand the visual world (in our case, the physical \emph{\Catan{}} board) by extracting meaningful information from digital images and videos.
+    \item {\LLM{}} – A machine learning model trained on a very large amount of text data to generate and understand natural language.
+    \item {\GameState{}} – The current configuration of the game, including player resources, board layout (roads, settlements, cities), and dice rolls.
+\end{itemize}
+
+    
+
 \section*{(G) Goals}\label{sec:srs-goals}
 \renewcommand{\thesubsection}{G.\arabic{subsection}}
 
@@ -103,15 +128,7 @@ Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a si
 \setcounter{subsection}{0}
 
 \subsection{Glossary}\label{subsec:glossary}
-\begin{itemize}
-    \item {\Catan{}} – A strategy board game called \textit{Settlers of \emph{\Catan{}}} where players collect resources, build roads/settlements, and trade to earn points.
-    \item {\AI{}} – Field of computer science and engineering that focuses on creating systems capable of performing tasks that usually require the intelligence of a human.
-    \item {\RL{}} – A type of machine learning called Reinforcement Learning where an agent learns how to make decisions by interacting with an environment and receiving rewards or penalties for actions taken.
-    \item {\DigitalTwin{}} – A digital system that mirrors a physical one. In this project, it specifically refers to a digital representation of the physical \emph{\Catan{}} game board, updated in real time.
-    \item {\CV{}} – An area of \AI{} that trains computers to interpret and understand the visual world (in our case, the physical \emph{\Catan{}} board) by extracting meaningful information from digital images and videos.
-    \item {\LLM{}} – A machine learning model trained on a very large amount of text data to generate and understand natural language.
-    \item {\GameState{}} – The current configuration of the game, including player resources, board layout (roads, settlements, cities), and dice rolls.
-\end{itemize}
+\raggedright Moved glossary to beginning of document (see Changes from Oringal Srs Meyer Layout Section).
 
 \subsection{Components}\label{subsec:components2}
 \raggedright The following are a list of elements of the environment that may effect or be affected by the system and the project. It includes other systems to which the system must be interfaced:
