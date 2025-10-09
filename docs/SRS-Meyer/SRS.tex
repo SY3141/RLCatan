@@ -1,10 +1,16 @@
 \documentclass{article}
-
-
+\usepackage{hyperref}
 \usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage{amsfonts}
 \usepackage{amsopn}
+\newcommand{\Catan}{\href{https://en.wikipedia.org/wiki/Catan}{Catan}}
+\newcommand{\AI}{\href{https://en.wikipedia.org/wiki/Artificial_intelligence}{AI}}
+\newcommand{\RL}{\href{https://www.ibm.com/think/topics/reinforcement-learning}{RL}}
+\newcommand{\DigitalTwin}{\href{https://en.wikipedia.org/wiki/Digital_twin}{Digital Twin}}
+\newcommand{\CV}{\href{https://www.ibm.com/think/topics/computer-vision}{CV}}
+\newcommand{\LLM}{\href{https://www.cloudflare.com/learning/ai/what-is-large-language-model/}{LLM}}
+\newcommand{\GameState}{\href{https://milvus.io/ai-quick-reference/what-is-a-state-in-rl}{Game State}}
 
 \title{Software Requirements Specification for RLCatan\\\progname}
 
@@ -34,26 +40,26 @@
 \renewcommand{\thesubsection}{G.\arabic{subsection}}
 
 \subsection{Context and Overall Objective}\label{subsec:context-and-overall-objective}
-The project aims to create an AI agent, named \textbf{RLCatan}, that learns to play the board game \emph{Catan} competitively using deep reinforcement learning. The purpose is to develop a decision-making support tool that aids players by providing strategic advice. This tool will also serve as a powerful AI opponent for practice. The project addresses the challenges of creating an AI for a game with a large state space, stochastic elements like dice rolls, and partially observable information. The final product will be a digital twin that uses computer vision to observe a physical game and provide real-time strategic suggestions.
+The project aims to create an \AI{} agent, named \textbf{RLCatan}, that learns to play the board game \emph{\Catan{}} competitively using deep reinforcement learning. The purpose is to develop a decision-making support tool that aids players by providing strategic advice. This tool will also serve as a powerful \AI{} opponent for practice. The project addresses the challenges of creating an \AI{} for a game with a large state space, stochastic elements like dice rolls, and partially observable information. The final product will be a \DigitalTwin{} that uses computer vision to observe a physical game and provide real-time strategic suggestions.
 
 \subsection{Current Situation}\label{subsec:current-situation}
-Despite its popularity, the inherent complexity of \emph{Catan} presents a significant technical challenge for AI development. This complexity limits players' ability to practice against a consistently challenging opponent and prevents a deeper, data-driven understanding of the game's optimal strategies. The lack of a high-level AI bot also restricts training opportunities for competitive players who wish to improve their game. The RLCatan project will address this limitation by creating a tool designed to tackle these specific technical hurdles.
+Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a significant technical challenge for \AI{} development. This complexity limits players' ability to practice against a consistently challenging opponent and prevents a deeper, data-driven understanding of the game's optimal strategies. The lack of a high-level \AI{} bot also restricts training opportunities for competitive players who wish to improve their game. The RLCatan project will address this limitation by creating a tool designed to tackle these specific technical hurdles.
 
 \subsection{Expected Benefits}\label{subsec:expected-benefits}
 \begin{itemize}
-    \item {Enhanced Player Skill and Engagement} – The RLCatan AI provides in-game advice, helping novice players understand the game and allowing advanced players to refine strategies.
+    \item {Enhanced Player Skill and Engagement} – The RLCatan \AI{} provides in-game advice, helping novice players understand the game and allowing advanced players to refine strategies.
     \item {Strategic Insights and Learning} – Offers post-game advice by analyzing key moments and explaining alternative moves to improve understanding and performance.
-    \item {AI Innovation and Research Contribution} – The project contributes to AI research by addressing large state spaces, stochastic elements, and partially observable environments, demonstrating the team's technical capabilities.
+    \item {\AI{} Innovation and Research Contribution} – The project contributes to \AI{} research by addressing large state spaces, stochastic elements, and partially observable environments, demonstrating the team's technical capabilities.
 \end{itemize}
 
 \subsection{Functionality Overview}\label{subsec:functionality-overview}
 \begin{itemize}
-    \item {Game state capture} – A camera captures the physical board state.
+    \item {\GameState{} capture} – A camera captures the physical board state.
     \item {Data processing} – Converts captured images into a digital representation of the board and player data.
-    \item {AI analysis} – Reinforcement learning model determines optimal actions.
+    \item {\AI{} analysis} – Reinforcement learning model determines optimal actions.
     \item {Output} – Provides move suggestions to the player's device.
     \item {Post-game advice} – Offers insights on key moments after the game concludes.
-    \item {Simulation} – AI can simulate gameplay as a competing player.
+    \item {Simulation} – \AI{} can simulate gameplay as a competing player.
 \end{itemize}
 
 \subsection{High-Level Usage Scenarios}\label{subsec:high-level-usage-scenarios}
@@ -67,14 +73,14 @@ Despite its popularity, the inherent complexity of \emph{Catan} presents a signi
 \begin{itemize}
     \item {Physical interaction with the board} – The system will not move pieces or manipulate the board.
     \item {Full real-time tracking} – Focus is on capturing static frames, not continuous video streams.
-    \item {Hidden information tracking} – The AI will not access information that is hidden from players.
-    \item {Support for expansions} – The scope is limited to standard Settlers of \emph{Catan} rules; expansions are excluded.
+    \item {Hidden information tracking} – The \AI{} will not access information that is hidden from players.
+    \item {Support for expansions} – The scope is limited to standard Settlers of \emph{\Catan{}} rules; expansions are excluded.
 \end{itemize}
 
 \subsection{Stakeholders and Requirements Sources}\label{subsec:stakeholders-and-requirements-sources}
 \textbf{Stakeholders:}
 \begin{itemize}
-    \item Players of \emph{Catan} – End-users seeking skill improvement.
+    \item Players of \emph{\Catan{}} – End-users seeking skill improvement.
     \item Project Supervisor – Dr. Istvan David.
     \item Department of Computing and Software (CAS) – Hosting organization.
 \end{itemize}
@@ -82,9 +88,9 @@ Despite its popularity, the inherent complexity of \emph{Catan} presents a signi
 \textbf{Requirements Sources:}
 \begin{itemize}
     \item Project documentation – Initial description provided by Dr. Istvan David.
-    \item Competitive \emph{Catan} players – Consulted for strategic insights and advanced gameplay knowledge.
+    \item Competitive \emph{\Catan{}} players – Consulted for strategic insights and advanced gameplay knowledge.
     \item Open-source libraries – Catanatron, OpenCV, YOLOv9 inform technical requirements.
-    \item Academic research – Reinforcement learning and computer vision papers guide AI design.
+    \item Academic research – Reinforcement learning and computer vision papers guide \AI{} design.
     \item Industry standards – PEP 8 and Google style guides define coding standards.
 \end{itemize}
 
@@ -98,51 +104,51 @@ Despite its popularity, the inherent complexity of \emph{Catan} presents a signi
 
 \subsection{Glossary}\label{subsec:glossary}
 \begin{itemize}
-    \item {Catan} – A strategy board game called \textit{Settlers of \emph{Catan}} where players collect resources, build roads/settlements, and trade to earn points.
-    \item {AI (Artificial Intelligence)} – Field of computer science and engineering that focuses on creating systems capable of performing tasks that usually require the intelligence of a human.
-    \item {RL (Reinforcement Learning)} – A type of machine learning where an agent learns how to make decisions by interacting with an environment and receiving rewards or penalties for actions taken.
-    \item {Digital twin} – A digital system that mirrors a physical one. In this project, it specifically refers to a digital representation of the physical \emph{Catan} game board, updated in real time.
-    \item {CV (Computer Vision)} – An area of artificial intelligence that trains computers to interpret and understand the visual world (in our case, the physical \emph{Catan} board) by extracting meaningful information from digital images and videos.
-    \item {LLM (Large Language Model)} – A machine learning model trained on a very large amount of text data to generate and understand natural language.
-    \item {Game state} – The current configuration of the game, including player resources, board layout (roads, settlements, cities), and dice rolls.
+    \item {\Catan{}} – A strategy board game called \textit{Settlers of \emph{\Catan{}}} where players collect resources, build roads/settlements, and trade to earn points.
+    \item {\AI{}} – Field of computer science and engineering that focuses on creating systems capable of performing tasks that usually require the intelligence of a human.
+    \item {\RL{}} – A type of machine learning called Reinforcement Learning where an agent learns how to make decisions by interacting with an environment and receiving rewards or penalties for actions taken.
+    \item {\DigitalTwin{}} – A digital system that mirrors a physical one. In this project, it specifically refers to a digital representation of the physical \emph{\Catan{}} game board, updated in real time.
+    \item {\CV{}} – An area of \AI{} that trains computers to interpret and understand the visual world (in our case, the physical \emph{\Catan{}} board) by extracting meaningful information from digital images and videos.
+    \item {\LLM{}} – A machine learning model trained on a very large amount of text data to generate and understand natural language.
+    \item {\GameState{}} – The current configuration of the game, including player resources, board layout (roads, settlements, cities), and dice rolls.
 \end{itemize}
 
 \subsection{Components}\label{subsec:components2}
 \raggedright The following are a list of elements of the environment that may effect or be affected by the system and the project. It includes other systems to which the system must be interfaced:
 \begin{itemize}
-    \item {Physical \emph{Catan} board and pieces} – The physical game setup that the system observes.
+    \item {Physical \emph{\Catan{}} board and pieces} – The physical game setup that the system observes.
     \item {Players} – Human participants who interact with the physical game and receive decision support.
-    \item {Cameras/Sensors} – Hardware that captures the physical board state for the digital twin.
-    \item {OpenAI Gym} – Provides a training/testing environment for reinforcement learning agents.
-    \item {Reinforcement Learning Agent} – Learns strategies through the simulator and connects with the digital twin for real-time decision support.
+    \item {Cameras/Sensors} – Hardware that captures the physical board state for the \DigitalTwin{}.
+    \item {Open\AI{} Gym} – Provides a training/testing environment for reinforcement learning agents.
+    \item {Reinforcement Learning Agent} – Learns strategies through the simulator and connects with the \DigitalTwin{} for real-time decision support.
     \item {Optional components:}
     \begin{itemize}
         \item {Smart glasses} – Provide players with an augmented view of the game and recommendations.
-        \item {LLM service/API} – Generates natural language explanations of strategies.
+        \item {\LLM{} service/API} – Generates natural language explanations of strategies.
     \end{itemize}
 \end{itemize}
 
 \subsection{Constraints}\label{subsec:constraints}
 \begin{itemize}
-    \item {Game rules of \emph{Catan}} – The RL agent must strictly follow the official rules of the game.
+    \item {Game rules of \emph{\Catan{}}} – The \RL{} agent must strictly follow the official rules of the game.
     \item {Real-time operation} – The system must process board states and provide recommendations fast enough to be useful during live play.
-    \item {Camera limits (Computer Vision)} – Accuracy of game state detection is restricted by available hardware (resolution of camera, field of view, lighting).
-    \item {Simulator environment} – The RL agent is limited to the APIs and mechanics provided by the \emph{Catan} simulator.
-    \item {Computational resources} – Training and running the RL agent is bounded by available GPU/CPU capacity.
+    \item {Camera limits (\CV{})} – Accuracy of \GameState{} detection is restricted by available hardware (resolution of camera, field of view, lighting).
+    \item {Simulator environment} – The \RL{} agent is limited to the APIs and mechanics provided by the \emph{\Catan{}} simulator.
+    \item {Computational resources} – Training and running the \RL{} agent is bounded by available GPU/CPU capacity.
     \item {Timeframe} – The project must be completed within the allocated time frame.
 \end{itemize}
 
 \subsection{Assumptions}\label{subsec:assumptions}
 \begin{itemize}
-    \item {Players will follow standard \emph{Catan} rules} – The system assumes human players won’t cheat or make illegal moves.
+    \item {Players will follow standard \emph{\Catan{}} rules} – The system assumes human players won’t cheat or make illegal moves.
     \item {Stable lighting and camera angle} – The computer vision module assumes it can reliably see the board, even if real-world conditions could vary.
     \item {Network and device reliability} – The system assumes the player’s device and connection work well enough for real-time suggestions.
 \end{itemize}
 
 \subsection{Effects}\label{subsec:effects}
 \begin{itemize}
-    \item {Player decision support} – The AI provides move suggestions, affecting the decisions players make in real time.
-    \item {Learning and adaptation} – The RL agent improves over time, indirectly affecting the level of challenge and advice for players.
+    \item {Player decision support} – The \AI{} provides move suggestions, affecting the decisions players make in real time.
+    \item {Learning and adaptation} – The \RL{} agent improves over time, indirectly affecting the level of challenge and advice for players.
     \item {Post-game analysis} – Feedback and suggestions might influence how players approach future games.
     \item {Device usage} – The system uses computational resources on player devices or servers for inference and visualization.
     \item {Game pacing} – Real-time suggestions could speed up or slow down the flow of the game.
@@ -164,13 +170,13 @@ Despite its popularity, the inherent complexity of \emph{Catan} presents a signi
     \hline
     \textbf{Name} & \textbf{Requirement} & \textbf{Ref} \\
     \hline
-    FR.E.1 & System shall capture the physical Catan board state using cameras/sensors. & E.2, E.6 \\
+    FR.E.1 & System shall capture the physical \Catan{} board state using cameras/sensors. & E.2, E.6 \\
     \hline
-    FR.E.2 & System shall maintain a digital twin of the board that reflects player actions in real time. & E.1, E.2, E.6 \\
+    FR.E.2 & System shall maintain a \DigitalTwin{} of the board that reflects player actions in real time. & E.1, E.2, E.6 \\
     \hline
-    FR.E.3 & System shall provide move suggestions to human players based on the current game state. & E.5 \\
+    FR.E.3 & System shall provide move suggestions to human players based on the current \GameState{}. & E.5 \\
     \hline
-    FR.E.4 & System shall allow the RL agent to interact with the Catan simulator for training. & E.2, E.3 \\
+    FR.E.4 & System shall allow the \RL{} agent to interact with the \Catan{} simulator for training. & E.2, E.3 \\
     \hline
     FR.E.5 & System shall simulate gameplay for practice sessions against the AI. & E.5 \\
     \hline
@@ -196,11 +202,11 @@ Despite its popularity, the inherent complexity of \emph{Catan} presents a signi
     \hline
     NFR.E.3 & System shall reliably track the board without misidentifying components. & E.3, E.6 \\
     \hline
-    NFR.E.4 & System shall handle RL computations within available GPU/CPU capacity. & E.3 \\
+    NFR.E.4 & System shall handle \RL{} computations within available GPU/CPU capacity. & E.3 \\
     \hline
     NFR.E.5 & System shall maintain a fixed board orientation and player order during gameplay. & E.6 \\
     \hline
-    NFR.E.6 & System shall ensure data consistency for player resources and game state throughout a session. & E.6 \\
+    NFR.E.6 & System shall ensure data consistency for player resources and \GameState{} throughout a session. & E.6 \\
     \hline
     NFR.E.7 & System shall function correctly assuming network and device reliability. & E.4 \\
     \hline
@@ -225,22 +231,22 @@ The system is separated into six major components:
 \begin{itemize}
     \item Board Representation: The component
     in charge of transferring a static/real-time physical board state to the board
-    representation, via CV or sensors.
+    representation, via \CV{}or sensors.
 
-    \item Game state digital twin: The training
+    \item \GameState{} \DigitalTwin{}: The training
     environment for the model, acting as a representation of the game's state and the
     moves that can be made on a given turn.
 
-    \item AI model: The pre-trained model,
+    \item \AI{} model: The pre-trained model,
     responsible for providing a move prompt to be sent to the user.
 
     \item User Interface: The visual
-    representation of the current game state, appended with the move suggested by
+    representation of the current \GameState{}, appended with the move suggested by
     the model, displayed to the user so they can make use of the model's advice.
 
-    \item Game State Database: A database for
-    storing each game state in a given game, for traceability and for providing
-    context to an LLM for post-game review.
+    \item \GameState{} Database: A database for
+    storing each \GameState{} in a given game, for traceability and for providing
+    context to an \LLM{} for post-game review.
 
     \item Communication Layer: The component
     in charge of communication between various components, such as sending the read
@@ -258,7 +264,7 @@ The system is separated into six major components:
 
 \begin{itemize}
   \item R11 Display a hexagonal grid of 19 tiles arranged in the standard 
-  Catan layout.
+  \Catan{} layout.
   \item R12 Each tile must represent a terrain type: forest, field, hill, 
   pasture, mountain, or desert.
   \item R13 Assign resource values (2--12) to tiles, excluding the desert tile.
@@ -268,24 +274,24 @@ The system is separated into six major components:
   elements.
 \end{itemize}
 
-\subsubsection{Game State Digital Twin}
+\subsubsection{\GameState{} \DigitalTwin{}}
 
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R21 Maintain a synchronized digital model of the physical Catan game state.
+  \item R21 Maintain a synchronized digital model of the physical \Catan{} \GameState{}.
   \item R22 Track all player assets including settlements, cities, roads, and cards.
   \item R23 Record the current turn, dice rolls, and resource distributions in real time.
   \item R24 Update automatically based on player actions or external camera feeds.
   \item R25 Provide an interface for querying current board and player information.
 \end{itemize}
 
-\subsubsection{AI Model}
+\subsubsection{\AI{} Model}
 
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R31 Analyze the digital game state to predict optimal player strategies.
+  \item R31 Analyze the digital \GameState{} to predict optimal player strategies.
   \item R32 Evaluate potential moves based on resource availability and board position.
   \item R33 Adapt to changing game conditions through reinforcement or supervised learning.
   \item R34 Provide move recommendations with confidence scores and reasoning.
@@ -296,7 +302,7 @@ The system is separated into six major components:
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R41 Provide an interactive visual layout of the Catan board and game state.
+  \item R41 Provide an interactive visual layout of the \Catan{} board and \GameState{}.
   \item R42 Display real-time updates for player moves, resource changes, and dice rolls.
   \item R43 Allow players to perform actions such as building, trading, and ending turns.
   \item R44 Offer intuitive menus, tooltips, and icons for ease of navigation and clarity.
@@ -304,12 +310,12 @@ The system is separated into six major components:
 
 \end{itemize}
 
-\subsubsection{Game State Database}
+\subsubsection{\GameState{} Database}
 
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R51 Store complete and consistent records of all ongoing and past Catan games.
+  \item R51 Store complete and consistent records of all ongoing and past \Catan{} games.
   \item R52 Maintain player profiles, scores, resource inventories, and game metadata.
   \item R53 Support efficient read and write operations for real-time state updates.
   \item R54 Ensure data persistence across sessions and recovery after interruptions.
@@ -322,8 +328,8 @@ The system is separated into six major components:
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R61 Enable reliable data exchange between the user interface, digital twin,
-        AI model, and database.
+  \item R61 Enable reliable data exchange between the user interface, \DigitalTwin{},
+        \AI{} model, and database.
   \item R62 Support both synchronous and asynchronous message passing mechanisms.
   \item R63 Use standardized communication protocols such as REST or WebSocket APIs.
   \item R64 Ensure low-latency updates to maintain real-time synchronization of states.
@@ -352,7 +358,7 @@ The system is separated into six major components:
 \subsection{Interfaces}\label{subsec:interfaces}
 \subsection{Detailed Usage Scenarios}\label{subsec:detailed-usage-scenarios}
 
-\noindent\textbf{Use Case Name:} Human vs RL Agent Gameplay Session
+\noindent\textbf{Use Case Name:} Human vs \RL{} Agent Gameplay Session
 
 \noindent\textbf{Primary Actor:} Human Player
 
@@ -365,7 +371,7 @@ The system is separated into six major components:
 \noindent\textbf{Preconditions:}
 \begin{itemize}
     \item User interface allows human-agent interaction.
-    \item RL agent is loaded and operational.
+    \item \RL{} agent is loaded and operational.
 \end{itemize}
 
 \noindent\textbf{Postconditions (Success Guarantees):}
@@ -383,7 +389,7 @@ The system is separated into six major components:
 \begin{itemize}
     \item Human starts a new game session.
     \item Game environment is initialized.
-    \item Player and RL agent alternate turns.
+    \item Player and \RL{} agent alternate turns.
     \item Agent observes player actions and adapts accordingly.
     \item Game concludes, and results are displayed.
 \end{itemize}
@@ -408,7 +414,7 @@ M → Must have
 \textbf{Reasoning} & \textbf{Date} \\
 \hline
 R11 & Hexagonal Tile Layout & M &
-\parbox[t]{4cm}{Core to the Catan game structure and board logic.} &
+\parbox[t]{4cm}{Core to the \Catan{} game structure and board logic.} &
 2025-11-06 \\
 \hline
 R12 & Terrain Type Assignment & M &
@@ -434,7 +440,7 @@ player actions.} &
 
 \vspace{1em}
 
-\subsubsection*{Game State Digital Twin}
+\subsubsection*{\GameState{} \DigitalTwin{}}
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -470,7 +476,7 @@ player information.} &
 
 \vspace{1em}
 
-\subsubsection*{AI Model}
+\subsubsection*{\AI{} Model}
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -478,7 +484,7 @@ player information.} &
 \textbf{Reasoning} & \textbf{Date} \\
 \hline
 R31 & Strategy Prediction & M &
-\parbox[t]{4cm}{Analyzes the game state to suggest optimal player
+\parbox[t]{4cm}{Analyzes the \GameState{} to suggest optimal player
 moves.} &
 2025-12-06 \\
 \hline
@@ -488,7 +494,7 @@ behavior.} &
 2025-12-06 \\
 \hline
 R33 & Confidence Scoring & C &
-\parbox[t]{4cm}{Displays confidence levels for AI recommendations.} &
+\parbox[t]{4cm}{Displays confidence levels for \AI{} recommendations.} &
 2025-12-12 \\
 \hline
 R34 & Integration with Twin & M &
@@ -528,8 +534,8 @@ R44 & Visual Indicators & S &
 clarity.} &
 2025-11-06 \\
 \hline
-R45 & AI Suggestion Display & C &
-\parbox[t]{4cm}{Provides a clear interface for AI recommendations
+R45 & \AI{} Suggestion Display & C &
+\parbox[t]{4cm}{Provides a clear interface for \AI{} recommendations
 and feedback.} &
 2025-11-06 \\
 \hline
@@ -537,7 +543,7 @@ and feedback.} &
 
 \vspace{1em}
 
-\subsubsection*{Game State Database}
+\subsubsection*{\GameState{} Database}
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -565,7 +571,7 @@ purposes.} &
 2025-10-27 \\
 \hline
 R55 & Integration with Twin & M &
-\parbox[t]{4cm}{Synchronizes database updates with digital twin
+\parbox[t]{4cm}{Synchronizes database updates with \DigitalTwin{}
 actions.} &
 2025-10-30 \\
 \hline
@@ -612,9 +618,9 @@ changes.} &
 
 \noindent\textbf{Validation Overview:}
 
-To validate compatibility, simulation interoperability testing will be performed. The RL agent will be tested in multiple versions of the environment. The validation of the functional requirements outlined for the RLCatan agent will be conducted throughout the development lifecycle, with a strong focus on acceptance testing and simulation-based evaluation.
+To validate compatibility, simulation interoperability testing will be performed. The \RL{} agent will be tested in multiple versions of the environment. The validation of the functional requirements outlined for the RLCatan agent will be conducted throughout the development lifecycle, with a strong focus on acceptance testing and simulation-based evaluation.
 
-Early validation efforts will involve the use of simplified Catan game environments and prototypes of the RL agent's architecture. Key stakeholders, such as AI researchers, game designers, and domain experts, will participate in these early-stage reviews.
+Early validation efforts will involve the use of simplified \Catan{} game environments and prototypes of the \RL{} agent's architecture. Key stakeholders, such as \AI{} researchers, game designers, and domain experts, will participate in these early-stage reviews.
 
 \noindent\textbf{Unit Testing:}
 
@@ -631,7 +637,7 @@ By isolating and testing these components, the development team can catch logica
 
 \noindent\textbf{Cross-Platform Environment Compatibility:}
 
-The agent will be tested in different Catan environments (e.g., Python implementations, or standardized OpenAI Gym-style interfaces) to ensure stable and consistent behavior across frameworks.
+The agent will be tested in different \Catan{} environments (e.g., Python implementations, or standardized Open\AI{} Gym-style interfaces) to ensure stable and consistent behavior across frameworks.
 
 \noindent\textbf{Real-Time Decision Making:}
 
@@ -644,7 +650,7 @@ To validate real-time decision-making capabilities:
 
 \noindent\textbf{Strategic Planning and Reward Optimization:}
 
-To ensure the RL agent optimizes for long-term goals (e.g., winning the game rather than maximizing short-term resource gain):
+To ensure the \RL{} agent optimizes for long-term goals (e.g., winning the game rather than maximizing short-term resource gain):
 \begin{itemize}
     \item Longitudinal performance testing will be conducted.
     \item Thousands of game simulations will be run to track:
@@ -657,7 +663,7 @@ To ensure the RL agent optimizes for long-term goals (e.g., winning the game rat
 
 \noindent\textbf{Data Privacy and Ethical Compliance:}
 
-Although the RL agent may not handle personal data directly:
+Although the \RL{} agent may not handle personal data directly:
 \begin{itemize}
     \item Ethical compliance testing will ensure training data (e.g., human gameplay data) respects privacy guidelines.
     \item No identifiable user data will be stored or processed without consent.
@@ -709,9 +715,9 @@ To test the system’s ability to handle increased complexity:
 
 \subsection{Imposed Technical Choices}\label{subsec:technicalchoices}
 \begin{itemize}
-    \item {Programming languages} – Python for backend and AI development; JavaScript with React for frontend implementation.
-    \item {AI framework} – Reinforcement learning agent trained using the OpenAI Gym \emph{Catan} simulator.
-    \item {Computer vision} – Implemented using either OpenCV,YOLOv9 or 0MQ for board state detection and tracking.
+    \item {Programming languages} – Python for backend and \AI{} development; JavaScript with React for frontend implementation.
+    \item {\AI{} framework} – Reinforcement learning agent trained using the Open\AI{} Gym \emph{\Catan{}} simulator.
+    \item {\CV{}} – Implemented using either OpenCV,YOLOv9 or 0MQ for board state detection and tracking.
     \item {Version control and collaboration} – GitHub for repository management with branching, pull requests, CI/CD pipelines, and a Kanban board for task tracking.
     \item {Coding standards} – PEP8 for Python code and Google Style Guide for JavaScript/React.
     \item {License} – MIT License for open-source code distribution and collaboration.
@@ -727,20 +733,20 @@ To test the system’s ability to handle increased complexity:
 \subsection{Required Technology Elements}\label{subsec:requiredtech}
 \begin{itemize}
     \item {Primary Programming Language} – Python is the primary language for the project's backend development.
-    \item {Game Simulation Library} – The project will utilize the open-source library Catanatron for simulating \emph{Catan} games and training the AI model.
-    \item {Web Framework} – React and JavaScript will be used to build the user interface and digital twin.
-    \item {Computer Vision Libraries} – OpenCV and YOLOv9 will be used for image recognition and processing of the physical board state.
+    \item {Game Simulation Library} – The project will utilize the open-source library Catanatron for simulating \emph{\Catan{}} games and training the \AI{} model.
+    \item {Web Framework} – React and JavaScript will be used to build the user interface and \DigitalTwin{}.
+    \item {\CV{} Libraries} – OpenCV and YOLOv9 will be used for image recognition and processing of the physical board state.
     \item {Hardware} – The project will require a GPU for training the reinforcement learning model.
     \item {Version Control} – GitHub will be used for version control and collaboration.
     \item {Static Code Analysis} – SonarQube is planned for static code analysis.
-    \item {Continuous Integration/Continuous Deployment (CI/CD)} – GitHub Actions will be used to implement CI for automated testing, and potentially CD for deployment pipelines. Deployment pipelines will be developed if a computing node for RL agent training is available.
+    \item {Continuous Integration/Continuous Deployment (CI/CD)} – GitHub Actions will be used to implement CI for automated testing, and potentially CD for deployment pipelines. Deployment pipelines will be developed if a computing node for \RL{} agent training is available.
 \end{itemize}
 
 \subsection{Risk and Mitigation Analysis}\label{subsec:risk}
 \begin{itemize}
-    \item {Risk: AI Fails to Learn Effectively}
+    \item {Risk: \AI{} Fails to Learn Effectively}
     \begin{itemize}
-        \item Description: The AI agent may not be able to learn to play \emph{Catan} at a high level due to the game's complexity and stochastic nature.
+        \item Description: The \AI{} agent may not be able to learn to play \emph{\Catan{}} at a high level due to the game's complexity and stochastic nature.
         \item Mitigation: Regular Elo testing against benchmark opponents to ensure improvement. Proof of concept will demonstrate valid move generation even if performance is limited.
     \end{itemize}
 
@@ -786,7 +792,7 @@ The reinforcement learning (RL) agent is modeled as a Markov Decision Process (M
 \]
 where:
 \begin{itemize}
-    \item $S$ is the set of all possible game states (e.g., the current board configuration, player hands, road/settlement locations, etc.)
+    \item $S$ is the set of all possible \GameState{}s (e.g., the current board configuration, player hands, road/settlement locations, etc.)
     \item $A$ is the set of actions available to the agent (e.g., build, trade, play development cards, etc.)
     \item $P(s' \mid s, a)$ is the transition probability between states
     \item $R(s, a)$ is the scalar reward obtained after performing action $a$ in state $s$
@@ -804,7 +810,7 @@ L(\theta) = \mathbb{E}_{(s, a, r, s')} \left[ \left( r + \gamma \max_{a'} Q_{\th
 \]
 where $Q_{\theta^-}$ denotes a target network with fixed parameters for stability during training.
 
-The input $s$ to the neural network encodes the current game state (board configuration, available resources, and player status), and the output $Q_{\theta}(s, a)$ estimates the expected long-term reward for each possible action.
+The input $s$ to the neural network encodes the current \GameState{} (board configuration, available resources, and player status), and the output $Q_{\theta}(s, a)$ estimates the expected long-term reward for each possible action.
 % The trained model thus implements the decision-making component of the system’s functional requirements (R4–R6).
 
 \newpage{}
@@ -832,7 +838,7 @@ The input $s$ to the neural network encodes the current game state (board config
     \item Quite a lot of our requirements came from chatting with Prof. Istvan David, our supervisor.
     I asked him a lot of questions regarding his expectations when proposing the project, as well as asking for clarification for more technical details we weren't aware of.
     His initial project description was also an excellent source for requirements elicitation since it was well-structured and separated rather modularly.
-    Sunny also has connections in the \emph{Catan} competitive community, so we were able to derive some requirements directly from our potential user base.
+    Sunny also has connections in the \emph{\Catan{}} competitive community, so we were able to derive some requirements directly from our potential user base.
 
     \item Most of the courses we've taken throughout uni will help obviously, since that's the fundamental idea behind a capstone project, but there are a few that are particularly relevant.
     3RA3 covered a lot of the documentation that we also have to do for this class.
@@ -846,11 +852,11 @@ The input $s$ to the neural network encodes the current game state (board config
 
     \item The main skills we're going to need revolve around deep reinforcement learning and deep neural networks.
     This is the main reason I wanted to take this project in the first place.
-    DRL is a relatively new field, with a lot of active research, so an opportunity to work with it to this scale is rare and develops highly marketable software engineering skills.
-    With \emph{Catan}, a big area of knowledge we'll need is the creation and application of heuristics to guide the DRL model to improved results.
+    D\RL{} is a relatively new field, with a lot of active research, so an opportunity to work with it to this scale is rare and develops highly marketable software engineering skills.
+    With \emph{\Catan{}}, a big area of knowledge we'll need is the creation and application of heuristics to guide the D\RL{} model to improved results.
     I'm rather interested in this, and I'm happy to research it on my own time to try to gain some expertise for the group.
 
-    \item For getting an understanding of DRL and DNN, we have two main ways of gaining the necessary knowledge.
+    \item For getting an understanding of D\RL{} and DNN, we have two main ways of gaining the necessary knowledge.
     One of the options for learning this is researching on our own time, using a list of papers on the subject we're slowly collecting on our Discord.
     The other option is discussions with Istvan, since he's an expert on the subject and is happy to help with any confusions we have.
     The approach to learning heuristics to aid the model are similar, research and consulting Istvan, but a bit of trial and error will be involved too.
@@ -878,7 +884,7 @@ The input $s$ to the neural network encodes the current game state (board config
     ensure consistency.
 
     \item It was useful to get the perspectives of users as well as researching the 
-    top currently existing competitive catan bots. We were able to look at the limitations
+    top currently existing competitive \Catan{} bots. We were able to look at the limitations
     of these bots and their user interfaces to help us define requirements for our own project.
     In addition, we were able to get a better understanding of the needs of reinforcement
     learning systems from our supervisor, who has extensive experience in this area.
@@ -891,7 +897,7 @@ The input $s$ to the neural network encodes the current game state (board config
     for understanding the reinforcement learning aspects of our project.
 
     \item The skills we will need to successfully complete this project include reinforcement
-    learning, computer vision, as well as competitive catan strategies. We will also need
+    learning, computer vision, as well as competitive \Catan{} strategies. We will also need
     strong software engineering skills to design and implement the system. In addition, we will
     need to be able to work effectively as a team, communicating and collaborating to ensure
     that we are all on the same page and working towards the same goals.
@@ -900,8 +906,8 @@ The input $s$ to the neural network encodes the current game state (board config
     knowledge is through research and self-study. We will read papers and articles on these topics,
     as well as experimenting with different techniques and approaches. Also, many of us are taking
     the 4AL3 course this term, which focuses on machine learning and will provide us with a strong
-    foundation in this area. For competitive catan strategies, we will leverage the expertise of
-    competitive players as well as our own experience playing the game. We will also study existing catan bots
+    foundation in this area. For competitive \Catan{} strategies, we will leverage the expertise of
+    competitive players as well as our own experience playing the game. We will also study existing \Catan{} bots
     to understand their strategies and approaches.d
 
 \end{enumerate}
