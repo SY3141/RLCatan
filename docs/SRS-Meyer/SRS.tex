@@ -4,6 +4,7 @@
 \usepackage{booktabs}
 \usepackage{amsfonts}
 \usepackage{amsopn}
+\usepackage{float}
 \newcommand{\Catan}{\href{https://en.wikipedia.org/wiki/Catan}{Catan}}
 \newcommand{\AI}{\href{https://en.wikipedia.org/wiki/Artificial_intelligence}{AI}}
 \newcommand{\RL}{\href{https://www.ibm.com/think/topics/reinforcement-learning}{RL}}
@@ -36,18 +37,24 @@
 \end{tabularx}
 \end{table}
 
-\section*{Changes from Orginal SRS meyer layout}
+\section*{Changes from Orginal SRS Meyer Template}
 
-\begin{table}[hp]
-\begin{tabularx}{\textwidth}{lX} % only 2 columns
-    \toprule
-    \textbf{Change} & \textbf{Reason} \\
-    \midrule
-    Moved Glossary (E.1) to beginning of document & Level 4 says "Document is written so that: 1. Terms and acronyms are always defined before first use and there is a list providing full expansion of all acronyms with links to where they are defined in the text.  2. Information is defined in only one place (i.e. no redundant information)." \\
-    \bottomrule
-    \end{tabularx}
+\begin{table}[H]
+\caption{Changes from Template} \label{ChangesFromTemplate}
+\begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Change} & \textbf{Reason} \\
+\hline
+Moved Glossary (E.1) to beginning of document & Level 4 says: Document is written so that: 1. Terms and acronyms are always defined before first use and there is a list providing full expansion of all acronyms with links to where they are defined in the text. 2. Information is defined in only one place (i.e. no redundant information). \\
+\hline
+Added Table of requirements in each Section & Meyer template lacked a clear way to present requirements. Adding tables for functional and non-functional requirements in each section improves clarity and organization. \\
+\hline
+\end{tabularx}
 \end{table}
+    
 
+
+\medskip
 \section*{Glossary (Moved from E.1)}
 \begin{itemize}
     \item {\Catan{}} – A strategy board game called \textit{Settlers of \emph{\Catan{}}} where players collect resources, build roads/settlements, and trade to earn points.
