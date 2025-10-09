@@ -170,13 +170,13 @@ Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a si
     \hline
     \textbf{Name} & \textbf{Requirement} & \textbf{Ref} \\
     \hline
-    FR.E.1 & System shall capture the physical \Catan{} board state using cameras/sensors. & E.2, E.6 \\
+    FR.E.1 & System shall capture the physical \emph{\Catan{}} board state using cameras/sensors. & E.2, E.6 \\
     \hline
     FR.E.2 & System shall maintain a \DigitalTwin{} of the board that reflects player actions in real time. & E.1, E.2, E.6 \\
     \hline
     FR.E.3 & System shall provide move suggestions to human players based on the current \GameState{}. & E.5 \\
     \hline
-    FR.E.4 & System shall allow the \RL{} agent to interact with the \Catan{} simulator for training. & E.2, E.3 \\
+    FR.E.4 & System shall allow the \RL{} agent to interact with the \emph{\Catan{}} simulator for training. & E.2, E.3 \\
     \hline
     FR.E.5 & System shall simulate gameplay for practice sessions against the AI. & E.5 \\
     \hline
@@ -264,7 +264,7 @@ The system is separated into six major components:
 
 \begin{itemize}
   \item R11 Display a hexagonal grid of 19 tiles arranged in the standard 
-  \Catan{} layout.
+  \emph{\Catan{}} layout.
   \item R12 Each tile must represent a terrain type: forest, field, hill, 
   pasture, mountain, or desert.
   \item R13 Assign resource values (2--12) to tiles, excluding the desert tile.
@@ -279,7 +279,7 @@ The system is separated into six major components:
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R21 Maintain a synchronized digital model of the physical \Catan{} \GameState{}.
+  \item R21 Maintain a synchronized digital model of the physical \emph{\Catan{}} \GameState{}.
   \item R22 Track all player assets including settlements, cities, roads, and cards.
   \item R23 Record the current turn, dice rolls, and resource distributions in real time.
   \item R24 Update automatically based on player actions or external camera feeds.
@@ -302,7 +302,7 @@ The system is separated into six major components:
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R41 Provide an interactive visual layout of the \Catan{} board and \GameState{}.
+  \item R41 Provide an interactive visual layout of the \emph{\Catan{}} board and \GameState{}.
   \item R42 Display real-time updates for player moves, resource changes, and dice rolls.
   \item R43 Allow players to perform actions such as building, trading, and ending turns.
   \item R44 Offer intuitive menus, tooltips, and icons for ease of navigation and clarity.
@@ -315,7 +315,7 @@ The system is separated into six major components:
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R51 Store complete and consistent records of all ongoing and past \Catan{} games.
+  \item R51 Store complete and consistent records of all ongoing and past \emph{\Catan{}} games.
   \item R52 Maintain player profiles, scores, resource inventories, and game metadata.
   \item R53 Support efficient read and write operations for real-time state updates.
   \item R54 Ensure data persistence across sessions and recovery after interruptions.
@@ -414,7 +414,7 @@ M → Must have
 \textbf{Reasoning} & \textbf{Date} \\
 \hline
 R11 & Hexagonal Tile Layout & M &
-\parbox[t]{4cm}{Core to the \Catan{} game structure and board logic.} &
+\parbox[t]{4cm}{Core to the \emph{\Catan{}} game structure and board logic.} &
 2025-11-06 \\
 \hline
 R12 & Terrain Type Assignment & M &
@@ -620,7 +620,7 @@ changes.} &
 
 To validate compatibility, simulation interoperability testing will be performed. The \RL{} agent will be tested in multiple versions of the environment. The validation of the functional requirements outlined for the RLCatan agent will be conducted throughout the development lifecycle, with a strong focus on acceptance testing and simulation-based evaluation.
 
-Early validation efforts will involve the use of simplified \Catan{} game environments and prototypes of the \RL{} agent's architecture. Key stakeholders, such as \AI{} researchers, game designers, and domain experts, will participate in these early-stage reviews.
+Early validation efforts will involve the use of simplified \emph{\Catan{}} game environments and prototypes of the \RL{} agent's architecture. Key stakeholders, such as \AI{} researchers, game designers, and domain experts, will participate in these early-stage reviews.
 
 \noindent\textbf{Unit Testing:}
 
@@ -637,7 +637,7 @@ By isolating and testing these components, the development team can catch logica
 
 \noindent\textbf{Cross-Platform Environment Compatibility:}
 
-The agent will be tested in different \Catan{} environments (e.g., Python implementations, or standardized Open\AI{} Gym-style interfaces) to ensure stable and consistent behavior across frameworks.
+The agent will be tested in different \emph{\Catan{}} environments (e.g., Python implementations, or standardized Open\AI{} Gym-style interfaces) to ensure stable and consistent behavior across frameworks.
 
 \noindent\textbf{Real-Time Decision Making:}
 
@@ -884,7 +884,7 @@ The input $s$ to the neural network encodes the current \GameState{} (board conf
     ensure consistency.
 
     \item It was useful to get the perspectives of users as well as researching the 
-    top currently existing competitive \Catan{} bots. We were able to look at the limitations
+    top currently existing competitive \emph{\Catan{}} bots. We were able to look at the limitations
     of these bots and their user interfaces to help us define requirements for our own project.
     In addition, we were able to get a better understanding of the needs of reinforcement
     learning systems from our supervisor, who has extensive experience in this area.
@@ -897,7 +897,7 @@ The input $s$ to the neural network encodes the current \GameState{} (board conf
     for understanding the reinforcement learning aspects of our project.
 
     \item The skills we will need to successfully complete this project include reinforcement
-    learning, computer vision, as well as competitive \Catan{} strategies. We will also need
+    learning, computer vision, as well as competitive \emph{\Catan{}} strategies. We will also need
     strong software engineering skills to design and implement the system. In addition, we will
     need to be able to work effectively as a team, communicating and collaborating to ensure
     that we are all on the same page and working towards the same goals.
@@ -906,8 +906,8 @@ The input $s$ to the neural network encodes the current \GameState{} (board conf
     knowledge is through research and self-study. We will read papers and articles on these topics,
     as well as experimenting with different techniques and approaches. Also, many of us are taking
     the 4AL3 course this term, which focuses on machine learning and will provide us with a strong
-    foundation in this area. For competitive \Catan{} strategies, we will leverage the expertise of
-    competitive players as well as our own experience playing the game. We will also study existing \Catan{} bots
+    foundation in this area. For competitive \emph{\Catan{}} strategies, we will leverage the expertise of
+    competitive players as well as our own experience playing the game. We will also study existing \emph{\Catan{}} bots
     to understand their strategies and approaches.d
 
 \end{enumerate}
