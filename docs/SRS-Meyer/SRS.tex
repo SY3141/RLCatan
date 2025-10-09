@@ -26,6 +26,14 @@
 
 \maketitle
 
+\begingroup
+\newcommand{\oldnumberline}{\numberline}
+\renewcommand{\numberline}[1]{}
+\tableofcontents
+\endgroup
+
+\newpage
+
 \begin{table}[hp]
 \caption{Revision History} \label{TblRevisionHistory}
 \begin{tabularx}{\textwidth}{llX}
