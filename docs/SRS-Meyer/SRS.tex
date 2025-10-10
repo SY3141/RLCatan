@@ -98,7 +98,7 @@ Added Section (S.8) & This provides a place to put lengthy formalizations of asp
 \section*{Glossary}
 \addcontentsline{toc}{section}{Glossary}
 \raggedright This glossary defines key terms and acronyms used throughout this document to ensure clarity and understanding. Each term is hyperlinked to its first occurrence in the text for easy reference. 
-and the first occurence is hyperlinked to the online definition for further reading.
+and The following glossary headers are hyperlinked to the online definitions for further reading.
 \begin{itemize}
     \item \hypertarget{glossary-catan}{\CatanExt{}} – A strategy board game called \textit{Settlers of Catan} where players collect resources, build roads/settlements, and trade to earn points.[1]
     \item \hypertarget{glossary-ai}{\AIExt{}} – Field of computer science and engineering that focuses on creating systems capable of performing tasks that usually require human intelligence.[2]
@@ -145,7 +145,7 @@ Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a si
 \begin{itemize}
     \item {Scenario 1: In-game advice} – Players show the current board state; the system suggests the optimal next move.
     \item {Scenario 2: Post-game analysis} – Players review performance; the system highlights key moments and alternative strategies.
-    \item {Scenario 3: Training against the AI} – Players play a full game against RLCatan, which acts as a competitive opponent for practice.
+    \item {Scenario 3: Training against the \AI{}} – Players play a full game against RLCatan, which acts as a competitive opponent for practice.
 \end{itemize}
 \begin{figure}[H]
     \makebox[\textwidth][c]{\includegraphics[width=1.4\textwidth]{activity_diagram.png}}
@@ -296,8 +296,8 @@ Additionally, we shall abide by the following legal and regulatory factors:
     \item \textbf{Data Privacy:}
     No personally identifiable information shall be collected.
 
-    \item \textbf{Ethical AI Considerations:}
-    The system follows responsible AI principles, including transparency, fairness, and non-deceptive behavior. It will not make decisions that affect users beyond the game environment.
+    \item \textbf{Ethical \AI{} Considerations:}
+    The system follows responsible \AI{} principles, including transparency, fairness, and non-deceptive behavior. It will not make decisions that affect users beyond the game environment.
 \end{itemize}
 
 \subsection*{Environmental Requirements}
@@ -314,7 +314,7 @@ Additionally, we shall abide by the following legal and regulatory factors:
     \hline
     FR.E.3 & System shall not collect personally identifiable information. & x \\
     \hline
-    FR.E.4 & System shall ensure that AI recommendations are transparent and fair, affecting gameplay decisions only and not external outcomes. & x \\
+    FR.E.4 & System shall ensure that \AI{} recommendations are transparent and fair, affecting gameplay decisions only and not external outcomes. & x \\
     \hline
     \end{tabular}
     \caption{Environment Functional Requirements}
@@ -333,7 +333,7 @@ Additionally, we shall abide by the following legal and regulatory factors:
     \hline
     NFR.E.3 & System shall compile successfully on available GPU/CPU resources. & x \\
     \hline
-    NFR.E.4 & System shall provide AI recommendations within 5 seconds of a player’s turn. & x \\
+    NFR.E.4 & System shall provide \AI{} recommendations within 5 seconds of a player’s turn. & x \\
     \hline
     NFR.E.5 & Python code shall pass PEP8 [9] style checks with 0 critical violations before deployment. & x \\
     \hline
@@ -455,7 +455,7 @@ The system is separated into a list of major components:
   \item R41 Provide an interactive, real-time visualization of the \emph{\Catan{}} board and current \GameState{}.
   \item R42 Display player moves, dice rolls, and resource changes immediately after occurrence.
   \item R43 Enable player interactions such as building, trading, and ending turns.
-  \item R44 Present AI-generated move recommendations clearly, with visual highlighting or overlays.
+  \item R44 Present \AI{}-generated move recommendations clearly, with visual highlighting or overlays.
   \item R45 Support desktop and mobile layouts for accessibility and responsiveness.
   \item R46 Log user interactions and decisions for post-game analysis.
 \end{itemize}
@@ -847,7 +847,7 @@ To test the system’s ability to handle increased complexity:
 \subsubsection{Formalization of the Learning Objective}
 \label{sec:formalization}
 
-The reinforcement learning (RL) agent is modeled as a Markov Decision Process (MDP), defined by the tuple
+The \RL{} agent is modeled as a Markov Decision Process (MDP), defined by the tuple.
 \[
 (S, A, P, R, \gamma)
 \]
@@ -1036,17 +1036,17 @@ The major milestones for our project are as follows:
     \hline
     \textbf{Task} & \textbf{Description / Steps} & \textbf{Deliverable} & \textbf{Due Date} \\ \hline
     
-    Code Skeleton Implementation & Create placeholder files and functions for RL agent, CV pipeline, environment interaction, and utilities. & V\&V Plan Revision & Oct. 27 \\ \hline
+    Code Skeleton Implementation & Create placeholder files and functions for \RL{} agent, \CV{} pipeline, environment interaction, and utilities. & V\&V Plan Revision & Oct. 27 \\ \hline
     
-    Initial RL Prototype & Implement a basic RL agent capable of interacting with a simulated environment; ensure it can take actions and receive rewards. & Design Document Revision & Nov. 10 \\ \hline
+    Initial \RL{} Prototype & Implement a basic \RL{} agent capable of interacting with a simulated environment; ensure it can take actions and receive rewards. & Design Document Revision & Nov. 10 \\ \hline
     
-    Environment Integration & Connect RL agent to the simulated game environment; ensure correct observation, action, and reward loop. & Proof of Concept Demonstration & Nov. 17 \\ \hline
+    Environment Integration & Connect \RL{} agent to the simulated game environment; ensure correct observation, action, and reward loop. & Proof of Concept Demonstration & Nov. 17 \\ \hline
     
-    Agent Training & Run RL training loops; tune hyperparameters; log and track rewards; iteratively improve performance. & Design Document Revision & Jan. 19 \\ \hline
+    Agent Training & Run \RL{} training loops; tune hyperparameters; log and track rewards; iteratively improve performance. & Design Document Revision & Jan. 19 \\ \hline
     
-    Testing and Debugging & Test the RL agent in multiple scenarios; fix bugs, improve stability and performance. & Revision 0 Demonstration & Feb. 2 \\ \hline
+    Testing and Debugging & Test the \RL{} agent in multiple scenarios; fix bugs, improve stability and performance. & Revision 0 Demonstration & Feb. 2 \\ \hline
     
-    Computer Vision Integration & Add CV module for real-time perception; ensure agent can process visual input and make decisions based on it. & V\&V Report \& Extras Revision 0 & March 9 \\ \hline
+    Computer Vision Integration & Add \CV{} module for real-time perception; ensure agent can process visual input and make decisions based on it. & V\&V Report \& Extras Revision 0 & March 9 \\ \hline
     
     Optimization and Feature Enhancements & Refine reward functions, optimize agent performance, improve decision-making; add optional features like prediction or visualization. & Final Demonstration (Revision 1) & March 23 \\ \hline
     
@@ -1290,8 +1290,8 @@ The major milestones for our project are as follows:
 
     \item A significant number of our requirements were gathered from external sources.
     Our main source was our project supervisor, Dr. Istvan David, who provided the initial project description and answered our technical questions.
-    Additionally, a team member has a connection to a competitive Catan player, which allowed us to get direct user input.
-    This helped us understand the specific needs of our target audience and the limitations of existing competitive AI bots, which in turn helped shape our requirements.
+    Additionally, a team member has a connection to a competitive \emph{\Catan{}} player, which allowed us to get direct user input.
+    This helped us understand the specific needs of our target audience and the limitations of existing competitive \AI{} bots, which in turn helped shape our requirements.
 
     \item Several courses have been, and will be, crucial for our project's success.
     3RA3 (Requirements Engineering): This course gave us a solid foundation in writing requirements documents and using the Meyer template.
