@@ -25,7 +25,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/SY3141/RLCatan.git&quot;,
-    &quot;accountId&quot;: &quot;1ce302fc-8ffc-4ab2-ad21-d4c2d2f31498&quot;
+    &quot;accountId&quot;: &quot;e8cde830-0380-4c6f-aee5-14bebc75d74d&quot;
   }
 }</component>
   <component name="MarkdownSettingsMigration">
@@ -73,11 +73,41 @@
       <recent name="C:\Users\jaker\OneDrive\Academics\University\Year 4 Courses\Capstone\RLCatan\docs" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="SRS" type="LATEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory" temporary="true">
+      <texify>
+        <compiler>PDFLATEX</compiler>
+        <compiler-path />
+        <pdf-viewer>none</pdf-viewer>
+        <require-focus>true</require-focus>
+        <viewer-command />
+        <compiler-arguments />
+        <envs />
+        <expand-macros-in-environment-variables>false</expand-macros-in-environment-variables>
+        <before-run-command />
+        <main-file>$PROJECT_DIR$/docs/SRS-Meyer/SRS.tex</main-file>
+        <output-path>$PROJECT_DIR$/out</output-path>
+        <auxil-path>$PROJECT_DIR$/auxil</auxil-path>
+        <compile-twice>false</compile-twice>
+        <output-format>PDF</output-format>
+        <latex-distribution>MIKTEX</latex-distribution>
+        <has-been-run>true</has-been-run>
+        <bib-run-config>[]</bib-run-config>
+        <makeindex-run-config>[]</makeindex-run-config>
+      </texify>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="LaTeX.SRS" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-9c94529fcfe0-JavaScript-PY-252.26199.168" />
-        <option value="bundled-python-sdk-b3d66beaba9a-c6efb3732140-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.26199.168" />
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-PY-252.25557.178" />
+        <option value="bundled-python-sdk-ce6832f46686-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.178" />
       </set>
     </attachedChunks>
   </component>
@@ -104,6 +134,9 @@
       <workItem from="1759604933010" duration="14503000" />
       <workItem from="1759693118059" duration="13829000" />
       <workItem from="1759782682773" duration="2579000" />
+      <workItem from="1760118198156" duration="250000" />
+      <workItem from="1760118729674" duration="906000" />
+      <workItem from="1760120457402" duration="4014000" />
     </task>
     <task id="LOCAL-00001" summary="Typo fixes">
       <option name="closed" value="true" />
