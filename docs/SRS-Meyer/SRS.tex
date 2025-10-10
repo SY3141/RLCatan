@@ -29,11 +29,8 @@
 
 \maketitle
 
-\begingroup
-\newcommand{\oldnumberline}{\numberline}
-\renewcommand{\numberline}[1]{}
 \tableofcontents
-\endgroup
+
 
 \newpage
 
@@ -49,7 +46,7 @@ Oct 6th & All & Draft of SRS\\
 \end{table}
 
 \section*{Changes from Orginal SRS Meyer Template}
-
+\addcontentsline{toc}{section}{Changes from Orginal SRS Meyer Template}
 \begin{table}[H]
 \caption{Changes from Template} \label{ChangesFromTemplate}
 \begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|}
@@ -63,6 +60,8 @@ Added Table of requirements in each Section & Meyer template lacked a clear way 
 Added Section (E.7) & The original template lacked a section for discussing legal/regulatory factors. A new section under environment made sense for this. \\
 \hline
 Added Section (G.8) & The original templated lacked a section for distinct user profiles and specific characteristics. A new section under goals was made for this.\\
+\hline
+Added Refereces & The original template did not include a references section. Adding this section improves credibility and allows readers to verify sources. It allows follows the Level 4 on the rubric \\
 \hline
 \end{tabularx}
 \end{table}
@@ -89,22 +88,24 @@ Added Section (G.8) & The original templated lacked a section for distinct user 
 \newcommand{\LLM}{\hyperlink{glossary-llm}{LLM}}
 \newcommand{\GameState}{\hyperlink{glossary-gamestate}{Game State}}
 
-\section*{Glossary (Moved from E.1)}
+\section*{Glossary}
+\addcontentsline{toc}{section}{Glossary}
 \raggedright This glossary defines key terms and acronyms used throughout this document to ensure clarity and understanding. Each term is hyperlinked to its first occurrence in the text for easy reference. 
 and the first occurence is hyperlinked to the online definition for further reading.
 \begin{itemize}
-    \item \hypertarget{glossary-catan}{\CatanExt{}} – A strategy board game called \textit{Settlers of Catan} where players collect resources, build roads/settlements, and trade to earn points.
-    \item \hypertarget{glossary-ai}{\AIExt{}} – Field of computer science and engineering that focuses on creating systems capable of performing tasks that usually require human intelligence.
-    \item \hypertarget{glossary-rl}{\RLExt{}} – A type of machine learning called Reinforcement Learning where an agent learns by interacting with an environment and receiving rewards or penalties for actions.
-    \item \hypertarget{glossary-dt}{\DigitalTwinExt{}} – A digital system that mirrors a physical one. In this project, it refers to a digital representation of the physical \emph{Catan} board, updated in real time.
-    \item \hypertarget{glossary-cv}{\CVExt{}} – An area of AI that trains computers to interpret and understand visual information, such as the physical \emph{Catan} board.
-    \item \hypertarget{glossary-llm}{\LLMExt{}} – A machine learning model trained on large amounts of text data to generate and understand language.
-    \item \hypertarget{glossary-gamestate}{\GameStateExt{}} – The current configuration of the game, including player resources, board layout, and dice rolls.
+    \item \hypertarget{glossary-catan}{\CatanExt{}} – A strategy board game called \textit{Settlers of Catan} where players collect resources, build roads/settlements, and trade to earn points.[1]
+    \item \hypertarget{glossary-ai}{\AIExt{}} – Field of computer science and engineering that focuses on creating systems capable of performing tasks that usually require human intelligence.[2]
+    \item \hypertarget{glossary-rl}{\RLExt{}} – A type of machine learning called Reinforcement Learning where an agent learns by interacting with an environment and receiving rewards or penalties for actions.[3]
+    \item \hypertarget{glossary-dt}{\DigitalTwinExt{}} – A digital system that mirrors a physical one. In this project, it refers to a digital representation of the physical \emph{Catan} board, updated in real time.[4]
+    \item \hypertarget{glossary-cv}{\CVExt{}} – An area of AI that trains computers to interpret and understand visual information, such as the physical \emph{Catan} board.[5]
+    \item \hypertarget{glossary-llm}{\LLMExt{}} – A machine learning model trained on large amounts of text data to generate and understand language.[6]
+    \item \hypertarget{glossary-gamestate}{\GameStateExt{}} – The current configuration of the game, including player resources, board layout, and dice rolls.[7]
 \end{itemize}
 
 
 
 \section*{(G) Goals}\label{sec:srs-goals}
+\addcontentsline{toc}{section}{Goals}
 \renewcommand{\thesubsection}{G.\arabic{subsection}}
 
 \subsection{Context and Overall Objective}\label{subsec:context-and-overall-objective}
@@ -164,9 +165,9 @@ Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a si
 \begin{itemize}
     \item Project documentation – Initial description provided by Dr. Istvan David.
     \item Competitive \emph{\Catan{}} players – Consulted for strategic insights and advanced gameplay knowledge.
-    \item Open-source libraries – Catanatron, OpenCV, YOLOv9 inform technical requirements.
+    \item Open-source libraries – Catanatron[10], OpenCV, YOLOv9 inform technical requirements.
     \item Academic research – Reinforcement learning and computer vision papers guide \AI{} design.
-    \item Industry standards – PEP 8 and Google style guides define coding standards.
+    \item Industry standards – PEP 8[9] and Google style guides[8] define coding standards.
 \end{itemize}
 
 
@@ -205,6 +206,7 @@ To ensure the system addresses the needs of its target audience, we have identif
 
 
 \section*{(E) Environment}\label{sec:srs-environment}
+\addcontentsline{toc}{section}{Environment}
 \renewcommand{\thesubsection}{E.\arabic{subsection}}
 \setcounter{subsection}{0}
 
@@ -267,8 +269,8 @@ To ensure the system addresses the needs of its target audience, we have identif
 \subsection{Standards and Legal/Regulatory Factors}
 We will follow the following styling standards:
 \begin{itemize}
-    \item \textbf{PEP 8 (Python Enhancement Proposal 8)} – Defines conventions for Python code style to ensure readability and maintainability.
-    \item \textbf{Google Style Guide} – Coding conventions for consistent formatting, for use with JavaScript/React.
+    \item \textbf{PEP 8 (Python Enhancement Proposal 8)} – Defines conventions for Python code style to ensure readability and maintainability[9].
+    \item \textbf{Google Style Guide} – Coding conventions for consistent formatting, for use with JavaScript/React[8].
 \end{itemize}
 
 Additionally, we shall abide by the following legal and regulatory factors:
@@ -286,8 +288,8 @@ Additionally, we shall abide by the following legal and regulatory factors:
     The system follows responsible AI principles, including transparency, fairness, and non-deceptive behavior. It will not make decisions that affect users beyond the game environment.
 \end{itemize}
 
-\section*{Environmental Requirements}
-
+\subsection*{Environmental Requirements}
+\addcontentsline{toc}{subsection}{Environmental Requirements}
 \begin{table}[h!]
     \centering
     \begin{tabular}{|c|p{10cm}|c|}
@@ -321,9 +323,9 @@ Additionally, we shall abide by the following legal and regulatory factors:
     \hline
     NFR.E.4 & System shall provide AI recommendations within 5 seconds of a player’s turn. & x \\
     \hline
-    NFR.E.5 & Python code shall pass PEP8 style checks with 0 critical violations before deployment. & x \\
+    NFR.E.5 & Python code shall pass PEP8 [9] style checks with 0 critical violations before deployment. & x \\
     \hline
-    NFR.E.6 & All JavaScript/React code shall pass Google Style Guide checks with 0 critical violations before deployment. & x \\
+    NFR.E.6 & All JavaScript/React code shall pass Google Style Guide[8] checks with 0 critical violations before deployment. & x \\
     \hline
     NFR.E.7 & The total number of roads per player, including those on the board and in hand, shall remain exactly 15. & x \\
     \hline
@@ -350,18 +352,19 @@ Additionally, we shall abide by the following legal and regulatory factors:
 
 
 \section*{(S) System}\label{sec:srs-system}
+\addcontentsline{toc}{section}{System}
 \renewcommand{\thesubsection}{S.\arabic{subsection}}
 \setcounter{subsection}{0}
 
 \subsection{Components}\label{subsec:components}
-The system is separated into six major components:
+The system is separated into a list of major components:
 
 \begin{itemize}
-    \item Board Representation: The component
-    in charge of transferring a static/real-time physical board state to the board
-    representation, via \CV{} or sensors.
+    \item Game State Manager: The component
+    in charge of transferring a static/real-time physical board state to a 
+    digital representation, via \CV{} or sensors.
 
-    \item \GameState{} \DigitalTwin{}: The training
+    \item Reinforcement Learning Environment: The training
     environment for the model, acting as a representation of the game's state and the
     moves that can be made on a given turn.
 
@@ -376,43 +379,46 @@ The system is separated into six major components:
     storing each \GameState{} in a given game, for traceability and for providing
     context to an \LLM{} for post-game review.
 
-    \item Communication Layer: The component
+    \item Image Queue: The component
     in charge of communication between various components, such as sending the read
-    board state to the board representation or transferring the model’s provided
+    board state to the board representation or transferring the model's provided
     move to the UI\@.
+
+    \item Computer Vision Model: The component
+    in charge of interpreting the physical board state from camera input.
 \end{itemize}
 
 
 \subsection{Functionality}\label{subsec:functionality}
 
-\subsubsection{Board Representation}
-\label{subsubsec:board-representation}
+\subsubsection{Reinforcement Learning Environment}
+
+\textbf{Functional Requirements}
+
+
+
+\subsubsection{Computer Vision Model}
 
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R11 Display a hexagonal grid of 19 tiles arranged in the standard 
-  \emph{\Catan{}} layout.
-  \item R12 Each tile must represent a terrain type: forest, field, hill, 
-  pasture, mountain, or desert.
-  \item R13 Assign resource values (2--12) to tiles, excluding the desert tile.
-  \item R14 Support placement of player settlements and roads along hex edges
-        and vertices.
-  \item R15 Allow dynamic updates to show built structures or resource changes.
-  elements.
+  \item R11 Process live or captured camera input to detect board elements, player actions, and resource placements.
+  \item R12 Translate visual features into structured \GameState{} data for the Game State Manager.
+  \item R13 Detect and correct inconsistencies or occlusions in visual recognition.
+  \item R14 Calibrate dynamically for lighting, camera angle, and board orientation.
+  \item R15 Provide visual diagnostics and confidence metrics for detected states.
 \end{itemize}
 
-\subsubsection{Game State Digital Twin}
-
-\textbf{Functional Requirements}
+\subsubsection{Reinforcement Learning Environment}
 
 \begin{itemize}
-  \item R21 Maintain a synchronized digital model of the physical \emph{\Catan{}} \GameState{}.
-  \item R22 Track all player assets including settlements, cities, roads, and cards.
-  \item R23 Record the current turn, dice rolls, and resource distributions in real time.
-  \item R24 Update automatically based on player actions or external camera feeds.
-  \item R25 Provide an interface for querying current board and player information.
+  \item R21 Simulate the game rules, move logic, and state transitions consistent with the official \emph{\Catan{}} rule set.
+  \item R22 Allow the \AI{} model to perform self-play or interact with recorded game states for training.
+  \item R23 Provide feedback in the form of rewards, penalties, or success metrics for learning.
+  \item R24 Support batch and real-time evaluation modes for model benchmarking.
+  \item R25 Interface seamlessly with the Game State Manager and \AI{} model.
 \end{itemize}
+
 
 \subsubsection{AI Model}
 
@@ -420,23 +426,26 @@ The system is separated into six major components:
 
 \begin{itemize}
   \item R31 Analyze the digital \GameState{} to predict optimal player strategies.
-  \item R32 Evaluate potential moves based on resource availability and board position.
-  \item R33 Adapt to changing game conditions through reinforcement or supervised learning.
-  \item R34 Provide move recommendations with confidence scores and reasoning.
+  \item R32 Evaluate potential moves based on resource availability, player position, and opponent behavior.
+  \item R33 Adapt dynamically to changing game conditions through reinforcement or supervised learning.
+  \item R34 Provide move recommendations with confidence scores and textual reasoning.
+  \item R35 Integrate with the Reinforcement Learning Environment for continuous improvement.
 \end{itemize}
+
 
 \subsubsection{User Interface}
 
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R41 Provide an interactive visual layout of the \emph{\Catan{}} board and \GameState{}.
-  \item R42 Display real-time updates for player moves, resource changes, and dice rolls.
-  \item R43 Allow players to perform actions such as building, trading, and ending turns.
-  \item R44 Offer intuitive menus, tooltips, and icons for ease of navigation and clarity.
-  \item R45 Support both desktop and mobile layouts for accessibility and responsiveness.
-
+  \item R41 Provide an interactive, real-time visualization of the \emph{\Catan{}} board and current \GameState{}.
+  \item R42 Display player moves, dice rolls, and resource changes immediately after occurrence.
+  \item R43 Enable player interactions such as building, trading, and ending turns.
+  \item R44 Present AI-generated move recommendations clearly, with visual highlighting or overlays.
+  \item R45 Support desktop and mobile layouts for accessibility and responsiveness.
+  \item R46 Log user interactions and decisions for post-game analysis.
 \end{itemize}
+
 
 \subsubsection{Game State Database}
 
@@ -445,27 +454,23 @@ The system is separated into six major components:
 \begin{itemize}
   \item R51 Store complete and consistent records of all ongoing and past \emph{\Catan{}} games.
   \item R52 Maintain player profiles, scores, resource inventories, and game metadata.
-  \item R53 Support efficient read and write operations for real-time state updates.
-  \item R54 Ensure data persistence across sessions and recovery after interruptions.
-  \item R55 Provide structured access to game history for analysis or replay features.
-
+  \item R53 Support efficient read and write operations for real-time synchronization.
+  \item R54 Ensure data persistence across sessions and support recovery after interruptions.
+  \item R55 Provide structured access to historical game data for training or replay features.
 \end{itemize}
 
-\subsubsection{Communication Layer}
+
+\subsubsection{Image Queue}
 
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R61 Enable reliable data exchange between the user interface, \DigitalTwin{},
-        \AI{} model, and database.
-  \item R62 Support both synchronous and asynchronous message passing mechanisms.
-  \item R63 Use standardized communication protocols such as REST or WebSocket APIs.
-  \item R64 Ensure low-latency updates to maintain real-time synchronization of states.
-  \item R65 Provide secure authentication and encryption for all transmitted data.
-
+  \item R61 Enable reliable data exchange between the User Interface, Game State Manager, \AI{} model, and Database.
+  \item R62 Support both synchronous and asynchronous message-passing mechanisms.
+  \item R63 Ensure low-latency updates to maintain real-time synchronization of states.
+  \item R64 Provide secure authentication, authorization, and encryption for all transmitted data.
 \end{itemize}
 
-\subsubsection{Non-Functional Requirements}
 
 \begin{itemize}
   \item NFR 1 \textbf{Scalability:} Support multiple concurrent games without
@@ -535,41 +540,42 @@ M → Must have
 • C → Could have
 • W → Won't have 
 
-\subsubsection*{Board Representation}
+\vspace{1em}
+
+
+\subsubsection*{Computer Vision Model}
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 \textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
 \textbf{Reasoning} & \textbf{Date} \\
 \hline
-R11 & Hexagonal Tile Layout & M &
-\parbox[t]{4cm}{Core to the \emph{\Catan{}} game structure and board logic.} &
-2025-11-06 \\
+R11 & Visual Input Processing & M &
+\parbox[t]{4cm}{Processes live or recorded camera feeds to identify board elements, player actions, and resources.} &
+2025-10-27 \\
 \hline
-R12 & Terrain Type Assignment & M &
-\parbox[t]{4cm}{Each hex must produce specific resources for gameplay.} &
-2025-11-07 \\
+R12 & Feature-to-State Translation & M &
+\parbox[t]{4cm}{Converts detected visual features into structured \GameState{} data for synchronization with the game manager.} &
+2025-10-27 \\
 \hline
-R13 & Resource Value Display & S &
-\parbox[t]{4cm}{Improves player awareness of probabilities and
-strategic planning.} &
-2025-11-09 \\
+R13 & Error Detection and Correction & S &
+\parbox[t]{4cm}{Identifies and compensates for occlusions or misdetections to preserve recognition accuracy.} &
+2025-10-27 \\
 \hline
-R14 & Settlement/Road Placement & M &
-\parbox[t]{4cm}{Enables player interaction through building and
-expansion.} &
-2025-11-11 \\
+R14 & Dynamic Calibration & S &
+\parbox[t]{4cm}{Adapts to variations in lighting, camera position, and board orientation to maintain performance.} &
+2025-10-27 \\
 \hline
-R15 & Dynamic Board Updates & S &
-\parbox[t]{4cm}{Keeps the visual board synchronized with real-time
-player actions.} &
-2025-11-12 \\
+R15 & Diagnostic Feedback & C &
+\parbox[t]{4cm}{Provides visual debugging output and confidence metrics to assess detection reliability.} &
+2025-10-27 \\
 \hline
 \end{tabular}
 
 \vspace{1em}
 
-\subsubsection*{\GameState{} \DigitalTwin{}}
+
+\subsubsection*{Game State Manager}
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -708,7 +714,7 @@ actions.} &
 
 \vspace{1em}
 
-\subsubsection*{Communication Layer}
+\subsubsection*{Image Queue}
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -720,22 +726,17 @@ R61 & Real-Time Data Exchange & M &
 gameplay.} &
 2025-11-09 \\
 \hline
-R62 & API Protocol Support & M &
-\parbox[t]{4cm}{Uses REST or WebSocket APIs for efficient
-communication.} &
-2025-11-10 \\
-\hline
-R63 & Security and Encryption & S &
+R62 & Security and Encryption & S &
 \parbox[t]{4cm}{Protects messages and user data from unauthorized
 access.} &
 2025-11-12 \\
 \hline
-R64 & Error Handling & S &
+R63 & Error Handling & S &
 \parbox[t]{4cm}{Handles message loss or disconnection through
 recovery methods.} &
 2025-11-13 \\
 \hline
-R65 & Scalability & C &
+R64 & Scalability & C &
 \parbox[t]{4cm}{Allows new modules to connect without major system
 changes.} &
 2025-11-14 \\
@@ -750,6 +751,8 @@ changes.} &
 To validate compatibility, simulation interoperability testing will be performed. The \RL{} agent will be tested in multiple versions of the environment. The validation of the functional requirements outlined for the RLCatan agent will be conducted throughout the development lifecycle, with a strong focus on acceptance testing and simulation-based evaluation.
 
 Early validation efforts will involve the use of simplified \emph{\Catan{}} game environments and prototypes of the \RL{} agent's architecture. Key stakeholders, such as \AI{} researchers, game designers, and domain experts, will participate in these early-stage reviews.
+
+\vspace{1em}
 
 \noindent\textbf{Unit Testing:}
 
@@ -859,6 +862,7 @@ The input $s$ to the neural network encodes the current game state (board config
 
 
 \section*{(P) Project}\label{sec:srs_project}
+\addcontentsline{toc}{section}{Project}
 \renewcommand{\thesubsection}{P.\arabic{subsection}}
 \setcounter{subsection}{0}
 
@@ -946,7 +950,7 @@ The major milestones for our project are as follows:
 \subsection{Required Technology Elements}\label{subsec:requiredtech}
 \begin{itemize}
     \item {Primary Programming Language} – Python is the primary language for the project's backend development.
-    \item {Game Simulation Library} – The project will utilize the open-source library Catanatron for simulating \emph{\Catan{}} games and training the \AI{} model.
+    \item {Game Simulation Library} – The project will utilize the open-source library Catanatron[10] for simulating \emph{\Catan{}} games and training the \AI{} model.
     \item {Web Framework} – React and JavaScript will be used to build the user interface and \DigitalTwin{}.
     \item {\CV{} Libraries} – OpenCV and YOLOv9 will be used for image recognition and processing of the physical board state.
     \item {Hardware} – The project will require a GPU for training the reinforcement learning model.
@@ -971,7 +975,7 @@ The major milestones for our project are as follows:
 
     \item {Risk: Technical Issues with External Libraries}
     \begin{itemize}
-        \item Description: Technical issues may arise with external technologies like Catanatron, OpenCV, or YOLOv9.
+        \item Description: Technical issues may arise with external technologies like Catanatron[10], OpenCV, or YOLOv9.
         \item Mitigation: Team collaboratively addresses issues as they arise; members are responsible for thorough testing and validation before deployment.
     \end{itemize}
 
@@ -995,7 +999,7 @@ The major milestones for our project are as follows:
 \end{itemize}
 
 \section*{References}
-
+\addcontentsline{toc}{section}{References}
 \begin{enumerate}
     \item "Catan," [Online]. Available: \url{http://en.wikipedia.org/wiki/Catan}. [Accessed 9 October 2025].
     \item "Artificial Intelligence," [Online]. Available: \url{http://en.wikipedia.org/wiki/Artificial_intelligence}. [Accessed 9 October 2025].
@@ -1011,6 +1015,7 @@ The major milestones for our project are as follows:
 \newpage{}
 
 \section*{Appendix --- Reflection}
+\addcontentsline{toc}{section}{Appendix}
 \input{../SRS_Reflection.tex}
 
 \subsection*{Jake Read}\label{subsec:jake-read}
