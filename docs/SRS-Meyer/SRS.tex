@@ -135,7 +135,7 @@ Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a si
     \item Department of Computing and Software (CAS) – Hosting organization.
 \end{itemize}
 
-\textbf{Requirements Sources:}
+\noindent\textbf{Requirements Sources:}
 \begin{itemize}
     \item Project documentation – Initial description provided by Dr. Istvan David.
     \item Competitive \emph{\Catan{}} players – Consulted for strategic insights and advanced gameplay knowledge.
@@ -143,6 +143,37 @@ Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a si
     \item Academic research – Reinforcement learning and computer vision papers guide \AI{} design.
     \item Industry standards – PEP 8 and Google style guides define coding standards.
 \end{itemize}
+
+
+\subsection{User Profiles}\label{subsec:User Profiles}
+To ensure the system addresses the needs of its target audience, we have identified three distinct user profiles within the "Players of \emph{\Catan{}}" stakeholder group.
+
+\hspace{1cm}
+
+\noindent\textbf{1. The Novice Player}
+\begin{itemize}
+    \item \textbf{Game Knowledge:} Limited understanding of strategic depth, often focuses on basic rules and immediate resource needs.
+    \item \textbf{Goals:} To learn the fundamentals, understand optimal building placements, and avoid common mistakes.
+    \item \textbf{Digital Literacy:} Varies, but expects a simple, intuitive, and highly guided interface.
+    \item \textbf{Rationale:} The system's in-game advice functionality (R31) and clear user interface (R41) are primarily tailored for this user. The \AI{} provides straightforward recommendations, helping them make informed decisions and build a foundational understanding of the game without feeling overwhelmed.
+\end{itemize}
+
+\noindent\textbf{2. The Intermediate Player}
+\begin{itemize}
+    \item \textbf{Game Knowledge:} Has a solid grasp of the rules and common strategies but struggles with adapting to complex game states or high-level opponent plays.
+    \item \textbf{Goals:} To improve their win rate, discover new strategies, and understand the trade-offs of different moves.
+    \item \textbf{Digital Literacy:} Generally comfortable with technology and can navigate more detailed features.
+    \item \textbf{Rationale:} This user benefits most from the system's post-game analysis (R65), which will highlight key strategic moments and explain why alternative moves would have been better. This provides the deeper, data-driven insights needed to advance their skills beyond a basic level.
+\end{itemize}
+
+\noindent\textbf{3. The Competitive Player}
+\begin{itemize}
+    \item \textbf{Game Knowledge:} Extensive knowledge of the game, including advanced strategies, common openings, and opponent metagame.
+    \item \textbf{Goals:} To find the absolute optimal play in any given situation, test new theories, and practice against a highly challenging opponent.
+    \item \textbf{Digital Literacy:} High; they are willing to engage with complex data visualizations and advanced settings.
+    \item \textbf{Rationale:} The \AI{} model's ability to serve as a competitive opponent (R66) is crucial for this user profile. They can use the system to play thousands of simulated games to refine their strategies and test a variety of theoretical game paths. The confidence scoring (R33) and detailed analysis are also of great value to them, as they can validate their intuition against the model's computations.
+\end{itemize}
+
 
 \newpage{}
 
