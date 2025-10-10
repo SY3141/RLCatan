@@ -66,7 +66,7 @@ Added Section (E.7) & The original template lacked a section for discussing lega
 \hline
 Added Section (G.8) & The original templated lacked a section for distinct user profiles and specific characteristics. A new section under goals was made for this.\\
 \hline
-Added Refereces & The original template did not include a references section. Adding this section improves credibility and allows readers to verify sources. It allows follows the Level 4 on the rubric \\
+Added References & The original template did not include a references section. Adding this section improves credibility and allows readers to verify sources. It allows follows the Level 4 on the rubric \\
 \hline
 \end{tabularx}
 \end{table}
@@ -302,56 +302,56 @@ Additionally, we shall abide by the following legal and regulatory factors:
 \addcontentsline{toc}{subsection}{Environmental Requirements}
 \begin{table}[h!]
     \centering
-    \begin{tabular}{|c|p{10cm}|c|}
-    \hline
-    \textbf{Name} & \textbf{Requirement} & \textbf{Dependency} \\
-    \hline
-    FR.E.1 & System shall avoid reproducing or distributing copyrighted materials, artwork, or proprietary game rules of \emph{\Catan{}}. & x \\
-    \hline
-    FR.E.2 & System shall not use any trademarked assets of \emph{\Catan{}} without permission from the rights holders. & x \\
-    \hline
-    FR.E.3 & System shall not collect personally identifiable information. & x \\
-    \hline
-    FR.E.4 & System shall ensure that AI recommendations are transparent and fair, affecting gameplay decisions only and not external outcomes. & x \\
-    \hline
-    \end{tabular}
     \caption{Environment Functional Requirements}
     \label{tab:fr}
+    \begin{tabular}{|c|p{8.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
+    \hline
+    \textbf{Name} & \textbf{Requirement} & \textbf{Satisfies} \\
+    \hline
+    FR.E.1 & System shall avoid reproducing or distributing copyrighted materials... & NFR.E.5, NFR.E.6 \\
+    \hline
+    FR.E.2 & System shall not use any trademarked assets of \emph{Catan{}}... & NFR.E.5, NFR.E.6 \\
+    \hline
+    FR.E.3 & System shall not collect personally identifiable information. & NFR.E.5, NFR.E.6 \\
+    \hline
+    FR.E.4 & System shall ensure that AI recommendations are transparent and fair... & NFR.E.4, NFR.E.5, NFR.E.6, NFR.E.7, NFR.E.8, NFR.E.9, NFR.E.10, NFR.E.11, NFR.E.12 \\
+    \hline
+    \end{tabular}
 \end{table}
 
 \begin{table}[h!]
     \centering
-    \begin{tabular}{|c|p{10cm}|c|}
-    \hline
-    \textbf{Name} & \textbf{Requirement} & \textbf{Dependency} \\
-    \hline
-    NFR.E.1 & System shall be installable and fully operational on Windows 10+ and macOS 13+ without modification. & x \\
-    \hline
-    NFR.E.2 & Complete system installation, including all dependencies, shall take no more than 15 minutes on a standard workstation with recommended hardware specifications. & x \\
-    \hline
-    NFR.E.3 & System shall compile successfully on available GPU/CPU resources. & x \\
-    \hline
-    NFR.E.4 & System shall provide AI recommendations within 5 seconds of a player’s turn. & x \\
-    \hline
-    NFR.E.5 & Python code shall pass PEP8 [9] style checks with 0 critical violations before deployment. & x \\
-    \hline
-    NFR.E.6 & All JavaScript/React code shall pass Google Style Guide[8] checks with 0 critical violations before deployment. & x \\
-    \hline
-    NFR.E.7 & The total number of roads per player, including those on the board and in hand, shall remain exactly 15. & x \\
-    \hline
-    NFR.E.8 & The total number of settlements per player, including those on the board and in hand, shall remain exactly 5. & x \\
-    \hline
-    NFR.E.9 & The total number of cities per player, including those on the board and in hand, shall remain exactly 4. & x \\
-    \hline
-    NFR.E.10 & The total number of resource cards of each type shall remain exactly as in the standard game (Brick: 19, Lumber: 19, Ore: 19, Grain: 19, Wool: 19). & x \\
-    \hline
-    NFR.E.11 & The total number of development cards of each type shall remain exactly as in the standard game (Knight: 14, Victory Point: 5, Monopoly: 2, Road Building: 2, Year of Plenty: 2). & x \\
-    \hline
-    NFR.E.12 & Player turn order shall remain consistent throughout the game. & x \\
-    \hline
-    \end{tabular}
     \caption{Environment Non-Functional Requirements }
     \label{tab:nfr}
+    \begin{tabular}{|c|p{8.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
+    \hline
+    \textbf{Name} & \textbf{Requirement} & \textbf{Satisfied By / Depends On} \\
+    \hline
+    NFR.E.1 & System shall be installable and fully operational on Windows 10+... & N/A \\
+    \hline
+    NFR.E.2 & Complete system installation... shall take no more than 15 minutes... & Depends on: NFR.E.1 \\
+    \hline
+    NFR.E.3 & System shall compile successfully on available GPU/CPU resources. & N/A \\
+    \hline
+    NFR.E.4 & System shall provide AI recommendations within 5 seconds... & Satisfied by: FR.E.4 \newline Depends on: NFR.E.3 \\
+    \hline
+    NFR.E.5 & Python code shall pass PEP8 [9] style checks... & Satisfied by: FR.E.1, FR.E.2, FR.E.3, FR.E.4 \\
+    \hline
+    NFR.E.6 & All JavaScript/React code shall pass Google Style Guide[8] checks... & Satisfied by: FR.E.1, FR.E.2, FR.E.3, FR.E.4 \\
+    \hline
+    NFR.E.7 & The total number of roads per player... shall remain exactly 15. & Satisfied by: FR.E.4 \\
+    \hline
+    NFR.E.8 & The total number of settlements per player... shall remain exactly 5. & Satisfied by: FR.E.4 \\
+    \hline
+    NFR.E.9 & The total number of cities per player... shall remain exactly 4. & Satisfied by: FR.E.4 \\
+    \hline
+    NFR.E.10 & The total number of resource cards of each type shall remain exactly... & Satisfied by: FR.E.4 \\
+    \hline
+    NFR.E.11 & The total number of development cards... shall remain exactly... & Satisfied by: FR.E.4 \\
+    \hline
+    NFR.E.12 & Player turn order shall remain consistent throughout the game. & Satisfied by: FR.E.4 \\
+    \hline
+    \end{tabular}
 \end{table}
 
     
