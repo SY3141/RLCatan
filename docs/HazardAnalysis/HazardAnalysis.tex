@@ -63,11 +63,9 @@
 
 \pagenumbering{arabic}
 
-\wss{You are free to modify this template.}
 
 \section{Introduction}\label{sec:introduction}
 
-\wss{You can include your definition of what a hazard is here.}
 
 \subsection{Background}\label{subsec:background}
 Our project, RLCatan, is an AI-assisted tool that observes a physical game of Catan via camera feed and provides real-time strategic advice to players.
@@ -83,8 +81,6 @@ disruption of play, loss of game data/state as harm.
 
 \section{Scope and Purpose of Hazard Analysis}\label{sec:scope-and-purpose-of-hazard-analysis}
 
-\wss{You should say what \textbf{loss} could be incurred because of the
-hazards.}
 
 
 The loss that can be incurred because of the hazards include the
@@ -93,12 +89,6 @@ user experience of our software and lead to a loss of trust in the product.
 
 
 \section{System Boundaries and Components}\label{sec:system-boundaries-and-components}
-
-\wss{Dividing the system into components will help you brainstorm the hazards.
-You shouldn't do a full design of the components, just get a feel for the major
-ones.  For projects that involve hardware, the components will typically include
-each individual piece of hardware.  If your software will have a database, or an
-important library, these are also potential components.}
 
 
 
@@ -115,17 +105,13 @@ Components:
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Component_Diagram_hazards.png}
+    \includegraphics[width=\textwidth]{Component_Diagram_final.png}
     \caption{\textit{System components: User Interface, Game State Digital Twin, AI Model, Board Representation, Game State Database}}
     \label{fig:component-diagram}
 \end{figure}
 
 \section{Critical Assumptions}\label{sec:critical-assumptions}
 
-\wss{These assumptions that are made about the software or system.  You should
-minimize the number of assumptions that remove potential hazards.  For instance,
-you could assume a part will never fail, but it is generally better to include
-this potential failure mode.}
 
 
 We assume that the users of our system will be familiar with the rules of Catan and
@@ -135,14 +121,6 @@ hardware will be able to run full-depth processing of our AI model.
 
 \section{Failure Mode and Effect Analysis}\label{sec:failure-mode-and-effect-analysis}
 
-\wss{Include your FMEA table here. This is the most important part of this document.}
-\wss{The safety requirements in the table do not have to have the prefix SR.
-The most important thing is to show traceability to your SRS. You might trace to
-requirements you have already written, or you might need to add new
-requirements.}
-\wss{If no safety requirement can be devised, other mitigation strategies can be
-entered in the table, including strategies involving providing additional
-documentation, and/or test cases.}
 
 % Finally, a table that spans multiple pages and doesn't look horrendous, only took 2 hours to get the formatting right...
 \begin{landscape}
@@ -294,8 +272,6 @@ documentation, and/or test cases.}
 
 \section{Safety and Security Requirements}\label{sec:safety-and-security-requirements}
 
-\wss{Newly discovered requirements.  These should also be added to the SRS.  (A
-rationale design process how and why to fake it.)}
 
 The following safety and security requirements have been derived from the hazard analysis above.
 Each requirement is traced to a hazard in the FMEA table (Table~\ref{TblFMEA}):
@@ -318,9 +294,6 @@ Each requirement is traced to a hazard in the FMEA table (Table~\ref{TblFMEA}):
 
 
 \section{Roadmap}\label{sec:roadmap}
-
-\wss{Which safety requirements will be implemented as part of the capstone timeline?
-Which requirements will be implemented in the future?}
 
 \subsection{Requirements Planned During Capstone}\label{subsec:requirements-planned-during-capstone}
 The following requirements will be implemented as part of the capstone timeline:
@@ -356,7 +329,6 @@ The following requirements are planned for future implementation:
 
 \section*{Appendix --- Reflection}
 
-\wss{Not required for CAS 741}
 
 % \input{../Reflection.tex}
 
