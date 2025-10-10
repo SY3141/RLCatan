@@ -6,6 +6,8 @@
 \usepackage{amsopn}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{amstext}
+\usepackage{zed-csp}
 % ===== External links (used only inside Glossary) =====
 \newcommand{\CatanExt}{\href{https://en.wikipedia.org/wiki/Catan}{Catan}}
 \newcommand{\AIExt}{\href{https://en.wikipedia.org/wiki/Artificial_intelligence}{AI}}
@@ -828,7 +830,8 @@ To test the system’s ability to handle increased complexity:
     \item Validate that the agent remains stable under diverse training scenarios.
 \end{itemize}
 
-\subsection{Formalization of the Learning Objective}
+\subsection{Formalizations}
+\subsubsection{Formalization of the Learning Objective}
 \label{sec:formalization}
 
 The reinforcement learning (RL) agent is modeled as a Markov Decision Process (MDP), defined by the tuple
@@ -856,6 +859,107 @@ L(\theta) = \mathbb{E}_{(s, a, r, s')} \left[ \left( r + \gamma \max_{a'} Q_{\th
 where $Q_{\theta^-}$ denotes a target network with fixed parameters for stability during training.
 
 The input $s$ to the neural network encodes the current game state (board configuration, available resources, and player status), and the output $Q_{\theta}(s, a)$ estimates the expected long-term reward for each possible action.
+
+\subsection{Z-Notation Formalization of Game Rules}
+\label{sec:math-formalization}
+
+This section provides a partial formalization of the rules and conditions of \textit{Settlers of Catan} using \textbf{Z notation}.
+The purpose is to precisely define the relationships between the game state variables, actions, and constraints used by the reinforcement learning (RL) agent.
+
+\subsubsection{Basic Types and Sets}
+
+We define the primitive types representing fundamental game elements:
+
+\[
+[PLAYER, RESOURCE, TILE, NODE, EDGE]
+\]
+
+Where:
+\begin{itemize}
+    \item \texttt{PLAYER} represents each player in the game.
+    \item \texttt{RESOURCE} $\in \{\text{Brick}, \text{Lumber}, \text{Wool}, \text{Grain}, \text{Ore}\}$.
+    \item \texttt{TILE}, \texttt{NODE}, and \texttt{EDGE} correspond to the spatial elements of the board.
+\end{itemize}
+
+\subsubsection{Board Schema}
+
+\begin{schema}{Board}
+    tiles: \mathcal{P} TILE \\
+    nodes: \mathcal{P} NODE \\
+    edges: \mathcal{P} EDGE \\
+    tileNodes: TILE \fun \mathcal{P} NODE \\  % Each tile touches some nodes
+    tileEdges: TILE \fun \mathcal{P} EDGE \\  % Each tile touches some edges
+    nodeTiles: NODE \fun \mathcal{P} TILE    % Each node is adjacent to some tiles
+\where
+    \forall t: TILE @
+        \#(tileNodes(t)) = 6 \land
+        \#(tileEdges(t)) = 6
+\end{schema}
+
+This schema describes the board, and the relationships between tiles and their edges/nodes.
+
+\subsubsection{Game State Schema}
+
+\begin{schema}{GameState}
+    players: \mathcal{P} PLAYER \\
+    resources: PLAYER \fun RESOURCE \pfun \mathbb{N} \\
+    roads: PLAYER \fun \mathcal{P} EDGE \\
+    settlements: PLAYER \fun \mathcal{P} NODE \\
+    turn: PLAYER \\
+    diceRoll: \mathbb{N}
+    \where
+    turn \in players \\
+    diceRoll \in 2 \dots 12
+\end{schema}
+
+
+This schema describes the static and dynamic components of a single game state.
+The \texttt{turn} variable indicates which player's move is currently being processed.
+
+\subsubsection{Turn Transition Rule}
+
+
+\begin{schema}{NextTurn}
+    \Delta GameState \\
+    nextPlayer?: PLAYER
+    \where
+    nextPlayer? \in players \\
+    turn' = nextPlayer?
+\end{schema}
+
+
+This transition schema expresses that the game moves from one valid state to another by assigning the next player's turn.
+
+\subsubsection{Resource Distribution Rule}
+
+
+\begin{schema}{DistributeResources}
+    \Delta GameState \\
+    rolledNumber?: \mathbb{N}
+    \where
+    rolledNumber? = diceRoll \\
+    \forall p: PLAYER @ resources'(p) = resources(p) + f(p, rolledNumber?)
+\end{schema}
+
+
+Where $f(p, rolledNumber?)$ represents the function mapping dice results to resource gains for player $p$, based on their settlements' positions.
+
+\subsubsection{Valid Action Schema}
+
+\begin{schema}{ValidAction}
+    GameState \\
+    action?: ACTION \\
+    isValid!: \mathbb{B}
+    \where
+    (action? = \text{BuildRoad} \implies \text{canAffordRoad(turn)}) \\
+    (action? = \text{BuildSettlement} \implies \text{canAffordSettlement(turn)}) \\
+    (action? = \text{Trade} \implies \text{tradeValid(turn)}) \\
+    isValid! = (action? \in \text{LegalActions(turn)})
+\end{schema}
+
+
+This schema defines the logical constraints under which an action is considered legal in the game state.
+Each predicate ensures the acting player has sufficient resources and that the move complies with board and rule constraints.
 
 \newpage{}
 
