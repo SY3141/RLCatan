@@ -433,4 +433,43 @@ The following requirements are planned for future implementation:
     unauthorized access to sensitive information or systems, which can have
     serious consequences for both users and organizations.
 \end{enumerate}
+
+\subsection*{Rebecca Di Filippo}\label{subsec:rebecca-difilippo-reflection}
+\begin{enumerate}
+    \item This deliverable was fairly straightforward and manageable.
+     It was helpful to complete it before writing the SRS because it allowed us to organize 
+     and clarify the potential hazards and assumptions for the system early on. 
+     Breaking the project into components made it easy to assign sections to team members
+      and ensured that the work could progress efficiently. Overall, this process made understanding
+       the system requirements and mapping them to hazards much smoother.
+
+    \item The main challenge was brainstorming hazards for a project that is largely
+     software-based with no physical components, which required us to reinterpret what 
+     “hazards” meant in this context. Additionally, we had to ensure that the assumptions 
+     and content in the Hazard Analysis aligned with those in the SRS, which required careful
+      cross-referencing and revision. Another difficulty was formatting the FMEA table in LaTeX,
+       which took significant trial and error to make it readable and properly span multiple pages.
+        These issues were resolved by redefining hazards to fit our software context, reviewing the
+         SRS alongside the Hazard Analysis for consistency, and iteratively adjusting the LaTeX table
+          formatting until it met our standards.
+
+    \item Before starting this deliverable, we had already considered a few obvious risks, 
+    mainly the CV model misreading or misclassifying the board state, since that’s a core challenge 
+    for our system. We knew that lighting conditions, occlusion, or camera angle could easily cause 
+    recognition issues. However, while actually doing the hazard analysis, we realized there were 
+    other important risks we hadn’t fully thought through, like the game state becoming desynchronized
+     between the physical board and digital model, or delays and connection losses between devices and
+      the server. These came up naturally while analyzing how each subsystem interacts, and it helped 
+      us identify how failures in one area (like communication) could cascade into others.
+
+    \item Two major types of risk in software projects are data integrity issues and security
+     vulnerabilities. Data integrity issues like unsaved game states or corrupted logs can break
+      key features and make the system unreliable, which directly impacts user trust. Security 
+      vulnerabilities, on the other hand, can expose sensitive data or allow unauthorized access 
+      to systems, which can have serious ethical and legal implications. Even though our project
+       doesn’t directly handle private user data, considering these risks early on helps ensure
+        our system’s design remains robust, especially if it’s expanded in the future or integrated 
+        with online services.
+\end{enumerate}
+
 \end{document}
