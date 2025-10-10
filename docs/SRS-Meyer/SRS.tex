@@ -756,10 +756,65 @@ To test the system’s ability to handle increased complexity:
 \end{itemize}
 
 \subsection{Schedule and Milestones}\label{subsec:schedule}
-\raggedright will do - becca
+\medskip
+The major milestones for our project are as follows:
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \textbf{Milestone} & \textbf{Due Date} \\ \hline
+  Team Formed, Project Selected & Sept. 15 \\ \hline
+  Problem Statement, POC Plan, Development Plan & Sept. 22 \\ \hline
+  Requirements Document \& Hazard Analysis Revision & Oct. 10 \\ \hline
+  V\&V Plan Revision & Oct. 27 \\ \hline
+  Design Document Revision & Nov. 10 \\ \hline
+  Proof of Concept Demonstration & Nov. 17 \\ \hline
+  Design Document Revision & Jan. 19 \\ \hline
+  Revision 0 Demonstration & Feb. 2 \\ \hline
+  V\&V Report \& Extras Revision 0 & March 9 \\ \hline
+  Final Demonstration (Revision 1) & March 23 \\ \hline
+  EXPO Demonstration & TBA \\ \hline
+  Final Documentation (Revision 1) & April 6 \\ \hline
+  
+  \end{tabular}
+  \caption{Project Milestones and Due Dates}
+  \label{tab:project-milestones}
+  \end{table}
 
-\subsection{Tasks and Deliverables}\label{subsec:tasks}
-\raggedright will do - becca
+  \subsection{Tasks and Deliverables}\label{subsec:tasks}
+  
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{|p{3cm}|p{5cm}|p{3cm}|p{2cm}|}
+    \hline
+    \textbf{Task} & \textbf{Description / Steps} & \textbf{Deliverable} & \textbf{Due Date} \\ \hline
+    
+    Code Skeleton Implementation & Create placeholder files and functions for RL agent, CV pipeline, environment interaction, and utilities. & V\&V Plan Revision & Oct. 27 \\ \hline
+    
+    Initial RL Prototype & Implement a basic RL agent capable of interacting with a simulated environment; ensure it can take actions and receive rewards. & Design Document Revision & Nov. 10 \\ \hline
+    
+    Environment Integration & Connect RL agent to the simulated game environment; ensure correct observation, action, and reward loop. & Proof of Concept Demonstration & Nov. 17 \\ \hline
+    
+    Agent Training & Run RL training loops; tune hyperparameters; log and track rewards; iteratively improve performance. & Design Document Revision & Jan. 19 \\ \hline
+    
+    Testing and Debugging & Test the RL agent in multiple scenarios; fix bugs, improve stability and performance. & Revision 0 Demonstration & Feb. 2 \\ \hline
+    
+    Computer Vision Integration & Add CV module for real-time perception; ensure agent can process visual input and make decisions based on it. & V\&V Report \& Extras Revision 0 & March 9 \\ \hline
+    
+    Optimization and Feature Enhancements & Refine reward functions, optimize agent performance, improve decision-making; add optional features like prediction or visualization. & Final Demonstration (Revision 1) & March 23 \\ \hline
+    
+    Final Integration & Connect the agent to the real-time interface; ensure responsiveness and assistive functionality for players. & EXPO Demonstration & TBA \\ \hline
+    
+    Validation and Verification & Conduct comprehensive end-to-end testing; ensure correctness, reliability, and real-time performance. & Final Documentation (Revision 1) & April 6 \\ \hline
+    
+    Code Cleanup and Documentation & Refactor code, remove unnecessary files, write documentation including instructions for running, training, and testing the agent. & Final Documentation (Revision 1) & April 6 \\ \hline
+    
+    \end{tabular}
+    \caption{Tasks and Deliverables}
+    \label{tab:tasks-deliverables}
+    \end{table}
+    
+    
 
 
 \subsection{Required Technology Elements}\label{subsec:requiredtech}
@@ -884,11 +939,11 @@ The input $s$ to the neural network encodes the current \GameState{} (board conf
 
     \item The main skills we're going to need revolve around deep reinforcement learning and deep neural networks.
     This is the main reason I wanted to take this project in the first place.
-    D\RL{} is a relatively new field, with a lot of active research, so an opportunity to work with it to this scale is rare and develops highly marketable software engineering skills.
-    With \emph{\Catan{}}, a big area of knowledge we'll need is the creation and application of heuristics to guide the D\RL{} model to improved results.
+    DRL is a relatively new field, with a lot of active research, so an opportunity to work with it to this scale is rare and develops highly marketable software engineering skills.
+    With \emph{\Catan{}}, a big area of knowledge we'll need is the creation and application of heuristics to guide the DRL model to improved results.
     I'm rather interested in this, and I'm happy to research it on my own time to try to gain some expertise for the group.
 
-    \item For getting an understanding of D\RL{} and DNN, we have two main ways of gaining the necessary knowledge.
+    \item For getting an understanding of DRL and DNN, we have two main ways of gaining the necessary knowledge.
     One of the options for learning this is researching on our own time, using a list of papers on the subject we're slowly collecting on our Discord.
     The other option is discussions with Istvan, since he's an expert on the subject and is happy to help with any confusions we have.
     The approach to learning heuristics to aid the model are similar, research and consulting Istvan, but a bit of trial and error will be involved too.
@@ -940,7 +995,24 @@ The input $s$ to the neural network encodes the current \GameState{} (board conf
     the 4AL3 course this term, which focuses on machine learning and will provide us with a strong
     foundation in this area. For competitive \emph{\Catan{}} strategies, we will leverage the expertise of
     competitive players as well as our own experience playing the game. We will also study existing \emph{\Catan{}} bots
-    to understand their strategies and approaches.d
+    to understand their strategies and approaches.
 
 \end{enumerate}
+
+\subsection*{Rebecca}\label{subsec:rebecca}
+\begin{enumerate}
+    \item Our team divided the work evenly and met weekly to stay organized. We assigned and tracked tasks through Discord, which helped keep everyone accountable. After completing our assigned sections, we reviewed the rubric to make sure each requirement was met. On the final day before submission, we held a seven-hour work session to review every part of the document together and ensure full consistency and quality.
+
+    \item One of the main challenges was that the rubric included several elements not explicitly covered by the Meyer template. Because of this, we had to diverge from the original format to align with the rubric’s expectations. To handle this, we created a “Changes Table” that clearly outlined all modifications and additions we made to the original template, ensuring clarity and consistency across the document.
+
+    \item We spoke extensively with our supervisor, Dr. David, who proposed the project and provided valuable insights into reinforcement learning (RL) and deep reinforcement learning (DRL). In addition, Sunny has a connection with a competitive \emph{\Catan{}} player, whose input has been instrumental in shaping some of our project requirements and understanding player strategies.
+
+    \item I am currently taking 4AL3 (Introduction to Machine Learning), which aligns closely with our project since it covers many of the core topics in DRL. Previous courses such as 3RA3 (Requirements Engineering) were also extremely helpful, as we used the Meyer template originally introduced there. Additionally, 2AA4 (Software Design I) was valuable because it emphasized iterative project development—starting with an MVP and building up—which mirrors the structure of our capstone project.
+
+    \item The team needs to develop strong knowledge in deep reinforcement learning (DRL) and neural networks, as these are the core of our system. This is a fast-growing field with many new research directions. Jake and I will focus on researching DRL models and architectures, Sunny will focus on game strategy design and reward modeling, and Matthew will concentrate on integrating computer vision (CV) into the project.
+
+    \item For DRL, Jake and I's main learning methods will include (1) independent research using online resources, papers, and tutorials, and (2) regular discussions with Dr. David for technical guidance. For game strategy design, Sunny will learn through conversations with competitive players and experimentation with reward systems. For CV, Matthew will study open-source frameworks and apply them directly to the game environment through trial and iteration. Together, these approaches will allow us to acquire both theoretical understanding and practical experience for the project.
+\end{enumerate}
+
+
 \end{document}
