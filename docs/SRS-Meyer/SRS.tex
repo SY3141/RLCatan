@@ -5,6 +5,7 @@
 \usepackage{amsfonts}
 \usepackage{amsopn}
 \usepackage{float}
+\usepackage{graphicx}
 \newcommand{\Catan}{\href{https://en.wikipedia.org/wiki/Catan}{Catan}}
 \newcommand{\AI}{\href{https://en.wikipedia.org/wiki/Artificial_intelligence}{AI}}
 \newcommand{\RL}{\href{https://www.ibm.com/think/topics/reinforcement-learning}{RL}}
@@ -110,6 +111,12 @@ Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a si
     \item {Scenario 2: Post-game analysis} – Players review performance; the system highlights key moments and alternative strategies.
     \item {Scenario 3: Training against the AI} – Players play a full game against RLCatan, which acts as a competitive opponent for practice.
 \end{itemize}
+\begin{figure}[H]
+    \makebox[\textwidth][c]{\includegraphics[width=1.4\textwidth]{activity_diagram.png}}
+    \caption{\textit{Activity diagram showing high-level usage scenario}}
+    \label{fig:activity-diagram}
+\end{figure}
+
 
 \subsection{Limitations and Exclusions}\label{subsec:limitations-and-exclusions}
 \begin{itemize}
@@ -122,6 +129,7 @@ Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a si
 \subsection{Stakeholders and Requirements Sources}\label{subsec:stakeholders-and-requirements-sources}
 \textbf{Stakeholders:}
 \begin{itemize}
+    \item Society – General public interested in board game strategy.
     \item Players of \emph{\Catan{}} – End-users seeking skill improvement.
     \item Project Supervisor – Dr. Istvan David.
     \item Department of Computing and Software (CAS) – Hosting organization.
@@ -422,6 +430,7 @@ The system is separated into six major components:
 \begin{itemize}
     \item Human Player: Wants a challenging and fair game experience.
     \item Developer: Tests agent's usability and robustness against non-scripted behavior.
+    \item Society: General public interested in board game strategy.
 \end{itemize}
 
 \noindent\textbf{Preconditions:}
