@@ -178,8 +178,8 @@ hardware will be able to run full-depth processing of our AI model.
 
         \hline
 
-        Game State Digital Twin &
-        Loss of synchronization between physical game and digital twin. &
+        Game State Manager &
+        Loss of synchronization between physical game and digital representation. &
         System provides advice for the wrong game state, disrupting play. &
         - Failure to read new game state to model. \newline - Additional moves made by players after CV scan. &
         Provide a resynchronization mechanism, such as an option to rescan the board or manually enter current state. &
@@ -203,7 +203,6 @@ hardware will be able to run full-depth processing of our AI model.
         Maintain rollback capability, and allow user to select older models. &
         SR-12 &
         H3-b \\
-
 
         \hline
 
@@ -235,7 +234,7 @@ hardware will be able to run full-depth processing of our AI model.
 
         \hline
 
-        Communication Layer (Phone/Server) &
+        Image Queue &
         Dropped connection between user device and processing server. &
         Advice delayed or not delivered, leading to disrupted play. &
         - External server goes down \newline - WiFi connectivity issues occur. &
@@ -269,6 +268,13 @@ hardware will be able to run full-depth processing of our AI model.
         SR-13 &
         H7-c \\
 
+        Reinforcement Learning Environment &
+        Training environment diverges from actual game conditions. &
+        AI learns strategies that fail in real-world play, reducing user trust and model reliability. &
+        - Simplified or inaccurate simulation dynamics. \newline - Missing stochastic player behaviors. \newline - Environment not synchronized with updated rule sets. &
+        Periodically retrain or fine-tune the RL environment with real-world game data; validate environment fidelity against physical play outcomes. &
+        SR-14 &
+        H8-a \\
     \end{tabularx}
 \end{landscape}
 
