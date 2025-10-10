@@ -240,7 +240,6 @@ To ensure the system addresses the needs of its target audience, we have identif
     \item {Stable lighting and camera angle} – The computer vision module assumes it can reliably see the board, even if real-world conditions could vary.
     \item {Network Reliability} – The system connection work well enough for real-time suggestions.
     \item {Device Reliability} -The system assumes the player’s device will function properly without crashes or interruptions.
-    \item {Installability} – The system is assumes the user has the necessary hardware and software to run the system.
 \end{itemize}
 
 \subsection{Effects}\label{subsec:effects}
@@ -254,12 +253,14 @@ To ensure the system addresses the needs of its target audience, we have identif
 
 \subsection{Invariants}\label{subsec:invariants}
 \begin{itemize}
-    \item {Board orientation is fixed} – The physical board doesn’t get flipped or moved, so the computer vision module can track it accurately.
-    \item {Player order remains constant} – The sequence of turns doesn’t change unexpectedly.
-    \item {Player set is fixed} – No new players join, and no existing players leave mid-game.
-    \item {Game components stay in place} – Settlements, roads, and resources aren’t physically moved outside of normal game actions.
-    \item {Camera/viewing angle remains stable} – The vision system continues to see the board from the expected perspective.
+    \item The total number of roads per player, including those on the board and in hand, remains exactly 15.
+    \item The total number of settlements per player, including those on the board and in hand, remains exactly 5.
+    \item The total number of cities per player, including those on the board and in hand, remains exactly 4.
+    \item The total number of resource cards of each type remains exactly 95.
+    \item The total number of development cards of each type in the game remains exactly 25.
+    \item The player turn order remains consistent throughout the game.
 \end{itemize}
+
 
 \subsection{Standards and Legal/Regulatory Factors}
 We will follow the following styling standards:
@@ -284,56 +285,61 @@ Additionally, we shall abide by the following legal and regulatory factors:
 \end{itemize}
 
 \section*{Environmental Requirements}
+
 \begin{table}[h!]
     \centering
     \begin{tabular}{|c|p{10cm}|c|}
     \hline
-    \textbf{Name} & \textbf{Requirement} & \textbf{Ref} \\
+    \textbf{Name} & \textbf{Requirement} & \textbf{Dependency} \\
     \hline
-    FR.E.1 & System shall capture the physical \emph{\Catan{}} board state using cameras/sensors. & E.2, E.6 \\
+    FR.E.1 & System shall avoid reproducing or distributing copyrighted materials, artwork, or proprietary game rules of \emph{\Catan{}}. & x \\
     \hline
-    FR.E.2 & System shall maintain a \DigitalTwin{} of the board that reflects player actions in real time. & E.1, E.2, E.6 \\
+    FR.E.2 & System shall not use any trademarked assets of \emph{\Catan{}} without permission from the rights holders. & x \\
     \hline
-    FR.E.3 & System shall provide move suggestions to human players based on the current \GameState{}. & E.5 \\
+    FR.E.3 & System shall not collect personally identifiable information. & x \\
     \hline
-    FR.E.4 & System shall allow the \RL{} agent to interact with the \emph{\Catan{}} simulator for training. & E.2, E.3 \\
-    \hline
-    FR.E.5 & System shall simulate gameplay for practice sessions against the AI. & E.5 \\
-    \hline
-    FR.E.6 & System shall track player resources, roads, settlements, and cities. & E.1, E.6 \\
-    \hline
-    FR.E.7 & System shall provide post-game analysis and feedback. & E.5 \\
+    FR.E.4 & System shall ensure that AI recommendations are transparent and fair, affecting gameplay decisions only and not external outcomes. & x \\
     \hline
     \end{tabular}
-    \caption{Functional Requirements}
+    \caption{Environment Functional Requirements}
     \label{tab:fr}
-    \end{table}
-    
-    
-    \begin{table}[h!]
+\end{table}
+
+\begin{table}[h!]
     \centering
     \begin{tabular}{|c|p{10cm}|c|}
     \hline
-    \textbf{Name} & \textbf{Requirement} & \textbf{Ref} \\
+    \textbf{Name} & \textbf{Requirement} & \textbf{Dependency} \\
     \hline
-    NFR.E.1 & System shall provide recommendations in real time within in under 5 seconds. & E.3, E.4 \\
+    NFR.E.1 & System shall be installable and fully operational on Windows 10+ and macOS 13+ without modification. & x \\
     \hline
-    NFR.E.2 & System shall operate accurately given stable lighting and camera angles. & E.4, E.6 \\
+    NFR.E.2 & Complete system installation, including all dependencies, shall take no more than 15 minutes on a standard workstation with recommended hardware specifications. & x \\
     \hline
-    NFR.E.3 & System shall reliably track the board without misidentifying components. & E.3, E.6 \\
+    NFR.E.3 & System shall compile successfully on available GPU/CPU resources. & x \\
     \hline
-    NFR.E.4 & System shall handle \RL{} computations within available GPU/CPU capacity. & E.3 \\
+    NFR.E.4 & System shall provide AI recommendations within 5 seconds of a player’s turn. & x \\
     \hline
-    NFR.E.5 & System shall maintain a fixed board orientation and player order during gameplay. & E.6 \\
+    NFR.E.5 & Python code shall pass PEP8 style checks with 0 critical violations before deployment. & x \\
     \hline
-    NFR.E.6 & System shall ensure data consistency for player resources and \GameState{} throughout a session. & E.6 \\
+    NFR.E.6 & All JavaScript/React code shall pass Google Style Guide checks with 0 critical violations before deployment. & x \\
     \hline
-    NFR.E.7 & System shall function correctly assuming network and device reliability. & E.4 \\
+    NFR.E.7 & The total number of roads per player, including those on the board and in hand, shall remain exactly 15. & x \\
+    \hline
+    NFR.E.8 & The total number of settlements per player, including those on the board and in hand, shall remain exactly 5. & x \\
+    \hline
+    NFR.E.9 & The total number of cities per player, including those on the board and in hand, shall remain exactly 4. & x \\
+    \hline
+    NFR.E.10 & The total number of resource cards of each type shall remain exactly as in the standard game (Brick: 19, Lumber: 19, Ore: 19, Grain: 19, Wool: 19). & x \\
+    \hline
+    NFR.E.11 & The total number of development cards of each type shall remain exactly as in the standard game (Knight: 14, Victory Point: 5, Monopoly: 2, Road Building: 2, Year of Plenty: 2). & x \\
+    \hline
+    NFR.E.12 & Player turn order shall remain consistent throughout the game. & x \\
     \hline
     \end{tabular}
-    \caption{Non-Functional Requirements}
+    \caption{Environment Non-Functional Requirements }
     \label{tab:nfr}
-    \end{table}
+\end{table}
+
     
     
 \newpage{}
