@@ -204,6 +204,7 @@ hardware will be able to run full-depth processing of our AI model.
         SR-12 &
         H3-b \\
 
+
         \hline
 
         User Interface &
@@ -244,7 +245,7 @@ hardware will be able to run full-depth processing of our AI model.
 
         \hline
 
-        Camera Feed &
+        Computer Vision Model &
         Game stream is cut off. &
         The model will have no data with which to make predictions, so no move will be displayed to the user. &
         - Recording device runs out of battery. \newline - Recording device is damaged. &
@@ -267,12 +268,14 @@ hardware will be able to run full-depth processing of our AI model.
         - Limit recording to within the bounds of the board. &
         SR-13 &
         H7-c \\
+        
+        \hline
 
         Reinforcement Learning Environment &
-        Training environment diverges from actual game conditions. &
-        AI learns strategies that fail in real-world play, reducing user trust and model reliability. &
-        - Simplified or inaccurate simulation dynamics. \newline - Missing stochastic player behaviors. \newline - Environment not synchronized with updated rule sets. &
-        Periodically retrain or fine-tune the RL environment with real-world game data; validate environment fidelity against physical play outcomes. &
+        Simulation dynamics differ from real gameplay conditions. &
+        AI trained in the RLE performs poorly when deployed in the physical/digital hybrid system. &
+        - Simplified or idealized simulation parameters. \newline - Missing randomness or noise present in real games. \newline - Limited variability in opponent strategies. &
+        Align RLE parameters with real-world data; periodically validate model behavior against live or recorded game sessions. &
         SR-14 &
         H8-a \\
     \end{tabularx}
@@ -298,6 +301,9 @@ Each requirement is traced to a hazard in the FMEA table (Table~\ref{TblFMEA}):
     \item SR-11: The system shall warn the user when incomplete game data is read where possible.
     \item SR-12: The system shall enable the user to roll-back to previous model versions.
     \item SR-13: The system shall only capture and process game board area, not player faces or personal content.
+    \item SR-14: The reinforcement learning environment shall be periodically 
+    validated and updated to ensure its simulation dynamics remain consistent with real gameplay conditions.
+
 \end{itemize}
 
 
