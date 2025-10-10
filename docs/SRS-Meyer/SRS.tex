@@ -861,13 +861,13 @@ where $Q_{\theta^-}$ denotes a target network with fixed parameters for stabilit
 
 The input $s$ to the neural network encodes the current game state (board configuration, available resources, and player status), and the output $Q_{\theta}(s, a)$ estimates the expected long-term reward for each possible action.
 
-\subsection{Z-Notation Formalization of Game Rules}
+\subsubsection{Z-Notation Formalization of Game Rules}
 \label{sec:math-formalization}
 
 This section provides a partial formalization of the rules and conditions of \textit{Settlers of Catan} using \textbf{Z notation}.
-The purpose is to precisely define the relationships between the game state variables, actions, and constraints used by the reinforcement learning (RL) agent.
+The purpose is to precisely define the relationships between the game state variables, actions, and constraints used by the reinforcement learning agent. \newline
 
-\subsubsection{Basic Types and Sets}
+\textbf{Basic Types and Sets}
 
 We define the primitive types representing fundamental game elements:
 
@@ -879,10 +879,10 @@ Where:
 \begin{itemize}
     \item \texttt{PLAYER} represents each player in the game.
     \item \texttt{RESOURCE} $\in \{\text{Brick}, \text{Lumber}, \text{Wool}, \text{Grain}, \text{Ore}\}$.
-    \item \texttt{TILE}, \texttt{NODE}, and \texttt{EDGE} correspond to the spatial elements of the board.
+    \item \texttt{TILE}, \texttt{NODE}, and \texttt{EDGE} correspond to the spatial elements of the board. \newline
 \end{itemize}
 
-\subsubsection{Board Schema}
+\textbf{Board Schema}
 
 \begin{schema}{Board}
     tiles: \mathcal{P} TILE \\
@@ -897,9 +897,9 @@ Where:
         \#(tileEdges(t)) = 6
 \end{schema}
 
-This schema describes the board, and the relationships between tiles and their edges/nodes.
+This schema describes the board, and the relationships between tiles and their edges/nodes. \newline
 
-\subsubsection{Game State Schema}
+\textbf{Game State Schema}
 
 \begin{schema}{GameState}
     players: \mathcal{P} PLAYER \\
@@ -915,10 +915,9 @@ This schema describes the board, and the relationships between tiles and their e
 
 
 This schema describes the static and dynamic components of a single game state.
-The \texttt{turn} variable indicates which player's move is currently being processed.
+The \texttt{turn} variable indicates which player's move is currently being processed. \newline
 
-\subsubsection{Turn Transition Rule}
-
+\textbf{Turn Transition Rule}
 
 \begin{schema}{NextTurn}
     \Delta GameState \\
@@ -929,10 +928,9 @@ The \texttt{turn} variable indicates which player's move is currently being proc
 \end{schema}
 
 
-This transition schema expresses that the game moves from one valid state to another by assigning the next player's turn.
+This transition schema expresses that the game moves from one valid state to another by assigning the next player's turn. \newline
 
-\subsubsection{Resource Distribution Rule}
-
+\textbf{Resource Distribution Rule}
 
 \begin{schema}{DistributeResources}
     \Delta GameState \\
@@ -943,9 +941,9 @@ This transition schema expresses that the game moves from one valid state to ano
 \end{schema}
 
 
-Where $f(p, rolledNumber?)$ represents the function mapping dice results to resource gains for player $p$, based on their settlements' positions.
+Where $f(p, rolledNumber?)$ represents the function mapping dice results to resource gains for player $p$, based on their settlements' positions. \newline
 
-\subsubsection{Valid Action Schema}
+\textbf{Valid Action Schema}
 
 \begin{schema}{ValidAction}
     GameState \\
