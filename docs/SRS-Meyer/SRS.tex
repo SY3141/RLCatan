@@ -302,56 +302,44 @@ Additionally, we shall abide by the following legal and regulatory factors:
 
 \subsection*{Environmental Requirements}
 \addcontentsline{toc}{subsection}{Environmental Requirements}
-\begin{table}[h!]
-    \centering
-    \caption{Environment Functional Requirements}
-    \label{tab:fr}
-    \begin{tabular}{|c|p{8.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
-    \hline
-    \textbf{Name} & \textbf{Requirement} & \textbf{Satisfies} \\
-    \hline
-    FR.E.1 & System shall avoid reproducing or distributing copyrighted materials... & NFR.E.5, NFR.E.6 \\
-    \hline
-    FR.E.2 & System shall not use any trademarked assets of \emph{Catan{}}... & NFR.E.5, NFR.E.6 \\
-    \hline
-    FR.E.3 & System shall not collect personally identifiable information. & NFR.E.5, NFR.E.6 \\
-    \hline
-    FR.E.4 & System shall ensure that \AI{} recommendations are transparent and fair... & NFR.E.4, NFR.E.5, NFR.E.6, NFR.E.7, NFR.E.8, NFR.E.9, NFR.E.10, NFR.E.11, NFR.E.12 \\
-    \hline
-    \end{tabular}
-\end{table}
 
 \begin{table}[h!]
     \centering
-    \caption{Environment Non-Functional Requirements }
+    \caption{Environment Requirements }
     \label{tab:nfr}
     \begin{tabular}{|c|p{8.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
     \hline
-    \textbf{Name} & \textbf{Requirement} & \textbf{Satisfied By / Depends On} \\
+    \textbf{Label} & \textbf{Requirement} \\
     \hline
-    NFR.E.1 & System shall be installable and fully operational on Windows 10+... & N/A \\
+    NFR.E.1 & System shall be installable and fully operational on Windows 10+. \label{NFR.E.1} \\
     \hline
-    NFR.E.2 & Complete system installation... shall take no more than 15 minutes... & Depends on: NFR.E.1 \\
+    NFR.E.2 & Complete system installation shall take no more than 15 minutes. \label{NFR.E.2} \\
     \hline
-    NFR.E.3 & System shall compile successfully on available GPU/CPU resources. & N/A \\
+    NFR.E.3 & System shall compile successfully on available GPU/CPU resources. \label{NFR.E.3} \\
     \hline
-    NFR.E.4 & System shall provide \AI{} recommendations within 5 seconds... & Satisfied by: FR.E.4 \newline Depends on: NFR.E.3 \\
+    NFR.E.4 & System shall provide \AI{} recommendations within 5 seconds. \label{NFR.E.4} \\
     \hline
-    NFR.E.5 & Python code shall pass PEP8 [9] style checks... & Satisfied by: FR.E.1, FR.E.2, FR.E.3, FR.E.4 \\
+    NFR.E.5 & Python code shall pass PEP8 [9] style checks. \label{NFR.E.5} \\
     \hline
-    NFR.E.6 & All JavaScript/React code shall pass Google Style Guide[8] checks... & Satisfied by: FR.E.1, FR.E.2, FR.E.3, FR.E.4 \\
+    NFR.E.6 & All JavaScript/React code shall pass Google Style Guide[8] checks. \label{NFR.E.6} \\
     \hline
-    NFR.E.7 & The total number of roads per player... shall remain exactly 15. & Satisfied by: FR.E.4 \\
+    NFR.E.7 & The total number of roads per player shall remain exactly 15. \label{NFR.E.7} \\
     \hline
-    NFR.E.8 & The total number of settlements per player... shall remain exactly 5. & Satisfied by: FR.E.4 \\
+    NFR.E.8 & The total number of settlements per player shall remain exactly 5. \label{NFR.E.8} \\
     \hline
-    NFR.E.9 & The total number of cities per player... shall remain exactly 4. & Satisfied by: FR.E.4 \\
+    NFR.E.9 & The total number of cities per player shall remain exactly 4. \label{NFR.E.9} \\
     \hline
-    NFR.E.10 & The total number of resource cards of each type shall remain exactly... & Satisfied by: FR.E.4 \\
+    NFR.E.10 & The total number of resource cards of each type shall remain exactly. \label{NFR.E.10} \\
     \hline
-    NFR.E.11 & The total number of development cards... shall remain exactly... & Satisfied by: FR.E.4 \\
+    NFR.E.11 & The total number of development cards shall remain exactly. \label{NFR.E.11} \\
     \hline
-    NFR.E.12 & Player turn order shall remain consistent throughout the game. & Satisfied by: FR.E.4 \\
+    NFR.E.12 & Player turn order shall remain consistent throughout the game. \label{NFR.E.12} \\
+    \hline
+    NFR.E.13 & System shall not reproduce or distribute copyrighted materials. \label{NFR.E.13} \\
+    \hline
+    NFR.E.14 & System shall not use any trademarked assets of \emph{Catan{}}. \label{NFR.E.14} \\
+    \hline
+    NFR.E.15 & System shall not collect personally identifiable information. \label{NFR.E.15} \\
     \hline
     \end{tabular}
 \end{table}
