@@ -57,6 +57,8 @@ Moved Glossary (E.1) to beginning of document & Level 4 says: Document is writte
 \hline
 Added Table of requirements in each Section & Meyer template lacked a clear way to present requirements. Adding tables for functional and non-functional requirements in each section improves clarity and organization. \\
 \hline
+Added Section (E.7) & The original template lacked a section for discussing legal/regulatory factors. A new section under environment made sense for this. \\
+\hline
 \end{tabularx}
 \end{table}
 
@@ -193,6 +195,28 @@ Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a si
     \item {Player set is fixed} – No new players join, and no existing players leave mid-game.
     \item {Game components stay in place} – Settlements, roads, and resources aren’t physically moved outside of normal game actions.
     \item {Camera/viewing angle remains stable} – The vision system continues to see the board from the expected perspective.
+\end{itemize}
+
+\subsection{Standards and Legal/Regulatory Factors}
+We will follow the following styling standards:
+\begin{itemize}
+    \item \textbf{PEP 8 (Python Enhancement Proposal 8)} – Defines conventions for Python code style to ensure readability and maintainability.
+    \item \textbf{Google Style Guide} – Coding conventions for consistent formatting, for use with JavaScript/React.
+\end{itemize}
+
+Additionally, we shall abide by the following legal and regulatory factors:
+\begin{itemize}
+    \item \textbf{Intellectual Property:}
+    \emph{Catan} is a registered trademark owned by Catan GmbH. The system will not reproduce or distribute copyrighted materials, game rules, or artwork without permission.
+
+    \item \textbf{Open-Source Software Licenses:}
+    All third-party libraries (e.g., OpenCV, PyTorch, YOLOv9) will be used under their respective open-source licenses (Apache 2.0, MIT, or BSD). We shall ensure compliance with redistribution and modification terms.
+
+    \item \textbf{Data Privacy:}
+    No personally identifiable information shall be collected.
+
+    \item \textbf{Ethical AI Considerations:}
+    The system follows responsible AI principles, including transparency, fairness, and non-deceptive behavior. It will not make decisions that affect users beyond the game environment.
 \end{itemize}
 
 \section*{Environmental Requirements}
@@ -779,9 +803,10 @@ The input $s$ to the neural network encodes the current game state (board config
 \begin{itemize}
     \item {Programming languages} – Python for backend and \AI{} development; JavaScript with React for frontend implementation.
     \item {\AI{} framework} – Reinforcement learning agent trained using the OpenAI Gym \emph{\Catan{}} simulator.
-    \item {\CV{}} – Implemented using either OpenCV,YOLOv9 or 0MQ for board state detection and tracking.
+    \item {\CV{}} – Implemented using either OpenCV or YOLOv9 for board state detection and tracking.
+    \item {Data Transfer} - Communication with the UI will be handled by a reliable low-latency communication middleware, such as 0MQ/imageMQ.
+
     \item {Version control and collaboration} – GitHub for repository management with branching, pull requests, CI/CD pipelines, and a Kanban board for task tracking.
-    \item {Coding standards} – PEP8 for Python code and Google Style Guide for JavaScript/React.
     \item {License} – MIT License for open-source code distribution and collaboration.
 \end{itemize}
 
