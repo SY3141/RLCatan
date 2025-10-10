@@ -6,13 +6,15 @@
 \usepackage{amsopn}
 \usepackage{float}
 \usepackage{graphicx}
-\newcommand{\Catan}{\href{https://en.wikipedia.org/wiki/Catan}{Catan}}
-\newcommand{\AI}{\href{https://en.wikipedia.org/wiki/Artificial_intelligence}{AI}}
-\newcommand{\RL}{\href{https://www.ibm.com/think/topics/reinforcement-learning}{RL}}
-\newcommand{\DigitalTwin}{\href{https://en.wikipedia.org/wiki/Digital_twin}{Digital Twin}}
-\newcommand{\CV}{\href{https://www.ibm.com/think/topics/computer-vision}{CV}}
-\newcommand{\LLM}{\href{https://www.cloudflare.com/learning/ai/what-is-large-language-model/}{LLM}}
-\newcommand{\GameState}{\href{https://milvus.io/ai-quick-reference/what-is-a-state-in-rl}{Game State}}
+% ===== External links (used only inside Glossary) =====
+\newcommand{\CatanExt}{\href{https://en.wikipedia.org/wiki/Catan}{Catan}}
+\newcommand{\AIExt}{\href{https://en.wikipedia.org/wiki/Artificial_intelligence}{AI}}
+\newcommand{\RLExt}{\href{https://www.ibm.com/think/topics/reinforcement-learning}{RL}}
+\newcommand{\DigitalTwinExt}{\href{https://en.wikipedia.org/wiki/Digital_twin}{Digital Twin}}
+\newcommand{\CVExt}{\href{https://www.ibm.com/think/topics/computer-vision}{CV}}
+\newcommand{\LLMExt}{\href{https://www.cloudflare.com/learning/ai/what-is-large-language-model/}{LLM}}
+\newcommand{\GameStateExt}{\href{https://milvus.io/ai-quick-reference/what-is-a-state-in-rl}{Game State}}
+
 
 \title{Software Requirements Specification for RLCatan\\\progname}
 
@@ -66,15 +68,34 @@ Added Section (E.7) & The original template lacked a section for discussing lega
 
 
 \medskip
+
+% ===== Internal glossary link targets =====
+\hypertarget{glossary-catan}{}
+\hypertarget{glossary-ai}{}
+\hypertarget{glossary-rl}{}
+\hypertarget{glossary-dt}{}
+\hypertarget{glossary-cv}{}
+\hypertarget{glossary-llm}{}
+\hypertarget{glossary-gamestate}{}
+
+% ===== Internal references (used throughout document) =====
+\newcommand{\Catan}{\hyperlink{glossary-catan}{Catan}}
+\newcommand{\AI}{\hyperlink{glossary-ai}{AI}}
+\newcommand{\RL}{\hyperlink{glossary-rl}{RL}}
+\newcommand{\DigitalTwin}{\hyperlink{glossary-dt}{Digital Twin}}
+\newcommand{\CV}{\hyperlink{glossary-cv}{CV}}
+\newcommand{\LLM}{\hyperlink{glossary-llm}{LLM}}
+\newcommand{\GameState}{\hyperlink{glossary-gamestate}{Game State}}
+
 \section*{Glossary (Moved from E.1)}
 \begin{itemize}
-    \item {\Catan{}} – A strategy board game called \textit{Settlers of \emph{\Catan{}}} where players collect resources, build roads/settlements, and trade to earn points.
-    \item {\AI{}} – Field of computer science and engineering that focuses on creating systems capable of performing tasks that usually require the intelligence of a human.
-    \item {\RL{}} – A type of machine learning called Reinforcement Learning where an agent learns how to make decisions by interacting with an environment and receiving rewards or penalties for actions taken.
-    \item {\DigitalTwin{}} – A digital system that mirrors a physical one. In this project, it specifically refers to a digital representation of the physical \emph{\Catan{}} game board, updated in real time.
-    \item {\CV{}} – An area of \AI{} that trains computers to interpret and understand the visual world (in our case, the physical \emph{\Catan{}} board) by extracting meaningful information from digital images and videos.
-    \item {\LLM{}} – A machine learning model trained on a very large amount of text data to generate and understand natural language.
-    \item {\GameState{}} – The current configuration of the game, including player resources, board layout (roads, settlements, cities), and dice rolls.
+    \item \hypertarget{glossary-catan}{\CatanExt{}} – A strategy board game called \textit{Settlers of Catan} where players collect resources, build roads/settlements, and trade to earn points.
+    \item \hypertarget{glossary-ai}{\AIExt{}} – Field of computer science and engineering that focuses on creating systems capable of performing tasks that usually require human intelligence.
+    \item \hypertarget{glossary-rl}{\RLExt{}} – A type of machine learning called Reinforcement Learning where an agent learns by interacting with an environment and receiving rewards or penalties for actions.
+    \item \hypertarget{glossary-dt}{\DigitalTwinExt{}} – A digital system that mirrors a physical one. In this project, it refers to a digital representation of the physical Catan board, updated in real time.
+    \item \hypertarget{glossary-cv}{\CVExt{}} – An area of AI that trains computers to interpret and understand visual information, such as the physical Catan board.
+    \item \hypertarget{glossary-llm}{\LLMExt{}} – A machine learning model trained on large amounts of text data to generate and understand language.
+    \item \hypertarget{glossary-gamestate}{\GameStateExt{}} – The current configuration of the game, including player resources, board layout, and dice rolls.
 \end{itemize}
 
 
@@ -191,7 +212,7 @@ To ensure the system addresses the needs of its target audience, we have identif
 \begin{itemize}
     \item {Physical \emph{\Catan{}} board and pieces} – The physical game setup that the system observes.
     \item {Players} – Human participants who interact with the physical game and receive decision support.
-    \item {Cameras/Sensors} – Hardware that captures the physical board state for the \DigitalTwin{}.
+    \item {Cameras} – Hardware that captures the physical board state for the \DigitalTwin{}.
     \item {OpenAI Gym} – Provides a training/testing environment for reinforcement learning agents.
     \item {Reinforcement Learning Agent} – Learns strategies through the simulator and connects with the \DigitalTwin{} for real-time decision support.
     \item {Optional components:}
@@ -328,7 +349,7 @@ The system is separated into six major components:
 \begin{itemize}
     \item Board Representation: The component
     in charge of transferring a static/real-time physical board state to the board
-    representation, via \CV{}or sensors.
+    representation, via \CV{} or sensors.
 
     \item \GameState{} \DigitalTwin{}: The training
     environment for the model, acting as a representation of the game's state and the
@@ -371,7 +392,7 @@ The system is separated into six major components:
   elements.
 \end{itemize}
 
-\subsubsection{\GameState{} \DigitalTwin{}}
+\subsubsection{Game State Digital Twin}
 
 \textbf{Functional Requirements}
 
@@ -383,7 +404,7 @@ The system is separated into six major components:
   \item R25 Provide an interface for querying current board and player information.
 \end{itemize}
 
-\subsubsection{\AI{} Model}
+\subsubsection{AI Model}
 
 \textbf{Functional Requirements}
 
@@ -407,7 +428,7 @@ The system is separated into six major components:
 
 \end{itemize}
 
-\subsubsection{\GameState{} Database}
+\subsubsection{Game State Database}
 
 \textbf{Functional Requirements}
 
