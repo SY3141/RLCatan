@@ -1,5 +1,4 @@
 \documentclass{article}
-\usepackage{hyperref}
 \usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage{amsfonts}
@@ -9,6 +8,9 @@
 \usepackage{amstext}
 \usepackage{zed-csp}
 \usepackage{placeins}
+\usepackage{pdflscape}
+\usepackage{caption}
+\usepackage{hyperref}
 % ===== External links (used only inside Glossary) =====
 \newcommand{\CatanExt}{\href{https://en.wikipedia.org/wiki/Catan}{Catan}}
 \newcommand{\AIExt}{\href{https://en.wikipedia.org/wiki/Artificial_intelligence}{AI}}
@@ -47,6 +49,7 @@
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
 Oct 6th & All & Draft of SRS\\
+Oct 10th & All & Completion of SRS\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -71,6 +74,7 @@ Added References & The original template did not include a references section. A
 \hline
 Added Section (S.8) & This provides a place to put lengthy formalizations of aspects of the project. \\
 \hline
+Added Requirement Dependencies & This shows traceability between requirements in a visual manner. \\
 \end{tabularx}
 \end{table}
 
@@ -1109,6 +1113,23 @@ Code Cleanup and Documentation & Refactor code, remove unnecessary files, write 
 \end{itemize}
 
 \newpage
+
+
+
+
+\begin{landscape}
+    \section*{Requirement Dependencies}
+    \addcontentsline{toc}{section}{Requirement Dependencies}
+
+    \centering
+
+    \includegraphics[width=1.5\textheight]{requirement_dependency_diagram.png}
+
+    \captionof{figure}{\textit{Requirement Dependency Diagram showing dependencies between requirements.}}
+    \label{fig:requirements-diagram}
+\end{landscape}
+
+\FloatBarrier
 
 \section*{References}
 \addcontentsline{toc}{section}{References}
