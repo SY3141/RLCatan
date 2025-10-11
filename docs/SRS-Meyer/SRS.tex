@@ -304,56 +304,44 @@ Additionally, we shall abide by the following legal and regulatory factors:
 
 \subsection*{Environmental Requirements}
 \addcontentsline{toc}{subsection}{Environmental Requirements}
-\begin{table}[h!]
-    \centering
-    \caption{Environment Functional Requirements}
-    \label{tab:fr}
-    \begin{tabular}{|c|p{8.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
-    \hline
-    \textbf{Name} & \textbf{Requirement} & \textbf{Satisfies} \\
-    \hline
-    FR.E.1 & System shall avoid reproducing or distributing copyrighted materials... & NFR.E.5, NFR.E.6 \\
-    \hline
-    FR.E.2 & System shall not use any trademarked assets of \emph{Catan{}}... & NFR.E.5, NFR.E.6 \\
-    \hline
-    FR.E.3 & System shall not collect personally identifiable information. & NFR.E.5, NFR.E.6 \\
-    \hline
-    FR.E.4 & System shall ensure that \AI{} recommendations are transparent and fair... & NFR.E.4, NFR.E.5, NFR.E.6, NFR.E.7, NFR.E.8, NFR.E.9, NFR.E.10, NFR.E.11, NFR.E.12 \\
-    \hline
-    \end{tabular}
-\end{table}
 
 \begin{table}[h!]
     \centering
-    \caption{Environment Non-Functional Requirements }
+    \caption{Environment Requirements }
     \label{tab:nfr}
     \begin{tabular}{|c|p{8.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
     \hline
-    \textbf{Name} & \textbf{Requirement} & \textbf{Satisfied By / Depends On} \\
+    \textbf{Label} & \textbf{Requirement} \\
     \hline
-    NFR.E.1 & System shall be installable and fully operational on Windows 10+... & N/A \\
+    NFR.E.1 & System shall be installable and fully operational on Windows 10+. \label{NFR.E.1} \\
     \hline
-    NFR.E.2 & Complete system installation... shall take no more than 15 minutes... & Depends on: NFR.E.1 \\
+    NFR.E.2 & Complete system installation shall take no more than 15 minutes. \label{NFR.E.2} \\
     \hline
-    NFR.E.3 & System shall compile successfully on available GPU/CPU resources. & N/A \\
+    NFR.E.3 & System shall compile successfully on available GPU/CPU resources. \label{NFR.E.3} \\
     \hline
-    NFR.E.4 & System shall provide \AI{} recommendations within 5 seconds... & Satisfied by: FR.E.4 \newline Depends on: NFR.E.3 \\
+    NFR.E.4 & System shall provide \AI{} recommendations within 5 seconds. \label{NFR.E.4} \\
     \hline
-    NFR.E.5 & Python code shall pass PEP8 [9] style checks... & Satisfied by: FR.E.1, FR.E.2, FR.E.3, FR.E.4 \\
+    NFR.E.5 & Python code shall pass PEP8 [9] style checks. \label{NFR.E.5} \\
     \hline
-    NFR.E.6 & All JavaScript/React code shall pass Google Style Guide[8] checks... & Satisfied by: FR.E.1, FR.E.2, FR.E.3, FR.E.4 \\
+    NFR.E.6 & All JavaScript/React code shall pass Google Style Guide[8] checks. \label{NFR.E.6} \\
     \hline
-    NFR.E.7 & The total number of roads per player... shall remain exactly 15. & Satisfied by: FR.E.4 \\
+    NFR.E.7 & The total number of roads per player shall remain exactly 15. \label{NFR.E.7} \\
     \hline
-    NFR.E.8 & The total number of settlements per player... shall remain exactly 5. & Satisfied by: FR.E.4 \\
+    NFR.E.8 & The total number of settlements per player shall remain exactly 5. \label{NFR.E.8} \\
     \hline
-    NFR.E.9 & The total number of cities per player... shall remain exactly 4. & Satisfied by: FR.E.4 \\
+    NFR.E.9 & The total number of cities per player shall remain exactly 4. \label{NFR.E.9} \\
     \hline
-    NFR.E.10 & The total number of resource cards of each type shall remain exactly... & Satisfied by: FR.E.4 \\
+    NFR.E.10 & The total number of resource cards of each type shall remain exactly. \label{NFR.E.10} \\
     \hline
-    NFR.E.11 & The total number of development cards... shall remain exactly... & Satisfied by: FR.E.4 \\
+    NFR.E.11 & The total number of development cards shall remain exactly. \label{NFR.E.11} \\
     \hline
-    NFR.E.12 & Player turn order shall remain consistent throughout the game. & Satisfied by: FR.E.4 \\
+    NFR.E.12 & Player turn order shall remain consistent throughout the game. \label{NFR.E.12} \\
+    \hline
+    NFR.E.13 & System shall not reproduce or distribute copyrighted materials. \label{NFR.E.13} \\
+    \hline
+    NFR.E.14 & System shall not use any trademarked assets of \emph{Catan{}}. \label{NFR.E.14} \\
+    \hline
+    NFR.E.15 & System shall not collect personally identifiable information. \label{NFR.E.15} \\
     \hline
     \end{tabular}
 \end{table}
@@ -366,8 +354,8 @@ Additionally, we shall abide by the following legal and regulatory factors:
 
 
 \phantomsection
-\section*{(S) System}\label{sec:srs-system}
-\addcontentsline{toc}{section}{(S) System}
+\section*{System}\label{sec:srs-system}
+\addcontentsline{toc}{section}{System}
 \renewcommand{\thesubsection}{S.\arabic{subsection}}
 \renewcommand{\theHsubsection}{S.\arabic{subsection}}
 \setcounter{subsection}{0}
@@ -407,32 +395,29 @@ The system is separated into a list of major components:
 
 \subsection{Functionality}\label{subsec:functionality}
 
-\subsubsection{Reinforcement Learning Environment}
 
 \textbf{Functional Requirements}
-
-
 
 \subsubsection{Computer Vision Model}
 
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R11 Process live or captured camera input to detect board elements, player actions, and resource placements.
-  \item R12 Translate visual features into structured \GameState{} data for the Game State Manager.
-  \item R13 Detect and correct inconsistencies or occlusions in visual recognition.
-  \item R14 Calibrate dynamically for lighting, camera angle, and board orientation.
-  \item R15 Provide visual diagnostics and confidence metrics for detected states.
+  \item \label{FR.S.1.1}\textbf{FR.S.1.1} Process live or captured camera input to detect board elements, player actions, and resource placements.
+  \item \label{FR.S.1.2}\textbf{FR.S.1.2} Translate visual features into structured \GameState{} data for the Game State Manager.
+  \item \label{FR.S.1.3}\textbf{FR.S.1.3} Detect and correct inconsistencies or occlusions in visual recognition.
+  \item \label{FR.S.1.4}\textbf{FR.S.1.4} Calibrate dynamically for lighting, camera angle, and board orientation.
+  \item \label{FR.S.1.5}\textbf{FR.S.1.5} Provide visual diagnostics and confidence metrics for detected states.
 \end{itemize}
 
 \subsubsection{Reinforcement Learning Environment}
 
 \begin{itemize}
-  \item R21 Simulate the game rules, move logic, and state transitions consistent with the official \emph{\Catan{}} rule set.
-  \item R22 Allow the \AI{} model to perform self-play or interact with recorded game states for training.
-  \item R23 Provide feedback in the form of rewards, penalties, or success metrics for learning.
-  \item R24 Support batch and real-time evaluation modes for model benchmarking.
-  \item R25 Interface seamlessly with the Game State Manager and \AI{} model.
+  \item \label{FR.S.2.1}\textbf{FR.S.2.1} Simulate the game rules, move logic, and state transitions consistent with the official \emph{\Catan{}} rule set.
+  \item \label{FR.S.2.2}\textbf{FR.S.2.2} Allow the \AI{} model to perform self-play or interact with recorded game states for training.
+  \item \label{FR.S.2.3}\textbf{FR.S.2.3} Provide feedback in the form of rewards, penalties, or success metrics for learning.
+  \item \label{FR.S.2.4}\textbf{FR.S.2.4} Support batch and real-time evaluation modes for model benchmarking.
+  \item \label{FR.S.2.5}\textbf{FR.S.2.5} Interface seamlessly with the Game State Manager and \AI{} model.
 \end{itemize}
 
 
@@ -441,25 +426,24 @@ The system is separated into a list of major components:
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R31 Analyze the digital \GameState{} to predict optimal player strategies.
-  \item R32 Evaluate potential moves based on resource availability, player position, and opponent behavior.
-  \item R33 Adapt dynamically to changing game conditions through reinforcement or supervised learning.
-  \item R34 Provide move recommendations with confidence scores and textual reasoning.
-  \item R35 Integrate with the Reinforcement Learning Environment for continuous improvement.
+  \item \label{FR.S.3.1}\textbf{FR.S.3.1} Analyze the digital \GameState{} to predict optimal player strategies.
+  \item \label{FR.S.3.2}\textbf{FR.S.3.2} Evaluate potential moves based on resource availability, player position, and opponent behavior.
+  \item \label{FR.S.3.3}\textbf{FR.S.3.3} Adapt dynamically to changing game conditions through reinforcement or supervised learning.
+  \item \label{FR.S.3.4}\textbf{FR.S.3.4} Provide move recommendations with confidence scores and textual reasoning.
+  \item \label{FR.S.3.5}\textbf{FR.S.3.5} Integrate with the Reinforcement Learning Environment for continuous improvement.
 \end{itemize}
-
 
 \subsubsection{User Interface}
 
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R41 Provide an interactive, real-time visualization of the \emph{\Catan{}} board and current \GameState{}.
-  \item R42 Display player moves, dice rolls, and resource changes immediately after occurrence.
-  \item R43 Enable player interactions such as building, trading, and ending turns.
-  \item R44 Present \AI{}-generated move recommendations clearly, with visual highlighting or overlays.
-  \item R45 Support desktop and mobile layouts for accessibility and responsiveness.
-  \item R46 Log user interactions and decisions for post-game analysis.
+  \item \label{FR.S.4.1}\textbf{FR.S.4.1} Provide an interactive, real-time visualization of the \emph{\Catan{}} board and current \GameState{}.
+  \item \label{FR.S.4.2}\textbf{FR.S.4.2} Display player moves, dice rolls, and resource changes immediately after occurrence.
+  \item \label{FR.S.4.3}\textbf{FR.S.4.3} Enable player interactions such as building, trading, and ending turns.
+  \item \label{FR.S.4.4}\textbf{FR.S.4.4} Present \AI{}-generated move recommendations clearly, with visual highlighting or overlays.
+  \item \label{FR.S.4.5}\textbf{FR.S.4.5} Support desktop and mobile layouts for accessibility and responsiveness.
+  \item \label{FR.S.4.6}\textbf{FR.S.4.6} Log user interactions and decisions for post-game analysis.
 \end{itemize}
 
 
@@ -468,11 +452,11 @@ The system is separated into a list of major components:
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R51 Store complete and consistent records of all ongoing and past \emph{\Catan{}} games.
-  \item R52 Maintain player profiles, scores, resource inventories, and game metadata.
-  \item R53 Support efficient read and write operations for real-time synchronization.
-  \item R54 Ensure data persistence across sessions and support recovery after interruptions.
-  \item R55 Provide structured access to historical game data for training or replay features.
+  \item \label{FR.S.5.1}\textbf{FR.S.5.1} Store complete and consistent records of all ongoing and past \emph{\Catan{}} games.
+  \item \label{FR.S.5.2}\textbf{FR.S.5.2} Maintain player profiles, scores, resource inventories, and game metadata.
+  \item \label{FR.S.5.3}\textbf{FR.S.5.3} Support efficient read and write operations for real-time synchronization.
+  \item \label{FR.S.5.4}\textbf{FR.S.5.4} Ensure data persistence across sessions and support recovery after interruptions.
+  \item \label{FR.S.5.5}\textbf{FR.S.5.5} Provide structured access to historical game data for training or replay features.
 \end{itemize}
 
 
@@ -481,30 +465,36 @@ The system is separated into a list of major components:
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item R61 Enable reliable data exchange between the User Interface, Game State Manager, \AI{} model, and Database.
-  \item R62 Support both synchronous and asynchronous message-passing mechanisms.
-  \item R63 Ensure low-latency updates to maintain real-time synchronization of states.
-  \item R64 Provide secure authentication, authorization, and encryption for all transmitted data.
+  \item \label{FR.S.6.1}\textbf{FR.S.6.1} Enable reliable data exchange between the User Interface, Game State Manager, \AI{} model, and Database.
+  \item \label{FR.S.6.2}\textbf{FR.S.6.2} Support both synchronous and asynchronous message-passing mechanisms.
+  \item \label{FR.S.6.3}\textbf{FR.S.6.3} Ensure low-latency updates to maintain real-time synchronization of states.
+  \item \label{FR.S.6.4}\textbf{FR.S.6.4} Provide secure authentication, authorization, and encryption for all transmitted data.
 \end{itemize}
 
 
+
+\subsubsection{Non-Functional Requirements}
+
 \begin{itemize}
-  \item NFR 1 \textbf{Scalability:} Support multiple concurrent games without
+  \item \label{NFR.S.1}\textbf{NFR.S.1} \textbf{Scalability:} Support multiple concurrent games without
         performance degradation.
-  \item NFR 2 \textbf{Usability:} Provide an intuitive interface accessible to users
+  \item \label{NFR.S.2}\textbf{NFR.S.2} \textbf{Usability:} Provide an intuitive interface accessible to users
         with minimal training.
-  \item NFR 3 \textbf{Maintainability:} Codebase should follow modular design for easy
+  \item \label{NFR.S.3}\textbf{NFR.S.3} \textbf{Maintainability:} Codebase should follow modular design for easy
         updates and debugging.
-  \item NFR 4 \textbf{installability:} Ensure compatibility across major operating systems
+  \item \label{NFR.S.4}\textbf{NFR.S.4} \textbf{Installability:} Ensure compatibility across major operating systems
         and browsers.
-  \item NFR 5 \textbf{Data Integrity:} Prevent data corruption through validation and
+  \item \label{NFR.S.5}\textbf{NFR.S.5} \textbf{Data Integrity:} Prevent data corruption through validation and
         transactional consistency.
-  \item NFR 6 \textbf{Availability:} Recover from system failures automatically within
+  \item \label{NFR.S.6}\textbf{NFR.S.6} \textbf{Availability:} Recover from system failures automatically within
         one minute of downtime.
 \end{itemize}
 
 
 \subsection{Interfaces}\label{subsec:interfaces}
+
+No external APIs or hardware interfaces are required for the system.
+
 \subsection{Detailed Usage Scenarios}\label{subsec:detailed-usage-scenarios}
 
 \noindent\textbf{Use Case Name:} Human vs \RL{} Agent Gameplay Session
@@ -558,7 +548,6 @@ M → Must have
 
 \vspace{1em}
 
-
 \subsubsection*{Computer Vision Model}
 
 \begin{tabular}{|c|c|c|c|c|}
@@ -566,23 +555,23 @@ M → Must have
 \textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
 \textbf{Reasoning} & \textbf{Date} \\
 \hline
-R11 & Visual Input Processing & M &
+\hyperref[FR.S.1.1]{FR.S.1.1} & Visual Input Processing & M &
 \parbox[t]{4cm}{Processes live or recorded camera feeds to identify board elements, player actions, and resources.} &
 2025-10-27 \\
 \hline
-R12 & Feature-to-State Translation & M &
+\hyperref[FR.S.1.2]{FR.S.1.2} & Feature-to-State Translation & M &
 \parbox[t]{4cm}{Converts detected visual features into structured \GameState{} data for synchronization with the game manager.} &
 2025-10-27 \\
 \hline
-R13 & Error Detection and Correction & S &
+\hyperref[FR.S.1.3]{FR.S.1.3} & Error Detection and Correction & S &
 \parbox[t]{4cm}{Identifies and compensates for occlusions or misdetections to preserve recognition accuracy.} &
 2025-10-27 \\
 \hline
-R14 & Dynamic Calibration & S &
+\hyperref[FR.S.1.4]{FR.S.1.4} & Dynamic Calibration & S &
 \parbox[t]{4cm}{Adapts to variations in lighting, camera position, and board orientation to maintain performance.} &
 2025-10-27 \\
 \hline
-R15 & Diagnostic Feedback & C &
+\hyperref[FR.S.1.5]{FR.S.1.5} & Diagnostic Feedback & C &
 \parbox[t]{4cm}{Provides visual debugging output and confidence metrics to assess detection reliability.} &
 2025-10-27 \\
 \hline
@@ -598,27 +587,27 @@ R15 & Diagnostic Feedback & C &
 \textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
 \textbf{Reasoning} & \textbf{Date} \\
 \hline
-R21 & State Synchronization & M &
+\hyperref[FR.S.2.1]{FR.S.2.1} & State Synchronization & M &
 \parbox[t]{4cm}{Ensures the digital model matches the physical game
 at all times.} &
 2025-10-27 \\
 \hline
-R22 & Player Asset Tracking & M &
+\hyperref[FR.S.2.2]{FR.S.2.2} & Player Asset Tracking & M &
 \parbox[t]{4cm}{Tracks settlements, cities, roads, and resources
 accurately.} &
 2025-10-27 \\
 \hline
-R23 & Turn and Dice Recording & S &
+\hyperref[FR.S.2.3]{FR.S.2.3} & Turn and Dice Recording & S &
 \parbox[t]{4cm}{Records turn data for game history and replay
 features.} &
 2025-10-27 \\
 \hline
-R24 & Automatic Updates & M &
+\hyperref[FR.S.2.4]{FR.S.2.4} & Automatic Updates & M &
 \parbox[t]{4cm}{Reflects player actions immediately to maintain
 consistency.} &
 2025-10-27 \\
 \hline
-R25 & Query Interface & S &
+\hyperref[FR.S.2.5]{FR.S.2.5} & Query Interface & S &
 \parbox[t]{4cm}{Provides structured access to current board and
 player information.} &
 2025-10-27 \\
@@ -634,21 +623,21 @@ player information.} &
 \textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
 \textbf{Reasoning} & \textbf{Date} \\
 \hline
-R31 & Strategy Prediction & M &
+\hyperref[FR.S.3.1]{FR.S.3.1} & Strategy Prediction & M &
 \parbox[t]{4cm}{Analyzes the \GameState{} to suggest optimal player
 moves.} &
 2025-12-06 \\
 \hline
-R32 & Adaptive Learning & S &
+\hyperref[FR.S.3.2]{FR.S.3.2} & Adaptive Learning & S &
 \parbox[t]{4cm}{Improves predictions using past games and player
 behavior.} &
 2025-12-06 \\
 \hline
-R33 & Confidence Scoring & C &
+\hyperref[FR.S.3.3]{FR.S.3.3} & Confidence Scoring & C &
 \parbox[t]{4cm}{Displays confidence levels for \AI{} recommendations.} &
 2025-12-12 \\
 \hline
-R34 & Integration with Twin & M &
+\hyperref[FR.S.3.4]{FR.S.3.4} & Integration with Twin & M &
 \parbox[t]{4cm}{Maintains synchronized data exchange with the digital
 twin.} &
 2025-12-18 \\
@@ -665,27 +654,27 @@ twin.} &
 \textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
 \textbf{Reasoning} & \textbf{Date} \\
 \hline
-R41 & Interactive Board View & M &
+\hyperref[FR.S.4.1]{FR.S.4.1} & Interactive Board View & M &
 \parbox[t]{4cm}{Displays real-time board updates and player actions
 clearly.} &
 2025-11-06 \\
 \hline
-R42 & Action Controls & M &
+\hyperref[FR.S.4.2]{FR.S.4.2} & Action Controls & M &
 \parbox[t]{4cm}{Allows players to build, trade, and manage turns
 easily.} &
 2025-11-06 \\
 \hline
-R43 & Multi-Platform Support & S &
+\hyperref[FR.S.4.3]{FR.S.4.3} & Multi-Platform Support & S &
 \parbox[t]{4cm}{Ensures compatibility with desktop and mobile
 devices.} &
 2025-11-06 \\
 \hline
-R44 & Visual Indicators & S &
+\hyperref[FR.S.4.4]{FR.S.4.4} & Visual Indicators & S &
 \parbox[t]{4cm}{Shows player resources, turns, and notifications for
 clarity.} &
 2025-11-06 \\
 \hline
-R45 & \AI{} Suggestion Display & C &
+\hyperref[FR.S.4.5]{FR.S.4.5} & \AI{} Suggestion Display & C &
 \parbox[t]{4cm}{Provides a clear interface for \AI{} recommendations
 and feedback.} &
 2025-11-06 \\
@@ -701,27 +690,27 @@ and feedback.} &
 \textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
 \textbf{Reasoning} & \textbf{Date} \\
 \hline
-R51 & Persistent Storage & M &
+\hyperref[FR.S.5.1]{FR.S.5.1} & Persistent Storage & M &
 \parbox[t]{4cm}{Maintains all game and player data across sessions
 and restarts.} &
 2025-10-22 \\
 \hline
-R52 & Fast Query Access & S &
+\hyperref[FR.S.5.2]{FR.S.5.2} & Fast Query Access & S &
 \parbox[t]{4cm}{Retrieves current state information efficiently
 during gameplay.} &
 2025-10-22 \\
 \hline
-R53 & Data Integrity & M &
+\hyperref[FR.S.5.3]{FR.S.5.3} & Data Integrity & M &
 \parbox[t]{4cm}{Prevents corruption and ensures consistency between
 tables.} &
 2025-10-24 \\
 \hline
-R54 & Historical Logging & C &
+\hyperref[FR.S.5.4]{FR.S.5.4} & Historical Logging & C &
 \parbox[t]{4cm}{Stores previous games for analytics and replay
 purposes.} &
 2025-10-27 \\
 \hline
-R55 & Integration with Twin & M &
+\hyperref[FR.S.5.5]{FR.S.5.5} & Integration with Twin & M &
 \parbox[t]{4cm}{Synchronizes database updates with \DigitalTwin{}
 actions.} &
 2025-10-30 \\
@@ -737,22 +726,22 @@ actions.} &
 \textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
 \textbf{Reasoning} & \textbf{Date} \\
 \hline
-R61 & Real-Time Data Exchange & M &
+\hyperref[FR.S.6.1]{FR.S.6.1} & Real-Time Data Exchange & M &
 \parbox[t]{4cm}{Ensures components remain synchronized during
 gameplay.} &
 2025-11-09 \\
 \hline
-R62 & Security and Encryption & S &
+\hyperref[FR.S.6.2]{FR.S.6.2} & Security and Encryption & S &
 \parbox[t]{4cm}{Protects messages and user data from unauthorized
 access.} &
 2025-11-12 \\
 \hline
-R63 & Error Handling & S &
+\hyperref[FR.S.6.3]{FR.S.6.3} & Error Handling & S &
 \parbox[t]{4cm}{Handles message loss or disconnection through
 recovery methods.} &
 2025-11-13 \\
 \hline
-R64 & Scalability & C &
+\hyperref[FR.S.6.4]{FR.S.6.4} & Scalability & C &
 \parbox[t]{4cm}{Allows new modules to connect without major system
 changes.} &
 2025-11-14 \\
