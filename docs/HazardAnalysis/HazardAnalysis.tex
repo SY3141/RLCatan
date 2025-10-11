@@ -173,7 +173,7 @@ hardware will be able to run full-depth processing of our AI model.
         AI advice is based on false information, leading to invalid or poor recommendations. &
         - CV model misclassifies pieces due to lighting, angle, or occlusion. &
         Give the option for users to manually confirm the parsed board state before generating advice. &
-        \hyperref[FR.Sa.1]{FR.Sa.1} &
+        \hyperref[fr-sa]{FR.Sa.1} &
         H1-a \\
 
         \hline
@@ -183,7 +183,7 @@ hardware will be able to run full-depth processing of our AI model.
         System provides advice for the wrong game state, disrupting play. &
         - Failure to read new game state to model. \newline - Additional moves made by players after CV scan. &
         Provide a resynchronization mechanism, such as an option to rescan the board or manually enter current state. &
-        FR.Sa.2 &
+        \hyperref[fr-sa]{FR.Sa.2} &
         H2-a \\
 
         \hline
@@ -286,26 +286,26 @@ hardware will be able to run full-depth processing of our AI model.
 The following safety and security requirements have been derived from the hazard analysis above.
 Each requirement is traced to a hazard in the FMEA table (Table~\ref{TblFMEA}). \newline
 
-\subsection{Functional Safety Requirements}
+\subsection{Functional Safety Requirements}\label{fr-sa}
 \begin{itemize}
-    \item FR.Sa.1: The system shall enable users to manually confirm the parsed board state before generating advice. \label{FR.Sa.1}
-    \item FR.Sa.2: The system shall provide a resynchronization mechanism (manual correction or re-scan). \label{FR.Sa.2}
-    \item FR.Sa.3: The system shall validate all AI-suggested moves against the official rules of Catan before display. \label{FR.Sa.3}
-    \item FR.Sa.4: The system shall provide a clear error message if advice cannot be generated. \label{FR.Sa.4}
-    \item FR.Sa.5: The system shall ensure current game state is saved correctly before recommending move(s) to the user. \label{FR.Sa.5}
-    \item FR.Sa.6: The system shall attempt automatic reconnection at least 3 times before failing. \label{FR.Sa.6}
-    \item FR.Sa.7: The system shall visually distinguish the move(s) suggested by AI. \label{FR.Sa.7}
-    \item FR.Sa.8: The system shall notify the user in the event board streaming ceases. \label{FR.Sa.8}
-    \item FR.Sa.9: The system shall warn the user when incomplete game data is read where possible. \label{FR.Sa.9}
-    \item FR.Sa.10: The system shall enable the user to roll back to previous model versions. \label{FR.Sa.10}
-    \item FR.Sa.11: The system shall only capture and process game board area, not player faces or personal content. \label{FR.Sa.11}
-    \item FR.Sa.12: Iterations of the reinforcement learning environment shall be automatically validated to ensure its simulation dynamics remain consistent with real gameplay conditions. \label{FR.Sa.12} \newline
+    \item FR.Sa.1: The system shall enable users to manually confirm the parsed board state before generating advice.
+    \item FR.Sa.2: The system shall provide a resynchronization mechanism (manual correction or re-scan).
+    \item FR.Sa.3: The system shall validate all AI-suggested moves against the official rules of Catan before display.
+    \item FR.Sa.4: The system shall provide a clear error message if advice cannot be generated.
+    \item FR.Sa.5: The system shall ensure current game state is saved correctly before recommending move(s) to the user.
+    \item FR.Sa.6: The system shall attempt automatic reconnection at least 3 times before failing.
+    \item FR.Sa.7: The system shall visually distinguish the move(s) suggested by AI.
+    \item FR.Sa.8: The system shall notify the user in the event board streaming ceases.
+    \item FR.Sa.9: The system shall warn the user when incomplete game data is read where possible.
+    \item FR.Sa.10: The system shall enable the user to roll back to previous model versions.
+    \item FR.Sa.11: The system shall only capture and process game board area, not player faces or personal content.
+    \item FR.Sa.12: Iterations of the reinforcement learning environment shall be automatically validated to ensure its simulation dynamics remain consistent with real gameplay conditions. \newline
 \end{itemize}
 
-\subsection{Non-Functional Safety Requirements}
+\subsection{Non-Functional Safety Requirements}\label{nfr-sa}
 \begin{itemize}
-    \item NFR.Sa.1: The system shall ensure advice is displayed within 5 seconds of request. \label{NFR.Sa.1}
-    \item NFR.Sa.2: The system shall notify the user of connection loss within 5 seconds. \label{NFR.Sa.2}
+    \item NFR.Sa.1: The system shall ensure advice is displayed within 5 seconds of request.
+    \item NFR.Sa.2: The system shall notify the user of connection loss within 5 seconds.
 \end{itemize}
 
 
