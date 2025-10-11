@@ -108,7 +108,7 @@ Components:
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Component_Diagram_final.png}
-    \caption{\textit{System components: User Interface, Game State Digital Twin, AI Model, Board Representation, Game State Database}}
+    \caption{Diagram of system components}
     \label{fig:component-diagram}
 \end{figure}
 
@@ -131,7 +131,7 @@ hardware will be able to run full-depth processing of our AI model.
 
     % Layout setup
     \renewcommand{\arraystretch}{1.3}
-    \begin{tabularx}{\linewidth}{|P{2.5cm}|Y|Y|Y|Y|P{1cm}|P{1cm}|}
+    \begin{tabularx}{\linewidth}{|P{2.3cm}|Y|Y|Y|Y|P{1.4cm}|P{0.8cm}|}
 
         % Header
         \caption{Failure Mode and Effect Analysis (FMEA)} \label{TblFMEA} \\
@@ -168,12 +168,12 @@ hardware will be able to run full-depth processing of our AI model.
         \endlastfoot
 
         % Table Rows...
-        Board Representation &
+        Computer Vision Model &
         Incorrect parsing of the physical board state (e.g., misidentifies road or settlement). &
         AI advice is based on false information, leading to invalid or poor recommendations. &
         - CV model misclassifies pieces due to lighting, angle, or occlusion. &
         Give the option for users to manually confirm the parsed board state before generating advice. &
-        SR-1 &
+        \hyperref[FR.Sa.1]{FR.Sa.1} &
         H1-a \\
 
         \hline
@@ -183,7 +183,7 @@ hardware will be able to run full-depth processing of our AI model.
         System provides advice for the wrong game state, disrupting play. &
         - Failure to read new game state to model. \newline - Additional moves made by players after CV scan. &
         Provide a resynchronization mechanism, such as an option to rescan the board or manually enter current state. &
-        SR-2 &
+        FR.Sa.2 &
         H2-a \\
 
         \hline
@@ -193,7 +193,7 @@ hardware will be able to run full-depth processing of our AI model.
         Users may become confused or game flow disrupted if they attempt an invalid action. &
         -AI loses track of game state. \newline AI misinterprets rules. \newline - Rules are not properly encoded. &
         AI-suggested moves are validated against the official rules of Catan before display. &
-        SR-3 &
+        FR.Sa.3 &
         H3-a \\
 
         &
@@ -201,9 +201,8 @@ hardware will be able to run full-depth processing of our AI model.
         System makes suboptimal or inconsistent suggestions. &
         - Model overfits. \newline - Inconsistencies in training environment. \newline - Poor heuristics. &
         Maintain rollback capability, and allow user to select older models. &
-        SR-12 &
+        FR.Sa.10 &
         H3-b \\
-
 
         \hline
 
@@ -212,7 +211,7 @@ hardware will be able to run full-depth processing of our AI model.
         Player's turn timer runs out, causing them to miss their turn as they wait. &
         - Model takes too long to compute next move. \newline - There are delays in CV processing. &
         Limit the processing time of the model or timeout early and inform user of failure before their turn ends. &
-        SR-4 \newline SR-5 &
+        NFR.Sa.1 \newline FR.Sa.4 &
         H4-a \\
 
         &
@@ -220,7 +219,7 @@ hardware will be able to run full-depth processing of our AI model.
         Players misinterpret advice or system status, leading to wrong actions. &
         Suggested move is not easy to quickly spot on the displayed board. &
         Visually distinguish the move(s) suggested by AI, e.g., using highlights or arrows. &
-        SR-9 &
+        FR.Sa.7 &
         H4-b \\
 
         \hline
@@ -230,7 +229,7 @@ hardware will be able to run full-depth processing of our AI model.
         LLM is unable to summarize "what could have been" from previous game states. &
         - Game moves too quickly for state to be saved (Mostly applicable to bot vs. bot games). &
         Ensure that the current game state is saved correctly before the recommended move is sent to the user. &
-        SR-6 &
+        FR.Sa.5 &
         H5-a \\
 
         \hline
@@ -240,17 +239,17 @@ hardware will be able to run full-depth processing of our AI model.
         Advice delayed or not delivered, leading to disrupted play. &
         - External server goes down \newline - WiFi connectivity issues occur. &
         Attempt to reconnect, and notify the user that connection has dropped. &
-        SR-7 \newline SR-8 &
+        NFR.Sa.2 \newline FR.Sa.6 &
         H6-a \\
 
         \hline
 
-        Computer Vision Model &
+        Camera &
         Game stream is cut off. &
         The model will have no data with which to make predictions, so no move will be displayed to the user. &
         - Recording device runs out of battery. \newline - Recording device is damaged. &
         Notify user when stream cuts out, to give them a chance to fix it, or at least be aware of why move predictions have ended. &
-        SR-10 &
+        FR.Sa.8 &
         H7-a \\
 
         &
@@ -258,17 +257,17 @@ hardware will be able to run full-depth processing of our AI model.
         Model receives incomplete or garbage data. &
         - Camera is misaligned. \newline - Camera is blocked by some object (e.g. another player). &
         Detect a lack of data from the stream and warn user that camera may be misaligned or blocked. &
-        SR-11 &
+        FR.Sa.9 &
         H7-b \\
 
         &
-        Game streams/snapshots contain identifiable players/background content.
-        &
+        Game streams/snapshots contain identifiable players/background content. &
         Unintended sharing or exposure of personal information. &
-        - Limit recording to within the bounds of the board. &
-        SR-13 &
+        - Camera is angled towards identifying info (e.g players' faces). &
+        Limit recording to within the bounds of the board. &
+        FR.Sa.11 &
         H7-c \\
-        
+
         \hline
 
         Reinforcement Learning Environment &
@@ -276,7 +275,7 @@ hardware will be able to run full-depth processing of our AI model.
         AI trained in the RLE performs poorly when deployed in the physical/digital hybrid system. &
         - Simplified or idealized simulation parameters. \newline - Missing randomness or noise present in real games. \newline - Limited variability in opponent strategies. &
         Align RLE parameters with real-world data; periodically validate model behavior against live or recorded game sessions. &
-        SR-14 &
+        FR.Sa.12 &
         H8-a \\
     \end{tabularx}
 \end{landscape}
@@ -285,25 +284,28 @@ hardware will be able to run full-depth processing of our AI model.
 
 
 The following safety and security requirements have been derived from the hazard analysis above.
-Each requirement is traced to a hazard in the FMEA table (Table~\ref{TblFMEA}):
+Each requirement is traced to a hazard in the FMEA table (Table~\ref{TblFMEA}). \newline
 
+\subsection{Functional Safety Requirements}
 \begin{itemize}
-    \item SR-1: The system shall enable users to manually confirm the parsed board state before generating advice.
-    \item SR-2: The system shall provide a resynchronization mechanism (manual correction or re-scan).
-    \item SR-3: The system shall validate all AI-suggested moves against the official rules of Catan before display.
-    \item SR-4: The system shall ensure advice is displayed within 5 seconds of request.
-    \item SR-5: The system shall provide a clear error message if advice cannot be generated.
-    \item SR-6: The system shall ensure current game state is saved correctly before recommending move(s) to the user.
-    \item SR-7: The system shall notify the user of connection loss within 5 seconds.
-    \item SR-8: The system shall attempt automatic reconnection at least 3 times before failing.
-    \item SR-9: The system shall visually distinguish the move(s) suggested by AI.
-    \item SR-10: The system shall notify the user in the event board streaming ceases.
-    \item SR-11: The system shall warn the user when incomplete game data is read where possible.
-    \item SR-12: The system shall enable the user to roll-back to previous model versions.
-    \item SR-13: The system shall only capture and process game board area, not player faces or personal content.
-    \item SR-14: The reinforcement learning environment shall be periodically 
-    validated and updated to ensure its simulation dynamics remain consistent with real gameplay conditions.
+    \item FR.Sa.1: The system shall enable users to manually confirm the parsed board state before generating advice. \label{FR.Sa.1}
+    \item FR.Sa.2: The system shall provide a resynchronization mechanism (manual correction or re-scan). \label{FR.Sa.2}
+    \item FR.Sa.3: The system shall validate all AI-suggested moves against the official rules of Catan before display. \label{FR.Sa.3}
+    \item FR.Sa.4: The system shall provide a clear error message if advice cannot be generated. \label{FR.Sa.4}
+    \item FR.Sa.5: The system shall ensure current game state is saved correctly before recommending move(s) to the user. \label{FR.Sa.5}
+    \item FR.Sa.6: The system shall attempt automatic reconnection at least 3 times before failing. \label{FR.Sa.6}
+    \item FR.Sa.7: The system shall visually distinguish the move(s) suggested by AI. \label{FR.Sa.7}
+    \item FR.Sa.8: The system shall notify the user in the event board streaming ceases. \label{FR.Sa.8}
+    \item FR.Sa.9: The system shall warn the user when incomplete game data is read where possible. \label{FR.Sa.9}
+    \item FR.Sa.10: The system shall enable the user to roll back to previous model versions. \label{FR.Sa.10}
+    \item FR.Sa.11: The system shall only capture and process game board area, not player faces or personal content. \label{FR.Sa.11}
+    \item FR.Sa.12: Iterations of the reinforcement learning environment shall be automatically validated to ensure its simulation dynamics remain consistent with real gameplay conditions. \label{FR.Sa.12} \newline
+\end{itemize}
 
+\subsection{Non-Functional Safety Requirements}
+\begin{itemize}
+    \item NFR.Sa.1: The system shall ensure advice is displayed within 5 seconds of request. \label{NFR.Sa.1}
+    \item NFR.Sa.2: The system shall notify the user of connection loss within 5 seconds. \label{NFR.Sa.2}
 \end{itemize}
 
 
@@ -312,30 +314,31 @@ Each requirement is traced to a hazard in the FMEA table (Table~\ref{TblFMEA}):
 \subsection{Requirements Planned During Capstone}\label{subsec:requirements-planned-during-capstone}
 The following requirements will be implemented as part of the capstone timeline:
 \begin{itemize}
-    \item SR-1: Being able to confirm the board state is crucial in the early stages to ensure the system is functioning correctly.
+    \item FR.Sa.1: Being able to confirm the board state is crucial in the early stages to ensure the system is functioning correctly.
           It will be valuable for both users and developers to have this feature implemented early.
-    \item SR-2: Resynchronization is important to maintain the integrity of the game state.
+    \item FR.Sa.2: Resynchronization is important to maintain the integrity of the game state.
           This feature will help recover from potential errors in board state detection, which is likely to occur during initial testing and development.
-    \item SR-3: If the AI suggests illegal moves, the entire purpose of the system is defeated.
+    \item FR.Sa.3: If the AI suggests illegal moves, the entire purpose of the system is defeated.
           This requirement is essential to ensure the system provides valid advice.
-    \item SR-5: Clear error messages are important not only for user experience but also for debugging during development, so it makes sense to add them early.
-    \item SR-6: The issues caused by game states not being saved correctly will likely be a problem primarily in bot vs. bot games.
+    \item FR.Sa.4: Clear error messages are important not only for user experience but also for debugging during development, so it makes sense to add them early.
+    \item FR.Sa.5: The issues caused by game states not being saved correctly will likely be a problem primarily in bot vs. bot games.
           This will be most useful while training the AI, which is naturally within the scope of the capstone.
-    \item SR-9: Clear visualization of AI suggestions is important for user experience and should be relatively straightforward to implement.
+    \item FR.Sa.7: Clear visualization of AI suggestions is important for user experience and should be relatively straightforward to implement.
           This will help users quickly understand the AI's advice, which is a core functionality of the system.
-    \item SR-12: We will likely make mistakes when training the model, so the ability to roll back to old model versions will be critical in development.
+    \item FR.Sa.10: We will likely make mistakes when training the model, so the ability to roll back to old model versions will be critical in development.
+    \item FR.Sa.12: Automated validation will help us catch issues with new iterations of the model during development.
 \end{itemize}
 
 \subsection{Delayed Requirements}\label{subsec:delayed-requirements}
 The following requirements are planned for future implementation:
 \begin{itemize}
-    \item SR-4: While timely advice is important, it may be challenging to guarantee a strict time limit during the initial development phase.
-    \item SR-7: Connection loss handling is important, but it may be less critical during initial development when the focus is on core functionalities.
+    \item NFR.Sa.1: While timely advice is important, it may be challenging to guarantee a strict time limit during the initial development phase.
+    \item NFR.Sa.2: Connection loss handling is important, but it may be less critical during initial development when the focus is on core functionalities.
           For now, we'll assume a stable connection.
-    \item SR-8: See SR-7.
-    \item SR-10: While error messages for streaming failures are important, this will be a rare occurrence, and thus is not a priority.
-    \item SR-11: Camera misalignment may be a problem users face when using the tool, but for demos we'll ensure the camera feed is correct, so it's not critical for the scope of capstone.
-    \item SR-13: The video stream exposing personal details is only a concern once the tool is released.
+    \item FR.Sa.6: See above.
+    \item FR.Sa.8: While error messages for streaming failures are important, this will be a rare occurrence, and thus is not a priority.
+    \item FR.Sa.9: Camera misalignment may be a problem users face when using the tool, but for demos we'll ensure the camera feed is correct, so it's not critical for the scope of capstone.
+    \item FR.Sa.11: The video stream exposing personal details is only a concern once the tool is released.
 \end{itemize}
 
 
