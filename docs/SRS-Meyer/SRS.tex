@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{amstext}
 \usepackage{zed-csp}
+\usepackage{placeins}
 % ===== External links (used only inside Glossary) =====
 \newcommand{\CatanExt}{\href{https://en.wikipedia.org/wiki/Catan}{Catan}}
 \newcommand{\AIExt}{\href{https://en.wikipedia.org/wiki/Artificial_intelligence}{AI}}
@@ -97,12 +98,12 @@ Added Section (S.8) & This provides a place to put lengthy formalizations of asp
 
 \section*{Glossary}
 \addcontentsline{toc}{section}{Glossary}
-\raggedright This glossary defines key terms and acronyms used throughout this document to ensure clarity and understanding. Each term is hyperlinked to its first occurrence in the text for easy reference. 
-and The following glossary headers are hyperlinked to the online definitions for further reading.
+\raggedright This glossary defines key terms and acronyms used throughout this document to ensure clarity and understanding. Each term is hyperlinked to its first occurrence in the text for easy reference.
+The following glossary headers are hyperlinked to their online definitions for further reading.
 \begin{itemize}
     \item \hypertarget{glossary-catan}{\CatanExt{}} – A strategy board game called \textit{Settlers of Catan} where players collect resources, build roads/settlements, and trade to earn points.[1]
     \item \hypertarget{glossary-ai}{\AIExt{}} – Field of computer science and engineering that focuses on creating systems capable of performing tasks that usually require human intelligence.[2]
-    \item \hypertarget{glossary-rl}{\RLExt{}} – A type of machine learning called Reinforcement Learning where an agent learns by interacting with an environment and receiving rewards or penalties for actions.[3]
+    \item \hypertarget{glossary-rl}{\RLExt{}} – A type of machine learning where an agent, known as Reinforcement Learning, learns by interacting with an environment and receiving rewards or penalties for its actions.[3]
     \item \hypertarget{glossary-dt}{\DigitalTwinExt{}} – A digital system that mirrors a physical one. In this project, it refers to a digital representation of the physical \emph{Catan} board, updated in real time.[4]
     \item \hypertarget{glossary-cv}{\CVExt{}} – An area of AI that trains computers to interpret and understand visual information, such as the physical \emph{Catan} board.[5]
     \item \hypertarget{glossary-llm}{\LLMExt{}} – A machine learning model trained on large amounts of text data to generate and understand language.[6]
@@ -175,7 +176,7 @@ Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a si
 \begin{itemize}
     \item Project documentation – Initial description provided by Dr. Istvan David.
     \item Competitive \emph{\Catan{}} players – Consulted for strategic insights and advanced gameplay knowledge.
-    \item Open-source libraries – Catanatron[10], OpenCV, YOLOv9 inform technical requirements.
+    \item Open-source libraries – Catanatron[10], OpenCV, and YOLOv9 were consulted to inform the technical requirements.
     \item Academic research – Reinforcement learning and computer vision papers guide \AI{} design.
     \item Industry standards – PEP 8[9] and Google style guides[8] define coding standards.
 \end{itemize}
@@ -188,7 +189,7 @@ To ensure the system addresses the needs of its target audience, we have identif
 
 \noindent\textbf{1. The Novice Player}
 \begin{itemize}
-    \item \textbf{Game Knowledge:} Limited understanding of strategic depth, often focuses on basic rules and immediate resource needs.
+    \item \textbf{Game Knowledge:} Limited understanding of strategic depth; often focuses on basic rules and immediate resource needs.
     \item \textbf{Goals:} To learn the fundamentals, understand optimal building placements, and avoid common mistakes.
     \item \textbf{Digital Literacy:} Varies, but expects a simple, intuitive, and highly guided interface.
     \item \textbf{Rationale:} The system's in-game advice functionality and clear user interface are primarily tailored for this user. The \AI{} provides straightforward recommendations, helping them make informed decisions and build a foundational understanding of the game without feeling overwhelmed.
@@ -226,7 +227,8 @@ To ensure the system addresses the needs of its target audience, we have identif
 \raggedright Moved glossary to beginning of document (see Changes from original SRS Meyer Template section).
 
 \subsection{Components}\label{subsec:components2}
-\raggedright The following are a list of elements of the environment that may effect or be affected by the system and the project. It includes other systems to which the system must be interfaced:
+\raggedright The following is a list of elements in the environment that may affect or be affected by the system and the project.
+It includes other systems to which the system must be interfaced:
 \begin{itemize}
     \item {Physical \emph{\Catan{}} board and pieces} – The physical game setup that the system observes.
     \item {Players} – Human participants who interact with the physical game and receive decision support.
@@ -252,10 +254,10 @@ To ensure the system addresses the needs of its target audience, we have identif
 
 \subsection{Assumptions}\label{subsec:assumptions}
 \begin{itemize}
-    \item {Players will follow standard \emph{\Catan{}} rules} – The system assumes human players adhere to official game rules with normal gameplay rationale
+    \item {Players will follow standard \emph{Catan{}} rules} – The system assumes human players will adhere to official game rules and employ logical gameplay.
     \item {Stable lighting and camera angle} – The computer vision module assumes it can reliably see the board, even if real-world conditions could vary.
-    \item {Network Reliability} – The system connection work well enough for real-time suggestions.
-    \item {Device Reliability} -The system assumes the player’s device will function properly without crashes or interruptions.
+    \item {Network Reliability} – The system assumes the network connection will be reliable enough for real-time suggestions.
+    \item {Device Reliability} - The system assumes the player’s device will function properly without crashes or interruptions.
 \end{itemize}
 
 \subsection{Effects}\label{subsec:effects}
@@ -836,7 +838,7 @@ To test the system’s ability to handle increased complexity:
 \subsubsection{Formalization of the Learning Objective}
 \label{sec:formalization}
 
-The \RL{} agent is modeled as a Markov Decision Process (MDP), defined by the tuple.
+The \RL{} agent is modeled as a Markov Decision Process (MDP), defined by the tuple:
 \[
 (S, A, P, R, \gamma)
 \]
@@ -995,7 +997,7 @@ Each predicate ensures the acting player has sufficient resources and that the m
 \subsection{Schedule and Milestones}\label{subsec:schedule}
 \medskip
 The major milestones for our project are as follows:
-\begin{table}[H]
+\begin{table}[htbp]
   \centering
   \begin{tabular}{|l|l|}
   \hline
@@ -1018,38 +1020,41 @@ The major milestones for our project are as follows:
   \label{tab:project-milestones}
   \end{table}
 
-  \subsection{Tasks and Deliverables}\label{subsec:tasks}
-  \begin{table}[H]
-    \centering
-    \begin{tabular}{|p{3cm}|p{5cm}|p{3cm}|p{2cm}|}
-    \hline
-    \textbf{Task} & \textbf{Description / Steps} & \textbf{Deliverable} & \textbf{Due Date} \\ \hline
-    
-    Code Skeleton Implementation & Create placeholder files and functions for \RL{} agent, \CV{} pipeline, environment interaction, and utilities. & V\&V Plan Revision & Oct. 27 \\ \hline
-    
-    Initial \RL{} Prototype & Implement a basic \RL{} agent capable of interacting with a simulated environment; ensure it can take actions and receive rewards. & Design Document Revision & Nov. 10 \\ \hline
-    
-    Environment Integration & Connect \RL{} agent to the simulated game environment; ensure correct observation, action, and reward loop. & Proof of Concept Demonstration & Nov. 17 \\ \hline
-    
-    Agent Training & Run \RL{} training loops; tune hyperparameters; log and track rewards; iteratively improve performance. & Design Document Revision & Jan. 19 \\ \hline
-    
-    Testing and Debugging & Test the \RL{} agent in multiple scenarios; fix bugs, improve stability and performance. & Revision 0 Demonstration & Feb. 2 \\ \hline
-    
-    Computer Vision Integration & Add \CV{} module for real-time perception; ensure agent can process visual input and make decisions based on it. & V\&V Report \& Extras Revision 0 & March 9 \\ \hline
-    
-    Optimization and Feature Enhancements & Refine reward functions, optimize agent performance, improve decision-making; add optional features like prediction or visualization. & Final Demonstration (Revision 1) & March 23 \\ \hline
-    
-    Final Integration & Connect the agent to the real-time interface; ensure responsiveness and assistive functionality for players. & EXPO Demonstration & TBA \\ \hline
-    
-    Validation and Verification & Conduct comprehensive end-to-end testing; ensure correctness, reliability, and real-time performance. & Final Documentation (Revision 1) & April 6 \\ \hline
-    
-    Code Cleanup and Documentation & Refactor code, remove unnecessary files, write documentation including instructions for running, training, and testing the agent. & Final Documentation (Revision 1) & April 6 \\ \hline
-    
-    \end{tabular}
-    \caption{Tasks and Deliverables}
-    \label{tab:tasks-deliverables}
-    \end{table}
-    
+\FloatBarrier
+
+\subsection{Tasks and Deliverables}\label{subsec:tasks}
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|p{3cm}|p{5cm}|p{3cm}|p{2cm}|}
+\hline
+\textbf{Task} & \textbf{Description / Steps} & \textbf{Deliverable} & \textbf{Due Date} \\ \hline
+
+Code Skeleton Implementation & Create placeholder files and functions for \RL{} agent, \CV{} pipeline, environment interaction, and utilities. & V\&V Plan Revision & Oct. 27 \\ \hline
+
+Initial \RL{} Prototype & Implement a basic \RL{} agent capable of interacting with a simulated environment; ensure it can take actions and receive rewards. & Design Document Revision & Nov. 10 \\ \hline
+
+Environment Integration & Connect \RL{} agent to the simulated game environment; ensure correct observation, action, and reward loop. & Proof of Concept Demonstration & Nov. 17 \\ \hline
+
+Agent Training & Run \RL{} training loops; tune hyperparameters; log and track rewards; iteratively improve performance. & Design Document Revision & Jan. 19 \\ \hline
+
+Testing and Debugging & Test the \RL{} agent in multiple scenarios; fix bugs, improve stability and performance. & Revision 0 Demonstration & Feb. 2 \\ \hline
+
+Computer Vision Integration & Add \CV{} module for real-time perception; ensure agent can process visual input and make decisions based on it. & V\&V Report \& Extras Revision 0 & March 9 \\ \hline
+
+Optimization and Feature Enhancements & Refine reward functions, optimize agent performance, improve decision-making; add optional features like prediction or visualization. & Final Demonstration (Revision 1) & March 23 \\ \hline
+
+Final Integration & Connect the agent to the real-time interface; ensure responsiveness and assistive functionality for players. & EXPO Demonstration & TBA \\ \hline
+
+Validation and Verification & Conduct comprehensive end-to-end testing; ensure correctness, reliability, and real-time performance. & Final Documentation (Revision 1) & April 6 \\ \hline
+
+Code Cleanup and Documentation & Refactor code, remove unnecessary files, write documentation including instructions for running, training, and testing the agent. & Final Documentation (Revision 1) & April 6 \\ \hline
+
+\end{tabular}
+\caption{Tasks and Deliverables}
+\label{tab:tasks-deliverables}
+\end{table}
+
+\FloatBarrier
 
 
 \subsection{Required Technology Elements}\label{subsec:requiredtech}
@@ -1093,7 +1098,7 @@ The major milestones for our project are as follows:
 
 \subsection{Requirements Process and Report}\label{subsec:reqprocess}
 \begin{itemize}
-    \item {Initial Elicitation}: Requirements gathered through problem statement developed by the team, consulting key stakeholders including the project supervisor.
+    \item {Initial Elicitation}: Requirements were gathered from the problem statement developed by the team, in consultation with key stakeholders including the project supervisor.
     \item {Elicitation Plan}:
     \begin{itemize}
         \item Meetings: Weekly team meetings to discuss progress, challenges, and refine requirements; additional meetings as needed.
@@ -1102,6 +1107,8 @@ The major milestones for our project are as follows:
         \item Process Update: Section updated as project progresses to reflect lessons learned, feedback from requirements document reviews, and revisions.
     \end{itemize}
 \end{itemize}
+
+\newpage
 
 \section*{References}
 \addcontentsline{toc}{section}{References}
