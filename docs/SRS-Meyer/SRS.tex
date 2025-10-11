@@ -478,6 +478,17 @@ The system is separated into a list of major components:
   \item \label{FR.S.6.4}\textbf{FR.S.6.4} Provide secure authentication, authorization, and encryption for all transmitted data.
 \end{itemize}
 
+\subsubsection{Game State Manager}
+
+\textbf{Functional Requirements}
+
+\begin{itemize}
+  \item \label{FR.S.7.1}\textbf{FR.S.7.1} Ensure state synchronization so the digital model matches the physical game at all times.
+  \item \label{FR.S.7.2}\textbf{FR.S.7.2} Track player assets such as settlements, cities, roads, and resources accurately.
+  \item \label{FR.S.7.3}\textbf{FR.S.7.3} Record turn and dice data to enable game history tracking and replay functionality.
+  \item \label{FR.S.7.4}\textbf{FR.S.7.4} Automatically update the system to reflect player actions and maintain consistency.
+  \item \label{FR.S.7.5}\textbf{FR.S.7.5} Provide a query interface for structured access to current board and player information.
+\end{itemize}
 
 
 \subsubsection{Non-Functional Requirements}
@@ -586,42 +597,37 @@ M → Must have
 
 \vspace{1em}
 
-
-\subsubsection*{Game State Manager}
+\subsubsection*{Reinforcement Learning Environment}
 
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 \textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
 \textbf{Reasoning} & \textbf{Date} \\
 \hline
-\hyperref[FR.S.2.1]{FR.S.2.1} & State Synchronization & M &
-\parbox[t]{4cm}{Ensures the digital model matches the physical game
-at all times.} &
-2025-10-27 \\
+\hyperref[FR.S.2.1]{FR.S.2.1} & Rule Simulation & M &
+\parbox[t]{4cm}{Simulates game rules, move logic, and state transitions consistent with official \emph{\Catan{}} rules.} &
+2025-11-06 \\
 \hline
-\hyperref[FR.S.2.2]{FR.S.2.2} & Player Asset Tracking & M &
-\parbox[t]{4cm}{Tracks settlements, cities, roads, and resources
-accurately.} &
-2025-10-27 \\
+\hyperref[FR.S.2.2]{FR.S.2.2} & AI Training Integration & M &
+\parbox[t]{4cm}{Enables \AI{} model to perform self-play or interact with recorded game states for training.} &
+2025-11-06 \\
 \hline
-\hyperref[FR.S.2.3]{FR.S.2.3} & Turn and Dice Recording & S &
-\parbox[t]{4cm}{Records turn data for game history and replay
-features.} &
-2025-10-27 \\
+\hyperref[FR.S.2.3]{FR.S.2.3} & Feedback Mechanism & S &
+\parbox[t]{4cm}{Provides feedback such as rewards, penalties, or success metrics to guide learning.} &
+2025-11-06 \\
 \hline
-\hyperref[FR.S.2.4]{FR.S.2.4} & Automatic Updates & M &
-\parbox[t]{4cm}{Reflects player actions immediately to maintain
-consistency.} &
-2025-10-27 \\
+\hyperref[FR.S.2.4]{FR.S.2.4} & Evaluation Modes & S &
+\parbox[t]{4cm}{Supports both batch and real-time evaluation modes for \AI{} benchmarking.} &
+2025-11-06 \\
 \hline
-\hyperref[FR.S.2.5]{FR.S.2.5} & Query Interface & S &
-\parbox[t]{4cm}{Provides structured access to current board and
-player information.} &
-2025-10-27 \\
+\hyperref[FR.S.2.5]{FR.S.2.5} & System Integration & M &
+\parbox[t]{4cm}{Interfaces seamlessly with the Game State Manager and \AI{} model for synchronization.} &
+2025-11-06 \\
 \hline
 \end{tabular}
+vspace{1em}
 
-\vspace{1em}
+
 
 \subsubsection*{\AI{} Model}
 
@@ -755,7 +761,41 @@ changes.} &
 \hline
 \end{tabular}
 
+\subsubsection*{Game State Manager}
 
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
+\textbf{Reasoning} & \textbf{Date} \\
+\hline
+\hyperref[FR.S.7.1]{FR.S.7.1} & State Synchronization & M &
+\parbox[t]{4cm}{Ensures the digital model matches the physical game
+at all times.} &
+2025-10-27 \\
+\hline
+\hyperref[FR.S.7.2]{FR.S.7.2} & Player Asset Tracking & M &
+\parbox[t]{4cm}{Tracks settlements, cities, roads, and resources
+accurately.} &
+2025-10-27 \\
+\hline
+\hyperref[FR.S.7.3]{FR.S.7.3} & Turn and Dice Recording & S &
+\parbox[t]{4cm}{Records turn data for game history and replay
+features.} &
+2025-10-27 \\
+\hline
+\hyperref[FR.S.7.4]{FR.S.7.4} & Automatic Updates & M &
+\parbox[t]{4cm}{Reflects player actions immediately to maintain
+consistency.} &
+2025-10-27 \\
+\hline
+\hyperref[FR.S.7.5]{FR.S.7.5} & Query Interface & S &
+\parbox[t]{4cm}{Provides structured access to current board and
+player information.} &
+2025-10-27 \\
+\hline
+\end{tabular}
+
+\vspace{1em}
 \subsection{Verification and Acceptance Criteria}\label{subsec:verification-and-acceptance-criteria}
 
 \noindent\textbf{Validation Overview:}
