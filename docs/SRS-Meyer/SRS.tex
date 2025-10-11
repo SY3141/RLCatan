@@ -1112,6 +1112,32 @@ Code Cleanup and Documentation & Refactor code, remove unnecessary files, write 
     \end{itemize}
 \end{itemize}
 
+\section*{Safety and Security Requirements}\label{sec:safety-and-security-requirements}
+
+The following safety and security requirements have been ported from our hazard analysis. \newline
+
+\subsection*{Functional Safety Requirements}
+\begin{itemize}
+    \item FR.Sa.1: The system shall enable users to manually confirm the parsed board state before generating advice.
+    \item FR.Sa.2: The system shall provide a resynchronization mechanism (manual correction or re-scan).
+    \item FR.Sa.3: The system shall validate all AI-suggested moves against the official rules of Catan before display.
+    \item FR.Sa.4: The system shall provide a clear error message if advice cannot be generated.
+    \item FR.Sa.5: The system shall ensure current game state is saved correctly before recommending move(s) to the user.
+    \item FR.Sa.6: The system shall attempt automatic reconnection at least 3 times before failing.
+    \item FR.Sa.7: The system shall visually distinguish the move(s) suggested by AI.
+    \item FR.Sa.8: The system shall notify the user in the event board streaming ceases.
+    \item FR.Sa.9: The system shall warn the user when incomplete game data is read where possible.
+    \item FR.Sa.10: The system shall enable the user to roll back to previous model versions.
+    \item FR.Sa.11: The system shall only capture and process game board area, not player faces or personal content.
+    \item FR.Sa.12: Iterations of the reinforcement learning environment shall be automatically validated to ensure its simulation dynamics remain consistent with real gameplay conditions. \newline
+\end{itemize}
+
+\subsection*{Non-Functional Safety Requirements}
+\begin{itemize}
+    \item NFR.Sa.1: The system shall ensure advice is displayed within 5 seconds of request.
+    \item NFR.Sa.2: The system shall notify the user of connection loss within 5 seconds.
+\end{itemize}
+
 \newpage
 
 
