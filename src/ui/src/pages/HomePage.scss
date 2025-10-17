@@ -1,0 +1,65 @@
+@use "sass:color";
+@use "../variables.scss";
+
+.home-page {
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  h1 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+  ul {
+    color: white;
+    margin-top: 0px;
+    margin-bottom: 3px;
+  }
+
+  .switchable {
+    height: 224px; // NOTE: Fixed to avoid loading jump
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      margin-bottom: variables.$sm-gutter;
+    }
+  }
+
+  .player-count-selector {
+    margin: 0 0 16px 0;
+    text-align: center;
+
+    .player-count-buttons {
+      .player-count-button {
+        width: 130px;
+        height: 35px;
+        font-size: 1rem;
+        color: white !important;
+        margin: 0 4px;
+        transition: background-color 0.3s;
+        background-color: variables.$dark-gray !important;
+
+        &:hover {
+          background-color: color.adjust(variables.$dark-gray, $lightness: -10%) !important;
+        }
+
+        &.selected {
+          background-color: #0d47a1 !important;
+          color: white !important;
+
+          &:hover {
+            background-color: color.adjust(#0d47a1, $lightness: -1%) !important;
+          }
+        }
+      }
+    }
+  }
+}

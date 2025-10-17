@@ -1,0 +1,83 @@
+@use "../variables.scss";
+
+.resource-cards {
+  height: 40px;
+  display: flex;
+  gap: 6px;
+
+  margin-bottom: variables.$sm-gutter;
+
+  .card {
+    border-radius: 4px;
+    div {
+      background: #151313;
+      color: white;
+
+      width: 21px;
+      height: 36px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+      position: relative;
+    }
+  }
+  .wood-cards {
+    background: variables.$wood;
+  }
+  .brick-cards {
+    background: variables.$brick;
+  }
+  .wheat-cards {
+    background: variables.$wheat;
+  }
+  .sheep-cards {
+    background: variables.$darker-sheep;
+  }
+  .ore-cards {
+    background: variables.$ore;
+  }
+  .dev-cards {
+    background: purple;
+    div {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+.center-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 25px;
+  height: 40px;
+}
+
+.player-state-box {
+  padding: variables.$sm-gutter;
+
+  max-width: variables.$sm-breakpoint;
+  margin: 0 auto;
+  width: 100%;
+
+  .scores {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .num-knights,
+  .num-roads,
+  .victory-points {
+    flex-direction: column;
+    width: 50px;
+    height: 40px;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+}

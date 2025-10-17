@@ -1,0 +1,7 @@
+[[redirects]]
+    from = "/*"
+    status = 200
+    to = "/index.html"
+
+[context.branch-deploy.environment]
+    CTRON_API_URL = "https://catanatron-staging.herokuapp.com"

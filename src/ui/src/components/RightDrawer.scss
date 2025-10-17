@@ -1,0 +1,23 @@
+@use "../variables.scss";
+
+$dark-divider: rgb(0 0 0 / 80%);
+
+.right-drawer {
+  .drawer-content {
+    padding: variables.$sm-gutter;
+
+    display: flex;
+    flex-direction: column;
+    gap: variables.$sm-gutter;
+  }
+
+  .MuiDrawer-paper {
+    width: 280px;
+    background: variables.$dark-gray;
+    color: white;
+  }
+
+  .MuiDivider-root {
+    background: $dark-divider;
+  }
+}

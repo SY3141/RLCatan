@@ -1,0 +1,51 @@
+# This workflow will compare the current branch with the main branch and evaluate for performance differences.
+
+name: Performance Regression Test
+
+on:
+  pull_request:
+    branches: master
+
+jobs:
+  build-python-and-test-performance:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools
+          pip install .[web,gym,dev]
+
+      - name: Checkout PR and Master Branch
+        uses: actions/checkout@v4
+        with:
+          path: pr
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          path: master
+
+      - name: Run Benchmark on Master (baseline)
+        run: cd master && pytest tests/integration_tests/test_speed.py --benchmark-only --benchmark-json=benchmark.json
+      - name: Run Benchmark on PR
+        run: cd pr && pytest tests/integration_tests/test_speed.py --benchmark-only --benchmark-json=benchmark.json
+
+      - name: Compare Results
+        uses: openpgpjs/github-action-pull-request-benchmark@v1
+        with:
+          tool: "pytest"
+          pr-benchmark-file-path: pr/benchmark.json
+          base-benchmark-file-path: master/benchmark.json
+          # A comment will be left on the latest PR commit if `alert-threshold` is exceeded
+          comment-on-alert: true
+          alert-threshold: "130%"
+          # Workflow will fail if `fail-threshold` is exceeded
+          fail-on-alert: false
+          fail-threshold: "150%"
+          # A token is needed to leave commit comments
+          github-token: ${{ secrets.GITHUB_TOKEN }}

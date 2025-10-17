@@ -1,0 +1,56 @@
+@use "../variables.scss";
+
+.state-summary {
+  height: 60px;
+  width: 100%;
+  max-width: variables.$sm-breakpoint;
+  margin: 0 auto;
+  display: flex;
+  padding: variables.$sm-gutter;
+  .open-drawer-btn {
+    color: white;
+    margin-right: variables.$sm-gutter;
+  }
+}
+
+$btn-height: 60px;
+.actions-toolbar {
+  height: $btn-height + 2 * variables.$sm-gutter;
+  width: 100%;
+  max-width: variables.$sm-breakpoint;
+  margin-left: auto;
+  margin-right: auto;
+  padding: variables.$sm-gutter;
+  display: flex;
+  justify-content: space-between;
+  gap: variables.$sm-gutter;
+
+  button {
+    min-width: 60px;
+    width: 100px;
+    height: $btn-height;
+  }
+
+  .confirm-btn {
+    width: 100%;
+  }
+
+  .action-popover {
+    z-index: 1;
+
+    overflow: auto;
+    max-height: calc(100% - #{$btn-height});
+    margin-bottom: 10px;
+  }
+
+  .MuiButton-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .MuiButton-startIcon {
+      margin: 0;
+    }
+  }
+}

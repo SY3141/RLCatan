@@ -1,0 +1,32 @@
+@use "../variables.scss";
+
+$dark-divider: rgb(0 0 0 / 80%);
+
+.left-drawer {
+  .MuiDrawer-paper {
+    width: 280px;
+    background: variables.$dark-gray;
+  }
+
+  .MuiDivider-root {
+    background: $dark-divider;
+  }
+
+  .MuiDrawer-paperAnchorDockedLeft {
+    border-color: $dark-divider;
+  }
+
+  .log {
+    overflow-y: auto;
+    font-size: 0.8rem;
+
+    // To ensure always clipped towards bottom
+    display: flex;
+    flex-direction: column-reverse;
+    scrollbar-width: thin;
+    scrollbar-color: #454545 variables.$dark-gray;
+    .action {
+      padding: variables.$sm-gutter;
+    }
+  }
+}
