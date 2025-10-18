@@ -16,3 +16,24 @@ refs - Reference material used for the project, including papers
 src - Source code
 test - Test cases
 etc.
+
+
+## Installation
+
+Windows CMD
+
+1. `cd src`
+
+2. `python -m venv venv`
+
+3. `venv\Scripts\activate`
+
+4. `pip install -e .[web,gym,dev]`
+
+5. `docker compose up`
+
+## Simulations
+
+For 1v1 rules simulations, pass the arguments below
+
+`catanatron-play --num 1 --players AB:2:True,AB:2:True --config-vps-to-win 15 --config-discard-limit 9`
