@@ -92,10 +92,16 @@ This document ... \wss{provide an introductory blurb and roadmap of the
 \wss{Say what software is being tested.  Give its name and a brief overview of
   its general functions.}
 
-\raggedright The purpose of our software RLcatan is to assist users in
-playing the board game Catan in real time by giving suggestions
-on the best possible moves to make based on the current state of the game. The testing
-for this software like use the 
+  The software being tested is RLCatan,
+ an AI system that learns to play the board game Catan 
+ competitively through reinforcement learning. 
+ It includes a learning agent trained in a simulated
+  environment, a computer vision module for detecting 
+  and interpreting the physical game board, and a
+  interface that displays the game state and AI-generated 
+  move suggestions to users. The general purpose of RLCatan
+  is to provide optimal move suggestions to human players
+  based on real-time analysis of the game state.
 
 \subsection{Objectives}
 
@@ -116,6 +122,19 @@ so what are you going to prioritize?  As an example, if your system depends on a
 external library, you can explicitly state that you will assume that external library 
 has already been verified by its implementation team.}
 
+The objective is to build confidence 
+in the correctness, reliability, and functional performance of the RLCatan system.
+ Verification will focus on ensuring that the reinforcement learning agent generates 
+ valid moves, that the computer vision module correctly interprets game states, and 
+ that data exchange between system components is accurate and consistent.
+
+\medskip
+
+ Out of scope are extensive usability studies and large-scale performance benchmarking,
+ as these exceed the project’s time and resource constraints. Additionally, external
+  dependencies such as Catanatron, OpenCV, and YOLOv9 are assumed to be verified by
+   their developers, and will only be tested for correct integration within RLCatan.
+
 \subsection{Challenge Level and Extras}
 
 \wss{State the challenge level (advanced, general, basic) for your project.
@@ -131,6 +150,23 @@ proof, GenderMag personas, Design Thinking, etc.  Extras should have already
 been approved by the course instructor as included in your problem statement.
 You can use a pull request to update your extras (in TeamComposition.csv or
 Repos.csv) if your plan changes as a result of the VnV planning exercise.}
+
+The challenge level for this project is Advanced,
+ as outlined in the problem statement and confirmed 
+ with the course instructor. This project
+  reflects the complexity of developing a 
+  reinforcement learning agent capable of
+   mastering \textit{Settlers of Catan},
+    integrating computer vision for real-time game state 
+    analysis, and ensuring seamless interaction between
+     system components.
+
+\medskip
+The approved extras for this project include:
+\begin{itemize}
+    \item User Instructional Video: A walkthrough video that explains how to set up, run, and interact with the software, helping users understand its functionality and workflow.
+    \item Performance Report: A comprehensive report summarizing the AI's performance metrics, learning progression, and evaluation results based on various test scenarios.
+\end{itemize}
 
 \subsection{Relevant Documentation}
 
