@@ -1,6 +1,6 @@
 #game history data path
 src/my-data-path/
-
+src/catanatron/catanatron/generate/boards/*
 
 
 .vscode

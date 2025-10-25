@@ -23,17 +23,14 @@ etc.
 Windows CMD
 
 1. `cd src`
-
-2. `python -m venv venv`
-
+2. `python -m venv venv` 
 3. `venv\Scripts\activate`
-
 4. `pip install -e .[web,gym,dev]`
-
 5. `docker compose up`
 
 ## Simulations
 
 For 1v1 rules simulations, pass the arguments below
-
-`catanatron-play --num 1 --players AB:2:True,AB:2:True --config-vps-to-win 15 --config-discard-limit 9`
+1. `cd src`
+2. `venv\Scripts\activate` 
+3. `catanatron-play --num 1 --players AB:2:True,AB:2:True --config-vps-to-win 15 --config-discard-limit 9`
