@@ -646,69 +646,174 @@ The table below documents the explicit traceability between the defined system t
     \end{tabularx}
 \end{table}
 
-\subsection{Tests for Nonfunctional Requirements}
+\section{Tests for Nonfunctional Requirements}
 
-\wss{The nonfunctional requirements for accuracy will likely just reference the
-  appropriate functional tests from above.  The test cases should mention
-  reporting the relative error for these tests.  Not all projects will
-  necessarily have nonfunctional requirements related to accuracy.}
+This section outlines the system-level tests for validating the nonfunctional requirements (NFRs) defined in Section~S.2.8 of the SRS. These include scalability, usability, maintainability, installability, data integrity, and availability. 
 
-\wss{For some nonfunctional tests, you won't be setting a target threshold for
-passing the test, but rather describing the experiment you will do to measure
-the quality for different inputs.  For instance, you could measure speed versus
-the problem size.  The output of the test isn't pass/fail, but rather a summary
-table or graph.}
+Each subsection corresponds to a major nonfunctional quality attribute of the RLCatan system. Some tests produce summary statistics or qualitative evaluations (e.g., graphs or surveys) rather than strict pass/fail outcomes.  
 
-\wss{Tests related to usability could include conducting a usability test and
-  survey.  The survey will be in the Appendix.}
+Accuracy-related nonfunctional qualities are validated implicitly through the functional tests defined in Section~4.2 (T.FR.AI.2.1--2.3 and T.FR.CV.1.1--1.2), which record relative error and correctness metrics.
 
-\wss{Static tests, review, inspections, and walkthroughs, will not follow the
-format for the tests given below.}
+\subsection{Performance and Scalability}
 
-\wss{If you introduce static tests in your plan, you need to provide details.
-How will they be done?  In cases like code (or document) walkthroughs, who will
-be involved? Be specific.}
+This area ensures the RLCatan system maintains acceptable responsiveness and throughput when supporting multiple concurrent games.
 
-\subsubsection{Area of Testing1}
-		
-\paragraph{Title for Test}
+\textbf{Test Case: Scalability and Response Time Evaluation}
 
 \begin{enumerate}
-
-\item{test-id1\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input/Condition: 
-					
-Output/Result: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
-
+\item \textbf{T.NFR.P.1} \\
+\textbf{Control:} Automatic \\
+\textbf{Initial State:} The RLCatan server is running the complete software stack (AI, CV, Database, UI). \\
+\textbf{Input/Condition:} Simulate 1, 3, and 5 concurrent games using the RL environment and mock UI clients. \\
+\textbf{Output/Result:} Average response time per game, CPU load, and memory usage are measured and summarized in a graph. \\
+\textbf{Test Case Derivation:} Verifies NFR.S.1 (Scalability) by demonstrating that response time increases sub-linearly with load. \\
+\textbf{How test will be performed:} Automated load-testing scripts measure latency between GameState updates and AI recommendations. Results are summarized in a table of performance metrics versus number of sessions.
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
+\subsection{Usability}
 
-...
+This area focuses on confirming that the interface is intuitive and accessible to users with minimal training. It also includes accessibility checks for users with visual impairments.
 
-\subsection{Traceability Between Test Cases and Requirements}
+\textbf{Test Case: Usability Survey and User Feedback}
 
-\wss{Provide a table that shows which test cases are supporting which
-  requirements.}
+\begin{enumerate}
+\item \textbf{T.NFR.U.1} \\
+\textbf{Control:} Manual \\
+\textbf{Initial State:} Final prototype deployed in a browser. \\
+\textbf{Input/Condition:} 5--10 participants familiar with Catan complete a guided session and fill out the usability survey (Appendix~6.2). \\
+\textbf{Output/Result:} Average rating $\geq 4/5$ for clarity, ease of navigation, and understanding of AI feedback. \\
+\textbf{Test Case Derivation:} Verifies NFR.S.2 (Usability) through direct user evaluation. \\
+\textbf{How test will be performed:} Conducted during the final demo; results aggregated and visualized as a bar chart.
+\end{enumerate}
+
+\textbf{Test Case: Accessibility and Visual Clarity}
+
+\begin{enumerate}
+\item \textbf{T.NFR.U.2} \\
+\textbf{Control: Manual} \\
+\textbf{Initial State:} RLCatan UI loaded in browser. \\
+\textbf{Input/Condition:} Apply color-blindness filters and vary display scaling. \\
+\textbf{Output/Result:} All critical UI elements remain legible; contrast ratio $\geq 4.5:1$. \\
+\textbf{Test Case Derivation:} Verifies accessibility and clarity under varied visual conditions. \\
+\textbf{How test will be performed:} Tested using Chrome DevTools accessibility simulator; screenshots recorded for documentation.
+\end{enumerate}
+
+\subsection{Maintainability}
+
+This area ensures the modular design and structure of the codebase support efficient updates and debugging.
+
+\textbf{Test Case: Code Quality and Modular Design Inspection}
+
+\begin{enumerate}
+\item \textbf{T.NFR.M.1} \\
+\textbf{Control:} Static \\
+\textbf{Initial State:} Complete source code committed to GitHub. \\
+\textbf{Input/Condition:} Run \texttt{SonarQube} and \texttt{flake8} to generate maintainability and style reports. \\
+\textbf{Output/Result:} No high-severity issues; modules follow consistent structure and clear separation of concerns. \\
+\textbf{Test Case Derivation:} Verifies NFR.S.3 (Maintainability) through code inspection and static analysis. \\
+\textbf{How test will be performed:} Peer inspection led by Matthew Cheung and Sunny Yao; issues logged in GitHub for resolution.
+\end{enumerate}
+
+\subsection{Installability}
+
+This area validates that RLCatan installs and operates correctly across all supported operating systems and browsers.
+
+\textbf{Test Case: Cross-Platform Installation Validation}
+
+\begin{enumerate}
+\item \textbf{T.NFR.I.1} \\
+\textbf{Control:} Manual \\
+\textbf{Initial State:} Packaged release available. \\
+\textbf{Input/Condition:} Install and execute RLCatan on Windows~11 and macOS using Chrome and Firefox browsers. \\
+\textbf{Output/Result:} Application installs and runs successfully on all tested platforms. \\
+\textbf{Test Case Derivation:} Verifies NFR.S.4 (Installability) by ensuring cross-platform compatibility. \\
+\textbf{How test will be performed:} Each team member installs on a unique OS following a checklist; issues recorded and documented.
+\end{enumerate}
+
+\subsection{Data Integrity}
+
+This area ensures that the Game State Database maintains consistent, valid, and accurate data under all conditions, including normal operation, concurrent updates, and unexpected failures. This includes validation of incoming updates and transactional consistency to prevent corruption.
+
+\textbf{Test Case: Transaction Integrity and Recovery}
+
+\begin{enumerate}
+\item \textbf{T.NFR.D.1} \\
+\textbf{Control:} Automatic \\
+\textbf{Initial State:} Active game session connected to the database. \\
+\textbf{Input/Condition:} Execute 10 consecutive state updates with an artificial network interruption during one update. \\
+\textbf{Output/Result:} Database remains consistent; interrupted transaction is rolled back cleanly; no other game states are affected. \\
+\textbf{Test Case Derivation:} Verifies transactional consistency portion of NFR.S.5 under failure conditions. \\
+\textbf{How test will be performed:} Automated integration test simulates network failures and verifies database consistency after each run.
+\end{enumerate}
+
+\textbf{Test Case: Data Validation on Updates}
+
+\begin{enumerate}
+\item \textbf{T.NFR.D.2} \\
+\textbf{Control:} Automatic \\
+\textbf{Initial State:} Active game session connected to the database. \\
+\textbf{Input/Condition:} Attempt to submit invalid game state updates, such as negative resource counts, illegal moves, or missing required fields. \\
+\textbf{Output/Result:} Invalid updates are rejected; database state remains unchanged; errors logged with descriptive messages. \\
+\textbf{Test Case Derivation:} Verifies validation portion of NFR.S.5, preventing data corruption from malformed inputs. \\
+\textbf{How test will be performed:} Automated tests inject invalid game state objects and verify the database rejects them and remains consistent.
+\end{enumerate}
+
+\textbf{Test Case: Concurrent Update Handling}
+
+\begin{enumerate}
+\item \textbf{T.NFR.D.3} \\
+\textbf{Control:} Automatic \\
+\textbf{Initial State:} Two or more simultaneous game sessions active. \\
+\textbf{Input/Condition:} Simulate concurrent updates to overlapping resources (e.g., two players updating the same tile). \\
+\textbf{Output/Result:} Only one valid transaction is committed; conflicts are detected and resolved; no data corruption occurs. \\
+\textbf{Test Case Derivation:} Verifies database integrity under concurrent operations, completing NFR.S.5 coverage. \\
+\textbf{How test will be performed:} Automated integration tests run multiple simulated clients updating shared resources; system logs and database state are verified for correctness.
+\end{enumerate}
+
+
+\subsection{Availability (NFR.S.6)}
+
+This area verifies that the system automatically recovers from failures within one minute, as required in the SRS.
+
+\textbf{Test Case: System Failure and Auto-Recovery}
+
+\begin{enumerate}
+\item \textbf{T.NFR.AV.1} \\
+\textbf{Control:} Manual \\
+\textbf{Initial State:} System running with active game session. \\
+\textbf{Input/Condition:} Force a server crash or database disconnect mid-turn. \\
+\textbf{Output/Result:} System restarts and restores previous game state within 60~seconds. \\
+\textbf{Test Case Derivation:} Verifies NFR.S.6 (Availability) by measuring recovery time following induced failure. \\
+\textbf{How test will be performed:} Use shell script to crash the process, record downtime using system logs, verify recovery from last snapshot.
+\end{enumerate}
+
+\subsection{Accuracy and Correctness (Referenced)}
+
+Accuracy-related NFRs are verified by functional tests defined in Section~4.2:
+\begin{itemize}
+    \item T.FR.AI.2.1--2.3 (AI Model and Recommendation Logic)
+    \item T.FR.CV.1.1--1.2 (Computer Vision and Game State Capture)
+\end{itemize}
+These tests report relative error between predicted and expected outcomes. No separate nonfunctional test cases are required.
+
+\begin{table}[H]
+  \centering
+  \caption{Traceability Between Nonfunctional Test Cases and Requirements}
+  \begin{tabular}{|l|l|}
+  \hline
+  \textbf{Test Case ID} & \textbf{Requirement(s) Verified} \\ \hline
+  T.NFR.P.1 & NFR.S.1 -- Scalability \\ \hline
+  T.NFR.U.1 & NFR.S.2 -- Usability \\ \hline
+  T.NFR.U.2 & NFR.S.2 -- Accessibility \\ \hline
+  T.NFR.M.1 & NFR.S.3 -- Maintainability \\ \hline
+  T.NFR.I.1 & NFR.S.4 -- Installability \\ \hline
+  T.NFR.D.1 & NFR.S.5 -- Data Integrity \\ \hline
+  T.NFR.D.2 & NFR.S.5 -- Data Integrity \\ \hline
+  T.NFR.D.3 & NFR.S.5 -- Data Integrity \\ \hline
+  T.NFR.AV.1 & NFR.S.6 -- Availability \\ \hline
+  \end{tabular}
+  \end{table}
+
 
 \section{Unit Test Description}
 
