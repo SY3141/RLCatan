@@ -135,12 +135,12 @@ This document presents the Verification and Validation (V\&V) plan for RLCatan. 
 
 
   The software being tested is RLCatan,
- an AI system that learns to play the board game Catan 
+ an $\AI{}$  system that learns to play the board game $\Catan{}$
  competitively through reinforcement learning. 
  It includes a learning agent trained in a simulated
   environment, a computer vision module for detecting 
   and interpreting the physical game board, and a
-  interface that displays the game state and AI-generated 
+  interface that displays the game state and $\AI{}$-generated
   move suggestions to users. The general purpose of RLCatan
   is to provide optimal move suggestions to human players
   based on real-time analysis of the game state.
@@ -170,7 +170,7 @@ The challenge level for this project is Advanced,
  with the course instructor. This project
   reflects the complexity of developing a 
   reinforcement learning agent capable of
-   mastering \textit{Settlers of Catan},
+   mastering \textit{Settlers of $\Catan{}$},
     integrating computer vision for real-time game state 
     analysis, and ensuring seamless interaction between
      system components.
@@ -179,7 +179,7 @@ The challenge level for this project is Advanced,
 The approved extras for this project include:
 \begin{itemize}
     \item User Instructional Video: A walkthrough video that explains how to set up, run, and interact with the software, helping users understand its functionality and workflow.
-    \item Performance Report: A comprehensive report summarizing the AI's performance metrics, learning progression, and evaluation results based on various test scenarios.
+    \item Performance Report: A comprehensive report summarizing the $\AI{}$'s performance metrics, learning progression, and evaluation results based on various test scenarios.
 \end{itemize}
 
 \subsection{Relevant Documentation}
@@ -217,7 +217,7 @@ The VnV efforts will be a collaborative team effort, with specific responsibilit
   Rebecca Di Filippo & Notetaker & Documenting VnV meeting minutes, maintaining traceability tables, and preparing the Usability Survey for validation. \\ \hline
   Sunny Yao & IT/DevOps & Implementing and maintaining CI/CD pipelines, monitoring automated test coverage metrics, and troubleshooting technical VnV tool issues. \\ \hline
   Matthew Cheung & Researcher & Researching and applying non-dynamic testing techniques (e.g., formal code inspection checklists) and collecting external data for software validation. \\ \hline
-  Dr. Istvan David & Project Supervisor & Providing technical oversight, expert consultation on RL model correctness, and participating in the Revision 0 demonstration for requirements validation. \\ \hline
+  Dr. Istvan David & Project Supervisor & Providing technical oversight, expert consultation on $\RL{}$ model correctness, and participating in the Revision 0 demonstration for requirements validation. \\ \hline
   \end{tabularx}
 \end{table}
 
@@ -322,7 +322,7 @@ Traceability to specific requirements (e.g., $\hyperref[FR.S.1.1]{FR.S.1.1}$) is
 
 
 This subsection outlines test cases organized by the primary functional component responsible for the requirement.
-These tests collectively cover all functional requirements detailed in Section S.2 of the SRS, including the core components: Computer Vision, RL Model, and Game State Management.
+These tests collectively cover all functional requirements detailed in Section S.2 of the SRS, including the core components: Computer Vision, $\RL{}$ Model, and Game State Management.
 (add more references maybe)
 
 
@@ -426,7 +426,7 @@ This area verifies that the system correctly manages, displays, and archives gam
 
 \subsubsection{Computer Vision and Game State Capture}
 
-This area focuses on verifying the accuracy and reliability of the Computer Vision (CV) Model ($\FR{}$.S.1.x) and the Game State Manager's ($\FR{}$.S.7.x) ability to convert visual input into a consistent digital representation ($\GameState{}$). The tests ensure the system can accurately detect board elements ($\hyperref[FR.S.1.1]{FR.S.1.1}$), translate them into structured data ($\hyperref[FR.S.1.2]{FR.S.1.2}$), and maintain synchronization ($\hyperref[FR.S.7.1]{FR.S.7.1}$).
+This area focuses on verifying the accuracy and reliability of the Computer Vision (\CV{}) Model ($\FR{}$.S.1.x) and the Game State Manager's ($\FR{}$.S.7.x) ability to convert visual input into a consistent digital representation ($\GameState{}$). The tests ensure the system can accurately detect board elements ($\hyperref[FR.S.1.1]{FR.S.1.1}$), translate them into structured data ($\hyperref[FR.S.1.2]{FR.S.1.2}$), and maintain synchronization ($\hyperref[FR.S.7.1]{FR.S.7.1}$).
 
 \textbf{Test Case: Initial Board Setup Recognition}
 
@@ -435,7 +435,7 @@ This area focuses on verifying the accuracy and reliability of the Computer Visi
 \item{T.FR.CV.3.1\\}
 \textbf{Control:} Manual
 
-\textbf{Initial State:} A standard, legal Catan board is set up for the initial placement phase. Resource tiles, number tokens, and the Robber are placed according to the rules. No settlements or roads have been placed.
+\textbf{Initial State:} A standard, legal $\Catan{}$ board is set up for the initial placement phase. Resource tiles, number tokens, and the Robber are placed according to the rules. No settlements or roads have been placed.
 
 \textbf{Input:} A captured image (or video frame) of the physical board.
 
@@ -507,15 +507,15 @@ This area ensures the RLCatan system maintains acceptable responsiveness and thr
 \item T.NFR.P.1 \\
 \textbf{Control:} Automatic
 
-\textbf{Initial State:} The RLCatan server is running the complete software stack (AI, CV, Database, UI).
+\textbf{Initial State:} The RLCatan server is running the complete software stack ($\AI{}$, $\CV{}$, Database, UI).
 
-\textbf{Input/Condition:} Simulate 1, 3, and 5 concurrent games using the RL environment and mock UI clients.
+\textbf{Input/Condition:} Simulate 1, 3, and 5 concurrent games using the $\RL{}$ environment and mock UI clients.
 
 \textbf{Output/Result:} Average response time per game, CPU load, and memory usage are measured and summarized in a graph.
 
 \textbf{Test Case Derivation:} Verifies NFR.S.1 (Scalability) by demonstrating that response time increases sub-linearly with load.
 
-\textbf{How test will be performed:} Automated load-testing scripts measure latency between GameState updates and AI recommendations. Results are summarized in a table of performance metrics versus number of sessions.
+\textbf{How test will be performed:} Automated load-testing scripts measure latency between GameState updates and $\AI{}$ recommendations. Results are summarized in a table of performance metrics versus number of sessions.
 \end{enumerate}
 
 \subsection{Usability}
@@ -530,9 +530,9 @@ This area focuses on confirming that the interface is intuitive and accessible t
 
 \textbf{Initial State:} Final prototype deployed in a browser.
 
-\textbf{Input/Condition:} 5--10 participants familiar with Catan complete a guided session and fill out the usability survey (Appendix 7.2).
+\textbf{Input/Condition:} 5--10 participants familiar with $\Catan{}$ complete a guided session and fill out the usability survey (Appendix 7.2).
 
-\textbf{Output/Result:} Average rating $\geq 4/5$ for clarity, ease of navigation, and understanding of AI feedback.
+\textbf{Output/Result:} Average rating $\geq 4/5$ for clarity, ease of navigation, and understanding of $\AI{}$ feedback.
 
 \textbf{Test Case Derivation:} Verifies NFR.S.2 (Usability) through direct user evaluation.
 
@@ -679,7 +679,7 @@ This area verifies that the system automatically recovers from failures within o
 
 Accuracy-related NFRs are verified by functional tests defined in Section~4.2:
 \begin{itemize}
-    \item T.FR.AI.2.1--2.3 (AI Model and Recommendation Logic)
+    \item T.FR.AI.2.1--2.3 ($\AI{}$ Model and Recommendation Logic)
     \item T.FR.CV.1.1--1.2 (Computer Vision and Game State Capture)
 \end{itemize}
 These tests report relative error between predicted and expected outcomes. No separate nonfunctional test cases are required.
