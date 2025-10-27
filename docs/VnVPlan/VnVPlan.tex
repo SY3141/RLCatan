@@ -60,29 +60,16 @@
 \end{tabularx}
 
 ~\\
-\wss{The intention of the VnV plan is to increase confidence in the software.
-However, this does not mean listing every verification and validation technique
-that has ever been devised.  The VnV plan should also be a \textbf{feasible}
-plan. Execution of the plan should be possible with the time and team available.
-If the full plan cannot be completed during the time available, it can either be
-modified to ``fake it'', or a better solution is to add a section describing
-what work has been completed and what work is still planned for the future.}
-
-\wss{The VnV plan is typically started after the requirements stage, but before
-the design stage.  This means that the sections related to unit testing cannot
-initially be completed.  The sections will be filled in after the design stage
-is complete.  the final version of the VnV plan should have all sections filled
-in.}
 
 \newpage
 
 \tableofcontents
 
 \listoftables
-\wss{Remove this section if it isn't needed}
+
 
 \listoffigures
-\wss{Remove this section if it isn't needed}
+
 
 \newpage
 
@@ -121,10 +108,7 @@ in.}
   \bottomrule
 \end{tabular}\\
 
-\wss{symbols, abbreviations, or acronyms --- you can simply reference the SRS
-  \citep{SRS} tables, if appropriate}
 
-\wss{Remove this section if it isn't needed}
 The following glossary headers are hyperlinked to their online definitions for further reading.
 \begin{itemize}
     \item \hypertarget{glossary-catan}{\CatanExt{}} – A strategy board game called \textit{Settlers of Catan} where players collect resources, build roads/settlements, and trade to earn points.[1]
@@ -149,8 +133,6 @@ This document presents the Verification and Validation (V\&V) plan for RLCatan. 
 
 \subsection{Summary}
 
-\wss{Say what software is being tested.  Give its name and a brief overview of
-  its general functions.}
 
   The software being tested is RLCatan,
  an AI system that learns to play the board game Catan 
@@ -165,22 +147,6 @@ This document presents the Verification and Validation (V\&V) plan for RLCatan. 
 
 \subsection{Objectives}
 
-\wss{State what is intended to be accomplished.  The objective will be around
-  the qualities that are most important for your project.  You might have
-  something like: ``build confidence in the software correctness,''
-  ``demonstrate adequate usability.'' etc.  You won't list all of the qualities,
-  just those that are most important.}
-
-\wss{You should also list the objectives that are out of scope.  You don't have 
-the resources to do everything, so what will you be leaving out.  For instance, 
-if you are not going to verify the quality of usability, state this.  It is also 
-worthwhile to justify why the objectives are left out.}
-
-\wss{The objectives are important because they highlight that you are aware of 
-limitations in your resources for verification and validation.  You can't do everything, 
-so what are you going to prioritize?  As an example, if your system depends on an 
-external library, you can explicitly state that you will assume that external library 
-has already been verified by its implementation team.}
 
 The objective is to build confidence 
 in the correctness, reliability, and functional performance of the RLCatan system.
@@ -197,19 +163,7 @@ in the correctness, reliability, and functional performance of the RLCatan syste
 
 \subsection{Challenge Level and Extras}
 
-\wss{State the challenge level (advanced, general, basic) for your project.
-Your challenge level should exactly match what is included in your problem
-statement.  This should be the challenge level agreed on between you and the
-course instructor.  You can use a pull request to update your challenge level
-(in TeamComposition.csv or Repos.csv) if your plan changes as a result of the
-VnV planning exercise.}
 
-\wss{Summarize the extras (if any) that were tackled by this project.  Extras
-can include usability testing, code walkthroughs, user documentation, formal
-proof, GenderMag personas, Design Thinking, etc.  Extras should have already
-been approved by the course instructor as included in your problem statement.
-You can use a pull request to update your extras (in TeamComposition.csv or
-Repos.csv) if your plan changes as a result of the VnV planning exercise.}
 
 The challenge level for this project is Advanced,
  as outlined in the problem statement and confirmed 
@@ -230,21 +184,14 @@ The approved extras for this project include:
 
 \subsection{Relevant Documentation}
 
-\wss{Reference relevant documentation.  This will definitely include your SRS
-  and your other project documents (design documents, like MG, MIS, etc).  You
-  can include these even before they are written, since by the time the project
-  is done, they will be written.  You can create BibTeX entries for your
-  documents and within those entries include a hyperlink to the documents.}
+The following documents provide essential background for the VnV plan:
 
-\citet{SRS}
+\begin{enumerate}
+  \item \textbf{Software Requirements Specification (\citet{SRS}):} This document outlines the functional and non-functional requirements for RLCatan, serving as the primary reference for the verification and validation plan.
+\end{enumerate}
 
-\wss{Don't just list the other documents.  You should explain why they are relevant and 
-how they relate to your VnV efforts.}
 
 \section{Plan}
-
-\wss{Introduce this section.  You can provide a roadmap of the sections to
-  come.}
 
 This section outlines the strategy for Verification and Validation (VnV) across all phases of the RLCatan project lifecycle.
 The plan details the roles and responsibilities of the VnV team, and specifies structured approaches for verifying the Software Requirements Specification (SRS), Design, and Implementation, as well as the strategy for Software Validation.
@@ -254,9 +201,7 @@ This systematic approach is designed to increase confidence in the correctness, 
 
 \subsection{Verification and Validation Team}
 
-\wss{Your teammates.  Maybe your supervisor.
-  You should do more than list names.  You should say what each person's role is
-  for the project's verification.  A table is a good way to summarize this information.}
+
 
 
 The VnV efforts will be a collaborative team effort, with specific responsibilities assigned based on existing project roles to ensure systematic coverage and accountability.
@@ -281,15 +226,6 @@ The VnV efforts will be a collaborative team effort, with specific responsibilit
 
 \subsection{SRS Verification}
 
-\wss{List any approaches you intend to use for SRS verification.  This may
-  include ad hoc feedback from reviewers, like your classmates (like your
-  primary reviewer), or you may plan for something more rigorous/systematic.}
-
-\wss{If you have a supervisor for the project, you shouldn't just say they will
-read over the SRS.  You should explain your structured approach to the review.
-Will you have a meeting?  What will you present?  What questions will you ask?
-Will you give them instructions for a task-based inspection?  Will you use your
-issue tracker?}
 
 
 The SRS will be verified against the project’s objectives to ensure all requirements are unambiguous, correct, feasible, and complete (Quality System Tests).
@@ -304,15 +240,8 @@ The SRS will be verified against the project’s objectives to ensure all requir
 \end{itemize}
 
 
-\wss{Maybe create an SRS checklist?}
 
 \subsection{Design Verification}
-
-\wss{Plans for design verification}
-
-\wss{The review will include reviews by your classmates}
-
-\wss{Create a checklists?}
 
 
 Design verification will occur after the Design Document is completed (Milestone: Nov. 10) to ensure the architectural design meets all requirements and is ready for implementation.
@@ -327,12 +256,6 @@ Design verification will occur after the Design Document is completed (Milestone
 
 \subsection{Verification and Validation Plan Verification}
 
-\wss{The verification and validation plan is an artifact that should also be
-verified.  Techniques for this include review and mutation testing.}
-
-\wss{The review will include reviews by your classmates}
-
-\wss{Create a checklists?}
 
 
 The VnV Plan itself is a critical project artifact that must be verified for feasibility, clarity, and completeness.
@@ -346,16 +269,6 @@ The VnV Plan itself is a critical project artifact that must be verified for fea
 
 \subsection{Implementation Verification}
 
-\wss{You should at least point to the tests listed in this document and the unit
-  testing plan.}
-
-\wss{In this section you would also give any details of any plans for static
-  verification of the implementation.  Potential techniques include code
-  walkthroughs, code inspection, static analyzers, etc.}
-
-\wss{The final class presentation in CAS 741 could be used as a code
-walkthrough.  There is also a possibility of using the final presentation (in
-CAS741) for a partial usability survey.}
 
 Implementation verification is focused on ensuring the source code correctly implements the design and fulfills the requirements.
 This will use a combination of dynamic (automated tests) and non-dynamic (static analysis and inspection) techniques.
@@ -369,21 +282,6 @@ This will use a combination of dynamic (automated tests) and non-dynamic (static
 \end{itemize}
 
 \subsection{Automated Testing and Verification Tools}
-
-\wss{What tools are you using for automated testing.  Likely a unit testing
-  framework and maybe a profiling tool, like ValGrind.  Other possible tools
-  include a static analyzer, make, continuous integration tools, test coverage
-  tools, etc.  Explain your plans for summarizing code coverage metrics.
-  Linters are another important class of tools.  For the programming language
-  you select, you should look at the available linters.  There may also be tools
-  that verify that coding standards have been respected, like flake9 for
-  Python.}
-
-\wss{If you have already done this in the development plan, you can point to
-that document.}
-
-\wss{The details of this section will likely evolve as you get closer to the
-  implementation.}
 
 
 Automated VnV tools are central to maintaining code quality and continuous integration.
@@ -400,23 +298,6 @@ Automated VnV tools are central to maintaining code quality and continuous integ
 
 \subsection{Software Validation}
 
-\wss{If there is any external data that can be used for validation, you should
-  point to it here.  If there are no plans for validation, you should state that
-  here.}
-
-\wss{You might want to use review sessions with the stakeholder to check that
-the requirements document captures the right requirements.  Maybe task based
-inspection?}
-
-\wss{For those capstone teams with an external supervisor, the Rev 0 demo should 
-be used as an opportunity to validate the requirements.  You should plan on 
-demonstrating your project to your supervisor shortly after the scheduled Rev 0 demo.  
-The feedback from your supervisor will be very useful for improving your project.}
-
-\wss{For teams without an external supervisor, user testing can serve the same purpose 
-as a Rev 0 demo for the supervisor.}
-
-\wss{This section might reference back to the SRS verification section.}
 
 
 Software validation ensures the final product meets the actual needs of the end-users (players) and stakeholders.
@@ -430,9 +311,6 @@ Software validation ensures the final product meets the actual needs of the end-
 
 \section{System Tests}
 
-\wss{There should be text between all headings, even if it is just a roadmap of
-the contents of the subsections.}
-
 
 This section details the system-level tests for validating the functional and non-functional requirements of the RLCatan system.
 The system tests are designed to be run once the integrated system is complete, using real-world or representative data to simulate actual use cases.
@@ -441,13 +319,6 @@ Traceability to specific requirements (e.g., $\hyperref[FR.S.1.1]{FR.S.1.1}$) is
 
 
 \subsection{Tests for Functional Requirements}
-
-\wss{Subsets of the tests may be in related, so this section is divided into
-  different areas.  If there are no identifiable subsets for the tests, this
-  level of document structure can be removed.}
-
-\wss{Include a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good here.}
 
 
 This subsection outlines test cases organized by the primary functional component responsible for the requirement.
@@ -458,10 +329,6 @@ These tests collectively cover all functional requirements detailed in Section S
 
 \subsubsection{Area of Testing1}
 
-\wss{It would be nice to have a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good here.  If a section
-  covers tests for input constraints, you should reference the data constraints
-  table in the SRS.}
 
 
 
@@ -1008,7 +875,6 @@ Their values are defined in this section for easy maintenance.
 
 \subsection{Usability Survey Questions?}
 
-\wss{This is a section that would be appropriate for some projects.}
 
 This section provides the planned questions for the usability survey, which will be used to validate the usability Non-Functional Requirements ($\hyperref[NFR.S.2]{NFR.S.2}$) and gather feedback on the clarity of the $\AI{}$ suggestions ($\hyperref[FR.Sa.7]{FR.Sa.7}$), primarily targeting the Novice and Intermediate player profiles.
 
@@ -1024,7 +890,6 @@ This section provides the planned questions for the usability survey, which will
 \newpage{}
 \section*{Appendix --- Reflection}
 
-\wss{This section is not required for CAS 741}
 
 The information in this section will be used to evaluate the team members on the
 graduate attribute of Lifelong Learning.
