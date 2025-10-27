@@ -32,8 +32,8 @@
 \newcommand{\LLMExt}{\href{https://www.cloudflare.com/learning/ai/what-is-large-language-model/}{LLM}}
 \newcommand{\GameStateExt}{\href{https://milvus.io/ai-quick-reference/what-is-a-state-in-rl}{Game State}}
 
-\newcommand{\NFRExt}{\text{Non-functional Requirement}}
-\newcommand{\FRExt}{\text{Functional Requirement}}
+\newcommand{\NFRExt}{\href{https://en.wikipedia.org/wiki/Non-functional_requirement}{NFR}}
+\newcommand{\FRExt}{\href{https://en.wikipedia.org/wiki/Functional_requirement}{FR}}
 
 
 \input{../Comments}
@@ -134,6 +134,8 @@ The following glossary headers are hyperlinked to their online definitions for f
     \item \hypertarget{glossary-cv}{\CVExt{}} – An area of AI that trains computers to interpret and understand visual information, such as the physical \emph{Catan} board.[5]
     \item \hypertarget{glossary-llm}{\LLMExt{}} – A machine learning model trained on large amounts of text data to generate and understand language.[6]
     \item \hypertarget{glossary-gamestate}{\GameStateExt{}} – The current configuration of the game, including player resources, board layout, and dice rolls.[7]
+    \item \hypertarget{glossary-fr}{\FRExt{}} – A requirement that defines a function of the system; it specifies what the system must do.[8]
+    \item \hypertarget{glossary-nfr}{\NFRExt{}} – A requirement that specifies a quality attribute of the system; it defines how the system must be.[9]
 \end{itemize}
 
 \newpage
@@ -462,70 +464,57 @@ These tests collectively cover all functional requirements detailed in Section S
   table in the SRS.}
 
 
+
 \subsection{Tests for Functional Requirements}
 
-
-This subsection details the system tests for all functional requirements ($\FR{}$) outlined in the SRS (Section S.2).
-The tests are categorized by the major functional areas of the RLCatan system to ensure comprehensive coverage.
-The Test IDs maintain clear traceability to their corresponding requirements.
-
+This subsection details the system tests for all functional requirements ($\FR{}$) outlined in the SRS (Section S.2). The tests are categorized by the major functional areas of the RLCatan system to ensure comprehensive coverage. The Test IDs maintain clear traceability to their corresponding requirements.
 
 \subsubsection{AI Model and Recommendation Logic}
 
-This area focuses on verifying the core $\AI{}$ functionality, including strategy prediction ($\hyperref[FR.S.3.1]{FR.S.3.1}$), logical evaluation of moves ($\hyperref[FR.S.3.2]{FR.S.3.2}$), and integration with the $\RL{}$ Environment ($\hyperref[FR.S.2.5]{FR.S.2.5}$) and the official game rules ($\hyperref[FR.S.2.1]{FR.S.2.1}$).
-These tests ensure the $\AI{}$ provides optimal, valid, and context-aware suggestions.
+This area focuses on verifying the core $\AI{}$ functionality, including strategy prediction ($\hyperref[FR.S.3.1]{FR.S.3.1}$), logical evaluation of moves ($\hyperref[FR.S.3.2]{FR.S.3.2}$), and integration with the $\RL{}$ Environment ($\hyperref[FR.S.2.5]{FR.S.2.5}$) and the official game rules ($\hyperref[FR.S.2.1]{FR.S.2.1}$). These tests ensure the $\AI{}$ provides optimal, valid, and context-aware suggestions.
 
 \textbf{Test Case: $\AI{}$ Move Validity and Strategy Prediction}
 
 \begin{enumerate}
 
-\item{T.FR.AI.2.1\\}
+\item{T.FR.AI.1.1\\}
+\textbf{Control:} Automatic
 
-Control: Automatic
+\textbf{Initial State:} A game state is loaded where Player A has exactly 1 Wood, 1 Brick, and 2 Roads left to build. All adjacent spaces for a new road are occupied by other players' structures, leaving only one legal road placement location. Player A has no other legal moves (cannot build a settlement, city, or development card).
 
-Initial State: A game state is loaded where Player A has exactly 1 Wood, 1 Brick, and 2 Roads left to build.
-All adjacent spaces for a new road are occupied by other players' structures, leaving only one legal road placement location.
-Player A has no other legal moves (cannot build a settlement, city, or development card).
+\textbf{Input:} The structured $\GameState{}$ is sent to the $\AI{}$ model via the Game State Manager ($\hyperref[FR.S.2.5]{FR.S.2.5}$).
 
-Input: The structured $\GameState{}$ is sent to the $\AI{}$ model via the Game State Manager ($\hyperref[FR.S.2.5]{FR.S.2.5}$).
+\textbf{Output:} The $\AI{}$'s move suggestion must be \texttt{BuildRoad} at the single remaining legal location. No illegal moves (e.g., \texttt{BuildSettlement} or suggestions to trade without partners) should be returned.
 
-Output: The $\AI{}$'s move suggestion must be \texttt{BuildRoad} at the single remaining legal location.
-No illegal moves (e.g., \texttt{BuildSettlement} or suggestions to trade without partners) should be returned.
+\textbf{Test Case Derivation:} Verifies $\hyperref[FR.S.3.1]{FR.S.3.1}$ (Strategy Prediction) and $\hyperref[FR.S.3.2]{FR.S.3.2}$ (Evaluate potential moves) by enforcing a state with only one legal optimal move, thus checking adherence to rules ($\hyperref[FR.S.2.1]{FR.S.2.1}$) and logical constraints.
 
-Test Case Derivation: Verifies $\hyperref[FR.S.3.1]{FR.S.3.1}$ (Strategy Prediction) and $\hyperref[FR.S.3.2]{FR.S.3.2}$ (Evaluate potential moves) by enforcing a state with only one legal optimal move, thus checking adherence to rules ($\hyperref[FR.S.2.1]{FR.S.2.1}$) and logical constraints.
+\textbf{How test will be performed:} An automated simulation within the $\RL{}$ Environment ($\hyperref[FR.S.2.1]{FR.S.2.1}$) is run 10 times from this exact pre-set state. All 10 runs must result in the suggestion of the single legal road placement.
 
-How test will be performed: An automated simulation within the $\RL{}$ Environment ($\hyperref[FR.S.2.1]{FR.S.2.1}$) is run 10 times from this exact pre-set state.
-All 10 runs must result in the suggestion of the single legal road placement.
+\item{T.FR.AI.1.2\\}
+\textbf{Control:} Manual
 
-\item{T.FR.AI.2.2\\}
+\textbf{Initial State:} $\GameState{}$ where Player A is 1 Victory Point (VP) away from winning (e.g., 9 VP + Longest Road) and has enough resources to build a settlement, but not a city. An open, unblocked node that grants the winning 10th VP is available.
 
-Control: Manual
+\textbf{Input:} $\GameState{}$ where the immediate winning move is available.
 
-Initial State: $\GameState{}$ where Player A is 1 Victory Point (VP) away from winning (e.g., 9 VP + Longest Road) and has enough resources to build a settlement, but not a city.
-An open, unblocked node that grants the winning 10th VP is available.
+\textbf{Output:} The $\AI{}$ must provide the suggestion to \texttt{BuildSettlement} at the winning node, with a high confidence score ($\hyperref[FR.S.3.4]{FR.S.3.4}$). The textual reasoning should explicitly state that this move secures the victory.
 
-Input: $\GameState{}$ where the immediate winning move is available.
+\textbf{Test Case Derivation:} Verifies $\hyperref[FR.S.3.1]{FR.S.3.1}$ (Strategy Prediction) by testing the $\AI{}$'s ability to identify and prioritize an immediate game-winning condition over resource maximization.
 
-Output: The $\AI{}$ must provide the suggestion to \texttt{BuildSettlement} at the winning node, with a high confidence score ($\hyperref[FR.S.3.4]{FR.S.3.4}$). The textual reasoning should explicitly state that this move secures the victory.
+\textbf{How test will be performed:} Load the state and manually check the UI display ($\hyperref[FR.S.4.4]{FR.S.4.4}$) to ensure the winning move is highlighted and prioritized over all other options.
 
-Test Case Derivation: Verifies $\hyperref[FR.S.3.1]{FR.S.3.1}$ (Strategy Prediction) by testing the $\AI{}$'s ability to identify and prioritize an immediate game-winning condition over resource maximization.
+\item{T.FR.AI.1.3\\}
+\textbf{Control:} Automatic
 
-How test will be performed: Load the state and manually check the UI display ($\hyperref[FR.S.4.4]{FR.S.4.4}$) to ensure the winning move is highlighted and prioritized over all other options.
+\textbf{Initial State:} $\GameState{}$ loaded for a 4-player game where the current player (Player A) has 6 resources and rolls a 7, triggering the Robber phase.
 
-\item{T.FR.AI.2.3\\}
+\textbf{Input:} The structured $\GameState{}$ is fed to the $\AI{}$ model.
 
-Control: Automatic
+\textbf{Output:} The $\AI{}$ must correctly calculate that Player A needs to discard 3 cards (half of their resources, rounded down), and must suggest a move (placing the Robber, stealing a card) that is fully legal, verifying the rule simulation ($\hyperref[FR.S.2.1]{FR.S.2.1}$).
 
-Initial State: $\GameState{}$ loaded for a 4-player game where the current player (Player A) has 6 resources and rolls a 7, triggering the Robber phase.
+\textbf{Test Case Derivation:} Checks a critical game transition rule (Robber movement/discarding) against the simulated environment and $\AI{}$ logic, ensuring adherence to the core ruleset.
 
-Input: The structured $\GameState{}$ is fed to the $\AI{}$ model.
-
-Output: The $\AI{}$ must correctly calculate that Player A needs to discard 3 cards (half of their resources, rounded down), and must suggest a move (placing the Robber, stealing a card) that is fully legal, verifying the rule simulation ($\hyperref[FR.S.2.1]{FR.S.2.1}$).
-
-Test Case Derivation: Checks a critical game transition rule (Robber movement/discarding) against the simulated environment and $\AI{}$ logic, ensuring adherence to the core ruleset.
-
-How test will be performed: Run 10 simulations where the Robber is rolled.
-Verify the system logic correctly applies the discarding rule and the $\AI{}$ suggests a valid Robber placement move.
+\textbf{How test will be performed:} Run 10 simulations where the Robber is rolled. Verify the system logic correctly applies the discarding rule and the $\AI{}$ suggests a valid Robber placement move.
 \end{enumerate}
 
 \subsubsection{User Interface and Data Management}
@@ -536,85 +525,69 @@ This area verifies that the system correctly manages, displays, and archives gam
 
 \begin{enumerate}
 
-\item{T.FR.UI.3.1\\}
+\item{T.FR.UI.2.1\\}
+\textbf{Control:} Manual/Automatic
 
-Control: Manual/Automatic
+\textbf{Initial State:} Game has just started. Player A has 2 settlements and 2 roads. The UI displays Player A's resource inventory as empty.
 
-Initial State: Game has just started.
-Player A has 2 settlements and 2 roads. The UI displays Player A's resource inventory as empty.
+\textbf{Input:} Player A performs the action \texttt{BuildRoad} at node X, which is processed by the Game State Manager ($\hyperref[FR.S.7.4]{FR.S.7.4}$) and updated in the $\GameState{}$ Database ($\hyperref[FR.S.5.1]{FR.S.5.1}$) using the Image Queue ($\hyperref[FR.S.6.1]{FR.S.6.1}$).
 
-Input: Player A performs the action \texttt{BuildRoad} at node X, which is processed by the Game State Manager ($\hyperref[FR.S.7.4]{FR.S.7.4}$) and updated in the $\GameState{}$ Database ($\hyperref[FR.S.5.1]{FR.S.5.1}$) using the Image Queue ($\hyperref[FR.S.6.1]{FR.S.6.1}$).
-
-Output:
+\textbf{Output:}
     a) The UI must immediately reflect the change, showing the new road on the board visualization ($\hyperref[FR.S.4.1]{FR.S.4.1}$) and Player A's resource inventory accurately reduced ($\hyperref[FR.S.4.2]{FR.S.4.2}$).
     b) The $\GameState{}$ Database entry for this turn must be complete, correctly logging the pre-move state, the move performed, and the resulting post-move state ($\hyperref[FR.S.5.2]{FR.S.5.2}$).
 
-Test Case Derivation: Verifies the real-time data flow requirements ($\hyperref[FR.S.6.1]{FR.S.6.1}$) and the system's ability to automatically and accurately update all components after a player action ($\hyperref[FR.S.7.4]{FR.S.7.4}$).
+\textbf{Test Case Derivation:} Verifies the real-time data flow requirements ($\hyperref[FR.S.6.1]{FR.S.6.1}$) and the system's ability to automatically and accurately update all components after a player action ($\hyperref[FR.S.7.4]{FR.S.7.4}$).
 
-How test will be performed: Perform 5 consecutive build actions and measure the time for the UI to update.
-After the sequence, query the $\GameState{}$ Database to confirm that 5 distinct, consistent, and sequentially correct game states were logged ($\hyperref[FR.S.5.1]{FR.S.5.1}$).
+\textbf{How test will be performed:} Perform 5 consecutive build actions and measure the time for the UI to update. After the sequence, query the $\GameState{}$ Database to confirm that 5 distinct, consistent, and sequentially correct game states were logged ($\hyperref[FR.S.5.1]{FR.S.5.1}$).
 
-\item{T.FR.UI.3.2\\}
+\item{T.FR.UI.2.2\\}
+\textbf{Control:} Automatic
 
-Control: Automatic
+\textbf{Initial State:} Game is 50 turns long and complete. The game state database contains the full history.
 
-Initial State: Game is 50 turns long and complete.
-The game state database contains the full history.
+\textbf{Input:} Request historical game data ($\hyperref[FR.S.5.5]{FR.S.5.5}$) for the completed game, specifically requesting all dice rolls and all development card purchases.
 
-Input: Request historical game data ($\hyperref[FR.S.5.5]{FR.S.5.5}$) for the completed game, specifically requesting all dice rolls and all development card purchases.
+\textbf{Output:} The system successfully returns the complete list of 50 turn records, including the dice roll for each turn, and a timestamped record of every development card purchased, demonstrating access to historical data ($\hyperref[FR.S.7.3]{FR.S.7.3}$).
 
-Output: The system successfully returns the complete list of 50 turn records, including the dice roll for each turn, and a timestamped record of every development card purchased, demonstrating access to historical data ($\hyperref[FR.S.7.3]{FR.S.7.3}$).
+\textbf{Test Case Derivation:} Verifies the requirements for historical logging and structured access to past game data ($\hyperref[FR.S.5.5]{FR.S.5.5}$).
 
-Test Case Derivation: Verifies the requirements for historical logging and structured access to past game data ($\hyperref[FR.S.5.5]{FR.S.5.5}$).
-
-How test will be performed: An automated script runs 10 full simulated games, each over 40 turns.
-After each game, the script attempts to query the database for the complete turn log.
-The test passes only if all 10 logs are complete, consistent, and accurately reflect the game rules.
+\textbf{How test will be performed:} An automated script runs 10 full simulated games, each over 40 turns. After each game, the script attempts to query the database for the complete turn log. The test passes only if all 10 logs are complete, consistent, and accurately reflect the game rules.
 
 \end{enumerate}
 
 \subsubsection{Computer Vision and Game State Capture}
 
-This area focuses on verifying the accuracy and reliability of the Computer Vision (CV) Model ($\FR{}$.S.1.x) and the Game State Manager's ($\FR{}$.S.7.x) ability to convert visual input into a consistent digital representation ($\GameState{}$).
-The tests ensure the system can accurately detect board elements ($\hyperref[FR.S.1.1]{FR.S.1.1}$), translate them into structured data ($\hyperref[FR.S.1.2]{FR.S.1.2}$), and maintain synchronization ($\hyperref[FR.S.7.1]{FR.S.7.1}$).
+This area focuses on verifying the accuracy and reliability of the Computer Vision (CV) Model ($\FR{}$.S.1.x) and the Game State Manager's ($\FR{}$.S.7.x) ability to convert visual input into a consistent digital representation ($\GameState{}$). The tests ensure the system can accurately detect board elements ($\hyperref[FR.S.1.1]{FR.S.1.1}$), translate them into structured data ($\hyperref[FR.S.1.2]{FR.S.1.2}$), and maintain synchronization ($\hyperref[FR.S.7.1]{FR.S.7.1}$).
 
 \textbf{Test Case: Initial Board Setup Recognition}
 
 \begin{enumerate}
 
-\item{T.FR.CV.1.1\\}
+\item{T.FR.CV.3.1\\}
+\textbf{Control:} Manual
 
-Control: Manual
+\textbf{Initial State:} A standard, legal Catan board is set up for the initial placement phase. Resource tiles, number tokens, and the Robber are placed according to the rules. No settlements or roads have been placed.
 
-Initial State: A standard, legal Catan board is set up for the initial placement phase.
-Resource tiles, number tokens, and the Robber are placed according to the rules. No settlements or roads have been placed.
+\textbf{Input:} A captured image (or video frame) of the physical board.
 
-Input: A captured image (or video frame) of the physical board.
+\textbf{Output:} A structured $\GameState{}$ data object where the board topology (tile types and locations, number tokens, Robber position) is correctly mapped to the digital twin. The asset counts for all players (settlements: 5, roads: 15) must be correct, verifying $\hyperref[FR.S.7.2]{FR.S.7.2}$.
 
-Output: A structured $\GameState{}$ data object where the board topology (tile types and locations, number tokens, Robber position) is correctly mapped to the digital twin.
-The asset counts for all players (settlements: 5, roads: 15) must be correct, verifying $\hyperref[FR.S.7.2]{FR.S.7.2}$.
+\textbf{Test Case Derivation:} Directly verifies $\hyperref[FR.S.1.2]{FR.S.1.2}$ (Feature-to-State Translation) and $\hyperref[FR.S.7.1]{FR.S.7.1}$ (State Synchronization) using a known baseline state.
 
-Test Case Derivation: Directly verifies $\hyperref[FR.S.1.2]{FR.S.1.2}$ (Feature-to-State Translation) and $\hyperref[FR.S.7.1]{FR.S.7.1}$ (State Synchronization) using a known baseline state.
+\textbf{How test will be performed:} A set of 5 different, legally generated board setups will be used. For each setup, the system is fed the image, and the output $\GameState{}$ dictionary is inspected to ensure a 100\% match with the actual setup.
 
-How test will be performed: A set of 5 different, legally generated board setups will be used.
-For each setup, the system is fed the image, and the output $\GameState{}$ dictionary is inspected to ensure a 100\% match with the actual setup.
+\item{T.FR.CV.3.2\\}
+\textbf{Control:} Manual
 
-\item{T.FR.CV.1.2\\}
+\textbf{Initial State:} A game is mid-play. Player A has 2 settlements, 1 city, 8 roads. The camera is slightly misaligned, causing a minor occlusion of one edge.
 
-Control: Manual
+\textbf{Input:} A captured image of the board with the occlusion.
 
-Initial State: A game is mid-play.
-Player A has 2 settlements, 1 city, 8 roads. The camera is slightly misaligned, causing a minor occlusion of one edge.
+\textbf{Output:} The system successfully detects the presence of Player A's 2 settlements, 1 city, and 8 roads, correctly applying logical constraints to infer the state despite the occlusion. The system provides a diagnostic confidence metric ($\hyperref[FR.S.1.5]{FR.S.1.5}$) for the occluded area.
 
-Input: A captured image of the board with the occlusion.
+\textbf{Test Case Derivation:} Verifies $\hyperref[FR.S.1.3]{FR.S.1.3}$ (Error Detection and Correction) and $\hyperref[FR.S.1.5]{FR.S.1.5}$ (Diagnostic Feedback) under sub-optimal real-world conditions.
 
-Output: The system successfully detects the presence of Player A's 2 settlements, 1 city, and 8 roads, correctly applying logical constraints to infer the state despite the occlusion.
-The system provides a diagnostic confidence metric ($\hyperref[FR.S.1.5]{FR.S.1.5}$) for the occluded area.
-
-Test Case Derivation: Verifies $\hyperref[FR.S.1.3]{FR.S.1.3}$ (Error Detection and Correction) and $\hyperref[FR.S.1.5]{FR.S.1.5}$ (Diagnostic Feedback) under sub-optimal real-world conditions.
-
-How test will be performed: Artificially introduce a small, known occlusion (e.g., a hand partially covering an intersection) in a mid-game state.
-Check that the digital state is correctly reconstructed and that the confidence metric correctly flags the occluded element as low-confidence/corrected.
+\textbf{How test will be performed:} Artificially introduce a small, known occlusion (e.g., a hand partially covering an intersection) in a mid-game state. Check that the digital state is correctly reconstructed and that the confidence metric correctly flags the occluded element as low-confidence/corrected.
 
 \end{enumerate}
 
@@ -622,27 +595,27 @@ Check that the digital state is correctly reconstructed and that the confidence 
 
 The table below documents the explicit traceability between the defined system test cases ($\mathit{T.ID}$) and the specific requirements ($\mathit{Req.ID}$) they verify. This ensures that every functional and critical non-functional requirement is covered with appropriate redundancy, building confidence in the product if all tests pass.
 
-\begin{table}[h!]
+\begin{table}[h]
     \centering
-    \caption{System Test Case Traceability Matrix (Partial)}
-    \label{tab:system-test-traceability}
+    \caption{Functional Requirement Test Case Traceability Matrix}
+    \label{tab:fr-system-test-traceability}
     \begin{tabularx}{\textwidth}{|c|X|}
     \hline
     \textbf{Test Case ID} & \textbf{Requirements Verified (Subset)} \\
     \hline
-    T.FR.AI.2.1 & $\hyperref[FR.S.3.1]{FR.S.3.1}$, $\hyperref[FR.S.3.2]{FR.S.3.2}$, $\hyperref[FR.S.2.1]{FR.S.2.1}$, $\hyperref[FR.S.2.5]{FR.S.2.5}$, $\hyperref[FR.Sa.3]{FR.Sa.3}$ \\
+    T.FR.AI.1.1 & $\hyperref[FR.S.3.1]{FR.S.3.1}$, $\hyperref[FR.S.3.2]{FR.S.3.2}$, $\hyperref[FR.S.2.1]{FR.S.2.1}$, $\hyperref[FR.S.2.5]{FR.S.2.5}$, $\hyperref[FR.Sa.3]{FR.Sa.3}$ \\
     \hline
-    T.FR.AI.2.2 & $\hyperref[FR.S.3.1]{FR.S.3.1}$, $\hyperref[FR.S.3.4]{FR.S.3.4}$ \\
+    T.FR.AI.1.2 & $\hyperref[FR.S.3.1]{FR.S.3.1}$, $\hyperref[FR.S.3.4]{FR.S.3.4}$ \\
     \hline
-    T.FR.AI.2.3 & $\hyperref[FR.S.2.1]{FR.S.2.1}$ \\
+    T.FR.AI.1.3 & $\hyperref[FR.S.2.1]{FR.S.2.1}$ \\
     \hline
-    T.FR.UI.3.1 & $\hyperref[FR.S.4.1]{FR.S.4.1}$, $\hyperref[FR.S.4.2]{FR.S.4.2}$, $\hyperref[FR.S.5.1]{FR.S.5.1}$, $\hyperref[FR.S.5.2]{FR.S.5.2}$, $\hyperref[FR.S.6.1]{FR.S.6.1}$, $\hyperref[FR.S.7.4]{FR.S.7.4}$, $\hyperref[FR.S.7.2]{FR.S.7.2}$ \\
+    T.FR.UI.2.1 & $\hyperref[FR.S.4.1]{FR.S.4.1}$, $\hyperref[FR.S.4.2]{FR.S.4.2}$, $\hyperref[FR.S.5.1]{FR.S.5.1}$, $\hyperref[FR.S.5.2]{FR.S.5.2}$, $\hyperref[FR.S.6.1]{FR.S.6.1}$, $\hyperref[FR.S.7.4]{FR.S.7.4}$, $\hyperref[FR.S.7.2]{FR.S.7.2}$ \\
     \hline
-    T.FR.UI.3.2 & $\hyperref[FR.S.5.5]{FR.S.5.5}$, $\hyperref[FR.S.7.3]{FR.S.7.3}$ \\
+    T.FR.UI.2.2 & $\hyperref[FR.S.5.5]{FR.S.5.5}$, $\hyperref[FR.S.7.3]{FR.S.7.3}$ \\
     \hline
-    T.FR.CV.1.1 & $\hyperref[FR.S.1.2]{FR.S.1.2}$, $\hyperref[FR.S.7.1]{FR.S.7.1}$, $\hyperref[FR.S.7.2]{FR.S.7.2}$ \\
+    T.FR.CV.3.1 & $\hyperref[FR.S.1.2]{FR.S.1.2}$, $\hyperref[FR.S.7.1]{FR.S.7.1}$, $\hyperref[FR.S.7.2]{FR.S.7.2}$ \\
     \hline
-    T.FR.CV.1.2 & $\hyperref[FR.S.1.3]{FR.S.1.3}$, $\hyperref[FR.S.1.5]{FR.S.1.5}$ \\
+    T.FR.CV.3.2 & $\hyperref[FR.S.1.3]{FR.S.1.3}$, $\hyperref[FR.S.1.5]{FR.S.1.5}$ \\
     \end{tabularx}
 \end{table}
 
@@ -661,12 +634,17 @@ This area ensures the RLCatan system maintains acceptable responsiveness and thr
 \textbf{Test Case: Scalability and Response Time Evaluation}
 
 \begin{enumerate}
-\item \textbf{T.NFR.P.1} \\
-\textbf{Control:} Automatic \\
-\textbf{Initial State:} The RLCatan server is running the complete software stack (AI, CV, Database, UI). \\
-\textbf{Input/Condition:} Simulate 1, 3, and 5 concurrent games using the RL environment and mock UI clients. \\
-\textbf{Output/Result:} Average response time per game, CPU load, and memory usage are measured and summarized in a graph. \\
-\textbf{Test Case Derivation:} Verifies NFR.S.1 (Scalability) by demonstrating that response time increases sub-linearly with load. \\
+\item T.NFR.P.1 \\
+\textbf{Control:} Automatic
+
+\textbf{Initial State:} The RLCatan server is running the complete software stack (AI, CV, Database, UI).
+
+\textbf{Input/Condition:} Simulate 1, 3, and 5 concurrent games using the RL environment and mock UI clients.
+
+\textbf{Output/Result:} Average response time per game, CPU load, and memory usage are measured and summarized in a graph.
+
+\textbf{Test Case Derivation:} Verifies NFR.S.1 (Scalability) by demonstrating that response time increases sub-linearly with load.
+
 \textbf{How test will be performed:} Automated load-testing scripts measure latency between GameState updates and AI recommendations. Results are summarized in a table of performance metrics versus number of sessions.
 \end{enumerate}
 
@@ -677,24 +655,34 @@ This area focuses on confirming that the interface is intuitive and accessible t
 \textbf{Test Case: Usability Survey and User Feedback}
 
 \begin{enumerate}
-\item \textbf{T.NFR.U.1} \\
-\textbf{Control:} Manual \\
-\textbf{Initial State:} Final prototype deployed in a browser. \\
-\textbf{Input/Condition:} 5--10 participants familiar with Catan complete a guided session and fill out the usability survey (Appendix~6.2). \\
-\textbf{Output/Result:} Average rating $\geq 4/5$ for clarity, ease of navigation, and understanding of AI feedback. \\
-\textbf{Test Case Derivation:} Verifies NFR.S.2 (Usability) through direct user evaluation. \\
+\item T.NFR.U.1 \\
+\textbf{Control:} Manual
+
+\textbf{Initial State:} Final prototype deployed in a browser.
+
+\textbf{Input/Condition:} 5--10 participants familiar with Catan complete a guided session and fill out the usability survey (Appendix 7.2).
+
+\textbf{Output/Result:} Average rating $\geq 4/5$ for clarity, ease of navigation, and understanding of AI feedback.
+
+\textbf{Test Case Derivation:} Verifies NFR.S.2 (Usability) through direct user evaluation.
+
 \textbf{How test will be performed:} Conducted during the final demo; results aggregated and visualized as a bar chart.
 \end{enumerate}
 
 \textbf{Test Case: Accessibility and Visual Clarity}
 
 \begin{enumerate}
-\item \textbf{T.NFR.U.2} \\
-\textbf{Control: Manual} \\
-\textbf{Initial State:} RLCatan UI loaded in browser. \\
-\textbf{Input/Condition:} Apply color-blindness filters and vary display scaling. \\
-\textbf{Output/Result:} All critical UI elements remain legible; contrast ratio $\geq 4.5:1$. \\
-\textbf{Test Case Derivation:} Verifies accessibility and clarity under varied visual conditions. \\
+\item T.NFR.U.2 \\
+\textbf{Control: Manual}
+
+\textbf{Initial State:} RLCatan UI loaded in browser.
+
+\textbf{Input/Condition:} Apply color-blindness filters and vary display scaling.
+
+\textbf{Output/Result:} All critical UI elements remain legible; contrast ratio $\geq 4.5:1$.
+
+\textbf{Test Case Derivation:} Verifies accessibility and clarity under varied visual conditions.
+
 \textbf{How test will be performed:} Tested using Chrome DevTools accessibility simulator; screenshots recorded for documentation.
 \end{enumerate}
 
@@ -705,12 +693,17 @@ This area ensures the modular design and structure of the codebase support effic
 \textbf{Test Case: Code Quality and Modular Design Inspection}
 
 \begin{enumerate}
-\item \textbf{T.NFR.M.1} \\
-\textbf{Control:} Static \\
-\textbf{Initial State:} Complete source code committed to GitHub. \\
-\textbf{Input/Condition:} Run \texttt{SonarQube} and \texttt{flake8} to generate maintainability and style reports. \\
-\textbf{Output/Result:} No high-severity issues; modules follow consistent structure and clear separation of concerns. \\
-\textbf{Test Case Derivation:} Verifies NFR.S.3 (Maintainability) through code inspection and static analysis. \\
+\item T.NFR.M.1 \\
+\textbf{Control:} Static
+
+\textbf{Initial State:} Complete source code committed to GitHub.
+
+\textbf{Input/Condition:} Run \texttt{SonarQube} and \texttt{flake8} to generate maintainability and style reports.
+
+\textbf{Output/Result:} No high-severity issues; modules follow consistent structure and clear separation of concerns.
+
+\textbf{Test Case Derivation:} Verifies NFR.S.3 (Maintainability) through code inspection and static analysis.
+
 \textbf{How test will be performed:} Peer inspection led by Matthew Cheung and Sunny Yao; issues logged in GitHub for resolution.
 \end{enumerate}
 
@@ -721,12 +714,17 @@ This area validates that RLCatan installs and operates correctly across all supp
 \textbf{Test Case: Cross-Platform Installation Validation}
 
 \begin{enumerate}
-\item \textbf{T.NFR.I.1} \\
-\textbf{Control:} Manual \\
-\textbf{Initial State:} Packaged release available. \\
-\textbf{Input/Condition:} Install and execute RLCatan on Windows~11 and macOS using Chrome and Firefox browsers. \\
-\textbf{Output/Result:} Application installs and runs successfully on all tested platforms. \\
-\textbf{Test Case Derivation:} Verifies NFR.S.4 (Installability) by ensuring cross-platform compatibility. \\
+\item T.NFR.I.1 \\
+\textbf{Control:} Manual
+
+\textbf{Initial State:} Packaged release available.
+
+\textbf{Input/Condition:} Install and execute RLCatan on Windows~11 and macOS using Chrome and Firefox browsers.
+
+\textbf{Output/Result:} Application installs and runs successfully on all tested platforms.
+
+\textbf{Test Case Derivation:} Verifies NFR.S.4 (Installability) by ensuring cross-platform compatibility.
+
 \textbf{How test will be performed:} Each team member installs on a unique OS following a checklist; issues recorded and documented.
 \end{enumerate}
 
@@ -737,36 +735,51 @@ This area ensures that the Game State Database maintains consistent, valid, and 
 \textbf{Test Case: Transaction Integrity and Recovery}
 
 \begin{enumerate}
-\item \textbf{T.NFR.D.1} \\
-\textbf{Control:} Automatic \\
-\textbf{Initial State:} Active game session connected to the database. \\
-\textbf{Input/Condition:} Execute 10 consecutive state updates with an artificial network interruption during one update. \\
-\textbf{Output/Result:} Database remains consistent; interrupted transaction is rolled back cleanly; no other game states are affected. \\
-\textbf{Test Case Derivation:} Verifies transactional consistency portion of NFR.S.5 under failure conditions. \\
+\item T.NFR.D.1 \\
+\textbf{Control:} Automatic
+
+\textbf{Initial State:} Active game session connected to the database.
+
+\textbf{Input/Condition:} Execute 10 consecutive state updates with an artificial network interruption during one update.
+
+\textbf{Output/Result:} Database remains consistent; interrupted transaction is rolled back cleanly; no other game states are affected.
+
+\textbf{Test Case Derivation:} Verifies transactional consistency portion of NFR.S.5 under failure conditions.
+
 \textbf{How test will be performed:} Automated integration test simulates network failures and verifies database consistency after each run.
 \end{enumerate}
 
 \textbf{Test Case: Data Validation on Updates}
 
 \begin{enumerate}
-\item \textbf{T.NFR.D.2} \\
-\textbf{Control:} Automatic \\
-\textbf{Initial State:} Active game session connected to the database. \\
-\textbf{Input/Condition:} Attempt to submit invalid game state updates, such as negative resource counts, illegal moves, or missing required fields. \\
-\textbf{Output/Result:} Invalid updates are rejected; database state remains unchanged; errors logged with descriptive messages. \\
-\textbf{Test Case Derivation:} Verifies validation portion of NFR.S.5, preventing data corruption from malformed inputs. \\
+\item T.NFR.D.2 \\
+\textbf{Control:} Automatic
+
+\textbf{Initial State:} Active game session connected to the database.
+
+\textbf{Input/Condition:} Attempt to submit invalid game state updates, such as negative resource counts, illegal moves, or missing required fields.
+
+\textbf{Output/Result:} Invalid updates are rejected; database state remains unchanged; errors logged with descriptive messages.
+
+\textbf{Test Case Derivation:} Verifies validation portion of NFR.S.5, preventing data corruption from malformed inputs.
+
 \textbf{How test will be performed:} Automated tests inject invalid game state objects and verify the database rejects them and remains consistent.
 \end{enumerate}
 
 \textbf{Test Case: Concurrent Update Handling}
 
 \begin{enumerate}
-\item \textbf{T.NFR.D.3} \\
-\textbf{Control:} Automatic \\
-\textbf{Initial State:} Two or more simultaneous game sessions active. \\
-\textbf{Input/Condition:} Simulate concurrent updates to overlapping resources (e.g., two players updating the same tile). \\
-\textbf{Output/Result:} Only one valid transaction is committed; conflicts are detected and resolved; no data corruption occurs. \\
-\textbf{Test Case Derivation:} Verifies database integrity under concurrent operations, completing NFR.S.5 coverage. \\
+\item T.NFR.D.3 \\
+\textbf{Control:} Automatic
+
+\textbf{Initial State:} Two or more simultaneous game sessions active.
+
+\textbf{Input/Condition:} Simulate concurrent updates to overlapping resources (e.g., two players updating the same tile).
+
+\textbf{Output/Result:} Only one valid transaction is committed; conflicts are detected and resolved; no data corruption occurs.
+
+\textbf{Test Case Derivation:} Verifies database integrity under concurrent operations, completing NFR.S.5 coverage.
+
 \textbf{How test will be performed:} Automated integration tests run multiple simulated clients updating shared resources; system logs and database state are verified for correctness.
 \end{enumerate}
 
@@ -778,12 +791,17 @@ This area verifies that the system automatically recovers from failures within o
 \textbf{Test Case: System Failure and Auto-Recovery}
 
 \begin{enumerate}
-\item \textbf{T.NFR.AV.1} \\
-\textbf{Control:} Manual \\
-\textbf{Initial State:} System running with active game session. \\
-\textbf{Input/Condition:} Force a server crash or database disconnect mid-turn. \\
-\textbf{Output/Result:} System restarts and restores previous game state within 60~seconds. \\
-\textbf{Test Case Derivation:} Verifies NFR.S.6 (Availability) by measuring recovery time following induced failure. \\
+\item T.NFR.AV.1 \\
+\textbf{Control:} Manual
+
+\textbf{Initial State:} System running with active game session.
+
+\textbf{Input/Condition:} Force a server crash or database disconnect mid-turn.
+
+\textbf{Output/Result:} System restarts and restores previous game state within 60~seconds.
+
+\textbf{Test Case Derivation:} Verifies NFR.S.6 (Availability) by measuring recovery time following induced failure.
+
 \textbf{How test will be performed:} Use shell script to crash the process, record downtime using system logs, verify recovery from last snapshot.
 \end{enumerate}
 
@@ -798,7 +816,8 @@ These tests report relative error between predicted and expected outcomes. No se
 
 \begin{table}[H]
   \centering
-  \caption{Traceability Between Nonfunctional Test Cases and Requirements}
+  \caption{Non-Functional Requirement Test Case Traceability Matrix}
+  \label{tab:nfr-system-test-traceability}
   \begin{tabular}{|l|l|}
   \hline
   \textbf{Test Case ID} & \textbf{Requirement(s) Verified} \\ \hline
@@ -955,9 +974,44 @@ This is where you can place additional information.
 The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
 Their values are defined in this section for easy maintenance.
 
+
+\begin{table}[h!]
+    \centering
+    \caption{Symbolic Constants for System Tests}
+    \label{tab:symbolic-parameters}
+    \begin{tabularx}{\textwidth}{|c|p{2.0cm}|X|}
+    \hline
+    \textbf{Constant} & \textbf{Value} & \textbf{Description} \\
+    \hline
+    $T\_\text{RESP}$ & 5 seconds & Maximum allowed time for the $\AI{}$ to display a move recommendation ($\hyperref[NFR.E.4]{NFR.E.4}$, $\hyperref[NFR.Sa.1]{NFR.Sa.1}$). \\
+    \hline
+    $N\_\text{BATCH}$ & 100 & Number of $\GameState{}$ objects used in a batch test for latency measurement. \\
+    \hline
+    $N\_\text{RECONNECT}$ & 3 & Minimum number of automatic reconnection attempts after connection loss ($\hyperref[FR.Sa.6]{FR.Sa.6}$). \\
+    \hline
+    $N\_\text{BOARD\_SETUP}$ & 5 & Number of legally generated board setups used to test CV initialization. \\
+    \hline
+    $N\_\text{SIM\_RUNS}$ & 10 & Number of simulation runs for verifying $\RL{}$ move validation and rule application. \\
+    \hline
+    \end{tabularx}
+\end{table}
+
+
+
 \subsection{Usability Survey Questions?}
 
 \wss{This is a section that would be appropriate for some projects.}
+
+This section provides the planned questions for the usability survey, which will be used to validate the usability Non-Functional Requirements ($\hyperref[NFR.S.2]{NFR.S.2}$) and gather feedback on the clarity of the $\AI{}$ suggestions ($\hyperref[FR.Sa.7]{FR.Sa.7}$), primarily targeting the Novice and Intermediate player profiles.
+
+\begin{enumerate}
+    \item \textbf{Clarity of $\AI{}$ Suggestion:} When the $\AI{}$ suggested a move, how clear was the visual highlighting or overlay that indicated the location and action? (1=Very Unclear, 5=Very Clear)
+    \item \textbf{Ease of Interface Use:} How easy was it to navigate the RLCatan interface to access the current $\GameState{}$ and receive the $\AI{}$ advice? (1=Very Difficult, 5=Very Easy)
+    \item \textbf{Speed of Advice:} Did the advice appear fast enough to be useful during a normal turn of play? (Yes/No, If No: please explain.)
+    \item \textbf{Trust in System:} How much confidence do you have in the system's ability to accurately reflect the physical board state? (1=Very Low, 5=Very High)
+    \item \textbf{Usefulness of Post-Game Analysis:} If you used the post-game analysis, how helpful were the insights for improving your future strategy? (1=Not Helpful, 5=Extremely Helpful)
+\end{enumerate}
+
 
 \newpage{}
 \section*{Appendix --- Reflection}
