@@ -188,6 +188,8 @@ The following documents provide essential background for the VnV plan:
 
 \begin{enumerate}
   \item \textbf{Software Requirements Specification (\citet{SRS}):} This document outlines the functional and non-functional requirements for RLCatan, serving as the primary reference for the verification and validation plan.
+  \item \textbf{Hazard Analysis (\citet{HA}):} This document identifies potential system-level hazards, their causes, and their effects.
+  The functional and non-functional safety requirements derived in the Hazard Analysis are the basis for many of the critical system tests in this VnV plan.
 \end{enumerate}
 
 
@@ -276,7 +278,6 @@ This will use a combination of dynamic (automated tests) and non-dynamic (static
 \begin{itemize}
     \item \textbf{Unit Testing and System Tests:} All functional and non-functional requirements will be verified through the comprehensive dynamic tests described in the \hyperref[sec:srs-system]{System Tests} and \hyperref[sec:unit-test-description]{Unit Test Description} sections of this document.
     \item \textbf{Static Analysis and Linters:} The team will enforce coding standards (PEP 8 for Python, Google Style Guide for JavaScript/React) using automated linters and static analyzers (SonarQube).
-    \item \textbf{Code Walkthrough:} The final class presentation in CAS 741 (Final Demonstration, March 23) will serve as a high-level code walkthrough for a portion of the system, focusing on key components like the $\CV{}$ integration or $\AI{}$ decision-making process.
     \item \textbf{Peer Code Inspection:} All code changes will require a review and approval via GitHub Pull Requests.
     Team members will specifically check for adherence to coding standards, algorithm correctness, and proper error handling.
 \end{itemize}
@@ -324,11 +325,6 @@ Traceability to specific requirements (e.g., $\hyperref[FR.S.1.1]{FR.S.1.1}$) is
 This subsection outlines test cases organized by the primary functional component responsible for the requirement.
 These tests collectively cover all functional requirements detailed in Section S.2 of the SRS, including the core components: Computer Vision, $\RL{}$ Model, and Game State Management.
 (add more references maybe)
-
-
-
-\subsubsection{Area of Testing1}
-
 
 
 
@@ -458,13 +454,31 @@ This area focuses on verifying the accuracy and reliability of the Computer Visi
 
 \textbf{How test will be performed:} Artificially introduce a small, known occlusion (e.g., a hand partially covering an intersection) in a mid-game state. Check that the digital state is correctly reconstructed and that the confidence metric correctly flags the occluded element as low-confidence/corrected.
 
+
+\item{T.FR.CV.3.3\\}
+\textbf{Control:} Manual
+
+\textbf{Initial State:} A standard, legal $\Catan{}$ board is set up.
+
+\textbf{Input:} A captured image of the physical board is processed by the $\CV{}$ Model. One piece (e.g., a single road) is intentionally misidentified or missed by the system.
+
+\textbf{Output:}
+a) The system must present the parsed board state to the user for confirmation, as required by $\hyperref[FR.Sa.1]{FR.Sa.1}$\textsuperscript{}.
+b) The user must be able to successfully use the interface to manually correct the error (e.g., click to add the missing road or change the piece type) before proceeding.
+c) The $\GameState{}$ Manager must use the \textit{corrected} state, not the original erroneous scan.
+
+\textbf{Test Case Derivation:} Directly verifies the hazard mitigation requirement $\hyperref[FR.Sa.1]{FR.Sa.1}$\textsuperscript{}.
+
+\textbf{How test will be performed:} An image known to cause a minor CV error will be used. The tester will follow the UI prompts to manually correct the board state and confirm the correction is accepted by the system.
+
 \end{enumerate}
+
 
 \subsection{Traceability Between Test Cases and Requirements}
 
 The table below documents the explicit traceability between the defined system test cases ($\mathit{T.ID}$) and the specific requirements ($\mathit{Req.ID}$) they verify. This ensures that every functional and critical non-functional requirement is covered with appropriate redundancy, building confidence in the product if all tests pass.
 
-\begin{table}[h]
+\begin{table}[h!]
     \centering
     \caption{Functional Requirement Test Case Traceability Matrix}
     \label{tab:fr-system-test-traceability}
@@ -485,6 +499,8 @@ The table below documents the explicit traceability between the defined system t
     T.FR.CV.3.1 & $\hyperref[FR.S.1.2]{FR.S.1.2}$, $\hyperref[FR.S.7.1]{FR.S.7.1}$, $\hyperref[FR.S.7.2]{FR.S.7.2}$ \\
     \hline
     T.FR.CV.3.2 & $\hyperref[FR.S.1.3]{FR.S.1.3}$, $\hyperref[FR.S.1.5]{FR.S.1.5}$ \\
+    \hline
+    T.FR.CV.3.3 & $\hyperref[FR.Sa.1]{FR.Sa.1}$, $\hyperref[FR.S.7.4]{FR.S.7.4}$ \\
     \hline
     \end{tabularx}
 \end{table}
