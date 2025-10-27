@@ -1,6 +1,6 @@
 \documentclass[12pt, titlepage]{article}
 
-
+\usepackage{comment}
 \usepackage{amsfonts}
 \usepackage{amsopn}
 \usepackage{float}
@@ -704,7 +704,7 @@ This area ensures the modular design and structure of the codebase support effic
 
 \textbf{Test Case Derivation:} Verifies NFR.S.3 (Maintainability) through code inspection and static analysis.
 
-\textbf{How test will be performed:} Peer inspection led by Matthew Cheung and Sunny Yao; issues logged in GitHub for resolution.
+\textbf{How test will be performed:} Peer inspection led by group members; issues logged in GitHub for resolution.
 \end{enumerate}
 
 \subsection{Installability}
@@ -759,11 +759,11 @@ This area ensures that the Game State Database maintains consistent, valid, and 
 
 \textbf{Input/Condition:} Attempt to submit invalid game state updates, such as negative resource counts, illegal moves, or missing required fields.
 
-\textbf{Output/Result:} Invalid updates are rejected; database state remains unchanged; errors logged with descriptive messages.
+\textbf{Output/Result:} Invalid updates are recognized and rejected.
 
 \textbf{Test Case Derivation:} Verifies validation portion of NFR.S.5, preventing data corruption from malformed inputs.
 
-\textbf{How test will be performed:} Automated tests inject invalid game state objects and verify the database rejects them and remains consistent.
+\textbf{How test will be performed:} Automated tests inject invalid game state objects and verifies rejection.
 \end{enumerate}
 
 \textbf{Test Case: Concurrent Update Handling}
@@ -814,28 +814,32 @@ Accuracy-related NFRs are verified by functional tests defined in Section~4.2:
 \end{itemize}
 These tests report relative error between predicted and expected outcomes. No separate nonfunctional test cases are required.
 
+\subsection{Traceability Between Test Cases and Requirements }
+
 \begin{table}[H]
   \centering
   \caption{Non-Functional Requirement Test Case Traceability Matrix}
   \label{tab:nfr-system-test-traceability}
   \begin{tabular}{|l|l|}
-  \hline
-  \textbf{Test Case ID} & \textbf{Requirement(s) Verified} \\ \hline
-  T.NFR.P.1 & NFR.S.1 -- Scalability \\ \hline
-  T.NFR.U.1 & NFR.S.2 -- Usability \\ \hline
-  T.NFR.U.2 & NFR.S.2 -- Accessibility \\ \hline
-  T.NFR.M.1 & NFR.S.3 -- Maintainability \\ \hline
-  T.NFR.I.1 & NFR.S.4 -- Installability \\ \hline
-  T.NFR.D.1 & NFR.S.5 -- Data Integrity \\ \hline
-  T.NFR.D.2 & NFR.S.5 -- Data Integrity \\ \hline
-  T.NFR.D.3 & NFR.S.5 -- Data Integrity \\ \hline
-  T.NFR.AV.1 & NFR.S.6 -- Availability \\ \hline
+    \hline
+    \textbf{Test Case ID} & \textbf{Requirement(s) Verified} \\ \hline
+    T.NFR.P.1   & NFR.S.1 -- Scalability \\ \hline
+    T.NFR.U.1   & NFR.S.2 -- Usability \\ \hline
+    T.NFR.U.2   & NFR.S.2 -- Accessibility \\ \hline
+    T.NFR.M.1   & NFR.S.3 -- Maintainability \\ \hline
+    T.NFR.I.1   & NFR.S.4 -- Installability \\ \hline
+    T.NFR.D.1   & NFR.S.5 -- Data Integrity \\ \hline
+    T.NFR.D.2   & NFR.S.5 -- Data Integrity \\ \hline
+    T.NFR.D.3   & NFR.S.5 -- Data Integrity \\ \hline
+    T.NFR.AV.1  & NFR.S.6 -- Availability \\ \hline
   \end{tabular}
-  \end{table}
+\end{table}
 
 
 \section{Unit Test Description}
+This section is to be completed after the MIS (detailed design document) has been completed.
 
+\begin{comment}
 \wss{This section should not be filled in until after the MIS (detailed design
   document) has been completed.}
 
@@ -958,7 +962,8 @@ How test will be performed:
 \subsection{Traceability Between Test Cases and Modules}
 
 \wss{Provide evidence that all of the modules have been considered.}
-				
+\end{comment}
+
 \bibliographystyle{plainnat}
 
 \bibliography{../../refs/References}
@@ -1055,4 +1060,30 @@ graduate attribute of Lifelong Learning.
     I also previously used SonarQube briefly back in second year, so I could revisit that experience and supplement it with online resources.
     Of these options, I'll start with some online tutorials, and then reference what I did with some of my old work.
 \end{enumerate}
+
+\subsection*{Rebecca DiFilippo}
+\begin{enumerate}
+    \item Writing this deliverable went fairly smoothly, mainly because we had a solid set of
+    requirements from the SRS to guide the tests. Splitting into two subteams worked really well
+     this time. Matthew and I focused on drafting the V\&V document, while Sunny and Jake worked
+     on the PoC and then helped review our work. I think this setup made things more organized and
+      helped avoid overlapping edits and consistency issues. It also allowed us to make progress
+      on the POC plan.
+
+    \item I didn’t run into major pain points, though coordinating between the two subteams
+     sometimes required a bit of back-and-forth to make sure everyone was aligned. Overall, Matthew
+      and I were able to keep the doc consistent, and Jake and Sunny’s feedback was really helpful
+       for catching small issues early. The process felt much smoother than working on the SRS.
+
+    \item For V\&V, the team will need to build more experience with automated testing frameworks.We also we’ll need to
+       get comfortable with static analysis tools like SonarQube and CI/CD pipelines through GitHub
+        Actions. I’ll focus on automated testing in Python since that’s an area I want to strengthen
+         for this project and future work which includes flake8 style checks.
+
+    \item To build these skills, we can look for online  tutorials and courses, as well as consult
+      with other people who have experience in these areas. I’ll start with online tutorials for
+       Python testing frameworks and flake8, as well as look for example projects that implement
+        these tools effectively.
+\end{enumerate}
+
 \end{document}
