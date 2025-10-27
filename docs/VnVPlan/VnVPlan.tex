@@ -753,9 +753,9 @@ This area ensures that the Game State Database maintains consistent, valid, and 
 \textbf{Control:} Automatic \\
 \textbf{Initial State:} Active game session connected to the database. \\
 \textbf{Input/Condition:} Attempt to submit invalid game state updates, such as negative resource counts, illegal moves, or missing required fields. \\
-\textbf{Output/Result:} Invalid updates are rejected; database state remains unchanged; errors logged with descriptive messages. \\
+\textbf{Output/Result:} Invalid updates are recongized and rejected \\
 \textbf{Test Case Derivation:} Verifies validation portion of NFR.S.5, preventing data corruption from malformed inputs. \\
-\textbf{How test will be performed:} Automated tests inject invalid game state objects and verify the database rejects them and remains consistent.
+\textbf{How test will be performed:} Automated tests inject invalid game state objects and verifies rejection.\\
 \end{enumerate}
 
 \textbf{Test Case: Concurrent Update Handling}
