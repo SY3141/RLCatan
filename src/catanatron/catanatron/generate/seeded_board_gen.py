@@ -41,6 +41,7 @@ def hex_corners(x, y, size):
 
 
 for seed in range(20):
+    print(f"Generating board for seed {seed}...")
     random.seed(seed)
     b_tour = Board()
 
