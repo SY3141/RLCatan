@@ -42,43 +42,55 @@ jobs:
           cache: "pip" # caching pip dependencies
       - name: Install core
         run: | # TODO: Move to python -m build and an automated release(?)
+          cd src
           pip install .
       - name: Run sample catanatron-play
         run: |
+          cd src
           catanatron-play --players=R,W,F,AB:2 --num=2
       - name: Test Custom Bot
         run: |
+          cd src
           catanatron-play --code=examples/custom_player.py --players=F,FOO --num=1
       - name: Test Custom Accumulator
         run: |
+          cd src
           catanatron-play --code=examples/custom_accumulator.py --players=F,R --num=1
       - name: Test Library Example
         run: |
+          cd src
           python -W error examples/library_example.py
       - name: Install Gym
         run: |
+          cd src
           pip install .[gym]
       - name: Test Gym Inline
         run: |
+          cd src
           python -c "import gymnasium; import catanatron.gym; env = gymnasium.make('catanatron/Catanatron-v0')"
       - name: Test README.md sample (and fail even on warnings)
         run: |
+          cd src
           python -W error examples/gym_example.py && \
           python -W error examples/gym_vectorized_example.py
       - name: Install the rest of the dependencies
         run: |
+          cd src
           pip install .[web,dev]
       - name: Lint with black
         run: |
+          cd src
           black catanatron --check
           black catanatron_experimental --check
       - name: Test with pytest
         run: |
+          cd src
           coverage run --source=catanatron -m pytest tests/
       - name: Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          cd src
           coveralls --service=github
 
   build-ui:
