@@ -93,6 +93,6 @@ jobs:
         with:
           node-version: ${{ steps.node-version.outputs.node-version }}
       - run: npm ci
-        working-directory: ./ui
+        working-directory: src/ui
       - run: npm run build
-        working-directory: ./ui
+        working-directory: src/ui
