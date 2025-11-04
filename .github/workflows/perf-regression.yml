@@ -26,6 +26,8 @@ jobs:
           python -m pip install --upgrade pip setuptools
           pip install .[web,gym,dev]
 
+      - run: ls -R .
+
       - name: Checkout PR and Main Branch
         uses: actions/checkout@v4
         with:
