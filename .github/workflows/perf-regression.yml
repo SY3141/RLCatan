@@ -29,14 +29,15 @@ jobs:
       - name: Checkout PR and Main Branch
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.head_ref }}
           path: pr
       - uses: actions/checkout@v4
         with:
           ref: main
-          path: main
+          path: base
 
       - name: Run Benchmark on Main (baseline)
-        run: cd main && pytest tests/integration_tests/test_speed.py --benchmark-only --benchmark-json=benchmark.json
+        run: cd base && pytest tests/integration_tests/test_speed.py --benchmark-only --benchmark-json=benchmark.json
       - name: Run Benchmark on PR
         run: cd pr && pytest tests/integration_tests/test_speed.py --benchmark-only --benchmark-json=benchmark.json
 
