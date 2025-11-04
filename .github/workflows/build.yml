@@ -3,11 +3,16 @@
 
 name: Build
 
+defaults:
+  run:
+    working-directory: src
+
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master, staging]
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   build-docker:
@@ -16,11 +21,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build the UI Docker image
-        run: docker build ui/ -t bcollazo/catanatron-react-ui:latest
+        run: docker build ui/ -t ${{ github.repository_owner }}/catanatron-react-ui:latest
       - name: Build the Server Docker image
-        run: docker build . -f Dockerfile.web -t bcollazo/catanatron-server:latest
+        run: docker build . -f Dockerfile.web -t ${{ github.repository_owner }}/catanatron-server:latest
       # - name: Build the Paperspace Docker image
-      #   run: docker build . -f Dockerfile.paperspace -t bcollazo/paperspace-rl
+      #   run: docker build . -f Dockerfile.paperspace -t ${{ github.repository_owner }}/paperspace-rl
 
   build-python:
     runs-on: ubuntu-latest
