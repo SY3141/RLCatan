@@ -1,28 +1,49 @@
 from catanatron.models.board import Board
 from catanatron.models.map import TOURNAMENT_MAP
 import random
+from collections import defaultdict
 
+from game_gen import compute_node_pip_totals
 
-random.seed(19) 
+random.seed(19)
 b_tour = Board()
-# b_tour = Board(catan_map=TOURNAMENT_MAP)
 
-
-# print("All tiles:", len(b_tour.map.tiles))
-# print("Land tiles:", len(b_tour.map.land_tiles))
-
+#print(compute_node_pip_totals(b_tour))
 
 # for coords, tile in b_tour.map.land_tiles.items():
 #     print(coords, "tile id", tile.id, "resource", getattr(tile.resource, "name", tile.resource), "number", tile.number)
 
+def number_to_pips(number):
+    if number in [6, 8]:
+        return 5
+    elif number in [5, 9]:
+        return 4
+    elif number in [4, 10]:
+        return 3
+    elif number in [3, 11]:
+        return 2
+    elif number in [2, 12]:
+        return 1
+    else:
+        return 0
 
-for node_id, node in b_tour.map.nodes.items():
-    # Each node knows what tiles it's next to
-    adjacent_tiles = b_tour.map.adjacent_tiles[node_id]
-    # Each node also knows what edges connect to it
-    adjacent_edges = b_tour.map.adjacent_edges[node_id]
+node_to_tiles = defaultdict(list)
+for coords, tile in b_tour.map.land_tiles.items():
+    for node_id in tile.nodes.values():
+        node_to_tiles[node_id].append(tile)
 
-    print(f"Node {node_id}:")
-    print(f"  Adjacent tiles: {adjacent_tiles}")
-    print(f"  Adjacent edges: {adjacent_edges}")
-    print()
+totals = defaultdict(int)
+wheats = defaultdict(int)
+ores = defaultdict(int)
+for node_id, tiles in node_to_tiles.items():
+    print(f"node id {node_id} adjacent tiles:")
+    total = 0   
+    for tile in tiles:
+        resource_name = getattr(tile.resource, "name", tile.resource)
+        print(f"  tile id {tile.id} | resource {resource_name} | number {tile.number}")
+        total += number_to_pips(tile.number) if isinstance(tile.number, int) else 0
+    totals[node_id] = total
+
+sorted_totals = sorted(totals.items(), key=lambda x: x[1], reverse=True)
+# for node_id, total in sorted_totals:
+#     print(f"node id {node_id} has total adjacent number value {total}")

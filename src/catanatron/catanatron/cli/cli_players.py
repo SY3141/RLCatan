@@ -9,8 +9,7 @@ from catanatron.players.minimax import AlphaBetaPlayer, SameTurnAlphaBetaPlayer
 from catanatron.players.search import VictoryPointPlayer
 from catanatron.players.mcts import MCTSPlayer
 from catanatron.players.playouts import GreedyPlayoutsPlayer
-
-from catanatron.catanatron.players.placement import PlacementPlayer
+from catanatron.players.placement import PlacementPlayer
 
 
 # Player must have a CODE, NAME, DESCRIPTION, CLASS.
@@ -69,9 +68,10 @@ CLI_PLAYERS = [
     CliPlayer(
         "PP",
         "PlacementPlayer",
-        "VP player with placement heuristics",
+        "VP player with initial placement strategy.",
         PlacementPlayer,
     ),
+
 ]
 
 

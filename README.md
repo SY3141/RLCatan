@@ -34,3 +34,6 @@ For 1v1 rules simulations, pass the arguments below
 1. `cd src`
 2. `venv\Scripts\activate` 
 3. `catanatron-play --num 1 --players AB:2:True,AB:2:True --config-vps-to-win 15 --config-discard-limit 9`
+
+To test Placement Player
+`catanatron-play --num 1 --players AB:1:True,PP --config-vps-to-win 15 --config-discard-limit 9`
