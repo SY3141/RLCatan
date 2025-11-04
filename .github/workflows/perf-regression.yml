@@ -23,7 +23,6 @@ jobs:
           python-version: 3.12
       - name: Install dependencies
         run: |
-          cd src
           python -m pip install --upgrade pip setuptools
           pip install .[web,gym,dev]
 
@@ -37,9 +36,9 @@ jobs:
           path: main
 
       - name: Run Benchmark on Main (baseline)
-        run: cd main/src && pytest tests/integration_tests/test_speed.py --benchmark-only --benchmark-json=benchmark.json
+        run: cd main && pytest tests/integration_tests/test_speed.py --benchmark-only --benchmark-json=benchmark.json
       - name: Run Benchmark on PR
-        run: cd pr/src && pytest tests/integration_tests/test_speed.py --benchmark-only --benchmark-json=benchmark.json
+        run: cd pr && pytest tests/integration_tests/test_speed.py --benchmark-only --benchmark-json=benchmark.json
 
       - name: Compare Results
         uses: openpgpjs/github-action-pull-request-benchmark@v1
