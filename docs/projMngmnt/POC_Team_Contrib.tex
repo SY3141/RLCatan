@@ -24,14 +24,15 @@ and the POC demo.
 
 \section{Demo Plans}
 
-\wss{What will you be demonstrating}
+For the PoC demo, we plan on demonstrating a functional model capable of playing Catan, and beating at
+least the benchmark AI players provided in the Catanatron simulator environment.
+This will not be an advanced bot, and may not yet implement deep reinforcement learning, but it
+will give us key experience in building and testing an AI agent in this environment, and we will be
+experimenting with heuristics, which will be key later when we do implement more advanced learning techniques.
+The existing environment is of a level of complexity that this is a reasonable goal for the PoC demo.
+We also have a meeting scheduled with our supervisor to discuss and refine our demo plans this Wednesday.
 
 \section{Team Meeting Attendance}
-
-\wss{For each team member how many team meetings have they attended over the
-time period of interest.  This number should be determined from the meeting
-issues in the team's repo.  The first entry in the table should be the total
-number of team meetings held by the team.}
 
 \begin{table}[H]
 \centering
@@ -48,16 +49,7 @@ Matthew Cheung & 8\\
 \end{tabular}
 \end{table}
 
-\wss{If needed, an explanation for the counts can be provided here.}
-
 \section{Supervisor/Stakeholder Meeting Attendance}
-
-\wss{For each team member how many supervisor/stakeholder team meetings have
-they attended over the time period of interest.  This number should be determined
-from the supervisor meeting issues in the team's repo.  The first entry in the
-table should be the total number of supervisor and team meetings held by the
-team.  If there is no supervisor, there will usually be meetings with
-stakeholders (potential users) that can serve a similar purpose.}
 
 \noindent \textbf{Supervisor's Name:} Prof. Istvan David
 
@@ -76,19 +68,7 @@ Matthew Cheung & 4\\
 \end{tabular}
 \end{table}
 
-\wss{If needed, an explanation for the counts can be provided here.}
-
 \section{Lecture Attendance}
-
-\wss{For each team member how many lectures have they attended over the time
-period of interest.  This number should be determined from the lecture issues in
-the team's repo. You can find the number of lectures in the time period of
-interest by looking at the
-\href{https://calendar.google.com/calendar/u/0/embed?src=rnboqiaki1k2la7rpu3bn0um58@group.calendar.google.com&ctz=America/Toronto}
-{Google calendar} for the capstone course.}
-
-\wss{NOTE: There will be approximately 13 lectures between the start of class
-and the POC demos}
 
 \begin{table}[H]
 \centering
@@ -98,21 +78,16 @@ and the POC demos}
 \midrule
 Total & 13\\
 Jake Read & 13\\
-Sunny Yao & ?\\
+Sunny Yao & 9\\
 Rebecca Di Filippo & 8\\
-Matthew Cheung & ?\\
+Matthew Cheung & 0\\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Rebecca - The reason for my lower attendance was because of busy weeks with midterms and project deadlines in other courses, so I just reviewed the lecture slides instead.
 
-\wss{If needed, an explanation for the lecture attendance can be provided here.}
-
 \section{TA Document Discussion Attendance}
-
-\wss{For each team member how many of the informal document discussion meetings
-with the TA were attended over the time period of interest.}
 
 \noindent \textbf{TA's Name:} Tiago de Moraes Machado
 
@@ -132,14 +107,7 @@ Matthew Cheung & 3\\
 \end{tabular}
 \end{table}
 
-\wss{If needed, an explanation for the attendance can be provided here.}
-
 \section{Commits}
-
-\wss{For each team member how many commits to the main branch have been made
-over the time period of interest.  The total is the total number of commits for
-the entire team since the beginning of the term.  The percentage is the
-percentage of the total commits made by each team member.}
 
 \begin{table}[H]
 \centering
@@ -156,18 +124,11 @@ Matthew Cheung & 46 & 18\% \\
 \end{tabular}
 \end{table}
 
-\wss{If needed, an explanation for the counts can be provided here.  For
-instance, if a team member has more commits to unmerged branches, these numbers
-can be provided here.  If multiple people contribute to a commit, git allows for
-multi-author commits.}
 Some of us commit more frequently than others, but overall work has been fairly evenly
-distributed.
+distributed. These numbers may not be up to date at the time you read this, as we expect
+commit numbers to drastically increase as PoC work ramps up.
 
 \section{Issue Tracker}
-
-\wss{For each team member how many issues have they authored (including open and
-closed issues (O+C)) and how many have they been assigned (only counting closed
-issues (C only)) over the time period of interest.}
 
 \begin{table}[H]
 \centering
@@ -183,17 +144,19 @@ Matthew Cheung & 0 & 0\\
 \end{tabular}
 \end{table}
 
-\wss{If needed, an explanation for the counts can be provided here.}
-We haven't added any of our own issues, but the few closed ones are for peer reviews.
-Since there's only four of us, issue tracking hasn't been a priority, and for most small tasks
+We haven't added many of our own issues, but the few closed ones are for peer-reviews.
+Since there are only four of us, issue tracking hasn't been a priority, and for most small tasks
 we've been listing them out in Discord and assigning them informally.
-Moving forward we'll use the issue tracker more, since tasks will be larger and more complex once
+Moving forward, we'll use the issue tracker more, since tasks will be larger and more complex once
 we get deeper into development. Sorry if this makes things hard to track, but there has been a ton
-to do across all our courses and we didn't get around to making a ton of tiny issues.
+to do across all our courses, and we didn't get around to making a ton of tiny issues for documentation.
 
 \section{CICD}
-
-\wss{Say how CICD will be used in your project}
+The Catanatron repo we forked has existing tests and workflows, but they're currently broken.
+We've been working on fixing these to get them running again, which would leave us with a
+solid pipeline for model development and testing.
+We'll also add our own tests for our specific model as we develop it, and add any additional
+workflows as needed.
 
 \section{Team Charter Trigger Items}
 
