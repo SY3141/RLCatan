@@ -3,6 +3,10 @@
 
 name: Build
 
+defaults:
+    run:
+        working-directory: src
+
 on:
   push:
     branches: [main]
@@ -17,9 +21,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build the UI Docker image
-        run: docker build src/ui/ -t ${{ github.repository_owner }}/catanatron-react-ui:latest
+        run: docker build ui/ -t ${{ github.repository_owner }}/catanatron-react-ui:latest
       - name: Build the Server Docker image
-        run: docker build src/ -f Dockerfile.web -t ${{ github.repository_owner }}/catanatron-server:latest
+        run: docker build . -f Dockerfile.web -t ${{ github.repository_owner }}/catanatron-server:latest
       # - name: Build the Paperspace Docker image
       #   run: docker build . -f Dockerfile.paperspace -t ${{ github.repository_owner }}/paperspace-rl
 
@@ -28,6 +32,10 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.11", "3.12"]
+
+    defaults:
+        run:
+            working-directory: .
 
     steps:
       - uses: actions/checkout@v4
@@ -38,39 +46,39 @@ jobs:
           cache: "pip" # caching pip dependencies
       - name: Install core
         run: | # TODO: Move to python -m build and an automated release(?)
-          pip install ./src
+          pip install ./src/catanatron
       - name: Run sample catanatron-play
         run: |
           catanatron-play --players=R,W,F,AB:2 --num=2
       - name: Test Custom Bot
         run: |
-          catanatron-play --code=src/examples/custom_player.py --players=F,FOO --num=1
+          catanatron-play --code=examples/custom_player.py --players=F,FOO --num=1
       - name: Test Custom Accumulator
         run: |
-          catanatron-play --code=src/examples/custom_accumulator.py --players=F,R --num=1
+          catanatron-play --code=examples/custom_accumulator.py --players=F,R --num=1
       - name: Test Library Example
         run: |
-          python -W error src/examples/library_example.py
+          python -W error examples/library_example.py
       - name: Install Gym
         run: |
-          pip install ./src[gym]
+          pip install ./src/catanatron[gym]
       - name: Test Gym Inline
         run: |
           python -c "import gymnasium; import catanatron.gym; env = gymnasium.make('catanatron/Catanatron-v0')"
       - name: Test README.md sample (and fail even on warnings)
         run: |
-          python -W error src/examples/gym_example.py && \
-          python -W error src/examples/gym_vectorized_example.py
+          python -W error examples/gym_example.py && \
+          python -W error examples/gym_vectorized_example.py
       - name: Install the rest of the dependencies
         run: |
-          pip install ./src[web,dev]
+          pip install ./src/catanatron[web,dev]
       - name: Lint with black
         run: |
-          black src/catanatron --check
-          black src/catanatron_experimental --check
+          black catanatron --check
+          black catanatron_experimental --check
       - name: Test with pytest
         run: |
-          coverage run --source=src/catanatron -m pytest src/tests/
+          coverage run --source=catanatron -m pytest tests/
       - name: Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
