@@ -44,6 +44,10 @@ jobs:
       - name: Install core
         run: | # TODO: Move to python -m build and an automated release(?)
           pip install .
+      - name: Debug installed package
+        run: |
+          python -m pip show catanatron
+          python -c "import catanatron; print(catanatron.__file__)"
       - name: Run sample catanatron-play
         run: |
           catanatron-play --players=R,W,F,AB:2 --num=2

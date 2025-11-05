@@ -45,4 +45,4 @@ Repository = "https://github.com/bcollazo/catanatron"
 catanatron-play = "catanatron.cli.play:simulate"
 
 [tool.setuptools.packages.find]
-where = ["catanatron/catanatron"]
+where = ["catanatron"]
