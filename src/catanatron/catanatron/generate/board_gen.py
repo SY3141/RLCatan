@@ -3,7 +3,7 @@ from catanatron.models.map import TOURNAMENT_MAP
 import random
 
 
-random.seed(19) 
+random.seed(19)
 b_tour = Board()
 # b_tour = Board(catan_map=TOURNAMENT_MAP)
 

@@ -2,9 +2,14 @@
 
 name: Performance Regression Test
 
+defaults:
+  run:
+    working-directory: src
+
 on:
   pull_request:
-    branches: master
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   build-python-and-test-performance:
@@ -21,26 +26,30 @@ jobs:
           python -m pip install --upgrade pip setuptools
           pip install .[web,gym,dev]
 
-      - name: Checkout PR and Master Branch
+      - run: ls -R .
+
+      - name: Checkout PR and Main Branch
         uses: actions/checkout@v4
         with:
           path: pr
       - uses: actions/checkout@v4
         with:
-          ref: master
-          path: master
+          ref: main
+          path: main
 
-      - name: Run Benchmark on Master (baseline)
-        run: cd master && pytest tests/integration_tests/test_speed.py --benchmark-only --benchmark-json=benchmark.json
+      - name: Run Benchmark on Main (baseline)
+        working-directory: .
+        run: cd main/src && pytest tests/integration_tests/test_speed.py --benchmark-only --benchmark-json=../benchmark.json
       - name: Run Benchmark on PR
-        run: cd pr && pytest tests/integration_tests/test_speed.py --benchmark-only --benchmark-json=benchmark.json
+        working-directory: .
+        run: cd pr/src && pytest tests/integration_tests/test_speed.py --benchmark-only --benchmark-json=../benchmark.json
 
       - name: Compare Results
         uses: openpgpjs/github-action-pull-request-benchmark@v1
         with:
           tool: "pytest"
           pr-benchmark-file-path: pr/benchmark.json
-          base-benchmark-file-path: master/benchmark.json
+          base-benchmark-file-path: main/benchmark.json
           # A comment will be left on the latest PR commit if `alert-threshold` is exceeded
           comment-on-alert: true
           alert-threshold: "130%"
