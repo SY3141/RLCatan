@@ -63,12 +63,6 @@ CLI_PLAYERS = [
         "AlphaBeta but searches only within turn",
         SameTurnAlphaBetaPlayer,
     ),
-    CliPlayer(
-        "PP",
-        "PlacementPlayer",
-        "VP player with placement heuristics",
-        PlacementPlayer,
-    ),
 ]
 
 
