@@ -227,7 +227,7 @@ The following table is taken directly from the Module Guide document for this pr
   have local scope.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ADDED
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of CV Model Module}
 
 \subsection{Module}
@@ -242,36 +242,43 @@ None
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-processImage & imageData & boardState & InvalidImageError \\
+processImage & imageData : Image & boardState : BoardState & InvalidImageError \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
 \subsubsection{State Variables}
-currentFrame : Image
+currentFrame : Image \\
+boardState : BoardState
 
 \subsubsection{Environment Variables}
 None
 
 \subsubsection{Assumptions}
-Assumes lighting and camera position are consistent.
+Lighting and camera position are consistent; images are valid.
 
 \subsubsection{Access Routine Semantics}
 processImage(imageData):
 \begin{itemize}
-    \item transition: updates \textit{currentFrame}
-    \item output: returns detected \textit{boardState}
-    \item exception: InvalidImageError if frame unreadable
+    \item transition: updates \textit{currentFrame} with input imageData
+    \item output: returns \textit{boardState} computed from \textit{currentFrame} using:
+    \begin{itemize}
+        \item detectPieces(currentFrame)
+        \item convertToBoardState(pieces)
+    \end{itemize}
+    \item exception: InvalidImageError if imageData is unreadable or corrupted
 \end{itemize}
 
 \subsubsection{Local Functions}
-detectPieces(image), convertToBoardState(pieces)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+detectPieces(image : Image) : PieceList \\
+convertToBoardState(pieces : PieceList) : BoardState
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Board Representation Module}
 
 \subsection{Module}
@@ -286,19 +293,20 @@ None
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-updateBoard & boardState & - & InvalidStateError \\
-getBoardState & - & boardState & - \\
+updateBoard & boardState : BoardState & - & InvalidStateError \\
+getBoardState & - & boardState : BoardState & - \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
 \subsubsection{State Variables}
-board : internal data structure of piece positions
+board : BoardState \\
+Initial state = empty board
 
 \subsubsection{Assumptions}
 Board state updates atomically.
@@ -306,20 +314,20 @@ Board state updates atomically.
 \subsubsection{Access Routine Semantics}
 updateBoard(boardState):
 \begin{itemize}
-    \item transition: replaces internal \textit{board}
-    \item exception: InvalidStateError if inconsistent data
+    \item transition: replaces \textit{board} with \textit{boardState}
+    \item exception: InvalidStateError if boardState inconsistent
 \end{itemize}
 
 getBoardState():
 \begin{itemize}
-    \item output: returns current \textit{board}
+    \item output: returns \textit{board}
 \end{itemize}
 
 \subsubsection{Local Functions}
-None
+validateBoardState(boardState : BoardState) : Boolean
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of User Interface Module} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of User Interface Module}
 
 \subsection{Module}
 User Interface
@@ -333,12 +341,12 @@ None
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-displayBoard & boardState & - & - \\
-getPlayerMove & - & playerAction & InputError \\
+displayBoard & boardState : BoardState & - & - \\
+getPlayerMove & - & playerAction : Action & InputError \\
 \hline
 \end{tabular}
 \end{center}
@@ -348,24 +356,24 @@ getPlayerMove & - & playerAction & InputError \\
 Screen, Keyboard/Mouse
 
 \subsubsection{Assumptions}
-User provides input via interface devices; boardState is valid.
+User provides input; boardState is valid.
 
 \subsubsection{Access Routine Semantics}
 displayBoard(boardState):
 \begin{itemize}
-    \item output: renders updated board
+    \item output: renders boardState on screen
 \end{itemize}
 
 getPlayerMove():
 \begin{itemize}
     \item output: returns player's chosen move
-    \item exception: InputError if invalid
+    \item exception: InputError if invalid move
 \end{itemize}
 
 \subsubsection{Local Functions}
-None
+parsePlayerInput(input : Keyboard/Mouse) : Action
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Game Database Module}
 
 \subsection{Module}
@@ -380,40 +388,41 @@ None
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-recordGame & gameData & - & DatabaseError \\
-fetchRecord & query & gameData & NotFoundError \\
+recordGame & gameData : GameData & - & DatabaseError \\
+fetchRecord & query : Query & gameData : GameData & NotFoundError \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
 \subsubsection{State Variables}
-database : collection of previous games
+database : List[GameData] \\
+Initial state = empty list
 
 \subsubsection{Assumptions}
-Database integrity maintained; queries valid.
+Database integrity maintained; queries are valid.
 
 \subsubsection{Access Routine Semantics}
 recordGame(gameData):
 \begin{itemize}
-    \item transition: adds gameData to \textit{database}
+    \item transition: appends \textit{gameData} to \textit{database}
     \item exception: DatabaseError if write fails
 \end{itemize}
 
 fetchRecord(query):
 \begin{itemize}
-    \item output: returns gameData matching query
-    \item exception: NotFoundError if no record found
+    \item output: returns matching \textit{gameData}
+    \item exception: NotFoundError if no record matches query
 \end{itemize}
 
 \subsubsection{Local Functions}
-None
+validateQuery(query : Query) : Boolean
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Game-State Manager Module}
 
 \subsection{Module}
@@ -428,36 +437,37 @@ None
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-updateState & playerAction & - & InvalidMoveError \\
-getNextAction & - & aiAction & - \\
+updateState & playerAction : Action & - & InvalidMoveError \\
+getNextAction & - & aiAction : Action & - \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
 \subsubsection{State Variables}
-currentState : boardState
+currentState : BoardState \\
+Initial state = starting board layout
 
 \subsubsection{Access Routine Semantics}
 updateState(playerAction):
 \begin{itemize}
-    \item transition: updates \textit{currentState}
-    \item exception: InvalidMoveError if illegal move
+    \item transition: applies playerAction to \textit{currentState}
+    \item exception: InvalidMoveError if action illegal
 \end{itemize}
 
 getNextAction():
 \begin{itemize}
-    \item output: returns action from AI Model
+    \item output: returns AI's next action based on \textit{currentState}
 \end{itemize}
 
 \subsubsection{Local Functions}
-None
+validateAction(action : Action, state : BoardState) : Boolean
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of AI Model Module}
 
 \subsection{Module}
@@ -472,37 +482,39 @@ None
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-inferMove & boardState & aiAction & ModelError \\
-trainModel & reward, loss & - & TrainingError \\
+inferMove & boardState : BoardState & aiAction : Action & ModelError \\
+trainModel & reward : float, loss : float & - & TrainingError \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
 \subsubsection{State Variables}
-weights : numeric matrix
+weights : NumericMatrix \\
+Initial state = random initialization
 
 \subsubsection{Access Routine Semantics}
 inferMove(boardState):
 \begin{itemize}
-    \item output: returns \textit{aiAction}
+    \item output: returns \textit{aiAction} predicted by model
     \item exception: ModelError if inference fails
 \end{itemize}
 
 trainModel(reward, loss):
 \begin{itemize}
-    \item transition: updates \textit{weights}
-    \item exception: TrainingError if training fails
+    \item transition: updates \textit{weights} using reward and loss
+    \item exception: TrainingError if model update fails
 \end{itemize}
 
 \subsubsection{Local Functions}
-predictNextState(boardState), updateWeights(loss)
+predictNextState(boardState : BoardState) : BoardState \\
+updateWeights(loss : float)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Reinforcement Learning Environment Module}
 
 \subsection{Module}
@@ -517,12 +529,12 @@ None
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-generateReward & aiAction & reward & - \\
-computeLoss & reward, aiAction & loss & - \\
+generateReward & aiAction : Action & reward : float & - \\
+computeLoss & reward : float, aiAction : Action & loss : float & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -531,7 +543,7 @@ computeLoss & reward, aiAction & loss & - \\
 \subsubsection{Access Routine Semantics}
 generateReward(aiAction):
 \begin{itemize}
-    \item output: returns numeric \textit{reward}
+    \item output: returns numeric reward based on AI action
 \end{itemize}
 
 computeLoss(reward, aiAction):
@@ -540,7 +552,9 @@ computeLoss(reward, aiAction):
 \end{itemize}
 
 \subsubsection{Local Functions}
-None
+calculateReward(aiAction : Action) : float \\
+calculateLoss(reward : float, aiAction : Action) : float
+
 
 
 \newpage
