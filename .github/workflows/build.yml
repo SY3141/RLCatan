@@ -73,7 +73,6 @@ jobs:
       - name: Install the rest of the dependencies
         run: |
           pip install .[web,dev]
-          pip install "coveralls>=3.3.1"
       - name: Lint with black
         run: |
           black catanatron --check
@@ -81,12 +80,22 @@ jobs:
       - name: Test with pytest
         run: |
           coverage run --source=catanatron -m pytest tests/
+      - name: Install Coveralls
+        run: pip install --upgrade coveralls
       - name: Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_SERVICE_NAME: github-actions
         run: |
-          coveralls
+          coveralls --service=github --parallel
+
+  finish-coveralls:
+    runs-on: ubuntu-latest
+    needs: [build-python]
+    steps:
+      - name: Finish Coveralls merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: coveralls --service=github --finish
 
   build-ui:
     runs-on: ubuntu-latest
