@@ -10,9 +10,6 @@ from catanatron.players.search import VictoryPointPlayer
 from catanatron.players.mcts import MCTSPlayer
 from catanatron.players.playouts import GreedyPlayoutsPlayer
 
-from catanatron.catanatron.players.placement import PlacementPlayer
-
-
 # Player must have a CODE, NAME, DESCRIPTION, CLASS.
 CliPlayer = namedtuple("CliPlayer", ["code", "name", "description", "import_fn"])
 CLI_PLAYERS = [
