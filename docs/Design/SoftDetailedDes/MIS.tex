@@ -76,11 +76,11 @@ See SRS Documentation at \wss{give url}
 \section{Introduction}
 
 The following document details the Module Interface Specifications for
-\wss{Fill in your project name and description}
+our project RLCatan. This project aims to create a competent reinforcement learning AI agent designed to master the board game Settlers of Catan through autonomous self-play training. The AI will use deep reinforcement learning algorithms to learn optimal decision-making strategies across several game states including resource management, territory expansion and adaptive responses to opponent actions.
 
 Complementary documents include the System Requirement Specifications
 and Module Guide.  The full documentation and implementation can be
-found at \url{...}.  \wss{provide the url for your repo}
+found at \url{https://github.com/SY3141/RLCatan}.
 
 \section{Notation}
 
@@ -225,6 +225,323 @@ The following table is taken directly from the Module Guide document for this pr
   They are not necessarily something that is going to be implemented
   explicitly.  Even if they are implemented, they are not exported; they only
   have local scope.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ADDED
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of CV Model Module}
+
+\subsection{Module}
+CV Model
+
+\subsection{Uses}
+Image Queue, Board Representation
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+processImage & imageData & boardState & InvalidImageError \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+currentFrame : Image
+
+\subsubsection{Environment Variables}
+None
+
+\subsubsection{Assumptions}
+Assumes lighting and camera position are consistent.
+
+\subsubsection{Access Routine Semantics}
+processImage(imageData):
+\begin{itemize}
+    \item transition: updates \textit{currentFrame}
+    \item output: returns detected \textit{boardState}
+    \item exception: InvalidImageError if frame unreadable
+\end{itemize}
+
+\subsubsection{Local Functions}
+detectPieces(image), convertToBoardState(pieces)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Board Representation Module}
+
+\subsection{Module}
+Board Representation
+
+\subsection{Uses}
+CV Model, Game-State Manager, User Interface
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+updateBoard & boardState & - & InvalidStateError \\
+getBoardState & - & boardState & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+board : internal data structure of piece positions
+
+\subsubsection{Assumptions}
+Board state updates atomically.
+
+\subsubsection{Access Routine Semantics}
+updateBoard(boardState):
+\begin{itemize}
+    \item transition: replaces internal \textit{board}
+    \item exception: InvalidStateError if inconsistent data
+\end{itemize}
+
+getBoardState():
+\begin{itemize}
+    \item output: returns current \textit{board}
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of User Interface Module} 
+
+\subsection{Module}
+User Interface
+
+\subsection{Uses}
+Board Representation, Game-State Manager
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+displayBoard & boardState & - & - \\
+getPlayerMove & - & playerAction & InputError \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{Environment Variables}
+Screen, Keyboard/Mouse
+
+\subsubsection{Assumptions}
+User provides input via interface devices; boardState is valid.
+
+\subsubsection{Access Routine Semantics}
+displayBoard(boardState):
+\begin{itemize}
+    \item output: renders updated board
+\end{itemize}
+
+getPlayerMove():
+\begin{itemize}
+    \item output: returns player's chosen move
+    \item exception: InputError if invalid
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Game Database Module}
+
+\subsection{Module}
+Game Database
+
+\subsection{Uses}
+Game-State Manager
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+recordGame & gameData & - & DatabaseError \\
+fetchRecord & query & gameData & NotFoundError \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+database : collection of previous games
+
+\subsubsection{Assumptions}
+Database integrity maintained; queries valid.
+
+\subsubsection{Access Routine Semantics}
+recordGame(gameData):
+\begin{itemize}
+    \item transition: adds gameData to \textit{database}
+    \item exception: DatabaseError if write fails
+\end{itemize}
+
+fetchRecord(query):
+\begin{itemize}
+    \item output: returns gameData matching query
+    \item exception: NotFoundError if no record found
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Game-State Manager Module}
+
+\subsection{Module}
+Game-State Manager
+
+\subsection{Uses}
+Game Database, AI Model, Board Representation
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+updateState & playerAction & - & InvalidMoveError \\
+getNextAction & - & aiAction & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+currentState : boardState
+
+\subsubsection{Access Routine Semantics}
+updateState(playerAction):
+\begin{itemize}
+    \item transition: updates \textit{currentState}
+    \item exception: InvalidMoveError if illegal move
+\end{itemize}
+
+getNextAction():
+\begin{itemize}
+    \item output: returns action from AI Model
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of AI Model Module}
+
+\subsection{Module}
+AI Model
+
+\subsection{Uses}
+Game-State Manager, Reinforcement Learning Environment
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+inferMove & boardState & aiAction & ModelError \\
+trainModel & reward, loss & - & TrainingError \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+weights : numeric matrix
+
+\subsubsection{Access Routine Semantics}
+inferMove(boardState):
+\begin{itemize}
+    \item output: returns \textit{aiAction}
+    \item exception: ModelError if inference fails
+\end{itemize}
+
+trainModel(reward, loss):
+\begin{itemize}
+    \item transition: updates \textit{weights}
+    \item exception: TrainingError if training fails
+\end{itemize}
+
+\subsubsection{Local Functions}
+predictNextState(boardState), updateWeights(loss)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Reinforcement Learning Environment Module}
+
+\subsection{Module}
+Reinforcement Learning Environment
+
+\subsection{Uses}
+AI Model
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+generateReward & aiAction & reward & - \\
+computeLoss & reward, aiAction & loss & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{Access Routine Semantics}
+generateReward(aiAction):
+\begin{itemize}
+    \item output: returns numeric \textit{reward}
+\end{itemize}
+
+computeLoss(reward, aiAction):
+\begin{itemize}
+    \item output: computes \textit{loss} for model update
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+
 
 \newpage
 
