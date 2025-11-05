@@ -81,7 +81,7 @@ jobs:
         run: |
           coverage run --source=catanatron -m pytest tests/
       - name: Install Coveralls
-        run: pip install --upgrade coveralls
+        run: pip install --upgrade coveralls>=3.3.1
       - name: Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -92,6 +92,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-python]
     steps:
+      - name: Install latest Coveralls
+        run: pip install --upgrade coveralls>=3.3.1
       - name: Finish Coveralls merge
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
