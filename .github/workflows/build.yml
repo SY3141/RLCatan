@@ -80,24 +80,12 @@ jobs:
       - name: Test with pytest
         run: |
           coverage run --source=catanatron -m pytest tests/
-      - name: Install Coveralls
-        run: pip install --upgrade coveralls>=3.3.1
       - name: Coveralls
+        if: matrix.python-version == '3.11'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python -m coveralls --service=github --parallel
-
-  finish-coveralls:
-    runs-on: ubuntu-latest
-    needs: [build-python]
-    steps:
-      - name: Install latest Coveralls
-        run: pip install --upgrade coveralls>=3.3.1
-      - name: Finish Coveralls merge
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python -m coveralls --service=github --finish
+          coveralls --service=github
 
   build-ui:
     runs-on: ubuntu-latest
