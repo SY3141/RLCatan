@@ -86,7 +86,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          coveralls --service=github --parallel
+          python -m coveralls --service=github --parallel
 
   finish-coveralls:
     runs-on: ubuntu-latest
@@ -97,7 +97,7 @@ jobs:
       - name: Finish Coveralls merge
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: coveralls --service=github --finish
+        run: python -m coveralls --service=github --finish
 
   build-ui:
     runs-on: ubuntu-latest
