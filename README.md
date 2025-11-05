@@ -37,3 +37,6 @@ For 1v1 rules simulations, pass the arguments below
 
 To test Placement Player
 `catanatron-play --num 1 --players AB:1:True,PP --config-vps-to-win 15 --config-discard-limit 9`
+
+To test placement on alphabetaPlayer
+`catanatron-play --num 1 --players AB:1:True,ABPP:1:True --config-vps-to-win 15 --config-discard-limit 9`
