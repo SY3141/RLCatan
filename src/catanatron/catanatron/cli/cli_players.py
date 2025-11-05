@@ -9,6 +9,8 @@ from catanatron.players.minimax import AlphaBetaPlayer, SameTurnAlphaBetaPlayer
 from catanatron.players.search import VictoryPointPlayer
 from catanatron.players.mcts import MCTSPlayer
 from catanatron.players.playouts import GreedyPlayoutsPlayer
+from catanatron.players.placement import PlacementPlayer
+from catanatron.players.minimax_placement import AlphaBetaPlacementPlayer
 
 # Player must have a CODE, NAME, DESCRIPTION, CLASS.
 CliPlayer = namedtuple("CliPlayer", ["code", "name", "description", "import_fn"])
@@ -62,6 +64,18 @@ CLI_PLAYERS = [
         "SameTurnAlphaBetaPlayer",
         "AlphaBeta but searches only within turn",
         SameTurnAlphaBetaPlayer,
+    ),
+    CliPlayer(
+        "PP",
+        "PlacementPlayer",
+        "VP player with initial placement strategy.",
+        PlacementPlayer,
+    ),
+    CliPlayer(
+        "ABPP",
+        "AlphaBetaPlacementPlayer",
+        "AlphaBeta player with initial placement strategy.",
+        AlphaBetaPlacementPlayer,
     ),
 ]
 
