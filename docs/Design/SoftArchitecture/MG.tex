@@ -33,9 +33,9 @@
 
 \begin{document}
 
-\title{Module Guide for \progname{}} 
+\title{Module Guide for \progname{}}
 \author{\authname}
-\date{\today}
+\date{November 5, 2025}
 
 \maketitle
 
@@ -60,21 +60,25 @@ This section records information for easy reference.
 \subsection{Abbreviations and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l} 
-  \toprule		
+\begin{tabular}{l l}
+  \toprule
   \textbf{symbol} & \textbf{description}\\
-  \midrule 
+  \midrule
   AC & Anticipated Change\\
+  AI & Artificial Intelligence \\
+  CV & Computer Vision \\
   DAG & Directed Acyclic Graph \\
+  FR & Functional Requirement \\
   M & Module \\
   MG & Module Guide \\
+  NFR & Non-Functional Requirement \\
   OS & Operating System \\
   R & Requirement\\
-  SC & Scientific Computing \\
+  RL & Reinforcement Learning \\
   SRS & Software Requirements Specification\\
-  \progname & Explanation of program name\\
   UC & Unlikely Change \\
-  \wss{etc.} & \wss{...}\\
+  UI & User Interface \\
+  VnV & Verification and Validation \\
   \bottomrule
 \end{tabular}\\
 
@@ -93,13 +97,15 @@ This section records information for easy reference.
 \section{Introduction}
 
 Decomposing a system into modules is a commonly accepted approach to developing
-software.  A module is a work assignment for a programmer or programming
-team~\citep{ParnasEtAl1984}.  We advocate a decomposition
-based on the principle of information hiding~\citep{Parnas1972a}.  This
+software.
+A module is a work assignment for a programmer or programming
+team~\citep{ParnasEtAl1984}.
+We advocate a decomposition
+based on the principle of information hiding~\citep{Parnas1972a}.
+This
 principle supports design for change, because the ``secrets'' that each module
-hides represent likely future changes.  Design for change is valuable in SC,
-where modifications are frequent, especially during initial development as the
-solution space is explored.  
+hides represent likely future changes.
+
 
 Our design follows the rules layed out by \citet{ParnasEtAl1984}, as follows:
 \begin{itemize}
@@ -111,303 +117,333 @@ Our design follows the rules layed out by \citet{ParnasEtAl1984}, as follows:
 \end{itemize}
 
 After completing the first stage of the design, the Software Requirements
-Specification (SRS), the Module Guide (MG) is developed~\citep{ParnasEtAl1984}. The MG
+Specification (SRS), the Module Guide (MG) is developed~\citep{ParnasEtAl1984}.
+The MG
 specifies the modular structure of the system and is intended to allow both
-designers and maintainers to easily identify the parts of the software.  The
-potential readers of this document are as follows:
+designers and maintainers to easily identify the parts of the software.
 
-\begin{itemize}
-\item New project members: This document can be a guide for a new project member
-  to easily understand the overall structure and quickly find the
-  relevant modules they are searching for.
-\item Maintainers: The hierarchical structure of the module guide improves the
-  maintainers' understanding when they need to make changes to the system. It is
-  important for a maintainer to update the relevant sections of the document
-  after changes have been made.
-\item Designers: Once the module guide has been written, it can be used to
-  check for consistency, feasibility, and flexibility. Designers can verify the
-  system in various ways, such as consistency among modules, feasibility of the
-  decomposition, and flexibility of the design.
-\end{itemize}
 
 The rest of the document is organized as follows. Section
 \ref{SecChange} lists the anticipated and unlikely changes of the software
-requirements. Section \ref{SecMH} summarizes the module decomposition that
-was constructed according to the likely changes. Section \ref{SecConnection}
+requirements.
+Section \ref{SecMH} summarizes the module decomposition that
+was constructed according to the likely changes.
+Section \ref{SecConnection}
 specifies the connections between the software requirements and the
 modules. Section \ref{SecMD} gives a detailed description of the
-modules. Section \ref{SecTM} includes two traceability matrices. One checks
-the completeness of the design against the requirements provided in the SRS. The
+modules.
+Section \ref{SecTM} includes two traceability matrices. One checks
+the completeness of the design against the requirements provided in the SRS.
+The
 other shows the relation between anticipated changes and the modules. Section
 \ref{SecUse} describes the use relation between modules.
 
 \section{Anticipated and Unlikely Changes} \label{SecChange}
 
-This section lists possible changes to the system. According to the likeliness
+This section lists possible changes to the system.
+According to the likeliness
 of the change, the possible changes are classified into two
-categories. Anticipated changes are listed in Section \ref{SecAchange}, and
+categories.
+Anticipated changes are listed in Section \ref{SecAchange}, and
 unlikely changes are listed in Section \ref{SecUchange}.
 
 \subsection{Anticipated Changes} \label{SecAchange}
 
 Anticipated changes are the source of the information that is to be hidden
-inside the modules. Ideally, changing one of the anticipated changes will only
-require changing the one module that hides the associated decision. The approach
-adapted here is called design for
-change.
+inside the modules.
+Ideally, changing one of the anticipated changes will only
+require changing the one module that hides the associated decision.
+
 
 \begin{description}
-\item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific
-  hardware on which the software is running.
-\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
-  initial input data.
-\item ...
+\item[\refstepcounter{acnum} \actheacnum \label{acAIModel}:] The specific architecture, heuristics, and reward functions of the RL agent. [cite: 555, 599, 603, 616, 678] These will be iterated on constantly to improve performance.
+\item[\refstepcounter{acnum} \actheacnum \label{acCVModel}:] The specific CV algorithm or model (e.g., YOLOv9 vs. OpenCV) used for board state detection. [cite: 416, 489, 601, 610] This may be changed to improve accuracy or adapt to different lighting conditions. [cite: 447, 452, 492]
+\item[\refstepcounter{acnum} \actheacnum \label{acUI}:] The layout and design of the User Interface. [cite: 507, 619] This will likely change based on user feedback to improve usability. [cite: 524]
+\item[\refstepcounter{acnum} \actheacnum \label{acSimulator}:] The underlying Catan simulator (Catanatron). [cite: 416, 608] This is an external library that may be updated or replaced. [cite: 621]
+\item[\refstepcounter{acnum} \actheacnum \label{acDatabase}:] The specific schema or technology (e.g., SQL vs. NoSQL) for the Game State Database, as post-game analysis needs may evolve. [cite: 402, 486, 514]
+\item[\refstepcounter{acnum} \actheacnum \label{acComm}:] The communication protocol (e.g., 0MQ) used by the Image Queue. [cite: 592] This might be swapped for another low-latency middleware like WebSockets.
 \end{description}
-
-\wss{Anticipated changes relate to changes that would be made in requirements,
-design or implementation choices.  They are not related to changes that are made
-at run-time, like the values of parameters.}
 
 \subsection{Unlikely Changes} \label{SecUchange}
 
-The module design should be as general as possible. However, a general system is
-more complex. Sometimes this complexity is not necessary. Fixing some design
-decisions at the system architecture stage can simplify the software design. If
-these decision should later need to be changed, then many parts of the design
-will potentially need to be modified. Hence, it is not intended that these
+The module design should be as general as possible.
+However, fixing some design
+decisions at the system architecture stage can simplify the software design.
+It is not intended that these
 decisions will be changed.
 
 \begin{description}
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
-  (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-\item ...
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucGameRules}:] The fundamental rules of the standard *Settlers of Catan* base game. [cite: 410, 445] The project is not intended to support expansions. [cite: 410]
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucArchitecture}:] The core architectural decomposition. The system will always require separate components for vision, state management, AI, and a user interface.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucTechStack}:] The primary technology stack choices of Python for the backend/AI and JavaScript/React for the frontend. [cite: 589, 609]
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucInputSource}:] The fundamental premise of reading from a *physical* game board via a camera, as opposed to being a purely digital application. [cite: 391, 399, 489]
 \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
 
-This section provides an overview of the module design. Modules are summarized
-in a hierarchy decomposed by secrets in Table \ref{TblMH}. The modules listed
+This section provides an overview of the module design.
+Modules are summarized
+in a hierarchy decomposed by secrets in Table \ref{TblMH}.
+The modules listed
 below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented.
 
 \begin{description}
-\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
-\item ...
+\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module (OS)
+\item [\refstepcounter{mnum} \mthemnum \label{mCV}:] Computer Vision Model
+\item [\refstepcounter{mnum} \mthemnum \label{mUI}:] User Interface
+\item [\refstepcounter{mnum} \mthemnum \label{mState}:] Game State Manager
+\item [\refstepcounter{mnum} \mthemnum \label{mEnv}:] Reinforcement Learning Environment
+\item [\refstepcounter{mnum} \mthemnum \label{mAI}:] AI Model
+\item [\refstepcounter{mnum} \mthemnum \label{mDB}:] Game State Database
+\item [\refstepcounter{mnum} \mthemnum \label{mQueue}:] Image Queue (Communication Layer)
 \end{description}
 
 
 \begin{table}[h!]
 \centering
+\caption{Module Hierarchy}
+\label{TblMH}
 \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
 \toprule
 \textbf{Level 1} & \textbf{Level 2}\\
 \midrule
 
-{Hardware-Hiding Module} & ~ \\
+\multirow{2}{0.3\textwidth}{Hardware-Hiding Module} & \mref{mHH}: Hardware-Hiding Module (OS) \\
+& \mref{mCV}: Computer Vision Model \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\ 
-& ?\\
+\multirow{3}{0.3\textwidth}{Behaviour-Hiding Module} & \mref{mUI}: User Interface \\
+& \mref{mState}: Game State Manager \\
+& \mref{mEnv}: Reinforcement Learning Environment \\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-& ?\\
-& ?\\
+\multirow{3}{0.3\textwidth}{Software Decision Module} & \mref{mAI}: AI Model \\
+& \mref{mDB}: Game State Database \\
+& \mref{mQueue}: Image Queue \\
 \bottomrule
 
 \end{tabular}
-\caption{Module Hierarchy}
-\label{TblMH}
 \end{table}
 
 \section{Connection Between Requirements and Design} \label{SecConnection}
 
 The design of the system is intended to satisfy the requirements developed in
-the SRS. In this stage, the system is decomposed into modules. The connection
-between requirements and modules is listed in Table~\ref{TblRT}.
-
-\wss{The intention of this section is to document decisions that are made
-  ``between'' the requirements and the design.  To satisfy some requirements,
-  design decisions need to be made.  Rather than make these decisions implicit,
-  they are explicitly recorded here.  For instance, if a program has security
-  requirements, a specific design decision may be made to satisfy those
-  requirements with a password.}
+the SRS.
+To satisfy the requirements for real-time operation (NFR.E.4) [cite: 473], low-latency communication (FR.S.6.3) [cite: 516], and component decoupling (NFR.S.3)[cite: 525], a design decision was made to use a message queue middleware (as implemented in \mref{mQueue}) for asynchronous communication between the primary components. This allows the CV, AI, and UI modules to operate independently without blocking each other.
 
 \section{Module Decomposition} \label{SecMD}
 
 Modules are decomposed according to the principle of ``information hiding''
-proposed by \citet{ParnasEtAl1984}. The \emph{Secrets} field in a module
+proposed by \citet{ParnasEtAl1984}.
+The \emph{Secrets} field in a module
 decomposition is a brief statement of the design decision hidden by the
-module. The \emph{Services} field specifies \emph{what} the module will do
-without documenting \emph{how} to do it. For each module, a suggestion for the
-implementing software is given under the \emph{Implemented By} title. If the
-entry is \emph{OS}, this means that the module is provided by the operating
-system or by standard programming language libraries.  \emph{\progname{}} means the
-module will be implemented by the \progname{} software.
+module.
+The \emph{Services} field specifies \emph{what} the module will do
+without documenting \emph{how} to do it.
 
-Only the leaf modules in the hierarchy have to be implemented. If a dash
-(\emph{--}) is shown, this means that the module is not a leaf and will not have
-to be implemented.
 
-\subsection{Hardware Hiding Modules (\mref{mHH})}
+\subsection{Hardware Hiding Modules}
 
+\subsubsection{Hardware-Hiding Module (\mref{mHH})}
 \begin{description}
 \item[Secrets:]The data structure and algorithm used to implement the virtual
   hardware.
+This includes the drivers for the camera hardware.
 \item[Services:]Serves as a virtual hardware used by the rest of the
-  system. This module provides the interface between the hardware and the
-  software. So, the system can use it to display outputs or to accept inputs.
+  system.
+This module provides the interface between the hardware (camera) and the
+  software.
+
 \item[Implemented By:] OS
 \end{description}
 
-\subsection{Behaviour-Hiding Module}
+\subsubsection{Computer Vision Model (\mref{mCV})}
+\begin{description}
+\item[Secrets:]The specific algorithms, libraries (e.g., OpenCV, YOLOv9) [cite: 416, 610], and trained models used to interpret a raw video/image feed and detect the physical board layout, pieces, and player actions. [cite: 488-489] Hides the complexity of calibration [cite: 492] and error correction. [cite: 491]
+\item[Services:]Provides access programs to process camera input, detect board elements [cite: 489], and translate visual features into a structured digital representation of the game state. [cite: 490] Provides diagnostic feedback on detection confidence. [cite: 493]
+\item[Implemented By:] \progname{}
+\end{description}
 
+\subsection{Behaviour-Hiding Module}
 \begin{description}
 \item[Secrets:]The contents of the required behaviours.
 \item[Services:]Includes programs that provide externally visible behaviour of
-  the system as specified in the software requirements specification (SRS)
-  documents. This module serves as a communication layer between the
-  hardware-hiding module and the software decision module. The programs in this
-  module will need to change if there are changes in the SRS.
+  the system as specified in the SRS.
+This module serves as a communication layer between the
+  hardware-hiding module and the software decision module.
+
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Input Format Module (\mref{mInput})}
-
+\subsubsection{User Interface (\mref{mUI})}
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Secrets:]The specific frontend framework (React, JavaScript) [cite: 589, 609] and UI/UX design choices used to render the game state and AI suggestions. Hides the details of DOM manipulation and event handling.
+\item[Services:]Provides an interactive, real-time visualization of the Catan board. [cite: 504] Displays player moves, resources [cite: 505], and AI-generated move recommendations. [cite: 507] Allows users to provide manual corrections to the board state (to satisfy FR.Sa.1). [cite: 631]
+\item[Implemented By:] \progname{}
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{Game State Manager (\mref{mState})}
+\begin{description}
+\item[Secrets:]The internal data structure and logic that represent the "Digital Twin" of the Catan board. [cite: 391, 482] Hides the complex logic used to enforce the official Catan ruleset [cite: 445] and ensure state synchronization. [cite: 518]
+\item[Services:]Maintains the single source of truth for the current game state. Tracks player assets [cite: 519] and turn data. [cite: 520] Provides access programs to update the state [cite: 521] and validate all player and AI moves against the game rules. [cite: 633]
+\item[Implemented By:] \progname{}
+\end{description}
 
+\subsubsection{Reinforcement Learning Environment (\mref{mEnv})}
+\begin{description}
+\item[Secrets:]The implementation details of the Catan game simulator (Catanatron). [cite: 416, 608] Hides the specific reward/penalty functions [cite: 496] and opponent logic used during AI self-play and training. [cite: 495]
+\item[Services:]Simulates the game rules and state transitions of Catan. [cite: 494] Provides an interface for the AI model to interact with, perform self-play, and receive feedback for learning. [cite: 495-496] Supports model evaluation and benchmarking. [cite: 497]
+\item[Implemented By:] \progname{} (as a wrapper around Catanatron)
+\end{description}
 
 \subsection{Software Decision Module}
-
 \begin{description}
 \item[Secrets:] The design decision based on mathematical theorems, physical
-  facts, or programming considerations. The secrets of this module are
+  facts, or programming considerations.
+The secrets of this module are
   \emph{not} described in the SRS.
 \item[Services:] Includes data structure and algorithms used in the system that
-  do not provide direct interaction with the user. 
-  % Changes in these modules are more likely to be motivated by a desire to
-  % improve performance than by externally imposed changes.
+  do not provide direct interaction with the user.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{AI Model (\mref{mAI})}
+\begin{description}
+\item[Secrets:]The specific DRL model architecture (e.g., deep neural network parameters)[cite: 564], heuristics, and trained weights used to determine the optimal move. Hides the complex mathematical formulation of the policy $\pi(a \mid s)$. [cite: 563-566, 678]
+\item[Services:]Analyzes a given digital game state to predict optimal player strategies. [cite: 499] Provides access programs to request move recommendations, confidence scores, and textual reasoning. [cite: 502]
+\item[Implemented By:] \progname{}
+\end{description}
+
+\subsubsection{Game State Database (\mref{mDB})}
+\begin{description}
+\item[Secrets:]The specific database technology (e.g., SQL, NoSQL) and schema used to store and retrieve game history. Hides the implementation of data persistence, transactions, and indexing. [cite: 513]
+\item[Services:]Stores and maintains complete and consistent records of all game states and player profiles. [cite: 510-511] Provides access programs for efficient read/write operations [cite: 512] and structured access to historical game data for post-game analysis or replay. [cite: 514]
+\item[Implemented By:] \progname{}
+\end{description}
+
+\subsubsection{Image Queue (\mref{mQueue})}
+\begin{description}
+\item[Secrets:]The specific data transfer protocol and middleware (e.g., 0MQ/imageMQ) [cite: 592] used for low-latency, asynchronous communication between modules. Hides the details of message serialization, authentication, and error handling. [cite: 517]
+\item[Services:]Enables reliable, low-latency data exchange between the CV Model, Game State Manager, AI Model, and UI. [cite: 515-516] Supports asynchronous message-passing mechanisms.
+\item[Implemented By:] \progname{}
+\end{description}
 
 \section{Traceability Matrix} \label{SecTM}
 
 This section shows two traceability matrices: between the modules and the
 requirements and between the modules and the anticipated changes.
 
-% the table should use mref, the requirements should be named, use something
-% like fref
 \begin{table}[H]
 \centering
-\begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{Req.} & \textbf{Modules}\\
-\midrule
-R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-R2 & \mref{mInput}, \mref{mParams}\\
-R3 & \mref{mVerify}\\
-R4 & \mref{mOutput}, \mref{mControl}\\
-R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R9 & \mref{mVerifyOut}\\
-R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
-R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
-\bottomrule
-\end{tabular}
 \caption{Trace Between Requirements and Modules}
 \label{TblRT}
+\begin{tabularx}{\textwidth}{|l|X|}
+\toprule
+\textbf{Requirement(s)} & \textbf{Modules}\\
+\midrule
+FR.S.1.x (CV Model) & \mref{mCV} \\
+\hline
+FR.S.2.x (RL Environment) & \mref{mEnv} \\
+\hline
+FR.S.3.x (AI Model) & \mref{mAI} \\
+\hline
+FR.S.4.x (User Interface) & \mref{mUI} \\
+\hline
+FR.S.5.x (Game State DB) & \mref{mDB} \\
+\hline
+FR.S.6.x (Image Queue) & \mref{mQueue} \\
+\hline
+FR.S.7.x (Game State Mgr) & \mref{mState} \\
+\hline
+NFR.S.1 (Scalability) & \mref{mAI}, \mref{mQueue}, \mref{mDB} \\
+\hline
+NFR.S.2 (Usability) & \mref{mUI} \\
+\hline
+NFR.S.3 (Maintainability) & \mref{mAI}, \mref{mCV}, \mref{mState}, \mref{mUI} (All) \\
+\hline
+NFR.S.4 (Installability) & \mref{mHH} \\
+\hline
+NFR.S.5 (Data Integrity) & \mref{mDB}, \mref{mState} \\
+\hline
+NFR.S.6 (Availability) & \mref{mQueue}, \mref{mDB} \\
+\hline
+FR.Sa.1, FR.Sa.2, FR.Sa.4, FR.Sa.7, FR.Sa.8, NFR.Sa.1 (UI/Feedback Safety) & \mref{mUI} \\
+\hline
+FR.Sa.3 (AI Validation) & \mref{mState}, \mref{mAI} \\
+\hline
+FR.Sa.5 (DB Safety) & \mref{mDB} \\
+\hline
+FR.Sa.6, NFR.Sa.2 (Connection Safety) & \mref{mQueue} \\
+\hline
+FR.Sa.9, FR.Sa.11 (CV Safety) & \mref{mCV} \\
+\hline
+FR.Sa.10 (AI Rollback) & \mref{mAI} \\
+\hline
+FR.Sa.12 (Env. Validation) & \mref{mEnv} \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \begin{table}[H]
 \centering
-\begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{AC} & \textbf{Modules}\\
-\midrule
-\acref{acHardware} & \mref{mHH}\\
-\acref{acInput} & \mref{mInput}\\
-\acref{acParams} & \mref{mParams}\\
-\acref{acVerify} & \mref{mVerify}\\
-\acref{acOutput} & \mref{mOutput}\\
-\acref{acVerifyOut} & \mref{mVerifyOut}\\
-\acref{acODEs} & \mref{mODEs}\\
-\acref{acEnergy} & \mref{mEnergy}\\
-\acref{acControl} & \mref{mControl}\\
-\acref{acSeqDS} & \mref{mSeqDS}\\
-\acref{acSolver} & \mref{mSolver}\\
-\acref{acPlot} & \mref{mPlot}\\
-\bottomrule
-\end{tabular}
 \caption{Trace Between Anticipated Changes and Modules}
 \label{TblACT}
+\begin{tabular}{|l|l|}
+\toprule
+\textbf{Anticipated Change (AC)} & \textbf{Modules}\\
+\midrule
+\acref{acAIModel} & \mref{mAI} \\
+\hline
+\acref{acCVModel} & \mref{mCV} \\
+\hline
+\acref{acUI} & \mref{mUI} \\
+\hline
+\acref{acSimulator} & \mref{mEnv} \\
+\hline
+\acref{acDatabase} & \mref{mDB} \\
+\hline
+\acref{acComm} & \mref{mQueue} \\
+\bottomrule
+\end{tabular}
 \end{table}
 
 \section{Use Hierarchy Between Modules} \label{SecUse}
 
 In this section, the uses hierarchy between modules is
-provided. \citet{Parnas1978} said of two programs A and B that A {\em uses} B if
-correct execution of B may be necessary for A to complete the task described in
-its specification. That is, A {\em uses} B if there exist situations in which
-the correct functioning of A depends upon the availability of a correct
-implementation of B.  Figure \ref{FigUH} illustrates the use relation between
-the modules. It can be seen that the graph is a directed acyclic graph
-(DAG). Each level of the hierarchy offers a testable and usable subset of the
-system, and modules in the higher level of the hierarchy are essentially simpler
-because they use modules from the lower levels.
+provided.
+A module A *uses* a module B if the correct execution of A depends upon the availability of a correct implementation of B. [cite: 357] For our system, the 'uses' relation is not a simple hierarchy, as the main components communicate in a decoupled manner through the Communication Layer (\mref{mQueue}). The relationships are shown in Figure \ref{FigUH}. This graph is a directed acyclic graph (DAG), as required. [cite: 359]
 
-\wss{The uses relation is not a data flow diagram.  In the code there will often
-be an import statement in module A when it directly uses module B.  Module B
-provides the services that module A needs.  The code for module A needs to be
-able to see these services (hence the import statement).  Since the uses
-relation is transitive, there is a use relation without an import, but the
-arrows in the diagram typically correspond to the presence of import statement.}
-
-\wss{If module A uses module B, the arrow is directed from A to B.}
-
-\begin{figure}[H]
-\centering
-%\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
-\caption{Use hierarchy among modules}
-\label{FigUH}
-\end{figure}
-
-%\section*{References}
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=\textwidth]{Component_Diagram_final.png}
+%\caption{Use hierarchy among modules. An arrow from A to B means A 'uses' B. This diagram is adapted from the Component Diagram in the Hazard Analysis.}
+%\label{FigUH}
+%\end{figure}
 
 \section{User Interfaces}
 
-\wss{Design of user interface for software and hardware.  Attach an appendix if
-needed. Drawings, Sketches, Figma}
+The detailed design of the User Interface (\mref{mUI}) will be documented using Figma wireframes and mockups. These design artifacts are attached as an appendix to this document (or will be available at a shared link). The design focuses on satisfying NFR.S.2 (Usability) [cite: 524] and the specific UI-related safety requirements (e.g., FR.Sa.1, FR.Sa.7). [cite: 631, 637]
 
 \section{Design of Communication Protocols}
 
-\wss{If appropriate}
+The system's modules communicate via the \mref{mQueue} module. This module implements a publish-subscribe protocol. The design of this protocol is defined by the message topics and data structures (schemas) that are shared between modules.
+
+Key communication topics will include:
+\begin{itemize}
+    \item \texttt{cv.board.update}: Published by \mref{mCV}, consumed by \mref{mState}. Carries structured data of detected board changes.
+    \item \texttt{state.game.update}: Published by \mref{mState}, consumed by \mref{mUI} and \mref{mAI}. Carries the new authoritative game state.
+    \item \texttt{ai.request.move}: Published by \mref{mUI} (or other clients), consumed by \mref{mAI}. Requests a move suggestion for the current state.
+    \item \texttt{ai.response.move}: Published by \mref{mAI}, consumed by \mref{mUI}. Provides the suggested optimal move.
+\end{itemize}
+The precise JSON or Protobuf schemas for these messages will be defined in the Module Interface Specification (MIS).
 
 \section{Timeline}
 
-\wss{Schedule of tasks and who is responsible}
+The schedule of tasks, milestones, and team member responsibilities is maintained on our GitHub Project Kanban board, as specified in the Development Plan. [cite: 1061-1064] This allows for dynamic tracking of progress. The board can be accessed here: \href{https://github.com/users/SY3141/projects/1}{github.com/users/SY3141/projects/1} [cite: 1068]
 
-\wss{You can point to GitHub if this information is included there}
+\bibliographystyle{plainnat}
 
-\bibliographystyle {plainnat}
 \bibliography{../../../refs/References}
 
 \newpage{}
