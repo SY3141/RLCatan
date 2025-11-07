@@ -58,9 +58,6 @@ class AlphaBetaPlacementPlayer(Player):
             return list_prunned_actions(game)
         return game.state.playable_actions
     
-### Temporary placement insert #####
-
-
     def compute_node_pip_totals(self, board, playable_actions):
         def number_to_pips(number):
             pip_map = {2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 8: 5, 9: 4, 10: 3, 11: 2, 12: 1}
@@ -94,10 +91,6 @@ class AlphaBetaPlacementPlayer(Player):
 
         # Sort buildable nodes by total pips (sum of all resources)
         sorted_buildable = sorted(buildable_totals.items(), key=lambda x: sum(x[1]), reverse=True)
-
-        # print("Buildable node pip totals:")
-        # for nid, pip_list in sorted_buildable:
-        #     print(f"Node {nid}: {pip_list} (sum={sum(pip_list)})")
 
         return sorted_buildable
 
@@ -151,9 +144,6 @@ class AlphaBetaPlacementPlayer(Player):
         # If not found, fall back to first available action
         print(f"Node not in playable_actions; using default.")
         return playable_actions[0]
-    
-
-################# End Temporary placement insert ###########    
 
     def decide(self, game: Game, playable_actions):
         if self.turn in [0,2]: #placement phase for towns
