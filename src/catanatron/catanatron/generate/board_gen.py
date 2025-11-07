@@ -8,10 +8,11 @@ from game_gen import compute_node_pip_totals
 random.seed(19)
 b_tour = Board()
 
-#print(compute_node_pip_totals(b_tour))
+# print(compute_node_pip_totals(b_tour))
 
 # for coords, tile in b_tour.map.land_tiles.items():
 #     print(coords, "tile id", tile.id, "resource", getattr(tile.resource, "name", tile.resource), "number", tile.number)
+
 
 def number_to_pips(number):
     if number in [6, 8]:
@@ -27,6 +28,7 @@ def number_to_pips(number):
     else:
         return 0
 
+
 node_to_tiles = defaultdict(list)
 for coords, tile in b_tour.map.land_tiles.items():
     for node_id in tile.nodes.values():
@@ -37,7 +39,7 @@ wheats = defaultdict(int)
 ores = defaultdict(int)
 for node_id, tiles in node_to_tiles.items():
     print(f"node id {node_id} adjacent tiles:")
-    total = 0   
+    total = 0
     for tile in tiles:
         resource_name = getattr(tile.resource, "name", tile.resource)
         print(f"  tile id {tile.id} | resource {resource_name} | number {tile.number}")

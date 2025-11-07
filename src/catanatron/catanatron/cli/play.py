@@ -462,5 +462,6 @@ def play_batch(
         statistics_accumulator.games,
     )
 
+
 if __name__ == "__main__":
     simulate()

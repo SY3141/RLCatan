@@ -48,7 +48,13 @@ class AlphaBetaPlacementPlayer(Player):
         self.epsilon = epsilon
 
         self.turn = 0
-        self.production_counts = { "WHEAT": 0, "ORE": 0, "BRICK": 0, "SHEEP": 0, "WOOD": 0 } # Tracks resource production counts
+        self.production_counts = {
+            "WHEAT": 0,
+            "ORE": 0,
+            "BRICK": 0,
+            "SHEEP": 0,
+            "WOOD": 0,
+        }  # Tracks resource production counts
 
     def value_function(self, game, p0_color):
         raise NotImplementedError
@@ -57,11 +63,12 @@ class AlphaBetaPlacementPlayer(Player):
         if self.prunning:
             return list_prunned_actions(game)
         return game.state.playable_actions
-    
+
     def compute_node_pip_totals(self, board, playable_actions):
         def number_to_pips(number):
             pip_map = {2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 8: 5, 9: 4, 10: 3, 11: 2, 12: 1}
             return pip_map.get(number, 0)
+
         # Map each node to its adjacent tiles
         node_to_tiles = defaultdict(list)
         for _, tile in board.map.land_tiles.items():
@@ -74,7 +81,11 @@ class AlphaBetaPlacementPlayer(Player):
         for node_id, tiles in node_to_tiles.items():
             pip_list = [0, 0, 0, 0, 0]
             for tile in tiles:
-                if hasattr(tile, "resource") and tile.resource in resource_order and isinstance(tile.number, int):
+                if (
+                    hasattr(tile, "resource")
+                    and tile.resource in resource_order
+                    and isinstance(tile.number, int)
+                ):
                     pips = number_to_pips(tile.number)
                     res_index = resource_order.index(tile.resource)
                     pip_list[res_index] += pips
@@ -82,37 +93,48 @@ class AlphaBetaPlacementPlayer(Player):
 
         # Extract buildable node IDs from playable actions
         buildable_nodes = {
-            action.value for action in playable_actions
+            action.value
+            for action in playable_actions
             if action.action_type == ActionType.BUILD_SETTLEMENT
         }
 
         # Filter only buildable nodes
-        buildable_totals = {nid: totals[nid] for nid in buildable_nodes if nid in totals}
+        buildable_totals = {
+            nid: totals[nid] for nid in buildable_nodes if nid in totals
+        }
 
         # Sort buildable nodes by total pips (sum of all resources)
-        sorted_buildable = sorted(buildable_totals.items(), key=lambda x: sum(x[1]), reverse=True)
+        sorted_buildable = sorted(
+            buildable_totals.items(), key=lambda x: sum(x[1]), reverse=True
+        )
 
         return sorted_buildable
 
-    def choose_placement(self, game: Game, player_color: str, playable_actions: Iterable[Action]) -> Action:
+    def choose_placement(
+        self, game: Game, player_color: str, playable_actions: Iterable[Action]
+    ) -> Action:
         """Called once at the start of the game to read the map.
         Args:
             game (Game): complete game state. read-only.
         """
-        road_actions = [a for a in playable_actions if a.action_type == ActionType.BUILD_ROAD]
+        road_actions = [
+            a for a in playable_actions if a.action_type == ActionType.BUILD_ROAD
+        ]
         if road_actions:
             print(f"Chosen road action: {road_actions[0]}")
             return road_actions[0]
 
-        most_pip_nodes = self.compute_node_pip_totals(game.state.board, playable_actions)[:10]
-        if self.turn == 0: #checks for first turn
+        most_pip_nodes = self.compute_node_pip_totals(
+            game.state.board, playable_actions
+        )[:10]
+        if self.turn == 0:  # checks for first turn
             chosen_node = most_pip_nodes[0]
             # Determine which resource (wheat or ore) has the highest pip potential among top nodes
-            max_ore = max(node[1][1] for node in most_pip_nodes)   # ore index = 1
-            max_wheat = max(node[1][0] for node in most_pip_nodes) # wheat index = 0
-            if max_ore >= max_wheat:# Sort by ore pips descendin
+            max_ore = max(node[1][1] for node in most_pip_nodes)  # ore index = 1
+            max_wheat = max(node[1][0] for node in most_pip_nodes)  # wheat index = 0
+            if max_ore >= max_wheat:  # Sort by ore pips descendin
                 most_pip_nodes.sort(key=lambda x: x[1][1], reverse=True)
-            else: # Sort by wheat pips descending
+            else:  # Sort by wheat pips descending
                 most_pip_nodes.sort(key=lambda x: x[1][0], reverse=True)
 
             # Pick the top node with at least some production of the prioritized resource
@@ -125,12 +147,20 @@ class AlphaBetaPlacementPlayer(Player):
             best_score = float("-inf")
             chosen_node = most_pip_nodes[0]
             for node in most_pip_nodes:
-                score = sum([node[1][i] * list(self.production_counts.values())[i] for i in range(5)])
+                score = sum(
+                    [
+                        node[1][i] * list(self.production_counts.values())[i]
+                        for i in range(5)
+                    ]
+                )
                 if score > best_score:
                     best_score = score
                     chosen_node = node
-        self.production_counts  = {k: self.production_counts[k] + chosen_node[1][i] for i, k in enumerate(self.production_counts.keys())} #adds production to production counts
-        #Try to find a placement in action whose value matches the node ID
+        self.production_counts = {
+            k: self.production_counts[k] + chosen_node[1][i]
+            for i, k in enumerate(self.production_counts.keys())
+        }  # adds production to production counts
+        # Try to find a placement in action whose value matches the node ID
         with open("placement_log.txt", "a") as f:
             for action in playable_actions:
                 f.write(f"Action: {action}, Value: {action.value}\n")
@@ -146,10 +176,9 @@ class AlphaBetaPlacementPlayer(Player):
         return playable_actions[0]
 
     def decide(self, game: Game, playable_actions):
-        if self.turn in [0,2]: #placement phase for towns
-            self.turn+=1
+        if self.turn in [0, 2]:  # placement phase for towns
+            self.turn += 1
             return self.choose_placement(game, self.color, playable_actions)
-
 
         actions = self.get_actions(game)
         if len(actions) == 1:
