@@ -26,8 +26,19 @@ Windows CMD
 2. `python -m venv venv` 
 3. `venv\Scripts\activate`
 4. pip install -e .
-4. `pip install -e .[web,gym,dev]`
-5. `docker compose up`
+5. `pip install -e .[web,gym,dev]`
+6. `docker compose up`
+
+
+macOS CMD
+
+1. `cd src`
+2. `python -m venv venv` 
+3. `source venv/bin/activate`
+4. `pip install -e .`
+4. `pip install -e '.[web,gym,dev]'`
+5. `docker-compose up`
+
 
 ## Simulations
 
