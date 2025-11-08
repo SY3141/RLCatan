@@ -25,6 +25,7 @@ Windows CMD
 1. `cd src`
 2. `python -m venv venv` 
 3. `venv\Scripts\activate`
+4. pip install -e .
 4. `pip install -e .[web,gym,dev]`
 5. `docker compose up`
 
@@ -34,6 +35,10 @@ For 1v1 rules simulations, pass the arguments below
 1. `cd src`
 2. `venv\Scripts\activate` 
 3. `catanatron-play --num 1 --players AB:2:True,AB:2:True --config-vps-to-win 15 --config-discard-limit 9`
+
+Optional
+Create a replay link to view a CLI game --step-db
+`catanatron-play --num 1 --players AB:1:True,ABPP:1:True --config-vps-to-win 15 --config-discard-limit 9 --step-db`
 
 To test Placement Player
 `catanatron-play --num 1 --players AB:1:True,PP --config-vps-to-win 15 --config-discard-limit 9`
