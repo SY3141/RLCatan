@@ -1,7 +1,6 @@
 #game history data path
 src/my-data-path/
 src/catanatron/catanatron/generate/boards/*
-src/placement_log.txt/
 
 .vscode
 logs/
@@ -343,3 +342,4 @@ TSWLatexianTemp*
 
 # PostgreSQL data files
 src/db-data/
+src/placement_log.txt
