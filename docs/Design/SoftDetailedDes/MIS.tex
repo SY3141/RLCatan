@@ -130,26 +130,21 @@ The following table is taken directly from the Module Guide document for this pr
 \textbf{Level 1} & \textbf{Level 2}\\
 \midrule
 
-{Hardware-Hiding} & ~ \\
+\multirow{2}{0.3\textwidth}{Hardware-Hiding Module} & Hardware-Hiding Module (OS) \\
+& Computer Vision Model \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding} & Input Parameters\\
-& Output Format\\
-& Output Verification\\
-& Temperature ODEs\\
-& Energy Equations\\ 
-& Control Module\\
-& Specification Parameters Module\\
+\multirow{3}{0.3\textwidth}{Behaviour-Hiding Module} &  User Interface \\
+&  Game State Manager \\
+&  Reinforcement Learning Environment \\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision} & {Sequence Data Structure}\\
-& ODE Solver\\
-& Plotting\\
+\multirow{3}{0.3\textwidth}{Software Decision Module} &  AI Model \\
+& Game State Database \\
+&  Image Queue \\
 \bottomrule
 
 \end{tabular}
-\caption{Module Hierarchy}
-\label{TblMH}
 \end{table}
 
 \newpage
@@ -226,335 +221,347 @@ The following table is taken directly from the Module Guide document for this pr
   explicitly.  Even if they are implemented, they are not exported; they only
   have local scope.}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ADDED
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of CV Model Module}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ADDED%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Hardware-Hiding Module (M1)} \label{sec:M1}
 
 \subsection{Module}
-CV Model
+Hardware-Hiding Module (OS)
 
 \subsection{Uses}
-Image Queue, Board Representation
+None (this module provides the hardware abstraction layer used by other modules).
 
 \subsection{Syntax}
+
 \subsubsection{Exported Constants}
-None
+\begin{itemize}
+    \item \textbf{CAMERA\_DEVICE\_ID}: Identifier for the connected camera.
+\end{itemize}
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-processImage & imageData : Image & boardState : BoardState & InvalidImageError \\
+initializeCamera & - & Boolean (success/failure) & CameraConnectionError \\
+captureFrame & - & Image & CameraReadError \\
+releaseCamera & - & - & - \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
+
 \subsubsection{State Variables}
-currentFrame : Image \\
-boardState : BoardState
+cameraConnected: Boolean
 
 \subsubsection{Environment Variables}
-None
+Camera device connected via USB or onboard webcam.
 
 \subsubsection{Assumptions}
-Lighting and camera position are consistent; images are valid.
+The camera hardware is available and permissions for access are granted.
 
 \subsubsection{Access Routine Semantics}
-processImage(imageData):
+
+\noindent initializeCamera():
 \begin{itemize}
-    \item transition: updates \textit{currentFrame} with input imageData
-    \item output: returns \textit{boardState} computed from \textit{currentFrame} using:
-    \begin{itemize}
-        \item detectPieces(currentFrame)
-        \item convertToBoardState(pieces)
-    \end{itemize}
-    \item exception: InvalidImageError if imageData is unreadable or corrupted
+\item transition: connects to camera
+\item output: returns True if connection succeeds
+\item exception: CameraConnectionError if unavailable
+\end{itemize}
+
+\noindent captureFrame():
+\begin{itemize}
+\item output: returns latest frame from camera stream
+\item exception: CameraReadError if capture fails
+\end{itemize}
+
+\noindent releaseCamera():
+\begin{itemize}
+\item transition: releases hardware resources
 \end{itemize}
 
 \subsubsection{Local Functions}
-detectPieces(image : Image) : PieceList \\
-convertToBoardState(pieces : PieceList) : BoardState
+None.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of Board Representation Module}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Computer Vision Model (M2)} \label{sec:M2}
 
 \subsection{Module}
-Board Representation
+Computer Vision Model
 
 \subsection{Uses}
-CV Model, Game-State Manager, User Interface
+M1 (Hardware-Hiding Module), M8 (Image Queue), M4 (Game State Manager)
 
 \subsection{Syntax}
+
 \subsubsection{Exported Constants}
-None
+\begin{itemize}
+    \item \textbf{MODEL\_PATH}: Path to trained detection model.
+    \item \textbf{CONFIDENCE\_THRESH}: Minimum detection confidence.
+\end{itemize}
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-updateBoard & boardState : BoardState & - & InvalidStateError \\
-getBoardState & - & boardState : BoardState & - \\
+processFrame & Image & GameStateUpdate & DetectionError \\
+getConfidence & - & Float & - \\
+calibrateCamera & CalibrationData & Boolean & CalibrationError \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
+
 \subsubsection{State Variables}
-board : BoardState \\
-Initial state = empty board
+model: trained CV model instance \\
+confidence: Float
+
+\subsubsection{Environment Variables}
+Image feed from M1.
 
 \subsubsection{Assumptions}
-Board state updates atomically.
+Camera feed is correctly initialized and lighting conditions are adequate.
 
 \subsubsection{Access Routine Semantics}
-updateBoard(boardState):
+processFrame():
 \begin{itemize}
-    \item transition: replaces \textit{board} with \textit{boardState}
-    \item exception: InvalidStateError if boardState inconsistent
-\end{itemize}
-
-getBoardState():
-\begin{itemize}
-    \item output: returns \textit{board}
+\item output: structured board state update
+\item exception: DetectionError if pieces or tiles cannot be identified
 \end{itemize}
 
 \subsubsection{Local Functions}
-validateBoardState(boardState : BoardState) : Boolean
+imagePreprocessing(), objectDetection(), boardMapping()
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of User Interface Module}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of User Interface (M3)} \label{sec:M3}
 
 \subsection{Module}
 User Interface
 
 \subsection{Uses}
-Board Representation, Game-State Manager
+M4 (Game State Manager), M6 (AI Model), M8 (Image Queue)
 
 \subsection{Syntax}
-\subsubsection{Exported Constants}
-None
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-displayBoard & boardState : BoardState & - & - \\
-getPlayerMove & - & playerAction : Action & InputError \\
+renderBoard & GameState & - & RenderError \\
+displayAIMove & MoveSuggestion & - & - \\
+submitFeedback & FeedbackData & Boolean & NetworkError \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
+
 \subsubsection{Environment Variables}
-Screen, Keyboard/Mouse
+User browser window and input devices.
 
 \subsubsection{Assumptions}
-User provides input; boardState is valid.
+Frontend is served and connected to backend via WebSocket.
 
 \subsubsection{Access Routine Semantics}
-displayBoard(boardState):
+renderBoard():
 \begin{itemize}
-    \item output: renders boardState on screen
+\item transition: updates display with new game state
 \end{itemize}
 
-getPlayerMove():
+displayAIMove():
 \begin{itemize}
-    \item output: returns player's chosen move
-    \item exception: InputError if invalid move
+\item output: highlights AI suggestion on board
 \end{itemize}
 
-\subsubsection{Local Functions}
-parsePlayerInput(input : Keyboard/Mouse) : Action
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of Game Database Module}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Game State Manager (M4)} \label{sec:M4}
 
 \subsection{Module}
-Game Database
+Game State Manager
 
 \subsection{Uses}
-Game-State Manager
+M2 (CV Model), M7 (Game State DB), M8 (Image Queue)
 
 \subsection{Syntax}
-\subsubsection{Exported Constants}
-None
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-recordGame & gameData : GameData & - & DatabaseError \\
-fetchRecord & query : Query & gameData : GameData & NotFoundError \\
+updateState & GameStateUpdate & Boolean & InvalidMoveError \\
+getState & - & GameState & - \\
+validateMove & Move & Boolean & RuleViolationError \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
 \subsubsection{State Variables}
-database : List[GameData] \\
-Initial state = empty list
+currentState: GameState
 
 \subsubsection{Assumptions}
-Database integrity maintained; queries are valid.
+All updates are serialized through the Image Queue.
 
 \subsubsection{Access Routine Semantics}
-recordGame(gameData):
+updateState():
 \begin{itemize}
-    \item transition: appends \textit{gameData} to \textit{database}
-    \item exception: DatabaseError if write fails
+\item transition: applies detected move to internal state
+\item exception: InvalidMoveError if move is inconsistent
 \end{itemize}
 
-fetchRecord(query):
-\begin{itemize}
-    \item output: returns matching \textit{gameData}
-    \item exception: NotFoundError if no record matches query
-\end{itemize}
-
-\subsubsection{Local Functions}
-validateQuery(query : Query) : Boolean
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of Game-State Manager Module}
-
-\subsection{Module}
-Game-State Manager
-
-\subsection{Uses}
-Game Database, AI Model, Board Representation
-
-\subsection{Syntax}
-\subsubsection{Exported Constants}
-None
-
-\subsubsection{Exported Access Programs}
-\begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-updateState & playerAction : Action & - & InvalidMoveError \\
-getNextAction & - & aiAction : Action & - \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-\subsubsection{State Variables}
-currentState : BoardState \\
-Initial state = starting board layout
-
-\subsubsection{Access Routine Semantics}
-updateState(playerAction):
-\begin{itemize}
-    \item transition: applies playerAction to \textit{currentState}
-    \item exception: InvalidMoveError if action illegal
-\end{itemize}
-
-getNextAction():
-\begin{itemize}
-    \item output: returns AI's next action based on \textit{currentState}
-\end{itemize}
-
-\subsubsection{Local Functions}
-validateAction(action : Action, state : BoardState) : Boolean
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of AI Model Module}
-
-\subsection{Module}
-AI Model
-
-\subsection{Uses}
-Game-State Manager, Reinforcement Learning Environment
-
-\subsection{Syntax}
-\subsubsection{Exported Constants}
-None
-
-\subsubsection{Exported Access Programs}
-\begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-inferMove & boardState : BoardState & aiAction : Action & ModelError \\
-trainModel & reward : float, loss : float & - & TrainingError \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-\subsubsection{State Variables}
-weights : NumericMatrix \\
-Initial state = random initialization
-
-\subsubsection{Access Routine Semantics}
-inferMove(boardState):
-\begin{itemize}
-    \item output: returns \textit{aiAction} predicted by model
-    \item exception: ModelError if inference fails
-\end{itemize}
-
-trainModel(reward, loss):
-\begin{itemize}
-    \item transition: updates \textit{weights} using reward and loss
-    \item exception: TrainingError if model update fails
-\end{itemize}
-
-\subsubsection{Local Functions}
-predictNextState(boardState : BoardState) : BoardState \\
-updateWeights(loss : float)
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of Reinforcement Learning Environment Module}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Reinforcement Learning Environment (M5)} \label{sec:M5}
 
 \subsection{Module}
 Reinforcement Learning Environment
 
 \subsection{Uses}
-AI Model
+M4 (Game State Manager), M6 (AI Model)
 
 \subsection{Syntax}
-\subsubsection{Exported Constants}
-None
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-generateReward & aiAction : Action & reward : float & - \\
-computeLoss & reward : float, aiAction : Action & loss : float & - \\
+reset & - & InitialState & - \\
+step & Action & (NextState, Reward, Done) & InvalidActionError \\
+renderSim & - & Visualization & - \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
+\subsubsection{State Variables}
+envState: GameState
+
+\subsubsection{Assumptions}
+Catanatron environment is available and configured.
+
 \subsubsection{Access Routine Semantics}
-generateReward(aiAction):
+step():
 \begin{itemize}
-    \item output: returns numeric reward based on AI action
+\item transition: applies action to environment and updates state
+\item output: returns reward and next state
 \end{itemize}
 
-computeLoss(reward, aiAction):
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of AI Model (M6)} \label{sec:M6}
+
+\subsection{Module}
+AI Model
+
+\subsection{Uses}
+M5 (RL Environment), M7 (Database)
+
+\subsection{Syntax}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+predictMove & GameState & MoveSuggestion & ModelNotLoadedError \\
+train & TrainingData & Metrics & TrainingError \\
+evaluate & TestSet & Score & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+weights: Matrix \\
+optimizerState: Object
+
+\subsubsection{Assumptions}
+Model has been initialized and loaded from storage.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Game State Database (M7)} \label{sec:M7}
+
+\subsection{Module}
+Game State Database
+
+\subsection{Uses}
+None (accessed by other modules)
+
+\subsection{Syntax}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+storeGameState & GameState & Boolean & DBWriteError \\
+fetchGameState & GameID & GameState & DBReadError \\
+queryHistory & PlayerID & GameHistory & DBReadError \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{Assumptions}
+Database connection is active and schema is initialized.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Image Queue (M8)} \label{sec:M8}
+
+\subsection{Module}
+Image Queue (Communication Layer)
+
+\subsection{Uses}
+All communicating modules (M2, M3, M4, M6)
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
 \begin{itemize}
-    \item output: computes \textit{loss} for model update
+    \item \textbf{TOPIC\_BOARD\_UPDATE} = "cv.board.update"
+    \item \textbf{TOPIC\_GAME\_UPDATE} = "state.game.update"
+    \item \textbf{TOPIC\_AI\_REQUEST} = "ai.request.move"
+    \item \textbf{TOPIC\_AI\_RESPONSE} = "ai.response.move"
 \end{itemize}
 
-\subsubsection{Local Functions}
-calculateReward(aiAction : Action) : float \\
-calculateLoss(reward : float, aiAction : Action) : float
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+publishMessage & (Topic, Payload) & Boolean & NetworkError \\
+subscribeTopic & Topic & Stream & NetworkError \\
+receiveMessage & - & Payload & TimeoutError \\
+\hline
+\end{tabular}
+\end{center}
 
+\subsection{Semantics}
+\subsubsection{State Variables}
+connection: QueueConnection
+
+\subsubsection{Environment Variables}
+Network socket for inter-module communication.
+
+\subsubsection{Assumptions}
+Broker service (e.g., ZeroMQ or WebSocket server) is active.
+
+\subsubsection{Access Routine Semantics}
+publishMessage():
+\begin{itemize}
+\item output: confirms message successfully published to topic
+\end{itemize}
 
 
 \newpage
