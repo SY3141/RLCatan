@@ -615,7 +615,7 @@ render & - & - & RenderError \\
 \end{itemize}
 
 \subsubsection{Environment Variables}
-\item \texttt{display}: the graphical output window or context used to visualize the simulation
+\texttt{display}: the graphical output window or context used to visualize the simulation
 
 \subsubsection{Assumptions}
 Assumes AIMove actions are provided in the valid, non-corrupt format.
@@ -835,9 +835,11 @@ QueueEmptyError (Exception Type)
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-enqueue & FrameData & Boolean & QueueFullError \\
+enqueue & frame:FrameData & - & QueueFullError \\
 dequeue & - & FrameData & QueueEmptyError \\
-peek & - & FrameData & - \\
+peek & - & FrameData & QueueEmptyError \\
+isFull & - & Boolean & - \\
+isEmpty & - & Boolean & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -847,39 +849,59 @@ peek & - & FrameData & - \\
 \subsubsection{State Variables}
 \begin{itemize}
 \item \texttt{queueBuffer} - stores frames in order
-\item \texttt{head}, \texttt{tail} - pointers for buffer management
+\item \texttt{head} - pointer to front of the queue
+\item \texttt{tail} - pointer to end of the queue
+\item \texttt{size} - current number of frames in the queue
+
 \end{itemize}
 
 \subsubsection{Environment Variables}
 - None
 
 \subsubsection{Assumptions}
-Assumes frames are correctly formatted and queue size is sufficient for intended throughput.
+Calling modules will check isFull() before enqueue().
 
+Calling modules will check isEmpty() before dequeue() or peek().
 \subsubsection{Access Routine Semantics}
 
 \noindent enqueue(frame):
 \begin{itemize}
-\item transition: adds frame to \texttt{queueBuffer}
+\item transition: Adds frame to queueBuffer at tail. Increments tail and size.
 \item output: returns True if successful
-\item exception: raises \texttt{QueueFullError} if buffer is full
+\item exception: raises QueueFullError if isFull() is True.
 \end{itemize}
 
 \noindent dequeue():
 \begin{itemize}
-\item transition: removes frame from \texttt{queueBuffer}
-\item output: returns next \texttt{FrameData}
-\item exception: raises \texttt{QueueEmptyError} if queue is empty
+\item transition: Removes the frame from queueBuffer at head. Increments head and decrements size.
+\item output: Returns the FrameData from the head.
+\item exception: raises \texttt{QueueEmptyError} if isEmpty() is True.
 \end{itemize}
 
 \noindent peek():
 \begin{itemize}
-\item output: returns next frame without removal
+\item transition: -
+\item output: returns next FrameData without removing it from queueBuffer.
+\item exception: raises \texttt{QueueEmptyError} if isEmpty() is True
+\end{itemize}
+
+\noindent isFull():
+\begin{itemize}
+\item transition: -
+\item output: returns True if size == QUEUE\_SIZE, False otherwise
+\item exception: -
+\end{itemize}
+
+\noindent isEmpty():
+\begin{itemize}
+\item transition: -
+\item output: returns True if size == 0, False otherwise
+\item exception: -
 \end{itemize}
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item \texttt{isEmpty()}, \texttt{isFull()}, \texttt{resetQueue()}
+\item  \texttt{resetQueue()} : Resets head, tail, and size.
 \end{itemize}
 
 \newpage
