@@ -231,8 +231,10 @@ The following table is taken directly from the Module Guide document for this pr
 Hardware-Hiding Module (M1)
 
 \subsection{Uses}
-FrameData (Data Type): raw image data from camera or simulated source.
-HardwareInitError, CaptureError, HardwareShutdownError (Exceptions): error types for hardware operations. 
+\begin{itemize}
+    \item \textbf{FrameData (Data Type):} Represents the raw image data captured from the camera or a simulated source.
+    \item \textbf{HardwareInitError, CaptureError, HardwareShutdownError (Exception Types):} Indicate errors that may occur during hardware initialization, frame capture, or shutdown processes.
+\end{itemize}
 
 \subsection{Syntax}
 
@@ -272,10 +274,10 @@ isInitialized & - & - & - \\
 \end{itemize}
 
 \subsubsection{Assumptions}
-The CameraDevice is available and OS drivers are functional.
-
-Calling modules will check isInitialized() before calling captureFrame() or shutdownHardware().
-
+\begin{itemize}
+  \item The CameraDevice is available and OS drivers are functional.
+  \item Calling modules will check \texttt{isInitialized()} before invoking \texttt{captureFrame()} or \texttt{shutdownHardware()}.
+\end{itemize}
 \subsubsection{Access Routine Semantics}
 
 \noindent initializeHardware():
@@ -321,18 +323,14 @@ Calling modules will check isInitialized() before calling captureFrame() or shut
 Computer Vision Module (M2)
 
 \subsection{Uses}
+\begin{itemize}
+    \item \textbf{M1.captureFrame():} Provides a single frame of image data from the hardware or simulated camera.
+    \item \textbf{FrameData (Data Type):} Represents the raw image frame input used for further analysis.
+    \item \textbf{GameStateData (Data Type):} Stores and tracks the current game state derived from processed images.
+    \item \textbf{ProcessingError, DetectionError (Exception Types):} Raised during image analysis or element detection failures.
+    \item \textbf{List[Elements], Dict (Data Types):} Standard data structures used to store and map detected objects and attributes.
+\end{itemize}
 
-M1.captureFrame()
-
-FrameData (Data Type)
-
-GameStateData (Data Type)
-
-ProcessingError (Exception Type)
-
-DetectionError (Exception Type)
-
-List[Elements], Dict (Data Types)
 
 \subsection{Syntax}
 
@@ -366,8 +364,11 @@ getConfidenceMetrics & - & Dict & - \\
 N/A
 
 \subsubsection{Assumptions}
-Assumes FrameData provided is valid and preprocessed for analysis.
-Assumes model files at MODEL\_PATH are loaded correctly before use.
+
+\begin{itemize}
+    \item Assumes \texttt{FrameData} provided is valid and preprocessed for analysis.
+    \item Assumes model files at \texttt{MODEL\_PATH} are loaded correctly before use.
+\end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
@@ -405,13 +406,14 @@ Assumes model files at MODEL\_PATH are loaded correctly before use.
 User Interface (M3)
 
 \subsection{Uses}
-GameStateData (Data Type)
 
-AIMove (Data Type)
+\begin{itemize}
+    \item \textbf{GameStateData} (Data Type): Represents the current state of the game, including all player and board information.  
+    \item \textbf{AIMove} (Data Type): Defines an AI-generated move based on the current game state.  
+    \item \textbf{List[Corrections]} (Data Type): A list of correction objects used to adjust or validate game state data.  
+    \item \textbf{RenderError} (Exception Type): Raised when rendering or display operations fail.  
+\end{itemize}
 
-List[Corrections] (Data Type)
-
-RenderError (Exception Type)
 
 \subsection{Syntax}
 
@@ -487,13 +489,14 @@ The window environment is compatible with the frontend framework.
 Game State Manager (M4)
 
 \subsection{Uses}
-MoveData (Data Type)
 
-GameStateData (Data Type)
+\begin{itemize}
+    \item \textbf{MoveData} (Data Type): Represents the details of a player's move, including action type and parameters.  
+    \item \textbf{GameStateData} (Data Type): Contains the full current state of the game used for validation and updates.  
+    \item \textbf{InvalidMoveError} (Exception Type): Raised when a move violates game rules or state constraints.  
+    \item \textbf{M7.writeState()} (from Game State Database Module): Writes the updated game state data to persistent storage.  
+\end{itemize}
 
-InvalidMoveError (Exception Type)
-
-M7.writeState() (from Game State Database Module)
 
 \subsection{Syntax}
 
@@ -527,9 +530,12 @@ validateMove & move:MoveData & Boolean & - \\
 N/A
 
 \subsubsection{Assumptions}
-Assumes MoveData is provided in the standard, non-corrupt format.
 
-Assumes calling module will use validateMove before attempting updateState.
+\begin{itemize}
+    \item Assumes \texttt{MoveData} is provided in the standard, non-corrupt format.
+    \item Assumes the calling module will use \texttt{validateMove} before attempting \texttt{updateState}.
+\end{itemize}
+
 
 \subsubsection{Access Routine Semantics}
 
@@ -569,21 +575,18 @@ Assumes calling module will use validateMove before attempting updateState.
 Reinforcement Learning Environment (M5)
 
 \subsection{Uses}
-M4.updateState
 
-M4.getState
+\begin{itemize}
+  \item \textbf{M4} – Uses the following access programs:
+    \begin{itemize}
+      \item updateState
+      \item getState
+      \item validateMove
+    \end{itemize}
+  \item \textbf{Data Types:} AIMove, GameStateData, Reward (Float)
+  \item \textbf{Exception Types:} StepError, RenderError
+\end{itemize}
 
-M4.validateMove
-
-AIMove (Data Type)
-
-GameStateData (Data Type)
-
-Reward (Data Type, e.g., Float)
-
-StepError (Exception Type)
-
-RenderError (Exception Type)
 
 \subsection{Syntax}
 
@@ -655,11 +658,13 @@ Assumes AIMove actions are provided in the valid, non-corrupt format.
 AI Model (M6)
 
 \subsection{Uses}
-GameStateData (Data Type)
 
-AIMove (Data Type)
+\begin{itemize}
+    \item \textbf{GameStateData} (Data Type): Represents the current digital state of the game, used as input for AI predictions.  
+    \item \textbf{AIMove} (Data Type): Encodes a move generated or evaluated by the AI model.  
+    \item \textbf{PredictionError} (Exception Type): Raised when the AI model fails to generate a valid move prediction.  
+\end{itemize}
 
-PredictionError (Exception Type)
 
 \subsection{Syntax}
 
@@ -692,10 +697,14 @@ explainMove & move:AIMove & String & - \\
 
 \subsubsection{Environment Variables}
 N/A
-\subsubsection{Assumptions}
-Assumes input GameStateData is valid.
 
-Assumes model weights at MODEL\_PATH are loaded correctly before use.
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item Assumes input \texttt{GameStateData} is valid.
+    \item Assumes model weights at \texttt{MODEL\_PATH} are loaded correctly before use.
+\end{itemize}
+
 
 \subsubsection{Access Routine Semantics}
 
@@ -734,13 +743,13 @@ Assumes model weights at MODEL\_PATH are loaded correctly before use.
 Game State Database (M7)
 
 \subsection{Uses}
-GameStateData (Data Type)
 
-DBWriteError (Exception Type)
-
-DBReadError (Exception Type)
-
-List[GameStateData] (Data Type)
+\begin{itemize}
+    \item \textbf{GameStateData} (Data Type): Represents the current or historical state of the game.  
+    \item \textbf{DBWriteError} (Exception Type): Raised when writing to the database fails.  
+    \item \textbf{DBReadError} (Exception Type): Raised when reading from the database fails.  
+    \item \textbf{List[GameStateData]} (Data Type): A collection of game states, e.g., for querying player history.  
+\end{itemize}
 
 \subsection{Syntax}
 
@@ -816,11 +825,13 @@ Assumes the database is accessible and the schema matches the expected structure
 Image Queue (M8)
 
 \subsection{Uses}
-FrameData (Data Type)
 
-QueueFullError (Exception Type)
+\begin{itemize}
+    \item \textbf{FrameData} (Data Type): Represents an image frame from the camera or simulation.  
+    \item \textbf{QueueFullError} (Exception Type): Raised when attempting to enqueue a frame into a full queue.  
+    \item \textbf{QueueEmptyError} (Exception Type): Raised when attempting to dequeue or peek from an empty queue.  
+\end{itemize}
 
-QueueEmptyError (Exception Type)
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
@@ -859,9 +870,12 @@ isEmpty & - & Boolean & - \\
 - None
 
 \subsubsection{Assumptions}
-Calling modules will check isFull() before enqueue().
 
-Calling modules will check isEmpty() before dequeue() or peek().
+\begin{itemize}
+    \item Calling modules will check \texttt{isFull()} before \texttt{enqueue()}.
+    \item Calling modules will check \texttt{isEmpty()} before \texttt{dequeue()} or \texttt{peek()}.
+\end{itemize}
+
 \subsubsection{Access Routine Semantics}
 
 \noindent enqueue(frame):
