@@ -221,31 +221,35 @@ The following table is taken directly from the Module Guide document for this pr
   explicitly.  Even if they are implemented, they are not exported; they only
   have local scope.}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ADDED%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of Hardware-Hiding Module (M1)} \label{sec:M1}
+%%%%%%%%%%%%%%%%%ADDED MODULES BELOW THIS LINE%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Hardware-Hiding Module} \label{M1}
+\wss{Use labels for cross-referencing}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
 
 \subsection{Module}
-Hardware-Hiding Module (OS)
+Hardware-Hiding Module (M1)
 
 \subsection{Uses}
-None (this module provides the hardware abstraction layer used by other modules).
+Provides a hardware abstraction layer for other modules. Interfaces with OS-level drivers and the camera hardware or simulation layer to provide consistent input streams.
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
 \begin{itemize}
-    \item \textbf{CAMERA\_DEVICE\_ID}: Identifier for the connected camera.
+\item \texttt{CAMERA\_RESOLUTION} - resolution of captured frames
+\item \texttt{FRAME\_RATE} - frames per second captured by the hardware layer
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
+\begin{tabular}{p{5cm} p{3cm} p{3cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-initializeCamera & - & Boolean (success/failure) & CameraConnectionError \\
-captureFrame & - & Image & CameraReadError \\
-releaseCamera & - & - & - \\
+initializeHardware & - & Boolean & HardwareInitError \\
+captureFrame & - & FrameData & CaptureError \\
+shutdownHardware & - & Boolean & HardwareShutdownError \\
 \hline
 \end{tabular}
 \end{center}
@@ -253,63 +257,77 @@ releaseCamera & - & - & - \\
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-cameraConnected: Boolean
+\begin{itemize}
+\item \texttt{hardwareStatus}: Boolean - indicates if hardware is initialized
+\item \texttt{frameBuffer}: FrameData - stores the latest captured frame
+\end{itemize}
 
 \subsubsection{Environment Variables}
-Camera device connected via USB or onboard webcam.
+\begin{itemize}
+\item \texttt{CameraDevice} - physical or virtual camera input
+\item \texttt{DisplayInterface} - optional screen interface for visualization
+\end{itemize}
 
 \subsubsection{Assumptions}
-The camera hardware is available and permissions for access are granted.
+The module assumes that the camera or simulated device is available and that OS drivers are functional.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent initializeCamera():
+\noindent initializeHardware():
 \begin{itemize}
-\item transition: connects to camera
-\item output: returns True if connection succeeds
-\item exception: CameraConnectionError if unavailable
+\item transition: sets \texttt{hardwareStatus} to True on successful initialization
+\item output: returns True on success
+\item exception: raises \texttt{HardwareInitError} if initialization fails
 \end{itemize}
 
 \noindent captureFrame():
 \begin{itemize}
-\item output: returns latest frame from camera stream
-\item exception: CameraReadError if capture fails
+\item transition: updates \texttt{frameBuffer} with latest captured frame
+\item output: returns \texttt{FrameData}
+\item exception: raises \texttt{CaptureError} if frame cannot be captured
 \end{itemize}
 
-\noindent releaseCamera():
+\noindent shutdownHardware():
 \begin{itemize}
-\item transition: releases hardware resources
+\item transition: sets \texttt{hardwareStatus} to False and releases resources
+\item output: returns True on successful shutdown
+\item exception: raises \texttt{HardwareShutdownError} if cleanup fails
 \end{itemize}
 
 \subsubsection{Local Functions}
-None.
+\begin{itemize}
+\item \texttt{checkDeviceConnection()}: ensures camera is available
+\item \texttt{allocateBufferMemory()}: manages memory for frame storage
+\item \texttt{releaseResources()}: frees hardware resources on shutdown
+\end{itemize}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of Computer Vision Model (M2)} \label{sec:M2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{MIS of Computer Vision Module} \label{M2}
 
 \subsection{Module}
-Computer Vision Model
+Computer Vision Module (M2)
 
 \subsection{Uses}
-M1 (Hardware-Hiding Module), M8 (Image Queue), M4 (Game State Manager)
+Processes raw camera input and translates it into structured board state data. Provides confidence metrics for detection and error correction.
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
 \begin{itemize}
-    \item \textbf{MODEL\_PATH}: Path to trained detection model.
-    \item \textbf{CONFIDENCE\_THRESH}: Minimum detection confidence.
+\item \texttt{DETECTION\_THRESHOLD} - minimum confidence for object recognition
+\item \texttt{MODEL\_PATH} - path to trained CV model (YOLOv9/OpenCV)
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
+\begin{tabular}{p{5cm} p{3cm} p{3cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-processFrame & Image & GameStateUpdate & DetectionError \\
-getConfidence & - & Float & - \\
-calibrateCamera & CalibrationData & Boolean & CalibrationError \\
+processFrame & FrameData & GameStateData & ProcessingError \\
+detectBoardElements & FrameData & List[Elements] & DetectionError \\
+getConfidenceMetrics & - & Dict & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -317,252 +335,462 @@ calibrateCamera & CalibrationData & Boolean & CalibrationError \\
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-model: trained CV model instance \\
-confidence: Float
+\begin{itemize}
+\item \texttt{currentGameState}: structured representation of board state
+\item \texttt{lastFrame}: last processed frame
+\end{itemize}
 
 \subsubsection{Environment Variables}
-Image feed from M1.
+\begin{itemize}
+\item Access to \texttt{Hardware-Hiding Module} frame buffer
+\end{itemize}
 
 \subsubsection{Assumptions}
-Camera feed is correctly initialized and lighting conditions are adequate.
+Assumes that frames provided by M1 are valid and that model files are correctly loaded.
 
 \subsubsection{Access Routine Semantics}
-processFrame():
+
+\noindent processFrame(frame):
 \begin{itemize}
-\item output: structured board state update
-\item exception: DetectionError if pieces or tiles cannot be identified
+\item transition: converts frame into structured game state
+\item output: returns \texttt{GameStateData}
+\item exception: raises \texttt{ProcessingError} if parsing fails
+\end{itemize}
+
+\noindent detectBoardElements(frame):
+\begin{itemize}
+\item transition: identifies tiles, pieces, and player actions in the frame
+\item output: returns list of detected elements
+\item exception: raises \texttt{DetectionError} if detection fails
+\end{itemize}
+
+\noindent getConfidenceMetrics():
+\begin{itemize}
+\item output: returns confidence scores for last processed frame
 \end{itemize}
 
 \subsubsection{Local Functions}
-imagePreprocessing(), objectDetection(), boardMapping()
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of User Interface (M3)} \label{sec:M3}
-
-\subsection{Module}
-User Interface
-
-\subsection{Uses}
-M4 (Game State Manager), M6 (AI Model), M8 (Image Queue)
-
-\subsection{Syntax}
-
-\subsubsection{Exported Access Programs}
-\begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-renderBoard & GameState & - & RenderError \\
-displayAIMove & MoveSuggestion & - & - \\
-submitFeedback & FeedbackData & Boolean & NetworkError \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-
-\subsubsection{Environment Variables}
-User browser window and input devices.
-
-\subsubsection{Assumptions}
-Frontend is served and connected to backend.
-
-\subsubsection{Access Routine Semantics}
-renderBoard():
 \begin{itemize}
-\item transition: updates display with new game state
-\end{itemize}
-\medskip
-displayAIMove():
-\begin{itemize}
-\item output: highlights AI suggestion on board
+\item \texttt{calibrateCamera()}: adjusts image for lens distortion
+\item \texttt{filterNoise()}: removes spurious detections
 \end{itemize}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of Game State Manager (M4)} \label{sec:M4}
+\section{MIS of User Interface Module} \label{M3}
 
 \subsection{Module}
-Game State Manager
+User Interface (M3)
 
 \subsection{Uses}
-M2 (CV Model), M7 (Game State DB), M8 (Image Queue)
-
-\subsection{Syntax}
-
-\subsubsection{Exported Access Programs}
-\begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-updateState & GameStateUpdate & Boolean & InvalidMoveError \\
-getState & - & GameState & - \\
-validateMove & Move & Boolean & RuleViolationError \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-\subsubsection{State Variables}
-currentState: GameState
-
-\subsubsection{Assumptions}
-All updates are serialized through the Image Queue.
-
-\subsubsection{Access Routine Semantics}
-updateState():
-\begin{itemize}
-\item transition: applies detected move to internal state
-\item exception: InvalidMoveError if move is inconsistent
-\end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of Reinforcement Learning Environment (M5)} \label{sec:M5}
-
-\subsection{Module}
-Reinforcement Learning Environment
-
-\subsection{Uses}
-M4 (Game State Manager), M6 (AI Model)
-
-\subsection{Syntax}
-
-\subsubsection{Exported Access Programs}
-\begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-reset & - & InitialState & - \\
-step & Action & (NextState, Reward, Done) & InvalidActionError \\
-renderSim & - & Visualization & - \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-\subsubsection{State Variables}
-envState: GameState
-
-\subsubsection{Assumptions}
-Catanatron environment is available and configured.
-
-\subsubsection{Access Routine Semantics}
-step():
-\begin{itemize}
-\item transition: applies action to environment and updates state
-\item output: returns reward and next state
-\end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of AI Model (M6)} \label{sec:M6}
-
-\subsection{Module}
-AI Model
-
-\subsection{Uses}
-M5 (RL Environment), M7 (Database)
-
-\subsection{Syntax}
-
-\subsubsection{Exported Access Programs}
-\begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-predictMove & GameState & MoveSuggestion & ModelNotLoadedError \\
-train & TrainingData & Metrics & TrainingError \\
-evaluate & TestSet & Score & - \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-\subsubsection{State Variables}
-weights: Matrix \\
-optimizerState: Object
-
-\subsubsection{Assumptions}
-Model has been initialized and loaded from storage.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of Game State Database (M7)} \label{sec:M7}
-
-\subsection{Module}
-Game State Database
-
-\subsection{Uses}
-None (accessed by other modules)
-
-\subsection{Syntax}
-
-\subsubsection{Exported Access Programs}
-\begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-storeGameState & GameState & Boolean & DBWriteError \\
-fetchGameState & GameID & GameState & DBReadError \\
-queryHistory & PlayerID & GameHistory & DBReadError \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-\subsubsection{Assumptions}
-Database connection is active and schema is initialized.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of Image Queue (M8)} \label{sec:M8}
-
-\subsection{Module}
-Image Queue (Communication Layer)
-
-\subsection{Uses}
-All communicating modules (M2, M3, M4, M6)
+Provides interactive visualization of board state and AI move suggestions. Allows users to correct misdetections from the CV module.
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
 \begin{itemize}
-    \item \textbf{TOPIC\_BOARD\_UPDATE} = "cv.board.update"
-    \item \textbf{TOPIC\_GAME\_UPDATE} = "state.game.update"
-    \item \textbf{TOPIC\_AI\_REQUEST} = "ai.request.move"
-    \item \textbf{TOPIC\_AI\_RESPONSE} = "ai.response.move"
+\item \texttt{REFRESH\_RATE} - frequency of UI updates
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
+\begin{tabular}{p{5cm} p{3cm} p{3cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-publishMessage & (Topic, Payload) & Boolean & NetworkError \\
-subscribeTopic & Topic & Stream & NetworkError \\
-receiveMessage & - & Payload & TimeoutError \\
+renderBoard & GameStateData & - & RenderError \\
+displayAIMove & AIMove & - & - \\
+getUserCorrections & - & List[Corrections] & - \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
+
 \subsubsection{State Variables}
-connection: QueueConnection
-
-\subsubsection{Environment Variables}
-Network socket for inter-module communication.
-
-\subsubsection{Assumptions}
-Broker service (e.g., ZeroMQ or WebSocket server) is active.
-
-\subsubsection{Access Routine Semantics}
-publishMessage():
 \begin{itemize}
-\item output: confirms message successfully published to topic
+\item \texttt{uiState}: current UI rendering data
 \end{itemize}
 
+\subsubsection{Environment Variables}
+\begin{itemize}
+\item Display device or browser
+\end{itemize}
+
+\subsubsection{Assumptions}
+Assumes the rendering environment is compatible with frontend framework and supports required update rate.
+
+\subsubsection{Access Routine Semantics}
+
+\noindent renderBoard(state):
+\begin{itemize}
+\item transition: updates UI elements to reflect the current game state
+\item output: -
+\item exception: raises \texttt{RenderError} if rendering fails
+\end{itemize}
+
+\noindent displayAIMove(move):
+\begin{itemize}
+\item transition: overlays AI recommended move on board
+\item output: -
+\item exception: -
+\end{itemize}
+
+\noindent getUserCorrections():
+\begin{itemize}
+\item output: returns user corrections for misdetected board state
+\end{itemize}
+
+\subsubsection{Local Functions}
+\begin{itemize}
+\item \texttt{updateDOM()}: handles DOM updates
+\item \texttt{highlightElements()}: highlights tiles, pieces, or moves
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{MIS of Game State Manager Module} \label{M4}
+
+\subsection{Module}
+Game State Manager (M4)
+
+\subsection{Uses}
+Maintains the “Digital Twin” of the Catan board, validates moves, and enforces rules.
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+\begin{itemize}
+\item \texttt{MAX\_PLAYERS} = 4
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{3cm} p{3cm} p{3cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+updateState & MoveData & Boolean & InvalidMoveError \\
+getState & - & GameStateData & - \\
+validateMove & MoveData & Boolean & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+\begin{itemize}
+\item \texttt{currentGameState}
+\item \texttt{playerAssets}: resources, settlements, roads
+\end{itemize}
+
+\subsubsection{Environment Variables}
+- None
+
+\subsubsection{Assumptions}
+Assumes moves are provided in standard MoveData format and game rules are well-defined.
+
+\subsubsection{Access Routine Semantics}
+
+\noindent updateState(move):
+\begin{itemize}
+\item transition: applies move to \texttt{currentGameState}
+\item output: returns True if successful
+\item exception: raises \texttt{InvalidMoveError} if move is illegal
+\end{itemize}
+
+\noindent getState():
+\begin{itemize}
+\item output: returns \texttt{currentGameState}
+\end{itemize}
+
+\noindent validateMove(move):
+\begin{itemize}
+\item output: returns True if move is valid according to game rules
+\end{itemize}
+
+\subsubsection{Local Functions}
+\begin{itemize}
+\item \texttt{calculateResources()}, \texttt{updateScores()}, \texttt{checkVictory()}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{MIS of Reinforcement Learning Environment Module} \label{M5}
+
+\subsection{Module}
+Reinforcement Learning Environment (M5)
+
+\subsection{Uses}
+Simulates Catan rules and opponent behavior for AI training and evaluation.
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+\begin{itemize}
+\item \texttt{MAX\_TURNS}
+\item \texttt{REWARD\_SCALE}
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+step & AIMove & GameStateData, Reward & StepError \\
+reset & - & GameStateData & - \\
+render & - & - & RenderError \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+\begin{itemize}
+\item \texttt{simulatedState}
+\item \texttt{turnCount}
+\end{itemize}
+
+\subsubsection{Environment Variables}
+- None
+
+\subsubsection{Assumptions}
+Assumes AI actions are in valid AIMove format and that simulated rules match official Catan rules.
+
+\subsubsection{Access Routine Semantics}
+
+\noindent step(action):
+\begin{itemize}
+\item transition: applies action to \texttt{simulatedState}, increments \texttt{turnCount}
+\item output: returns new state and reward
+\item exception: raises \texttt{StepError} if action is invalid
+\end{itemize}
+
+\noindent reset():
+\begin{itemize}
+\item transition: resets environment to initial state
+\item output: returns initial \texttt{simulatedState}
+\end{itemize}
+
+\noindent render():
+\begin{itemize}
+\item transition: visualizes \texttt{simulatedState}
+\item exception: raises \texttt{RenderError} on failure
+\end{itemize}
+
+\subsubsection{Local Functions}
+\begin{itemize}
+\item \texttt{applyOpponentLogic()}, \texttt{calculateReward()}
+\end{itemize}
+
+\section{MIS of AI Model Module} \label{M6}
+
+\subsection{Module}
+AI Model (M6)
+
+\subsection{Uses}
+Analyzes game states to recommend optimal moves using deep reinforcement learning. Provides move confidence scores and textual reasoning.
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+\begin{itemize}
+\item \texttt{MODEL\_PATH} - path to trained neural network weights
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{3cm} p{3cm} p{3cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+predictMove & GameStateData & AIMove & PredictionError \\
+getMoveConfidence & AIMove & Float & - \\
+explainMove & AIMove & String & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+\begin{itemize}
+\item \texttt{modelWeights} - neural network parameters
+\item \texttt{policyNetwork} - DRL policy network
+\end{itemize}
+
+\subsubsection{Environment Variables}
+- None
+
+\subsubsection{Assumptions}
+Assumes input game states are valid and model weights are loaded correctly.
+
+\subsubsection{Access Routine Semantics}
+
+\noindent predictMove(state):
+\begin{itemize}
+\item transition: evaluates state using policy network
+\item output: returns optimal move (\texttt{AIMove})
+\item exception: raises \texttt{PredictionError} if model fails
+\end{itemize}
+
+\noindent getMoveConfidence(move):
+\begin{itemize}
+\item output: returns confidence score of move
+\end{itemize}
+
+\noindent explainMove(move):
+\begin{itemize}
+\item output: returns textual reasoning for move selection
+\end{itemize}
+
+\subsubsection{Local Functions}
+\begin{itemize}
+\item \texttt{preprocessState()}, \texttt{postprocessOutput()}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{MIS of Game State Database Module} \label{M7}
+
+\subsection{Module}
+Game State Database (M7)
+
+\subsection{Uses}
+Stores complete history of games and player actions. Provides access for analysis, replay, or post-game evaluation.
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+\begin{itemize}
+\item \texttt{DB\_PATH} - database file or server location
+\item \texttt{MAX\_ENTRIES} - maximum stored states
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+writeState & GameStateData & Boolean & DBWriteError \\
+readState & String & GameStateData & DBReadError \\
+queryHistory & String & List[GameStateData] & DBReadError \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+\begin{itemize}
+\item \texttt{dbConnection} - current database connection
+\item \texttt{gameRecords} - cached records in memory
+\end{itemize}
+
+\subsubsection{Environment Variables}
+- File system or database server
+
+\subsubsection{Assumptions}
+Assumes database is accessible and schema matches expected structure.
+
+\subsubsection{Access Routine Semantics}
+
+\noindent writeState(state):
+\begin{itemize}
+\item transition: stores state in database
+\item output: returns True on success
+\item exception: raises \texttt{DBWriteError} if write fails
+\end{itemize}
+
+\noindent readState(gameID):
+\begin{itemize}
+\item output: returns \texttt{GameStateData} for specified game
+\item exception: raises \texttt{DBReadError} if retrieval fails
+\end{itemize}
+
+\noindent queryHistory(playerID):
+\begin{itemize}
+\item output: returns list of \texttt{GameStateData} for given player
+\item exception: raises \texttt{DBReadError} if query fails
+\end{itemize}
+
+\subsubsection{Local Functions}
+\begin{itemize}
+\item \texttt{serializeState()}, \texttt{deserializeState()}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{MIS of Image Queue Module} \label{M8}
+
+\subsection{Module}
+Image Queue (M8)
+
+\subsection{Uses}
+Provides low-latency asynchronous communication between CV, Game State Manager, AI Model, and UI modules.
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+\begin{itemize}
+\item \texttt{QUEUE\_SIZE} - maximum buffer size
+\item \texttt{TIMEOUT} - maximum wait time for enqueue/dequeue
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+enqueue & FrameData & Boolean & QueueFullError \\
+dequeue & - & FrameData & QueueEmptyError \\
+peek & - & FrameData & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+\begin{itemize}
+\item \texttt{queueBuffer} - stores frames in order
+\item \texttt{head}, \texttt{tail} - pointers for buffer management
+\end{itemize}
+
+\subsubsection{Environment Variables}
+- None
+
+\subsubsection{Assumptions}
+Assumes frames are correctly formatted and queue size is sufficient for intended throughput.
+
+\subsubsection{Access Routine Semantics}
+
+\noindent enqueue(frame):
+\begin{itemize}
+\item transition: adds frame to \texttt{queueBuffer}
+\item output: returns True if successful
+\item exception: raises \texttt{QueueFullError} if buffer is full
+\end{itemize}
+
+\noindent dequeue():
+\begin{itemize}
+\item transition: removes frame from \texttt{queueBuffer}
+\item output: returns next \texttt{FrameData}
+\item exception: raises \texttt{QueueEmptyError} if queue is empty
+\end{itemize}
+
+\noindent peek():
+\begin{itemize}
+\item output: returns next frame without removal
+\end{itemize}
+
+\subsubsection{Local Functions}
+\begin{itemize}
+\item \texttt{isEmpty()}, \texttt{isFull()}, \texttt{resetQueue()}
+\end{itemize}
 
 \newpage
 
