@@ -168,8 +168,8 @@ Hardware-Hiding Module (M1)
 
 \subsubsection{Exported Constants}
 \begin{itemize}
-\item \texttt{CAMERA\_RESOLUTION} - resolution of captured frames
-\item \texttt{FRAME\_RATE} - frames per second captured by the hardware layer
+\item \texttt{CAMERA\_RESOLUTION}: tuple of $(int, int)$ - width and height of captured frames
+\item \texttt{FRAME\_RATE}: $\mathbb{R}$ - frames per second captured by the hardware layer
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
@@ -181,7 +181,7 @@ Hardware-Hiding Module (M1)
 initializeHardware & - & - & HardwareInitError \\
 captureFrame & - & FrameData & CaptureError \\
 shutdownHardware & - & - & HardwareShutdownError \\
-isInitialized & - & - & - \\
+isInitialized & - & $\mathbb{B}$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -190,58 +190,65 @@ isInitialized & - & - & - \\
 
 \subsubsection{State Variables}
 \begin{itemize}
-\item \texttt{hardwareStatus}: Boolean - indicates if hardware is initialized
-\item \texttt{frameBuffer}: FrameData - stores the latest captured frame
-%\item \texttt{State Invariant} - frameBuffer is valid only if hardwareStatus is True
+\item \texttt{hardwareStatus}: $\mathbb{B}$ \\
+      Indicates whether the hardware subsystem has been successfully initialized.
+\item \texttt{frameBuffer}: FrameData \\
+      Stores the most recent frame captured from the camera.
 \end{itemize}
 
 \subsubsection{Environment Variables}
 \begin{itemize}
-\item \texttt{CameraDevice} - physical or virtual camera input
-\item \texttt{DisplayInterface} - Screen interface for visualization
+\item \texttt{CameraDevice}: external hardware input for image capture
+\item \texttt{DisplayInterface}: external interface for visualization
 \end{itemize}
 
 \subsubsection{Assumptions}
 \begin{itemize}
-  \item The CameraDevice is available and OS drivers are functional.
-  \item Calling modules will check \texttt{isInitialized()} before invoking \texttt{captureFrame()} or \texttt{shutdownHardware()}.
+  \item The CameraDevice is available and functional within the operating environment.
+  \item Calling modules will invoke \texttt{isInitialized()} before executing 
+        \texttt{captureFrame()} or \texttt{shutdownHardware()}.
 \end{itemize}
+
 \subsubsection{Access Routine Semantics}
 
 \noindent initializeHardware():
 \begin{itemize}
-\item transition: Attempts to connect to . If successful, sets hardwareStatus to True
+\item transition: Attempts connection to \texttt{CameraDevice}.  
+      If successful: \texttt{hardwareStatus} := true.
 \item output: -
-\item exception: raises \texttt{HardwareInitError} if initialization fails
+\item exception: raises \texttt{HardwareInitError} if initialization fails.
 \end{itemize}
 
 \noindent captureFrame():
 \begin{itemize}
-\item transition: reads a new frame from CameraDevice into frameBuffer
-\item output: returns a copy of frameBuffer
-\item exception: raises \texttt{CaptureError} if hardwareStatus if False or frame capture fails
+\item transition: Reads a new frame from \texttt{CameraDevice} into \texttt{frameBuffer}.
+\item output: Returns the current \texttt{frameBuffer} of type FrameData.
+\item exception: raises \texttt{CaptureError} if \texttt{hardwareStatus} = false  
+                 or frame capture fails.
 \end{itemize}
 
 \noindent shutdownHardware():
 \begin{itemize}
-\item transition: sets \texttt{hardwareStatus} to False and releases CameraDevice and resources
+\item transition: Releases device resources and sets  
+      \texttt{hardwareStatus} := false.
 \item output: -
-\item exception: raises \texttt{HardwareShutdownError} if cleanup fails
+\item exception: raises \texttt{HardwareShutdownError} if hardware cleanup fails.
 \end{itemize}
 
-\noindent isInitalized():
+\noindent isInitialized():
 \begin{itemize}
-\item transition:-
-\item output: returns the current value of hardwareStatus
+\item transition: -
+\item output: returns \texttt{hardwareStatus}: $\mathbb{B}$
 \item exception: -
 \end{itemize}
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item \texttt{checkDeviceConnection()}: ensures camera is available
-\item \texttt{allocateBufferMemory()}: manages memory for frame storage
-\item \texttt{releaseResources()}: frees hardware resources on shutdown
+\item \texttt{checkDeviceConnection()}: verifies device presence
+\item \texttt{allocateBufferMemory()}: allocates buffer for captured frames
+\item \texttt{releaseResources()}: frees hardware-related resources
 \end{itemize}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -253,19 +260,19 @@ Computer Vision Module (M2)
 \subsection{Uses}
 \begin{itemize}
     \item \textbf{M1.captureFrame():} Provides a single frame of image data from the hardware or simulated camera.
-    \item \textbf{FrameData (Data Type):} Represents the raw image frame input used for further analysis.
-    \item \textbf{GameStateData (Data Type):} Stores and tracks the current game state derived from processed images.
-    \item \textbf{ProcessingError, DetectionError (Exception Types):} Raised during image analysis or element detection failures.
-    \item \textbf{List[Elements], Dict (Data Types):} Standard data structures used to store and map detected objects and attributes.
+    \item \textbf{FrameData (Data Type):} Represents the raw image frame used for analysis.
+    \item \textbf{GameStateData (Data Type):} Abstract representation of detected game state.
+    \item \textbf{ProcessingError, DetectionError (Exception Types):} Raised during processing or detection failures.
+    \item \textbf{seq of Elements, dict} (Derived Data Types):  
+          Sequences and mappings used to store detected features and confidence metrics.
 \end{itemize}
-
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
 \begin{itemize}
-\item \texttt{DETECTION\_THRESHOLD} - minimum confidence for object recognition
-\item \texttt{MODEL\_PATH} - path to trained CV model (YOLOv9/OpenCV)
+\item \texttt{DETECTION\_THRESHOLD}: $\mathbb{R}$ - minimum required confidence for object recognition
+\item \texttt{MODEL\_PATH}: $\Sigma^{*}$ - file system path to trained CV model
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
@@ -275,8 +282,8 @@ Computer Vision Module (M2)
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
 processFrame & frame:FrameData & GameStateData & ProcessingError \\
-detectBoardElements & frame:FrameData & List[Elements] & DetectionError \\
-getConfidenceMetrics & - & Dict & - \\
+detectBoardElements & frame:FrameData & seq of Elements & DetectionError \\
+getConfidenceMetrics & - & dict & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -285,48 +292,55 @@ getConfidenceMetrics & - & Dict & - \\
 
 \subsubsection{State Variables}
 \begin{itemize}
-\item \texttt{lastFrame}: FrameData - last processed frame
-\item \texttt{lastCofidence}: Dict - confidence scores for last detections
+\item \texttt{lastFrame}: FrameData \\
+      Stores the most recent processed frame.
+\item \texttt{lastConfidence}: dict \\
+      A mapping from element identifiers ($\Sigma^{*}$) to confidence scores ($\mathbb{R}$).
 \end{itemize}
+
 \subsubsection{Environment Variables}
-N/A
+None.
 
 \subsubsection{Assumptions}
-
 \begin{itemize}
-    \item Assumes \texttt{FrameData} provided is valid and preprocessed for analysis.
-    \item Assumes model files at \texttt{MODEL\_PATH} are loaded correctly before use.
+    \item All \texttt{FrameData} inputs are valid and camera-calibrated.
+    \item The model at \texttt{MODEL\_PATH} is present and loaded into memory before use.
 \end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
 \noindent processFrame(frame):
 \begin{itemize}
-\item transition: Runs full CV pipeline on frame to extract game state. Updates LastFrame to frame.
-\item output: returns \texttt{GameStateData} object representing detected board state
-\item exception: raises \texttt{ProcessingError} if parsing fails
+\item transition: Executes the full CV pipeline on $frame$;  
+      updates \texttt{lastFrame} := frame.
+\item output: Returns detected game state as \texttt{GameStateData}.
+\item exception: raises \texttt{ProcessingError} if any stage of the pipeline fails.
 \end{itemize}
 
 \noindent detectBoardElements(frame):
 \begin{itemize}
-\item transition: Runs detection model on frame. Updates lastFrame to frame and updates lastConfidence.
-\item output: returns list of detected board elements (tiles, pieces, numbers)
-\item exception: raises \texttt{DetectionError} if detection fails
+\item transition: Runs object detection model on $frame$;  
+      updates \texttt{lastFrame} := frame and updates \texttt{lastConfidence}.
+\item output: Returns $seq$ of detected Elements.
+\item exception: raises \texttt{DetectionError} if detection fails.
 \end{itemize}
 
 \noindent getConfidenceMetrics():
 \begin{itemize}
 \item transition: -
-\item output: returns confidence scores for last processed frame
+\item output: Returns the \texttt{lastConfidence} mapping (a dict from $\Sigma^{*}$ to $\mathbb{R}$).
 \item exception: -
 \end{itemize}
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item \texttt{calibrateCamera()}: adjusts image for lens distortion
-\item \texttt{filterNoise()}: removes spurious detections
-\item \texttt{parseElementsToState()}: converts detected elements to GameStateData
+\item \texttt{calibrateCamera()}: Corrects lens distortion in input frames.
+\item \texttt{filterNoise()}: Removes low-confidence or spurious detections.
+\item \texttt{parseElementsToState()}: Converts detected Elements into \texttt{GameStateData}.
 \end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{MIS of User Interface Module} \label{M3}
 
@@ -336,18 +350,17 @@ User Interface (M3)
 \subsection{Uses}
 
 \begin{itemize}
-    \item \textbf{GameStateData} (Data Type): Represents the current state of the game, including all player and board information.  
-    \item \textbf{AIMove} (Data Type): Defines an AI-generated move based on the current game state.  
-    \item \textbf{List[Corrections]} (Data Type): A list of correction objects used to adjust or validate game state data.  
-    \item \textbf{RenderError} (Exception Type): Raised when rendering or display operations fail.  
+    \item \textbf{GameStateData}: Abstract representation of the current game state.
+    \item \textbf{AIMove}: Encoded AI-generated move.
+    \item \textbf{seq of Corrections}: A sequence of user-provided corrections to the game state.
+    \item \textbf{RenderError}: Exception raised when visualization or rendering fails.
 \end{itemize}
-
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
 \begin{itemize}
-\item \texttt{REFRESH\_RATE} - frequency of UI updates
+\item \texttt{REFRESH\_RATE}: $\mathbb{R}$ - frequency of UI updates (Hz)
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
@@ -358,7 +371,7 @@ User Interface (M3)
 \hline
 renderBoard & state:GameStateData & - & RenderError \\
 displayAIMove & move:AIMove & - & - \\
-getUserCorrections & - & List[Corrections] & - \\
+getUserCorrections & - & seq of Corrections & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -367,46 +380,57 @@ getUserCorrections & - & List[Corrections] & - \\
 
 \subsubsection{State Variables}
 \begin{itemize}
-\item \texttt{uiState}: current UI rendering data
-\item \texttt{correctionQueue}: list of user inputted corrections
+\item \texttt{uiState}: Abstract UI representation (type unspecified, internal)
+\item \texttt{correctionQueue}: seq of Corrections  
+      \quad A sequence of user-provided corrections where each correction may include:
+      \begin{itemize}
+          \item element identifier: $\Sigma^{*}$
+          \item correction value: arbitrary derived type
+      \end{itemize}
 \end{itemize}
 
 \subsubsection{Environment Variables}
 \begin{itemize}
-\item window: graphical display device
+\item \texttt{window}: graphical display device managed by the environment
 \end{itemize}
 
 \subsubsection{Assumptions}
-The window environment is compatible with the frontend framework.
+\begin{itemize}
+    \item The \texttt{window} device is functional and compatible with the UI rendering framework.
+    \item User interactions are delivered to the system via environment-level event handling.
+\end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
 \noindent renderBoard(state):
 \begin{itemize}
-\item transition: Modifies uiState to match state. Updates the window to visualize the new uiState.
+\item transition: Updates \texttt{uiState} := graphical representation of $state$;  
+      renders \texttt{uiState} onto \texttt{window}.
 \item output: -
-\item exception: raises \texttt{RenderError} if rendering to the window fails
+\item exception: raises \texttt{RenderError} if rendering fails.
 \end{itemize}
 
 \noindent displayAIMove(move):
 \begin{itemize}
-\item transition: Modifies uiState to include a visualization of the move. Updates the window.
+\item transition: Updates \texttt{uiState} to include the visualization of $move$;  
+      refreshes \texttt{window}.
 \item output: -
 \item exception: -
 \end{itemize}
 
 \noindent getUserCorrections():
 \begin{itemize}
-\item transition: clears correctionQueue
-\item output: returns the current list of user corrections for misdetected board state
+\item transition: \texttt{tmp} := \texttt{correctionQueue};  
+      \texttt{correctionQueue} := empty sequence.
+\item output: Returns \texttt{tmp}: seq of Corrections.
 \item exception: -
 \end{itemize}
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item \texttt{updateDOM()}: handles DOM updates in the window
-\item \texttt{highlightElements()}: highlights tiles, pieces, or moves
-\item \texttt{onUserInput()}: Internal event handler that adds user actions to correction Queue
+\item \texttt{updateDOM()}: Updates internal UI representation elements.
+\item \texttt{highlightElements()}: Highlights tiles, pieces, or game move indicators.
+\item \texttt{onUserInput()}: Adds user-generated corrections to \texttt{correctionQueue}.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -419,18 +443,17 @@ Game State Manager (M4)
 \subsection{Uses}
 
 \begin{itemize}
-    \item \textbf{MoveData} (Data Type): Represents the details of a player's move, including action type and parameters.  
-    \item \textbf{GameStateData} (Data Type): Contains the full current state of the game used for validation and updates.  
-    \item \textbf{InvalidMoveError} (Exception Type): Raised when a move violates game rules or state constraints.  
-    \item \textbf{M7.writeState()} (from Game State Database Module): Writes the updated game state data to persistent storage.  
+    \item \textbf{MoveData}: Represents the details of a player's move, including action type and parameters.
+    \item \textbf{GameStateData}: Abstract representation of the complete game state.
+    \item \textbf{InvalidMoveError}: Raised when an illegal move is applied.
+    \item \textbf{M7.writeState()}: Persists updated game state to storage.
 \end{itemize}
-
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
 \begin{itemize}
-\item \texttt{MAX\_PLAYERS} = 4
+\item \texttt{MAX\_PLAYERS}: $\mathbb{Z}$ = 4
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
@@ -441,7 +464,7 @@ Game State Manager (M4)
 \hline
 updateState & move:MoveData & - & InvalidMoveError \\
 getState & - & GameStateData & - \\
-validateMove & move:MoveData & Boolean & - \\
+validateMove & move:MoveData & $\mathbb{B}$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -450,53 +473,65 @@ validateMove & move:MoveData & Boolean & - \\
 
 \subsubsection{State Variables}
 \begin{itemize}
-\item \texttt{currentGameState}: the full "Digital Twin" of the Catan board.
-\item \texttt{playerAssets}: A collection tracking each players resources,settlements,roads,etc.
+\item \texttt{currentGameState}: GameStateData \\
+      The full internal representation of the game board.
+
+\item \texttt{playerAssets}: dict \\
+      Mapping from player identifiers ($\Sigma^{*}$) to their resource, structure,  
+      and score information. Each value may include:
+      \begin{itemize}
+          \item resources: dict from resource type ($\Sigma^{*}$) to quantity ($\mathbb{Z}$)
+          \item structures: seq of structure types
+          \item score: $\mathbb{Z}$
+      \end{itemize}
 \end{itemize}
 
 \subsubsection{Environment Variables}
-N/A
+None.
 
 \subsubsection{Assumptions}
-
 \begin{itemize}
-    \item Assumes \texttt{MoveData} is provided in the standard, non-corrupt format.
-    \item Assumes the calling module will use \texttt{validateMove} before attempting \texttt{updateState}.
+    \item All instances of \texttt{MoveData} conform to the expected internal format.
+    \item Calling modules will evaluate \texttt{validateMove(move)} before invoking \texttt{updateState(move)}.
 \end{itemize}
-
 
 \subsubsection{Access Routine Semantics}
 
 \noindent updateState(move):
 \begin{itemize}
-\item transition: iff validateMove(move) is True, the move is applied to currentGameState and playerAssets are updated.
+\item transition:  
+      \begin{itemize}
+        \item If \texttt{validateMove(move)} = true,  
+              apply changes encoded in $move$ to \texttt{currentGameState} and \texttt{playerAssets}.  
+        \item Otherwise, no state change.
+      \end{itemize}
 \item output: -
-\item exception: raises \texttt{InvalidMoveError} if move is False
+\item exception: raises \texttt{InvalidMoveError} if \texttt{validateMove(move)} = false.
 \end{itemize}
 
 \noindent getState():
 \begin{itemize}
 \item transition: -
-\item output: returns a copy of the current \texttt{currentGameState} and playerAssests as GameStateData
+\item output: Returns a copy of \texttt{currentGameState}: GameStateData.
 \item exception: -
 \end{itemize}
 
 \noindent validateMove(move):
 \begin{itemize}
 \item transition: -
-\item output: Returns True if the move is a legal action according to the rules of Catan given the currentGameState, False otherwise.
+\item output: $\mathbb{B}$ - true iff $move$ is valid according to Catan rules and the  
+      current values of \texttt{currentGameState} and \texttt{playerAssets}.
 \item exception: -
 \end{itemize}
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item \texttt{calculateResources()} : computes resource changes from moves
-\item \texttt{updateScores()} : updates players score
-\item \texttt{checkVictory()} : checks if any player has won
+\item \texttt{calculateResources()}: Computes resource changes resulting from a move.
+\item \texttt{updateScores()}: Updates player score values based on new state.
+\item \texttt{checkVictory()}: Determines whether any player meets winning conditions.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{MIS of Reinforcement Learning Environment Module} \label{M5}
 
 \subsection{Module}
@@ -505,23 +540,20 @@ Reinforcement Learning Environment (M5)
 \subsection{Uses}
 
 \begin{itemize}
-  \item \textbf{M4} – Uses the following access programs:
-    \begin{itemize}
-      \item updateState
-      \item getState
-      \item validateMove
-    \end{itemize}
-  \item \textbf{Data Types:} AIMove, GameStateData, Reward (Float)
-  \item \textbf{Exception Types:} StepError, RenderError
+    \item \textbf{M4}: Uses the access programs 
+    \texttt{updateState}, \texttt{getState}, and \texttt{validateMove}.
+    \item \textbf{AIMove}: Encoded AI-selected action.
+    \item \textbf{GameStateData}: Abstract representation of a full game state.
+    \item \textbf{Reward}: A real-valued score, $\mathbb{R}$.
+    \item \textbf{StepError, RenderError}: Exceptions raised on invalid steps or rendering failures.
 \end{itemize}
-
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
 \begin{itemize}
-\item \texttt{MAX\_TURNS}
-\item \texttt{REWARD\_SCALE}
+\item \texttt{MAX\_TURNS}: $\mathbb{Z}$ - maximum number of turns in an episode
+\item \texttt{REWARD\_SCALE}: $\mathbb{R}$ - scaling factor applied to reward calculation
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
@@ -530,7 +562,7 @@ Reinforcement Learning Environment (M5)
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-step & action:AIMove & GameStateData, Reward & StepError \\
+step & action:AIMove & (GameStateData, $\mathbb{R}$) & StepError \\
 reset & - & GameStateData & - \\
 render & - & - & RenderError \\
 \hline
@@ -541,45 +573,69 @@ render & - & - & RenderError \\
 
 \subsubsection{State Variables}
 \begin{itemize}
-\item \texttt{simulatedState} : An internal instance of M4 to manage the simulation
-\item \texttt{turnCount} : the number of turns elapsed in the current episode
+\item \texttt{simulatedState}: internal instance of M4 \\
+      Maintains the environment's evolving game state.
+
+\item \texttt{turnCount}: $\mathbb{Z}$ \\
+      Number of turns elapsed in the current episode.
 \end{itemize}
 
 \subsubsection{Environment Variables}
-\texttt{display}: the graphical output window or context used to visualize the simulation
+\begin{itemize}
+\item \texttt{display}: Rendering surface or graphical context used to visualize simulatedState.
+\end{itemize}
 
 \subsubsection{Assumptions}
-Assumes AIMove actions are provided in the valid, non-corrupt format.
+\begin{itemize}
+    \item All inputs of type \texttt{AIMove} are syntactically valid.
+    \item The environment is responsible for handling opponent moves internally.
+\end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
 \noindent step(action):
 \begin{itemize}
-\item transition: Applies action to simulatedState using M4. Runs opponent logic. Increments turnCount.
-\item output: Returns the new state (from simulatedState.getState()) and the calculated Reward.
-\item exception: raises \texttt{StepError} if action is invalid
+\item transition:
+    \begin{itemize}
+        \item If \texttt{validateMove(action)} from M4 = true,  
+              apply $action$ to \texttt{simulatedState} via \texttt{updateState(action)}.
+        \item Apply \texttt{applyOpponentLogic()} to simulate adversarial moves.
+        \item turnCount := turnCount + 1.
+    \end{itemize}
+
+\item output:  
+      Returns the tuple $(\texttt{simulatedState.getState()}, \texttt{calculateReward()})$  
+      of type $(GameStateData, \mathbb{R})$.
+
+\item exception:  
+      raises \texttt{StepError} if \texttt{validateMove(action)} = false.
 \end{itemize}
 
 \noindent reset():
 \begin{itemize}
-\item transition: Resets simulatedState to a new initial game. Resets turnCount to 0.
-\item output: Returns the initial simulatedState.getState().
+\item transition:  
+      \texttt{simulatedState} := new initial game state (via M4).  
+      turnCount := 0.
+\item output:  
+      Returns initial game state: GameStateData.
 \item exception: -
 \end{itemize}
 
 \noindent render():
 \begin{itemize}
-\item transition: Modifies the display environment variable to show a visualization of simulatedState.
+\item transition:  
+      Updates the \texttt{display} device to visualize the current \texttt{simulatedState}.
 \item output: -
-\item exception: raises \texttt{RenderError}  if the display fails
+\item exception: raises \texttt{RenderError} if display rendering fails.
 \end{itemize}
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item \texttt{applyOpponentLogic()} : Simulates opponent moves
-\item \texttt{calculateReward()}: computes reward based on change in simulatedState
+\item \texttt{applyOpponentLogic()}: Generates and applies opponent actions based on heuristics or baseline policies.
+\item \texttt{calculateReward()}: Returns a reward value in $\mathbb{R}$ based on changes in \texttt{simulatedState}, scaled by \texttt{REWARD\_SCALE}.
 \end{itemize}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of AI Model Module} \label{M6}
 
 \subsection{Module}
@@ -588,17 +644,16 @@ AI Model (M6)
 \subsection{Uses}
 
 \begin{itemize}
-    \item \textbf{GameStateData} (Data Type): Represents the current digital state of the game, used as input for AI predictions.  
-    \item \textbf{AIMove} (Data Type): Encodes a move generated or evaluated by the AI model.  
-    \item \textbf{PredictionError} (Exception Type): Raised when the AI model fails to generate a valid move prediction.  
+    \item \textbf{GameStateData}: Abstract representation of the game state.
+    \item \textbf{AIMove}: Encoded move predicted by the model.
+    \item \textbf{PredictionError}: Exception raised when the model cannot generate a valid move.
 \end{itemize}
-
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
 \begin{itemize}
-\item \texttt{MODEL\_PATH} - path to trained neural network weights
+\item \texttt{MODEL\_PATH}: $\Sigma^{*}$ - file path to stored model weights.
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
@@ -608,8 +663,8 @@ AI Model (M6)
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
 decide & state:GameStateData & AIMove & PredictionError \\
-getMoveConfidence & move:AIMove & Float & - \\
-explainMove & move:AIMove & String & - \\
+getMoveConfidence & move:AIMove & $\mathbb{R}$ & - \\
+explainMove & move:AIMove & $\Sigma^{*}$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -618,53 +673,75 @@ explainMove & move:AIMove & String & - \\
 
 \subsubsection{State Variables}
 \begin{itemize}
-\item \texttt{modelWeights} - the loaded neural network parameters
-\item \texttt{policyNetwork} - DRL policy network
-\item \texttt{lastPredictionCache} - cache the last predictions outputs for getMoveConfidence
+\item \texttt{modelWeights}: internal representation of learned parameters  
+      (vector or tensor values in $\mathbb{R}$ or $\mathbb{R}^{n}$).
+
+\item \texttt{policyNetwork}: function mapping processed state input to  
+      a probability distribution over candidate moves:
+      \[
+          \texttt{policyNetwork}: \texttt{ProcessedState} \rightarrow \text{dist(AIMove)}
+      \]
+
+\item \texttt{lastPredictionCache}: dict mapping AIMove $\rightarrow \mathbb{R}$  
+      storing confidence values for the most recent decision.
 \end{itemize}
 
 \subsubsection{Environment Variables}
-N/A
+None.
 
 \subsubsection{Assumptions}
-
 \begin{itemize}
-    \item Assumes input \texttt{GameStateData} is valid.
-    \item Assumes model weights at \texttt{MODEL\_PATH} are loaded correctly before use.
+    \item The input \texttt{GameStateData} conforms to the expected internal structure.
+    \item \texttt{MODEL\_PATH} correctly references initialized modelWeights.
 \end{itemize}
-
 
 \subsubsection{Access Routine Semantics}
 
 \noindent decide(state):
 \begin{itemize}
-\item transition: Evaluates state with policyNetwork. Caches results in lastPredictionCache.
-\item output: Returns the optimal AIMove.
-\item exception: raises \texttt{PredictionError} if model fails to evaluate the state
+\item transition:
+    \begin{itemize}
+        \item Converts $state$ using \texttt{preprocessState()}.
+        \item Evaluates result with \texttt{policyNetwork}.
+        \item Updates \texttt{lastPredictionCache} with move-confidence pairs.
+    \end{itemize}
+
+\item output:  
+      Returns the optimal AIMove predicted by the model.
+
+\item exception:  
+      raises \texttt{PredictionError} if the model evaluation fails or produces an empty distribution.
 \end{itemize}
 
 \noindent getMoveConfidence(move):
 \begin{itemize}
 \item transition: -
-\item output: Returns a Float (e.g., 0.0-1.0) representing the confidence score for the specified move, retrieved from lastPredictionCache.
+\item output:  
+      Returns $\mathbb{R}$ - the confidence score associated with $move$  
+      retrieved from \texttt{lastPredictionCache}.
 \item exception: -
 \end{itemize}
 
 \noindent explainMove(move):
 \begin{itemize}
 \item transition: -
-\item output: returns a human-readable String explanation of why the model selected the move.
+\item output:  
+      Returns $\Sigma^{*}$ - a human-readable textual explanation of the rationale  
+      behind selecting $move$ (e.g., feature contributions or decision breakdown).
 \item exception: -
 \end{itemize}
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item \texttt{preprocessState()}: Converts GameStateData into model input format
-\item \texttt{postprocessOutput()}: Converts model output into a strctured AImove
+\item \texttt{preprocessState()}:
+      Converts GameStateData into an abstract processed representation suitable  
+      for model inference.
+
+\item \texttt{postprocessOutput()}:
+      Converts model policy output into a structured AIMove.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{MIS of Game State Database Module} \label{M7}
 
 \subsection{Module}
@@ -673,18 +750,18 @@ Game State Database (M7)
 \subsection{Uses}
 
 \begin{itemize}
-    \item \textbf{GameStateData} (Data Type): Represents the current or historical state of the game.  
-    \item \textbf{DBWriteError} (Exception Type): Raised when writing to the database fails.  
-    \item \textbf{DBReadError} (Exception Type): Raised when reading from the database fails.  
-    \item \textbf{List[GameStateData]} (Data Type): A collection of game states, e.g., for querying player history.  
+    \item \textbf{GameStateData}: Abstract representation of a game state.
+    \item \textbf{DBWriteError}: Exception raised on failed write operations.
+    \item \textbf{DBReadError}: Exception raised on failed read or query operations.
+    \item \textbf{seq(GameStateData)}: Ordered collection of game states.
 \end{itemize}
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
 \begin{itemize}
-\item \texttt{DB\_PATH} - database file or server location
-\item \texttt{MAX\_ENTRIES} - maximum stored states
+\item \texttt{DB\_PATH}: $\Sigma^{*}$ - file system path or database URI.
+\item \texttt{MAX\_ENTRIES}: $\mathbb{Z}$ - maximum number of stored states.
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
@@ -694,8 +771,8 @@ Game State Database (M7)
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
 writeState & state:GameStateData & - & DBWriteError \\
-readState & gameID:String & GameStateData & DBReadError \\
-queryHistory & playerID:String & List[GameStateData] & DBReadError \\
+readState & gameID:$\Sigma^{*}$ & GameStateData & DBReadError \\
+queryHistory & playerID:$\Sigma^{*}$ & seq(GameStateData) & DBReadError \\
 \hline
 \end{tabular}
 \end{center}
@@ -704,45 +781,66 @@ queryHistory & playerID:String & List[GameStateData] & DBReadError \\
 
 \subsubsection{State Variables}
 \begin{itemize}
-\item \texttt{dbConnection} - active connection to the database
-\item \texttt{gameRecords} - cached recently accessed game records
+\item \texttt{dbConnection}: Active connection handle to the database (abstract type).
+\item \texttt{gameRecords}: dict mapping $\Sigma^{*}$ $\rightarrow$ GameStateData  
+      (cache of recently accessed or frequently used game states).
 \end{itemize}
 
 \subsubsection{Environment Variables}
-\texttt{database} - external file system at DB\_PATH
+\begin{itemize}
+\item \texttt{database}: External file system or DB server located at \texttt{DB\_PATH}.
+\end{itemize}
 
 \subsubsection{Assumptions}
-Assumes the database is accessible and the schema matches the expected structure.
+\begin{itemize}
+    \item The database at \texttt{DB\_PATH} is reachable and adheres to the expected schema.
+    \item Identifiers such as \texttt{gameID} and \texttt{playerID} are valid $\Sigma^{*}$ strings.
+\end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
 \noindent writeState(state):
 \begin{itemize}
-\item transition: Serializes and writes the state to the database.
+\item transition:
+    \begin{itemize}
+        \item Converts $state$ to a storable format via \texttt{serializeState()}.
+        \item Writes serialized data to \texttt{database}.
+        \item Updates \texttt{gameRecords} cache if applicable.
+    \end{itemize}
 \item output: -
-\item exception: DBWriteError if the write operation fails.
+\item exception: raises \texttt{DBWriteError} if the write operation fails.
 \end{itemize}
 
 \noindent readState(gameID):
 \begin{itemize}
-\item transition: Retrieves and deserializes the game state for the specified gameID.
-\item output: returns \texttt{GameStateData} for specified game
-\item exception: raises \texttt{DBReadError} if gameID is not found or read fails
+\item transition:
+    \begin{itemize}
+        \item If $gameID$ is cached, return entry from \texttt{gameRecords}.
+        \item Else, load corresponding data from \texttt{database}.
+        \item Deserialize via \texttt{deserializeState()}.
+        \item Update \texttt{gameRecords}.
+    \end{itemize}
+\item output: GameStateData corresponding to the given $gameID$.
+\item exception: raises \texttt{DBReadError} if no entry exists for $gameID$ or if read fails.
 \end{itemize}
 
 \noindent queryHistory(playerID):
 \begin{itemize}
-\item transition: Queries the database for all game states associated with playerID.
-\item output: returns list of \texttt{GameStateData} for given player
-\item exception: raises \texttt{DBReadError} if query fails
+\item transition:
+    \begin{itemize}
+        \item Queries \texttt{database} for all entries linked to $playerID$.
+        \item Converts results to seq(GameStateData) via \texttt{deserializeState()}.
+    \end{itemize}
+\item output: seq(GameStateData) containing all states associated with $playerID$.
+\item exception: raises \texttt{DBReadError} if the query fails.
 \end{itemize}
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item \texttt{serializeState()} : converts GameStateData to storable format
-\item \texttt{deserializeState()} : converts stored format back to GameStateData
-\item \texttt{openConnection()} : establishes dbConnection
-\item \texttt{closeConnection()} : terminates dbConnection
+\item \texttt{serializeState()}: Converts GameStateData into a storable representation.
+\item \texttt{deserializeState()}: Converts stored representation back to GameStateData.
+\item \texttt{openConnection()}: Initializes \texttt{dbConnection}.
+\item \texttt{closeConnection()}: Terminates \texttt{dbConnection}.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -755,17 +853,17 @@ Image Queue (M8)
 \subsection{Uses}
 
 \begin{itemize}
-    \item \textbf{FrameData} (Data Type): Represents an image frame from the camera or simulation.  
-    \item \textbf{QueueFullError} (Exception Type): Raised when attempting to enqueue a frame into a full queue.  
-    \item \textbf{QueueEmptyError} (Exception Type): Raised when attempting to dequeue or peek from an empty queue.  
+    \item \textbf{FrameData}: Abstract representation of an image frame from the camera or simulation.
+    \item \textbf{QueueFullError}: Exception raised when attempting to enqueue a frame into a full queue.
+    \item \textbf{QueueEmptyError}: Exception raised when attempting to dequeue or peek from an empty queue.
 \end{itemize}
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
 \begin{itemize}
-\item \texttt{QUEUE\_SIZE} - maximum buffer size
-\item \texttt{TIMEOUT} - maximum wait time for enqueue/dequeue
+\item \texttt{QUEUE\_SIZE} $\in \mathbb{Z}^{+}$ - maximum number of frames in the buffer.
+\item \texttt{TIMEOUT} $\in \mathbb{R}^{+}$ - maximum wait time (seconds) for enqueue/dequeue operations.
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
@@ -774,11 +872,11 @@ Image Queue (M8)
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-enqueue & frame:FrameData & - & QueueFullError \\
+enqueue & frame:FrameData & $\bot$ & QueueFullError \\
 dequeue & - & FrameData & QueueEmptyError \\
 peek & - & FrameData & QueueEmptyError \\
-isFull & - & Boolean & - \\
-isEmpty & - & Boolean & - \\
+isFull & - & $\mathbb{B}$ & - \\
+isEmpty & - & $\mathbb{B}$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -787,18 +885,16 @@ isEmpty & - & Boolean & - \\
 
 \subsubsection{State Variables}
 \begin{itemize}
-\item \texttt{queueBuffer} - stores frames in order
-\item \texttt{head} - pointer to front of the queue
-\item \texttt{tail} - pointer to end of the queue
-\item \texttt{size} - current number of frames in the queue
-
+\item \texttt{queueBuffer} : $[0..\text{QUEUE\_SIZE}-1] \rightarrow \text{FrameData} \cup \{\bot\}$ - circular buffer storing frames.
+\item \texttt{head} : $\mathbb{Z}$ - index of the front of the queue.
+\item \texttt{tail} : $\mathbb{Z}$ - index of the end of the queue.
+\item \texttt{size} : $\mathbb{Z}$ - current number of frames in the queue.
 \end{itemize}
 
 \subsubsection{Environment Variables}
-- None
+None.
 
 \subsubsection{Assumptions}
-
 \begin{itemize}
     \item Calling modules will check \texttt{isFull()} before \texttt{enqueue()}.
     \item Calling modules will check \texttt{isEmpty()} before \texttt{dequeue()} or \texttt{peek()}.
@@ -806,46 +902,56 @@ isEmpty & - & Boolean & - \\
 
 \subsubsection{Access Routine Semantics}
 
-\noindent enqueue(frame):
+\noindent enqueue(frame: FrameData):
 \begin{itemize}
-\item transition: Adds frame to queueBuffer at tail. Increments tail and size.
-\item output: returns True if successful
-\item exception: raises QueueFullError if isFull() is True.
+\item transition:  
+\[
+\text{queueBuffer}[\text{tail}] := \text{frame}, \quad
+\text{tail} := (\text{tail} + 1) \bmod \text{QUEUE\_SIZE}, \quad
+\text{size} := \text{size} + 1
+\]
+\item output: $\top$ if successful
+\item exception: raises \texttt{QueueFullError} if $\text{isFull()} = \top$.
 \end{itemize}
 
 \noindent dequeue():
 \begin{itemize}
-\item transition: Removes the frame from queueBuffer at head. Increments head and decrements size.
-\item output: Returns the FrameData from the head.
-\item exception: raises \texttt{QueueEmptyError} if isEmpty() is True.
+\item transition: frame := queueBuffer[head]; queueBuffer[head] := $\bot$; head := (head+1) mod QUEUE\_SIZE; size := size-1
+\item output: frame
+\item exception: QueueEmptyError if isEmpty() = True
 \end{itemize}
 
 \noindent peek():
 \begin{itemize}
 \item transition: -
-\item output: returns next FrameData without removing it from queueBuffer.
-\item exception: raises \texttt{QueueEmptyError} if isEmpty() is True
+\item output: $\text{queueBuffer}[\text{head}]$
+\item exception: raises \texttt{QueueEmptyError} if $\text{isEmpty()} = \top$.
 \end{itemize}
 
 \noindent isFull():
 \begin{itemize}
 \item transition: -
-\item output: returns True if size == QUEUE\_SIZE, False otherwise
+\item output: $\top$ if $\text{size} = \text{QUEUE\_SIZE}$, $\bot$ otherwise
 \item exception: -
 \end{itemize}
 
 \noindent isEmpty():
 \begin{itemize}
 \item transition: -
-\item output: returns True if size == 0, False otherwise
+\item output: $\top$ if $\text{size} = 0$, $\bot$ otherwise
 \item exception: -
 \end{itemize}
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item  \texttt{resetQueue()} : Resets head, tail, and size.
+\item \texttt{resetQueue()}:
+\[
+\text{head} := 0, \quad \text{tail} := 0, \quad \text{size} := 0
+\]
+Resets the queue to an empty state.
 \end{itemize}
 
+%%%%%%%%%END OF MODULES ADDED%%%%%%%%%%%%%%%%%%%%
 \newpage
 
 \bibliographystyle {plainnat}
@@ -860,7 +966,7 @@ isEmpty & - & Boolean & - \\
 \newpage{}
 
 \begin{comment}
-\section*{Appendix --- Reflection}
+\section*{Appendix - Reflection}
 
 \wss{Not required for CAS 741 projects}
 
