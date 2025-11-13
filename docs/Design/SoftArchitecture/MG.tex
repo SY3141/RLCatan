@@ -29,7 +29,7 @@
 
 \newcounter{mnum}
 \newcommand{\mthemnum}{M\themnum}
-\newcommand{\mref}[1]{M\ref{#1}}
+\newcommand{\mref}[1]{\hyperref[sec:#1]{M\ref*{#1}}}
 
 \begin{document}
 
@@ -231,7 +231,7 @@ without documenting \emph{how} to do it.
 
 \subsection{Hardware Hiding Modules}
 
-\subsubsection{Hardware-Hiding Module (\mref{mHH})}
+\subsubsection{Hardware-Hiding Module (\mref{mHH})} \label{sec:mHH}
 \begin{description}
 \item[Secrets:]The data structure and algorithm used to implement the virtual
   hardware.
@@ -244,7 +244,7 @@ This module provides the interface between the hardware (camera) and the
 \item[Implemented By:] OS
 \end{description}
 
-\subsubsection{Computer Vision Model (\mref{mCV})}
+\subsubsection{Computer Vision Model (\mref{mCV})} \label{sec:mCV}
 \begin{description}
 \item[Secrets:]The specific algorithms, libraries (e.g., OpenCV, YOLOv9), and trained models used to interpret a raw video/image feed and detect the physical board layout, pieces, and player actions. Hides the complexity of calibration and error correction.
 \item[Services:]Provides access programs to process camera input, detect board elements, and translate visual features into a structured digital representation of the game state. Provides diagnostic feedback on detection confidence.
@@ -262,21 +262,21 @@ This module serves as a communication layer between the
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{User Interface (\mref{mUI})}
+\subsubsection{User Interface (\mref{mUI})} \label{sec:mUI}
 \begin{description}
 \item[Secrets:]The specific frontend framework (React, JavaScript) and UI/UX design choices used to render the game state and AI suggestions. Hides the details of DOM manipulation and event handling.
 \item[Services:]Provides an interactive, real-time visualization of the Catan board. Displays player moves, resources, and AI-generated move recommendations. Allows users to provide manual corrections to the board state (to satisfy FR.Sa.1).
 \item[Implemented By:] \progname{}
 \end{description}
 
-\subsubsection{Game State Manager (\mref{mState})}
+\subsubsection{Game State Manager (\mref{mState})} \label{sec:mState}
 \begin{description}
 \item[Secrets:]The internal data structure and logic that represent the "Digital Twin" of the Catan board. Hides the complex logic used to enforce the official Catan ruleset and ensure state synchronization.
 \item[Services:]Maintains the single source of truth for the current game state. Tracks player assets and turn data. Provides access programs to update the state and validate all player and AI moves against the game rules.
 \item[Implemented By:] \progname{}
 \end{description}
 
-\subsubsection{Reinforcement Learning Environment (\mref{mEnv})}
+\subsubsection{Reinforcement Learning Environment (\mref{mEnv})} \label{sec:mEnv}
 \begin{description}
 \item[Secrets:]The implementation details of the Catan game simulator (Catanatron). Hides the specific reward/penalty functions and opponent logic used during AI self-play and training.
 \item[Services:]Simulates the game rules and state transitions of Catan. Provides an interface for the AI model to interact with, perform self-play, and receive feedback for learning. Supports model evaluation and benchmarking.
@@ -294,21 +294,21 @@ The secrets of this module are
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{AI Model (\mref{mAI})}
+\subsubsection{AI Model (\mref{mAI})} \label{sec:mAI}
 \begin{description}
 \item[Secrets:]The specific DRL model architecture (e.g., deep neural network parameters), heuristics, and trained weights used to determine the optimal move. Hides the complex mathematical formulation of the policy $\pi(a \mid s)$.
 \item[Services:]Analyzes a given digital game state to predict optimal player strategies. Provides access programs to request move recommendations, confidence scores, and textual reasoning.
 \item[Implemented By:] \progname{}
 \end{description}
 
-\subsubsection{Game State Database (\mref{mDB})}
+\subsubsection{Game State Database (\mref{mDB})} \label{sec:mDB}
 \begin{description}
 \item[Secrets:]The specific database technology (e.g., SQL, NoSQL) and schema used to store and retrieve game history. Hides the implementation of data persistence, transactions, and indexing.
 \item[Services:]Stores and maintains complete and consistent records of all game states and player profiles. Provides access programs for efficient read/write operations and structured access to historical game data for post-game analysis or replay.
 \item[Implemented By:] \progname{}
 \end{description}
 
-\subsubsection{Image Queue (\mref{mQueue})}
+\subsubsection{Image Queue (\mref{mQueue})} \label{sec:mQueue}
 \begin{description}
 \item[Secrets:]The specific data transfer protocol and middleware (e.g., 0MQ/imageMQ) used for low-latency, asynchronous communication between modules. Hides the details of message serialization, authentication, and error handling.
 \item[Services:]Enables reliable, low-latency data exchange between the CV Model, Game State Manager, AI Model, and UI. Supports asynchronous message-passing mechanisms.
@@ -352,9 +352,9 @@ NFR.S.4 (Installability) & \mref{mHH} \\
 \hline
 NFR.S.5 (Data Integrity) & \mref{mDB}, \mref{mState} \\
 \hline
-NIndenting{NFR.S.6} (Availability) & \mref{mQueue}, \mref{mDB} \\
+NFR.S.6 (Availability) & \mref{mQueue}, \mref{mDB} \\
 \hline
-FR.Sa.1, FR.Sa.2, FR.Sa.4, FR.Sa.7, FR.Sa.8, NFR.Sa.1 (UI/Feedback Safety) & \mref{mUI} \\
+FR.Sa.1, FR.Sa.2, FR.Sa.4, FR.Sa.7, FR.Sa.8, NFR.Sa.1 (UI/Feedback Safety) & \mfref{mUI} \\
 \hline
 FR.Sa.3 (AI Validation) & \mref{mState}, \mref{mAI} \\
 \hline
@@ -417,7 +417,7 @@ The system's modules communicate via the \mref{mQueue} module. This module imple
 Key communication topics will include:
 \begin{itemize}
     \item \texttt{cv.board.update}: Published by \mref{mCV}, consumed by \mref{mState}. Carries structured data of detected board changes.
-    \item \texttt{state.game.update}: Published by \mref{mState}, consumed by \mref{mUI} and \mref{mAI}. Carries the new authoritative game state.
+    \item \texttt{state.game.update}: Published by \mmref{mState}, consumed by \mref{mUI} and \mref{mAI}. Carries the new authoritative game state.
     \item \texttt{ai.request.move}: Published by \mref{mUI} (or other clients), consumed by \mref{mAI}. Requests a move suggestion for the current state.
     \item \texttt{ai.response.move}: Published by \mref{mAI}, consumed by \mref{mUI}. Provides the suggested optimal move.
 \end{itemize}
