@@ -396,16 +396,15 @@ FR.Sa.12 (Env. Validation) & \mref{mEnv} \\
 
 \section{Use Hierarchy Between Modules} \label{SecUse}
 
-In this section, the uses hierarchy between modules is
-provided.
+In this section, the uses hierarchy between modules is provided.
 A module A *uses* a module B if the correct execution of A depends upon the availability of a correct implementation of B. For our system, the 'uses' relation is not a simple hierarchy, as the main components communicate in a decoupled manner through the Communication Layer (\mref{mQueue}). The relationships are shown in Figure \ref{FigUH}. This graph is a directed acyclic graph (DAG), as required.
 
-%\begin{figure}[H]
-%\centering
-%\includegraphics[width=\textwidth]{Component_Diagram_final.png}
-%\caption{Use hierarchy among modules. An arrow from A to B means A 'uses' B. This diagram is adapted from the Component Diagram in the Hazard Analysis.}
-%\label{FigUH}
-%\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{component_diagram}
+\caption{Component diagram showing use hierarchy among modules.}
+\label{FigUH}
+\end{figure}
 
 \section{User Interfaces}
 
