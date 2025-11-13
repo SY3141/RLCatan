@@ -679,7 +679,7 @@ AI Model (M6)
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-predictMove & state:GameStateData & AIMove & PredictionError \\
+decide & state:GameStateData & AIMove & PredictionError \\
 getMoveConfidence & move:AIMove & Float & - \\
 explainMove & move:AIMove & String & - \\
 \hline
@@ -708,7 +708,7 @@ N/A
 
 \subsubsection{Access Routine Semantics}
 
-\noindent predictMove(state):
+\noindent decide(state):
 \begin{itemize}
 \item transition: Evaluates state with policyNetwork. Caches results in lastPredictionCache.
 \item output: Returns the optimal AIMove.
