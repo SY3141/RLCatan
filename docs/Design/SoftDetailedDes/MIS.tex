@@ -31,8 +31,8 @@ urlcolor=cyan          % color of external links
 
 \usepackage{array}
 
-\externaldocument{/C:/Users/jaker/OneDrive/Academics/University/Year 4 Courses/Capstone/RLCatan/docs/SRS}
-
+%\externaldocument{/C:/Users/jaker/OneDrive/Academics/University/Year 4 Courses/Capstone/RLCatan/docs/SRS}
+%WTF is this?
 \input{../../Comments}
 \input{../../Common}
 
@@ -246,7 +246,7 @@ Hardware-Hiding Module (M1)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{3cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -342,7 +342,7 @@ Computer Vision Module (M2)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{3cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -507,7 +507,7 @@ Game State Manager (M4)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{5cm} p{3cm} p{3cm} p{3cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -598,7 +598,7 @@ Reinforcement Learning Environment (M5)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -675,11 +675,11 @@ AI Model (M6)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{5cm} p{4cm} p{3cm} p{3cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-predictMove & state:GameStateData & AIMove & PredictionError \\
+decide & state:GameStateData & AIMove & PredictionError \\
 getMoveConfidence & move:AIMove & Float & - \\
 explainMove & move:AIMove & String & - \\
 \hline
@@ -708,7 +708,7 @@ N/A
 
 \subsubsection{Access Routine Semantics}
 
-\noindent predictMove(state):
+\noindent decide(state):
 \begin{itemize}
 \item transition: Evaluates state with policyNetwork. Caches results in lastPredictionCache.
 \item output: Returns the optimal AIMove.
@@ -761,7 +761,7 @@ Game State Database (M7)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -842,7 +842,7 @@ Image Queue (M8)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
