@@ -110,15 +110,15 @@ The following table summarizes the primitive data types used by \progname.
   integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
   natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
   real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
-  string & $\Sigma^*$ & A sequence of zero or more characters. \\
-  sequence & seq of T & A list of zero or more elements of the same type T. \\
-  tuple & (T1, T2, ...) & A finite, ordered list of elements, potentially of
+  string & $\Sigma^*$ & a sequence of zero or more characters. \\
+  sequence & seq of T & a list of zero or more elements of the same type T. \\
+  tuple & (T1, T2, ...) & a finite, ordered list of elements, potentially of
                           different types. \\
-  dictionary & dict & A collection of key-value mappings (e.g., KeyType $\rightarrow$ ValueType). \\
-  function & T1 $\rightarrow$ T2 & A function mapping an input of type T1 to
+  dictionary & dict & a collection of key-value mappings (e.g., KeyType $\rightarrow$ ValueType). \\
+  function & T1 $\rightarrow$ T2 & a function mapping an input of type T1 to
                           an output of type T2. \\
-  true & $\top$ & The boolean value for true. \\
-  false / null & $\bot$ & The boolean value for false, or a value that is
+  true & $\top$ & the boolean value for true. \\
+  false / null & $\bot$ & the boolean value for false, or a value that is
                           undefined, null, or void (no output). \\
   \bottomrule
   \end{tabular} 
@@ -228,7 +228,7 @@ isInitialized & - & $\mathbb{B}$ & - \\
 \noindent initializeHardware():
 \begin{itemize}
 \item transition: Attempts connection to \texttt{CameraDevice}.  
-      If successful: \texttt{hardwareStatus} := true.
+      If successful: \texttt{hardwareStatus} := $\top$ .
 \item output: -
 \item exception: raises \texttt{HardwareInitError} if initialization fails.
 \end{itemize}
@@ -237,14 +237,14 @@ isInitialized & - & $\mathbb{B}$ & - \\
 \begin{itemize}
 \item transition: Reads a new frame from \texttt{CameraDevice} into \texttt{frameBuffer}.
 \item output: Returns the current \texttt{frameBuffer} of type FrameData.
-\item exception: raises \texttt{CaptureError} if \texttt{hardwareStatus} = false  
+\item exception: raises \texttt{CaptureError} if \texttt{hardwareStatus} = $\bot$  
                  or frame capture fails.
 \end{itemize}
 
 \noindent shutdownHardware():
 \begin{itemize}
 \item transition: Releases device resources and sets  
-      \texttt{hardwareStatus} := false.
+      \texttt{hardwareStatus} := $\bot$.
 \item output: -
 \item exception: raises \texttt{HardwareShutdownError} if hardware cleanup fails.
 \end{itemize}
@@ -513,14 +513,18 @@ None.
 
 \noindent updateState(move):
 \begin{itemize}
-\item transition:  
-      \begin{itemize}
-        \item If \texttt{validateMove(move)} = true,  
-              apply changes encoded in $move$ to \texttt{currentGameState} and \texttt{playerAssets}.  
-        \item Otherwise, no state change.
-      \end{itemize}
+  \item transition: 
+  \[
+  (
+    \texttt{validateMove(move)} = \top \Rightarrow 
+      \text{\texttt{currentGameState}} := \text{\texttt{applyMove}} (\text{move})
+  | 
+    \texttt{validateMove(move)} = \bot \Rightarrow 
+      \text{-}
+  )
+  \]
 \item output: -
-\item exception: raises \texttt{InvalidMoveError} if \texttt{validateMove(move)} = false.
+\item exception: raises \texttt{InvalidMoveError} if \texttt{validateMove(move)} = $\bot$.
 \end{itemize}
 
 \noindent getState():
@@ -533,7 +537,7 @@ None.
 \noindent validateMove(move):
 \begin{itemize}
 \item transition: -
-\item output: $\mathbb{B}$ - true iff $move$ is valid according to Catan rules and the  
+\item output: $\mathbb{B}$ - $\top$  iff $move$ is valid according to Catan rules and the  
       current values of \texttt{currentGameState} and \texttt{playerAssets}.
 \item exception: -
 \end{itemize}
@@ -611,7 +615,7 @@ render & - & - & RenderError \\
 \begin{itemize}
 \item transition:
     \begin{itemize}
-        \item If \texttt{validateMove(action)} from M4 = true,  
+        \item If \texttt{validateMove(action)} from M4 = $\top$ ,  
               apply $action$ to \texttt{simulatedState} via \texttt{updateState(action)}.
         \item Apply \texttt{applyOpponentLogic()} to simulate adversarial moves.
         \item turnCount := turnCount + 1.
@@ -622,7 +626,7 @@ render & - & - & RenderError \\
       of type $(GameStateData, \mathbb{R})$.
 
 \item exception:  
-      raises \texttt{StepError} if \texttt{validateMove(action)} = false.
+      raises \texttt{StepError} if \texttt{validateMove(action)} = $\bot$.
 \end{itemize}
 
 \noindent reset():
@@ -924,7 +928,7 @@ None.
 \text{tail} := (\text{tail} + 1) \bmod \text{QUEUE\_SIZE}, \quad
 \text{size} := \text{size} + 1
 \]
-\item output: $\top$ if successful
+\item output: -
 \item exception: raises \texttt{QueueFullError} if $\text{isFull()} = \top$.
 \end{itemize}
 
@@ -932,7 +936,7 @@ None.
 \begin{itemize}
 \item transition: frame := queueBuffer[head]; queueBuffer[head] := $\bot$; head := (head+1) mod QUEUE\_SIZE; size := size-1
 \item output: frame
-\item exception: QueueEmptyError if isEmpty() = True
+\item exception: QueueEmptyError if isEmpty() = $\top$ 
 \end{itemize}
 
 \noindent peek():
