@@ -32,8 +32,6 @@ urlcolor=cyan          % color of external links
 
 \usepackage{array}
 
-%\externaldocument{/C:/Users/jaker/OneDrive/Academics/University/Year 4 Courses/Capstone/RLCatan/docs/SRS}
-%WTF is this?
 \input{../../Comments}
 \input{../../Common}
 
@@ -54,7 +52,7 @@ urlcolor=cyan          % color of external links
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-11/03/2025 & 1.0 & Draft Rev 1\\
+11/13/2025 & 1.0 & Draft Rev 1\\
 \bottomrule
 \end{tabularx}
 
@@ -182,19 +180,19 @@ Hardware-Hiding Module (M1)
 
 \subsubsection{Exported Constants}
 \begin{itemize}
-\item \texttt{CAMERA\_RESOLUTION}: tuple of $(int, int)$ - width and height of captured frames
+\item \texttt{CAMERA\_RESOLUTION}: tuple of $(\mathbb{Z}, \mathbb{Z})$ - width and height of captured frames
 \item \texttt{FRAME\_RATE}: $\mathbb{R}$ - frames per second captured by the hardware layer
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{5cm} p{3cm} p{3cm} p{5cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-initializeHardware & - & - & HardwareInitError \\
+initializeHardware & - & $\mathbb{B}$ & HardwareInitError \\
 captureFrame & - & FrameData & CaptureError \\
-shutdownHardware & - & - & HardwareShutdownError \\
+shutdownHardware & - & $\mathbb{B}$ & HardwareShutdownError \\
 isInitialized & - & $\mathbb{B}$ & - \\
 \hline
 \end{tabular}
@@ -228,8 +226,8 @@ isInitialized & - & $\mathbb{B}$ & - \\
 \noindent initializeHardware():
 \begin{itemize}
 \item transition: Attempts connection to \texttt{CameraDevice}.  
-      If successful: \texttt{hardwareStatus} := true.
-\item output: -
+      If successful: \texttt{hardwareStatus} := $\top$.
+\item output: Returns initialization success status: $\mathbb{B}$
 \item exception: raises \texttt{HardwareInitError} if initialization fails.
 \end{itemize}
 
@@ -237,15 +235,15 @@ isInitialized & - & $\mathbb{B}$ & - \\
 \begin{itemize}
 \item transition: Reads a new frame from \texttt{CameraDevice} into \texttt{frameBuffer}.
 \item output: Returns the current \texttt{frameBuffer} of type FrameData.
-\item exception: raises \texttt{CaptureError} if \texttt{hardwareStatus} = false  
+\item exception: raises \texttt{CaptureError} if \texttt{hardwareStatus} = $\bot$  
                  or frame capture fails.
 \end{itemize}
 
 \noindent shutdownHardware():
 \begin{itemize}
 \item transition: Releases device resources and sets  
-      \texttt{hardwareStatus} := false.
-\item output: -
+      \texttt{hardwareStatus} := $\bot$.
+\item output: Returns shutdown success status: $\mathbb{B}$
 \item exception: raises \texttt{HardwareShutdownError} if hardware cleanup fails.
 \end{itemize}
 
@@ -291,7 +289,7 @@ Computer Vision Module (M2)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -379,7 +377,7 @@ User Interface (M3)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -472,7 +470,7 @@ Game State Manager (M4)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -515,12 +513,12 @@ None.
 \begin{itemize}
 \item transition:  
       \begin{itemize}
-        \item If \texttt{validateMove(move)} = true,  
+        \item If \texttt{validateMove(move)} = $\top$,  
               apply changes encoded in $move$ to \texttt{currentGameState} and \texttt{playerAssets}.  
         \item Otherwise, no state change.
       \end{itemize}
 \item output: -
-\item exception: raises \texttt{InvalidMoveError} if \texttt{validateMove(move)} = false.
+\item exception: raises \texttt{InvalidMoveError} if \texttt{validateMove(move)} = $\bot$.
 \end{itemize}
 
 \noindent getState():
@@ -533,7 +531,7 @@ None.
 \noindent validateMove(move):
 \begin{itemize}
 \item transition: -
-\item output: $\mathbb{B}$ - true iff $move$ is valid according to Catan rules and the  
+\item output: $\mathbb{B}$ - $\top$ iff $move$ is valid according to Catan rules and the  
       current values of \texttt{currentGameState} and \texttt{playerAssets}.
 \item exception: -
 \end{itemize}
@@ -572,7 +570,7 @@ Reinforcement Learning Environment (M5)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -611,7 +609,7 @@ render & - & - & RenderError \\
 \begin{itemize}
 \item transition:
     \begin{itemize}
-        \item If \texttt{validateMove(action)} from M4 = true,  
+        \item If \texttt{validateMove(action)} from M4 = $\top$,  
               apply $action$ to \texttt{simulatedState} via \texttt{updateState(action)}.
         \item Apply \texttt{applyOpponentLogic()} to simulate adversarial moves.
         \item turnCount := turnCount + 1.
@@ -622,7 +620,7 @@ render & - & - & RenderError \\
       of type $(GameStateData, \mathbb{R})$.
 
 \item exception:  
-      raises \texttt{StepError} if \texttt{validateMove(action)} = false.
+      raises \texttt{StepError} if \texttt{validateMove(action)} = $\bot$.
 \end{itemize}
 
 \noindent reset():
@@ -672,7 +670,7 @@ AI Model (M6)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -780,7 +778,7 @@ Game State Database (M7)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{5cm} p{4cm} p{4cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -817,7 +815,7 @@ queryHistory & playerID:$\Sigma^{*}$ & seq(GameStateData) & DBReadError \\
 \begin{itemize}
 \item transition:
     \begin{itemize}
-        \item Converts $state$ to a storable format via \texttt{serializeState()}.
+        \item Converts $state$ to a serializable format via \texttt{serializeState()}.
         \item Writes serialized data to \texttt{database}.
         \item Updates \texttt{gameRecords} cache if applicable.
     \end{itemize}
@@ -851,7 +849,7 @@ queryHistory & playerID:$\Sigma^{*}$ & seq(GameStateData) & DBReadError \\
 
 \subsubsection{Local Functions}
 \begin{itemize}
-\item \texttt{serializeState()}: Converts GameStateData into a storable representation.
+\item \texttt{serializeState()}: Converts GameStateData into a serializable representation.
 \item \texttt{deserializeState()}: Converts stored representation back to GameStateData.
 \item \texttt{openConnection()}: Initializes \texttt{dbConnection}.
 \item \texttt{closeConnection()}: Terminates \texttt{dbConnection}.
@@ -882,7 +880,7 @@ Image Queue (M8)
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{5cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{4cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -932,7 +930,7 @@ None.
 \begin{itemize}
 \item transition: frame := queueBuffer[head]; queueBuffer[head] := $\bot$; head := (head+1) mod QUEUE\_SIZE; size := size-1
 \item output: frame
-\item exception: QueueEmptyError if isEmpty() = True
+\item exception: QueueEmptyError if isEmpty() = $\top$
 \end{itemize}
 
 \noindent peek():
