@@ -611,22 +611,29 @@ render & - & - & RenderError \\
 
 \subsubsection{Access Routine Semantics}
 
+
 \noindent step(action):
 \begin{itemize}
 \item transition:
-    \begin{itemize}
-        \item If \texttt{validateMove(action)} from M4 = $\top$ ,  
-              apply $action$ to \texttt{simulatedState} via \texttt{updateState(action)}.
-        \item Apply \texttt{applyOpponentLogic()} to simulate adversarial moves.
-        \item turnCount := turnCount + 1.
-    \end{itemize}
-
+The state change is governed by the rule:
+\[
+(
+  \texttt{validateMove(action)} = \top \Rightarrow \text{apply actions}
+| 
+  \texttt{validateMove(action)} = \bot \Rightarrow \text{-}
+)
+\]
+\quad The "apply actions" transition includes the following sequential operations:
+\begin{enumerate}
+    \item Apply $\texttt{action}$ to $\texttt{simulatedState}$ via $\texttt{updateState(action)}$.
+    \item Apply $\texttt{applyOpponentLogic()}$ to simulate adversarial moves.
+    \item $\texttt{turnCount} := \texttt{turnCount} + 1$.
+\end{enumerate}
 \item output:  
       Returns the tuple $(\texttt{simulatedState.getState()}, \texttt{calculateReward()})$  
-      of type $(GameStateData, \mathbb{R})$.
-
+      of type $(\text{GameStateData}, \mathbb{R})$.
 \item exception:  
-      raises \texttt{StepError} if \texttt{validateMove(action)} = $\bot$.
+      raises \texttt{StepError} if $\texttt{validateMove(action)} = \bot$.
 \end{itemize}
 
 \noindent reset():
