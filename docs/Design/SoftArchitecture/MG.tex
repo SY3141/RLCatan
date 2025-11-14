@@ -35,7 +35,7 @@
 
 \title{Module Guide for \progname{}}
 \author{\authname}
-\date{November 10th, 2025}
+\date{November 13th, 2025}
 
 \maketitle
 
@@ -46,8 +46,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+11/13/2025 & 1.0 & Draft Rev 1\\
 \bottomrule
 \end{tabularx}
 
@@ -160,12 +159,12 @@ However, fixing some design decisions at the system architecture stage can simpl
 It is not intended that these decisions will be changed.
 
 \begin{description}
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucGameRules}:] The fundamental rules of the standard *Settlers of Catan* base game.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucGameRules}:] The fundamental rules of the standard Settlers of Catan base game.
 The project is not intended to support expansions.
 \item[\refstepcounter{ucnum} \uctheucnum \label{ucArchitecture}:] The core architectural decomposition.
 The system will always require separate components for vision, state management, AI, and a user interface.
 \item[\refstepcounter{ucnum} \uctheucnum \label{ucTechStack}:] The primary technology stack choices of Python for the backend/AI and JavaScript/React for the frontend.
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucInputSource}:] The fundamental premise of reading from a *physical* game board via a camera, as opposed to being a purely digital application.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucInputSource}:] The fundamental premise of reading from a physical game board via a camera, as opposed to being a purely digital application.
 \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
@@ -397,7 +396,7 @@ FR.Sa.12 (Env. Validation) & \mref{mEnv} \\
 \section{Use Hierarchy Between Modules} \label{SecUse}
 
 In this section, the uses hierarchy between modules is provided.
-A module A *uses* a module B if the correct execution of A depends upon the availability of a correct implementation of B. For our system, the 'uses' relation is not a simple hierarchy, as the main components communicate in a decoupled manner through the Communication Layer (\mref{mQueue}). The relationships are shown in Figure \ref{FigUH}. This graph is a directed acyclic graph (DAG), as required.
+A module A uses a module B if the correct execution of A depends upon the availability of a correct implementation of B. For our system, the 'uses' relation is not a simple hierarchy, as the main components communicate in a decoupled manner through the Communication Layer (\mref{mQueue}). The relationships are shown in Figure \ref{FigUH}. This graph is a directed acyclic graph (DAG), as required.
 
 \begin{figure}[H]
 \centering
