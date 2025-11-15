@@ -2,6 +2,7 @@ import requests
 from catanatron.models.board import Board
 from board_visualize import generate_board_image
 
+
 def get_colonist_replay(slug: str):
     url = f"https://colonist.io/api/replay/data-from-slug?replayUrlSlug={slug}"
     try:
@@ -17,22 +18,42 @@ def get_colonist_replay(slug: str):
     except ValueError:
         print("Failed to parse JSON — response was not JSON")
 
+
 slug = "BPPRTG5zMVmn9gMX"
 data = get_colonist_replay(slug)
 
 # Type is ['desert','wood', 'brick', 'sheep', 'wheat', 'ore'] = [0,1,2,3,4,5]
-board_setup_data = data["data"]["eventHistory"]["initialState"]["mapState"]["tileHexStates"]
+board_setup_data = data["data"]["eventHistory"]["initialState"]["mapState"][
+    "tileHexStates"
+]
 board_setup = {}
 
 tile_number_map = {
-    0: 13, 1: 12, 2: 11, 3: 10, 4: 9, 5: 8, 6: 7, 7: 18, 8: 17, 9: 16, 
-    10: 15, 11: 14, 12: 4, 13: 3, 14: 2, 15: 1, 16: 6, 17: 5, 18: 0
+    0: 13,
+    1: 12,
+    2: 11,
+    3: 10,
+    4: 9,
+    5: 8,
+    6: 7,
+    7: 18,
+    8: 17,
+    9: 16,
+    10: 15,
+    11: 14,
+    12: 4,
+    13: 3,
+    14: 2,
+    15: 1,
+    16: 6,
+    17: 5,
+    18: 0,
 }
 
 for tile_id, tile in board_setup_data.items():
     board_setup[tile_number_map[int(tile_id)]] = {
         "type": tile.get("type"),
-        "number": tile.get("diceNumber")
+        "number": tile.get("diceNumber"),
     }
 
 board_setup = dict(sorted(board_setup.items(), key=lambda item: item[0]))
@@ -52,14 +73,7 @@ def board_setup_to_catan_map(board_setup):
 
     # map the scraped type strings to the FastResource constants used by the
     # codebase. If we encounter an unknown string, leave it as None (desert/water).
-    str_to_res = {
-        0: None,
-        1: WOOD,
-        2: BRICK,
-        3: SHEEP,
-        4: WHEAT,
-        5: ORE
-    }
+    str_to_res = {0: None, 1: WOOD, 2: BRICK, 3: SHEEP, 4: WHEAT, 5: ORE}
 
     # Start from a template map to get the correct topology (nodes/edges objects).
     base_map = CatanMap.from_template(BASE_MAP_TEMPLATE)
@@ -104,7 +118,7 @@ if __name__ == "__main__":
         for cid, tile in cmap.tiles_by_id.items():
             res = getattr(tile.resource, "name", tile.resource)
             print(f"id={cid}, resource={res}, number={tile.number}")
-        c_board = Board(catan_map = cmap)
+        c_board = Board(catan_map=cmap)
         generate_board_image(c_board)
     except Exception as e:
         print("Conversion to CatanMap failed:", e)

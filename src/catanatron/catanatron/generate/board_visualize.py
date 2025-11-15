@@ -95,11 +95,17 @@ def generate_board_image(board: Board):
 
     output_dir = "scraped_boards"
 
-# Ensure the folder exists
+    # Ensure the folder exists
     os.makedirs(output_dir, exist_ok=True)
 
     # Count the number of existing files in the folder
-    file_count = len([f for f in os.listdir(output_dir) if os.path.isfile(os.path.join(output_dir, f))])
+    file_count = len(
+        [
+            f
+            for f in os.listdir(output_dir)
+            if os.path.isfile(os.path.join(output_dir, f))
+        ]
+    )
 
     # Use file_count as the new "seed" / index
     output_path = os.path.join(output_dir, f"board{file_count}.png")

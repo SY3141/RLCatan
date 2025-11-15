@@ -119,11 +119,11 @@ BASE_MAP_TEMPLATE = MapTemplate(
         None,
     ],
     [
-        *([WOOD] * 4), # Four wood tiles
-        *([BRICK] * 3), # Three brick tiles
-        *([SHEEP] * 4), # Four sheep tiles
-        *([WHEAT] * 4), # Four wheat tiles
-        *([ORE] * 3), # Three ore tiles
+        *([WOOD] * 4),  # Four wood tiles
+        *([BRICK] * 3),  # Three brick tiles
+        *([SHEEP] * 4),  # Four sheep tiles
+        *([WHEAT] * 4),  # Four wheat tiles
+        *([ORE] * 3),  # Three ore tiles
         None,  # Desert
     ],
     # 3 layers, where last layer is water
@@ -296,6 +296,7 @@ DICE_PROBAS = build_dice_probas()
 def number_probability(number):
     return DICE_PROBAS[number]
 
+
 def initialize_tiles(
     map_template: MapTemplate,
     shuffled_numbers_param=None,
@@ -382,9 +383,11 @@ def initialize_tiles(
             other_numbers = [n for n in nums if n not in (6, 8)]
 
             # Sort coordinates by degree (fewer neighbors first) – helps spread out hot tiles
-            coords.sort(key=lambda c: sum(
-                1 for d in Direction if add(c, UNIT_VECTORS[d]) in all_tiles
-            ))
+            coords.sort(
+                key=lambda c: sum(
+                    1 for d in Direction if add(c, UNIT_VECTORS[d]) in all_tiles
+                )
+            )
 
             assigned = {}
             used_coords = set()
@@ -397,8 +400,8 @@ def initialize_tiles(
                         continue
                     # check adjacency
                     if any(
-                        add(coord, UNIT_VECTORS[d]) in used_coords and
-                        assigned.get(add(coord, UNIT_VECTORS[d])) in (6, 8)
+                        add(coord, UNIT_VECTORS[d]) in used_coords
+                        and assigned.get(add(coord, UNIT_VECTORS[d])) in (6, 8)
                         for d in Direction
                     ):
                         continue
@@ -422,7 +425,6 @@ def initialize_tiles(
                 all_tiles[coord].number = num
 
     return all_tiles
-
 
 
 def get_nodes_and_edges(tiles, coordinate: Coordinate, node_autoinc):
