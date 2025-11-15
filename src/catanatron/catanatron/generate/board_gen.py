@@ -8,12 +8,6 @@ from game_gen import compute_node_pip_totals
 random.seed(19)
 b_tour = Board()
 
-# print(compute_node_pip_totals(b_tour))
-
-# for coords, tile in b_tour.map.land_tiles.items():
-#     print(coords, "tile id", tile.id, "resource", getattr(tile.resource, "name", tile.resource), "number", tile.number)
-
-
 def number_to_pips(number):
     if number in [6, 8]:
         return 5

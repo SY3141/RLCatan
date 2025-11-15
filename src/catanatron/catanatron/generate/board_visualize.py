@@ -93,11 +93,17 @@ def generate_board_image(board: Board):
     ax.set_xlim(-4.5, 4.5)
     ax.set_ylim(-4.5, 4.5)
 
-    output_dir = os.path.join(os.path.dirname(__file__), "boards")
+    output_dir = "scraped_boards"
+
+# Ensure the folder exists
     os.makedirs(output_dir, exist_ok=True)
 
-    output_path = os.path.join(output_dir, f"board{seed}.png")
+    # Count the number of existing files in the folder
+    file_count = len([f for f in os.listdir(output_dir) if os.path.isfile(os.path.join(output_dir, f))])
+
+    # Use file_count as the new "seed" / index
+    output_path = os.path.join(output_dir, f"board{file_count}.png")
+
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
     print(f"Saved board image to {output_path}")
     plt.close(fig)
-    # plt.show()

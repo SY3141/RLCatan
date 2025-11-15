@@ -168,7 +168,6 @@ class AlphaBetaPlacementPlayer(Player):
 
         for action in playable_actions:
             if action.value == chosen_node[0]:
-                print(f"Chosen action: {action}")
                 return action
 
         # If not found, fall back to first available action
