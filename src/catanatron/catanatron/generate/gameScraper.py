@@ -1,7 +1,9 @@
 import requests
 from catanatron.models.board import Board
 from board_visualize import generate_board_image
-
+from pandas import read_csv
+from catanatron.models.map import CatanMap, BASE_MAP_TEMPLATE
+from catanatron.models.map import WOOD, BRICK, SHEEP, WHEAT, ORE
 
 def get_colonist_replay(slug: str):
     url = f"https://colonist.io/api/replay/data-from-slug?replayUrlSlug={slug}"
@@ -17,16 +19,6 @@ def get_colonist_replay(slug: str):
         print(f"Connection error: {e}")
     except ValueError:
         print("Failed to parse JSON — response was not JSON")
-
-
-slug = "BPPRTG5zMVmn9gMX"
-data = get_colonist_replay(slug)
-
-# Type is ['desert','wood', 'brick', 'sheep', 'wheat', 'ore'] = [0,1,2,3,4,5]
-board_setup_data = data["data"]["eventHistory"]["initialState"]["mapState"][
-    "tileHexStates"
-]
-board_setup = {}
 
 tile_number_map = {
     0: 13,
@@ -50,27 +42,13 @@ tile_number_map = {
     18: 0,
 }
 
-for tile_id, tile in board_setup_data.items():
-    board_setup[tile_number_map[int(tile_id)]] = {
-        "type": tile.get("type"),
-        "number": tile.get("diceNumber"),
-    }
-
-board_setup = dict(sorted(board_setup.items(), key=lambda item: item[0]))
-for tile_id, tile in board_setup.items():
-    print(f"- {tile_id}, type: {tile['type']}, number: {tile['number']}")
-
-
-# --- Conversion helper: turn board_setup (tile_id -> {type, number}) into CatanMap ---
 def board_setup_to_catan_map(board_setup):
     """Convert a scraped `board_setup` dict into a CatanMap instance.
 
     `board_setup` is expected to map integer tile_id -> {"type": <str>, "number": <int|None>}.
     Tile ids correspond to the LandTile.id numbering used by the map generator.
     """
-    from catanatron.models.map import CatanMap, BASE_MAP_TEMPLATE
-    from catanatron.models.map import WOOD, BRICK, SHEEP, WHEAT, ORE
-
+    
     # map the scraped type strings to the FastResource constants used by the
     # codebase. If we encounter an unknown string, leave it as None (desert/water).
     str_to_res = {0: None, 1: WOOD, 2: BRICK, 3: SHEEP, 4: WHEAT, 5: ORE}
@@ -111,14 +89,30 @@ def board_setup_to_catan_map(board_setup):
 
 
 if __name__ == "__main__":
-    # If run as a script, attempt to convert scraped board_setup into a CatanMap
-    try:
-        cmap = board_setup_to_catan_map(board_setup)
-        print("Converted board_setup into CatanMap with tiles:")
-        for cid, tile in cmap.tiles_by_id.items():
-            res = getattr(tile.resource, "name", tile.resource)
-            print(f"id={cid}, resource={res}, number={tile.number}")
-        c_board = Board(catan_map=cmap)
-        generate_board_image(c_board)
-    except Exception as e:
-        print("Conversion to CatanMap failed:", e)
+    slugs = read_csv("replays.csv").squeeze().tolist()
+    for slug in slugs:
+        print("Processing slug:", slug)
+        try:
+            data = get_colonist_replay(slug)
+            # Type is ['desert','wood', 'brick', 'sheep', 'wheat', 'ore'] = [0,1,2,3,4,5]
+            board_setup_data = data["data"]["eventHistory"]["initialState"]["mapState"][
+                "tileHexStates"
+            ]
+            board_setup = {}
+            for tile_id, tile in board_setup_data.items():
+                board_setup[tile_number_map[int(tile_id)]] = {
+                    "type": tile.get("type"),
+                    "number": tile.get("diceNumber"),
+                }
+
+            board_setup = dict(sorted(board_setup.items(), key=lambda item: item[0]))
+            #for tile_id, tile in board_setup.items():
+                #print(f"- {tile_id}, type: {tile['type']}, number: {tile['number']}")
+            cmap = board_setup_to_catan_map(board_setup)
+            for cid, tile in cmap.tiles_by_id.items():
+                res = getattr(tile.resource, "name", tile.resource)
+                #print(f"id={cid}, resource={res}, number={tile.number}")
+            c_board = Board(catan_map=cmap)
+            generate_board_image(c_board, slug)
+        except Exception as e:
+            print("Conversion to CatanMap failed:", e)

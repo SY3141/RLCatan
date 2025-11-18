@@ -25,7 +25,7 @@ Windows CMD
 1. `cd src`
 2. `python -m venv venv` 
 3. `venv\Scripts\activate`
-4. pip install -e .
+4. `pip install -e .`
 5. `pip install -e .[web,gym,dev]`
 6. `docker compose up`
 

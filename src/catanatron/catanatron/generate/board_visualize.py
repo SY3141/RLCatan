@@ -40,9 +40,7 @@ def hex_corners(x, y, size):
 
 
 # === Draw board ===
-
-
-def generate_board_image(board: Board):
+def generate_board_image(board: Board, slug = None):
     fig, ax = plt.subplots(figsize=(8, 8))
     ax.set_aspect("equal")
 
@@ -90,15 +88,8 @@ def generate_board_image(board: Board):
     # === Layout ===
     ax.axis("equal")
     ax.axis("off")
-    ax.set_xlim(-4.5, 4.5)
-    ax.set_ylim(-4.5, 4.5)
-
     output_dir = "scraped_boards"
-
-    # Ensure the folder exists
     os.makedirs(output_dir, exist_ok=True)
-
-    # Count the number of existing files in the folder
     file_count = len(
         [
             f
@@ -108,7 +99,10 @@ def generate_board_image(board: Board):
     )
 
     # Use file_count as the new "seed" / index
-    output_path = os.path.join(output_dir, f"board{file_count}.png")
+    if slug is None:
+        output_path = os.path.join(output_dir, f"board{file_count}.png")
+    else:
+        output_path = os.path.join(output_dir, f"{slug}.png")
 
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
     print(f"Saved board image to {output_path}")
