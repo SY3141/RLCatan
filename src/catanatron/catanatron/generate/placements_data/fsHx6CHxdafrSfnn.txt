@@ -1,0 +1,8 @@
+building:30
+road:36
+building:22
+road:26
+building:47
+road:58
+building:53
+road:71
