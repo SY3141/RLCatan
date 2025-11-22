@@ -88,7 +88,7 @@ def make_env(seed: int | None = None) -> gym.Env:
     return masked_env
 
 
-def main():
+def ppo_train(step_lim = 1_000_000):
     # Seed for reproducibility
     seed = 42
     np.random.seed(seed)
@@ -119,7 +119,7 @@ def main():
     )
 
     # Might want to adjust total_timesteps based on compute resources
-    total_timesteps = 1_000_000
+    total_timesteps = step_lim
     model.learn(total_timesteps=total_timesteps)
 
     # The model is saved to ./models/ppo_v1 so it can be imported by our player subclass
