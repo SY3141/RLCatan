@@ -38,7 +38,7 @@ PLAYER_TRADING_ACTION_TYPES: set[ActionType] = {
 # }
 
 
-def filter_action_types(env, indices: Iterable[int], excluded_types: Iterable[set[ActionType]]) -> list[int]:
+def filter_action_types(env, indices: Iterable[int], excluded_types: Iterable[Iterable[ActionType]]) -> list[int]:
     """
     Given an env that implements decode_action_index(action_int) -> (ActionType, value),
     an iterable of action indices, and an iterable of sets of ActionTypes to exclude,
