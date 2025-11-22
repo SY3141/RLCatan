@@ -128,4 +128,4 @@ def ppo_train(step_lim = 1_000_000):
 
 
 if __name__ == "__main__":
-    main()
+    ppo_train()
