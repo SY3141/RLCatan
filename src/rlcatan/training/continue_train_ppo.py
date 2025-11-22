@@ -44,7 +44,7 @@ def make_env(seed: int | None = None) -> gym.Env:
       - RLCatanEnvWrapper: filters out some ActionTypes
       - ActionMasker: gives MaskablePPO a valid-action mask
     """
-    base_env = CatanatronEnv(config={"opponent_type": "RandomPlayer", "reward_function": shaped_reward})
+    base_env = CatanatronEnv(config={"opponent_type": "RandomPlayer"})
 
     if seed is not None:
         base_env.reset(seed=seed)
