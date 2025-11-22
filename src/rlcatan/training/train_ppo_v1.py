@@ -117,8 +117,8 @@ def main():
     model.learn(total_timesteps=total_timesteps)
 
     # The model is saved to ./models/ppo_v1 so it can be imported by our player subclass
-    os.makedirs("models", exist_ok=True)
-    model.save(os.path.join("models", "ppo_v1"))
+    os.makedirs(os.path.join("..", "models"), exist_ok=True)
+    model.save(os.path.join("..", "models", "ppo_v1"))
 
 
 if __name__ == "__main__":
