@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import random
+from time import time
 from typing import Iterable, cast
 
 import gymnasium as gym
@@ -19,6 +20,7 @@ from catanatron.gym.action_type_filtering import (
     PLAYER_TRADING_ACTION_TYPES,
 )
 from catanatron.gym.rlcatan_env_wrapper import RLCatanEnvWrapper
+import torch
 
 
 def heuristic_mask(env: RLCatanEnvWrapper, valid_indices: list[int]) -> list[int]:
@@ -97,16 +99,19 @@ def ppo_train(step_lim = 1_000_000):
     env = make_env(seed=seed)
 
     model_path = os.path.join("..", "models", "ppo_v2.zip")
-
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    print("Using device:", device)
+    
     if os.path.exists(model_path):
         print("Loading existing model...")
-        model = MaskablePPO.load(model_path, env=env)
+        model = MaskablePPO.load(model_path, env=env, device=device)
     else:
         print("Creating new model...")
     model = MaskablePPO(
         MaskableActorCriticPolicy,
         env,
         verbose=1,
+        device=device,
         learning_rate=3e-4,
         n_steps=2048,
         batch_size=256,
@@ -125,6 +130,7 @@ def ppo_train(step_lim = 1_000_000):
     # The model is saved to ./models/ppo_v1 so it can be imported by our player subclass
     os.makedirs(os.path.join("..", "models"), exist_ok=True)
     model.save(os.path.join("..", "models", "ppo_v2"))
+    time.sleep(5)  # Ensure file is written before program exits
 
 
 if __name__ == "__main__":
