@@ -3,6 +3,7 @@ from collections import namedtuple
 from rich.table import Table
 
 from catanatron.models.player import HumanPlayer, RandomPlayer
+from catanatron.players.ppo_player import PPOPlayer
 from catanatron.players.weighted_random import WeightedRandomPlayer
 from catanatron.players.value import ValueFunctionPlayer
 from catanatron.players.minimax import AlphaBetaPlayer, SameTurnAlphaBetaPlayer
@@ -77,6 +78,12 @@ CLI_PLAYERS = [
         "AlphaBeta player with initial placement strategy.",
         AlphaBetaPlacementPlayer,
     ),
+    CliPlayer(
+        "PPOP",
+        "PPOPlayer",
+        "Player that uses a pre-trained PPO model to decide actions.",
+        PPOPlayer,
+    )
 ]
 
 
