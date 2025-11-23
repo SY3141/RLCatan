@@ -1,16 +1,41 @@
-from continue_train_ppo import ppo_train   # or your actual filename
+import argparse
 import time
+from continue_train_ppo import ppo_train
 
-NUM_RUNS = 10       # change this to however many cycles you want
-
-def run_many():
-    for i in range(1, NUM_RUNS + 1):
+def run_many(num_runs, num_iterations):
+    """
+    Executes the ppo_train function multiple times based on provided arguments.
+    """
+    start_time = time.time()
+    
+    for i in range(1, num_runs + 1):
         print(f"\n==========================")
-        print(f"  Starting training run {i}/{NUM_RUNS}")
+        print(f"  Starting training run {i}/{num_runs}")
+        print(f"  Iterations: {num_iterations}")
         print(f"==========================\n")
 
-        ppo_train(1_000) 
-
+        # Call the training function with the dynamic iteration count
+        ppo_train(num_iterations)
+    
+    total_time = time.time() - start_time
+    print(f"\nAll {num_runs} runs completed in {total_time:.2f} seconds.")
 
 if __name__ == "__main__":
-    run_many()
+    parser = argparse.ArgumentParser(description="Run PPO training multiple times with custom iterations.")
+
+    parser.add_argument(
+        "-runs", "--runs", 
+        type=int, 
+        default=10, 
+        help="Number of times to execute the training loop (default: 10)"
+    )
+
+    parser.add_argument(
+        "-iterations", "--iterations", 
+        type=int, 
+        default=1_000_000, 
+        help="Number of iterations to pass to ppo_train (default: 1,000,000)"
+    )
+
+    args = parser.parse_args()
+    run_many(args.runs, args.iterations)
