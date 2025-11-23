@@ -10,7 +10,7 @@ Can add more set-based filters here as needed and experiment with different filt
 # These are just some example groups to exclude; we can add more.
 # For v1 I'll just exclude complex dev cards and player trading.
 SIMPLE_DEV_CARD_ACTION_TYPES: set[ActionType] = {
-    ActionType.BUY_DEVELOPMENT_CARD, # Victory point cards are played automatically.
+    ActionType.BUY_DEVELOPMENT_CARD,  # Victory point cards are played automatically.
     ActionType.PLAY_KNIGHT_CARD,
 }
 
@@ -38,7 +38,9 @@ PLAYER_TRADING_ACTION_TYPES: set[ActionType] = {
 # }
 
 
-def filter_action_types(env, indices: Iterable[int], excluded_types: Iterable[Iterable[ActionType]]) -> list[int]:
+def filter_action_types(
+    env, indices: Iterable[int], excluded_types: Iterable[Iterable[ActionType]]
+) -> list[int]:
     """
     Given an env that implements decode_action_index(action_int) -> (ActionType, value),
     an iterable of action indices, and an iterable of sets of ActionTypes to exclude,
