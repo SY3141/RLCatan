@@ -370,13 +370,12 @@ def initialize_tiles(
             # Deterministic mode: use provided list order
             numbers_list = list(shuffled_numbers)
             for coord in coords_need_numbers:
-                num = numbers_list.pop()
+                num = numbers_list.pop(0)
                 all_tiles[coord].number = num
         else:
             # Deterministically assign numbers avoiding adjacent 6/8
             nums = list(shuffled_numbers)
             coords = list(coords_need_numbers)
-            random.shuffle(coords)  # still adds variety, but not retry-based
 
             # Separate high-probability numbers (6/8) from others
             hot_numbers = [n for n in nums if n in (6, 8)]
@@ -392,7 +391,7 @@ def initialize_tiles(
             assigned = {}
             used_coords = set()
 
-            # Step 1: Place 6s and 8s in non-adjacent spots
+            # Place 6s and 8s in non-adjacent spots
             for num in hot_numbers:
                 # pick a coord with no adjacent hot numbers
                 for coord in coords:
@@ -415,12 +414,12 @@ def initialize_tiles(
                     assigned[coord] = num
                     used_coords.add(coord)
 
-            # Step 2: Fill remaining tiles with the rest of the numbers
+            # Fill remaining tiles with the rest of the numbers
             remaining_coords = [c for c in coords if c not in assigned]
             for coord, num in zip(remaining_coords, other_numbers):
                 assigned[coord] = num
 
-            # Step 3: Apply mapping
+            # Apply mapping
             for coord, num in assigned.items():
                 all_tiles[coord].number = num
 

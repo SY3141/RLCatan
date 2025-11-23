@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import os
 import random
-from time import time
 from typing import Iterable, cast
 
 import gymnasium as gym
@@ -90,7 +89,7 @@ def make_env(seed: int | None = None) -> gym.Env:
     return masked_env
 
 
-def ppo_train(step_lim = 1_000_000):
+def ppo_train(step_lim = 1_000):
     # Seed for reproducibility
     seed = 42
     np.random.seed(seed)
@@ -107,21 +106,21 @@ def ppo_train(step_lim = 1_000_000):
         model = MaskablePPO.load(model_path, env=env, device=device)
     else:
         print("Creating new model...")
-    model = MaskablePPO(
-        MaskableActorCriticPolicy,
-        env,
-        verbose=1,
-        device=device,
-        learning_rate=3e-4,
-        n_steps=2048,
-        batch_size=256,
-        n_epochs=4,
-        gamma=0.99,
-        gae_lambda=0.95,
-        clip_range=0.2,
-        ent_coef=0.01,
-        vf_coef=0.5,
-    )
+        model = MaskablePPO(
+            MaskableActorCriticPolicy,
+            env,
+            verbose=1,
+            device=device,
+            learning_rate=3e-4,
+            n_steps=2048,
+            batch_size=256,
+            n_epochs=4,
+            gamma=0.99,
+            gae_lambda=0.95,
+            clip_range=0.2,
+            ent_coef=0.01,
+            vf_coef=0.5,
+        )
 
     # Might want to adjust total_timesteps based on compute resources
     total_timesteps = step_lim
@@ -130,7 +129,6 @@ def ppo_train(step_lim = 1_000_000):
     # The model is saved to ./models/ppo_v1 so it can be imported by our player subclass
     os.makedirs(os.path.join("..", "models"), exist_ok=True)
     model.save(os.path.join("..", "models", "ppo_v2"))
-    time.sleep(5)  # Ensure file is written before program exits
 
 
 if __name__ == "__main__":

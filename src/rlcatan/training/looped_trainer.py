@@ -9,7 +9,7 @@ def run_many():
         print(f"  Starting training run {i}/{NUM_RUNS}")
         print(f"==========================\n")
 
-        ppo_train(1_000_000) 
+        ppo_train(1_000) 
 
 
 if __name__ == "__main__":
