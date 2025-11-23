@@ -7,4 +7,10 @@ cmap = CatanMap.from_template(BASE_MAP_TEMPLATE)
 
 # print tile coordinates -> (resource, number)
 for coord, tile in sorted(cmap.land_tiles.items(), key=lambda x: (x[0])):
-    print(coord, tile.id, tile.resource, tile.number, number_probability(tile.number) if tile.number else None)
+    print(
+        coord,
+        tile.id,
+        tile.resource,
+        tile.number,
+        number_probability(tile.number) if tile.number else None,
+    )
