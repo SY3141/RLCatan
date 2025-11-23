@@ -42,7 +42,9 @@ class PPOPlayer(Player):
         super().__init__(color)
 
         # Load the trained PPO model (.zip extension added automatically)
-        base_dir = Path(__file__).resolve().parents[3]  # adjust depth to match your layout
+        base_dir = (
+            Path(__file__).resolve().parents[3]
+        )  # adjust depth to match your layout
         model_path = base_dir / "rlcatan" / "models" / "ppo_v2"
 
         self.model: MaskablePPO = MaskablePPO.load(model_path, device="cpu")
@@ -68,7 +70,9 @@ class PPOPlayer(Player):
 
         return obs_vec
 
-    def _indices_from_playable_actions(self, playable_actions: Iterable[Action]) -> List[int]:
+    def _indices_from_playable_actions(
+        self, playable_actions: Iterable[Action]
+    ) -> List[int]:
         """
         Map each playable Action to its discrete action index using the same
         encoding as CatanatronEnv (to_action_space).
@@ -128,7 +132,7 @@ class PPOPlayer(Player):
         obs = self._build_observation(game)
 
         # 2. Map playable Actions -> global action indices
-        playable_actions = list(playable_actions) # Saves recomputing this list later
+        playable_actions = list(playable_actions)  # Saves recomputing this list later
         all_valid_indices = self._indices_from_playable_actions(playable_actions)
 
         # 3. Apply v1 simplification filters (no complex dev cards, no player trades)

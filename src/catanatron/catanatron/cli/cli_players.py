@@ -83,7 +83,7 @@ CLI_PLAYERS = [
         "PPOPlayer",
         "Player that uses a pre-trained PPO model to decide actions.",
         PPOPlayer,
-    )
+    ),
 ]
 
 
