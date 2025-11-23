@@ -89,7 +89,7 @@ def make_env(seed: int | None = None) -> gym.Env:
     return masked_env
 
 
-def ppo_train(step_lim = 1_000):
+def ppo_train(step_lim=1_000):
     # Seed for reproducibility
     seed = 42
     np.random.seed(seed)
@@ -100,7 +100,7 @@ def ppo_train(step_lim = 1_000):
     model_path = os.path.join("..", "models", "ppo_v2.zip")
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print("Using device:", device)
-    
+
     if os.path.exists(model_path):
         print("Loading existing model...")
         model = MaskablePPO.load(model_path, env=env, device=device)
