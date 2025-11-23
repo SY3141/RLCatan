@@ -4,14 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7dbf9937-4e62-4154-9ad4-2525a3bef9c7" name="Changes" comment="Missed the revision history, it's done now">
+    <list default="true" id="7dbf9937-4e62-4154-9ad4-2525a3bef9c7" name="Changes" comment="Made a function to filter sets of ActionTypes from the action set. I'll pass this filtered list to a wrapper of the gym env next">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/SRS-Meyer/SRS.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/SRS-Meyer/SRS.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/catanatron/catanatron/gym/rlcatan_env_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/catanatron/catanatron/gym/rlcatan_env_wrapper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -25,7 +43,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/SY3141/RLCatan.git&quot;,
-    &quot;accountId&quot;: &quot;e8cde830-0380-4c6f-aee5-14bebc75d74d&quot;
+    &quot;accountId&quot;: &quot;1ce302fc-8ffc-4ab2-ad21-d4c2d2f31498&quot;
   }
 }</component>
   <component name="MarkdownSettingsMigration">
@@ -106,8 +124,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-PY-252.25557.178" />
-        <option value="bundled-python-sdk-ce6832f46686-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.178" />
+        <option value="bundled-js-predefined-d6986cc7102b-9c94529fcfe0-JavaScript-PY-252.26199.168" />
+        <option value="bundled-python-sdk-b3d66beaba9a-c6efb3732140-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.26199.168" />
       </set>
     </attachedChunks>
   </component>
@@ -139,6 +157,8 @@
       <workItem from="1760120457402" duration="5959000" />
       <workItem from="1760126715919" duration="1598000" />
       <workItem from="1760128330673" duration="3942000" />
+      <workItem from="1763416252167" duration="6453000" />
+      <workItem from="1763516995680" duration="3288000" />
     </task>
     <task id="LOCAL-00001" summary="Typo fixes">
       <option name="closed" value="true" />
@@ -220,7 +240,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759722452234</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Made a function to filter sets of ActionTypes from the action set. I'll pass this filtered list to a wrapper of the gym env next">
+      <option name="closed" value="true" />
+      <created>1763434811550</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1763434811550</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -249,6 +277,7 @@
     <MESSAGE value="Updated hazard analysis with a few new hazards, and altered the components it discusses to match our new system model. Also added lists of tables and figures." />
     <MESSAGE value="Tidied up the hazard analysis doc, adding some new subsections to split long parts up, and adding the last required elements. Should be good to go now." />
     <MESSAGE value="Missed the revision history, it's done now" />
-    <option name="LAST_COMMIT_MESSAGE" value="Missed the revision history, it's done now" />
+    <MESSAGE value="Made a function to filter sets of ActionTypes from the action set. I'll pass this filtered list to a wrapper of the gym env next" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made a function to filter sets of ActionTypes from the action set. I'll pass this filtered list to a wrapper of the gym env next" />
   </component>
 </project>
