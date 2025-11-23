@@ -262,6 +262,17 @@ class CatanatronEnv(gym.Env):
         ):
             self.game.play_tick()  # will play bot
 
+    def decode_action_index(self, action_int: int):
+        """
+        Map a discrete action index to the (ActionType, value) blueprint
+        used by the environment's ACTIONS_ARRAY.
+
+        This does NOT return the concrete Action instance from
+        self.game.state.playable_actions, just the template tuple that
+        defines what the action "means".
+        """
+        return ACTIONS_ARRAY[action_int]
+
 
 CatanatronEnv.__doc__ = f"""
 1v1 environment against a random player
