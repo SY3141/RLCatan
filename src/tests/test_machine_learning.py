@@ -132,7 +132,7 @@ def test_reachability_features():
 
     game.execute(Action(p0_color, ActionType.BUILD_SETTLEMENT, 5))
     features = reachability_features(game, p0_color)
-    assert features["P0_0_ROAD_REACHABLE_WOOD"] == number_probability(3)
+    assert features["P0_0_ROAD_REACHABLE_WOOD"] == number_probability(6)
     assert features["P0_0_ROAD_REACHABLE_BRICK"] == number_probability(4)
     assert features["P0_0_ROAD_REACHABLE_SHEEP"] == number_probability(6)
     assert features["P0_0_ROAD_REACHABLE_WHEAT"] == 0
@@ -389,17 +389,16 @@ def test_resource_proba_planes():
         top_left_tile = tensor[0:4, 0:2, resource_channel]
         assert np.all(np.equal(top_left_tile, 0))
 
-    # Assert ten sheep left edge looks good
+    # Assert four sheep left edge looks good
     sheep_channel = 10
-    ten_sheep_left_edge = tensor[4, 0:3, sheep_channel]
-    ten_proba = number_probability(10)
-    assert np.sum(ten_sheep_left_edge) == ten_proba * 2  # 2 nodes
-
+    four_sheep_left_edge = tensor[4, 0:3, sheep_channel]
+    four_proba = number_probability(4)
+    assert np.sum(four_sheep_left_edge) == four_proba * 2  # 2 nodes
     # assert 5 wood top node has sheep too.
     wood_channel = 8
     five_proba = number_probability(5)
     five_wood_top_node = tensor[4, 2]
-    assert np.all(np.equal(five_wood_top_node[sheep_channel], ten_proba))
+    assert np.all(np.equal(five_wood_top_node[sheep_channel], four_proba))
     assert np.all(np.equal(five_wood_top_node[wood_channel], five_proba))
 
     # assert wood node adds up
