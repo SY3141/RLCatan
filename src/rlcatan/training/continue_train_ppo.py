@@ -21,6 +21,8 @@ from catanatron.gym.action_type_filtering import (
 from catanatron.gym.rlcatan_env_wrapper import RLCatanEnvWrapper
 import torch
 
+from resource_wrapper import ResourceRewardWrapper
+
 
 def heuristic_mask(env: RLCatanEnvWrapper, valid_indices: list[int]) -> list[int]:
     """
@@ -43,6 +45,7 @@ def make_env(seed: int | None = None) -> gym.Env:
     Build a single training environment:
       - CatanatronEnv (1v1 vs. RandomPlayer)
       - RLCatanEnvWrapper: filters out some ActionTypes
+      - ResourceRewardWrapper: Adds shaping rewards for resources
       - ActionMasker: gives MaskablePPO a valid-action mask
     """
     base_env = CatanatronEnv(config={"opponent_type": "RandomPlayer"})
@@ -56,8 +59,11 @@ def make_env(seed: int | None = None) -> gym.Env:
         PLAYER_TRADING_ACTION_TYPES,
     ]
 
-    # First wrap: filter out unwanted ActionTypes
+    # First wrap: Filter out unwanted ActionTypes
     wrapped_env = RLCatanEnvWrapper(base_env, excluded_type_groups=excluded_type_groups)
+
+    # 2. Second wrap: Add Reward Shaping
+    reward_env = ResourceRewardWrapper(wrapped_env, reward_scale=0.1)
 
     # Masking function for SB3 MaskablePPO, I adapted it to include heuristic filtering
     def mask_fn(env: gym.Env) -> np.ndarray:
@@ -68,14 +74,17 @@ def make_env(seed: int | None = None) -> gym.Env:
           - calls env.get_valid_actions() to get already-filtered indices
           - casts env.action_space to Discrete to get `n` for mask length
         """
-        # Cast to RLCatanEnvWrapper to access get_valid_actions
-        env = cast(RLCatanEnvWrapper, env)
+        # Cast to ResourceRewardWrapper to access get_valid_actions
+        reward_wrapper = cast(ResourceRewardWrapper, env)
 
         # Legal moves after filtering out excluded ActionTypes
-        base_valid = env.get_valid_actions()
+        # This calls ResourceRewardWrapper.get_valid_actions -> RLCatanEnvWrapper.get_valid_actions
+        base_valid = reward_wrapper.get_valid_actions()
 
         # Further filter valid actions with heuristics
-        filtered_valid = heuristic_mask(env, base_valid)
+        # Pass the inner env RLCatanEnvWrapper to the heuristic function
+        rl_catan_env = cast(RLCatanEnvWrapper, reward_wrapper.env)
+        filtered_valid = heuristic_mask(rl_catan_env, base_valid)
 
         # Cast action_space to Discrete to access `n`
         action_space = cast(Discrete, env.action_space)
@@ -83,8 +92,8 @@ def make_env(seed: int | None = None) -> gym.Env:
         mask[filtered_valid] = True
         return mask
 
-    # Second wrap: ActionMasker for MaskablePPO
-    masked_env = ActionMasker(wrapped_env, mask_fn)
+    # Third wrap: ActionMasker wraps the reward_env
+    masked_env = ActionMasker(reward_env, mask_fn)
 
     return masked_env
 

@@ -1,7 +1,8 @@
 import gymnasium as gym
+from typing import cast
+from catanatron.gym.envs.catanatron_env import CatanatronEnv
+from catanatron.gym.rlcatan_env_wrapper import RLCatanEnvWrapper
 
-
-## TODO missing cast somewhere
 
 class ResourceRewardWrapper(gym.Wrapper):
     def __init__(self, env, reward_scale=0.1, decay_factor=0.999):
@@ -14,7 +15,10 @@ class ResourceRewardWrapper(gym.Wrapper):
     def reset(self, **kwargs):
         obs, info = self.env.reset(**kwargs)
         self.step_count = 0
-        game = self.env.unwrapped.game
+
+        catan_env = cast(CatanatronEnv, self.env.unwrapped)
+        game = catan_env.game
+
         current_player = game.state.current_player
         self.last_resource_count = sum(current_player.resources.values())
         return obs, info
@@ -23,7 +27,11 @@ class ResourceRewardWrapper(gym.Wrapper):
         obs, reward, terminated, truncated, info = self.env.step(action)
         self.step_count += 1
 
-        game = self.env.unwrapped.game
+        reward = float(reward)
+
+        catan_env = cast(CatanatronEnv, self.env.unwrapped)
+        game = catan_env.game
+
         current_player = game.state.current_player
         current_resource_count = sum(current_player.resources.values())
 
@@ -43,5 +51,7 @@ class ResourceRewardWrapper(gym.Wrapper):
         info['reward_decay_factor'] = time_decay
 
         return obs, final_reward, terminated, truncated, info
+
     def get_valid_actions(self):
-        return self.env.get_valid_actions()
+        rl_env = cast(RLCatanEnvWrapper, self.env)
+        return rl_env.get_valid_actions()
