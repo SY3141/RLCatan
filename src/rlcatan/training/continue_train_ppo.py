@@ -38,7 +38,7 @@ def heuristic_mask(env: RLCatanEnvWrapper, valid_indices: list[int]) -> list[int
     return valid_indices
 
 
-def make_env(seed: int | None = None) -> gym.Env:
+def make_env(seed: int | None = None, filtered_actions=None) -> gym.Env:
     """
     Build a single training environment:
       - CatanatronEnv (1v1 vs. RandomPlayer)
@@ -51,10 +51,7 @@ def make_env(seed: int | None = None) -> gym.Env:
         base_env.reset(seed=seed)
 
     # Excluding complex dev card actions and player trading actions for v1
-    excluded_type_groups: Iterable[Iterable[ActionType]] = [
-        COMPLEX_DEV_CARD_ACTION_TYPES,
-        PLAYER_TRADING_ACTION_TYPES,
-    ]
+    excluded_type_groups: Iterable[Iterable[ActionType]] = [filtered_actions]
 
     # First wrap: filter out unwanted ActionTypes
     wrapped_env = RLCatanEnvWrapper(base_env, excluded_type_groups=excluded_type_groups)
@@ -96,8 +93,8 @@ def ppo_train(step_lim=1_000):
     random.seed(seed)
 
     env = make_env(seed=seed)
-
-    model_path = os.path.join("..", "models", "ppo_v2.zip")
+    model_name = "ppo_v3"
+    model_path = os.path.join("..", "models", f"{model_name}.zip")
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print("Using device:", device)
 
@@ -128,7 +125,7 @@ def ppo_train(step_lim=1_000):
 
     # The model is saved to ./models/ppo_v1 so it can be imported by our player subclass
     os.makedirs(os.path.join("..", "models"), exist_ok=True)
-    model.save(os.path.join("..", "models", "ppo_v2"))
+    model.save(os.path.join("..", "models", model_name))
 
 
 if __name__ == "__main__":
