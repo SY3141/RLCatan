@@ -1,0 +1,18 @@
+Experiment History - 4 trials completed
+=================================================
+Rank 1: Trial 1
+  Score: -11.0000
+  Params: {'learning_rate': 2.4749940673785125e-05, 'batch_size': 128, 'n_steps': 1024, 'gamma': 0.995, 'ent_coef': 0.00011298439792338923, 'n_epochs': 4, 'gae_lambda': 0.95, 'clip_range': 0.1}
+-------------------------------------------------
+Rank 2: Trial 3
+  Score: -11.0000
+  Params: {'learning_rate': 0.00012800419989048785, 'batch_size': 512, 'n_steps': 2048, 'gamma': 0.99, 'ent_coef': 0.00013884286685274263, 'n_epochs': 4, 'gae_lambda': 1.0, 'clip_range': 0.1}
+-------------------------------------------------
+Rank 3: Trial 4
+  Score: -11.0000
+  Params: {'learning_rate': 1.604442638944971e-05, 'batch_size': 256, 'n_steps': 2048, 'gamma': 0.99, 'ent_coef': 0.001356061802634622, 'n_epochs': 4, 'gae_lambda': 1.0, 'clip_range': 0.2}
+-------------------------------------------------
+Rank 4: Trial 2
+  Score: -100.0000
+  Params: {'learning_rate': 0.0007482202945790453, 'batch_size': 256, 'n_steps': 1024, 'gamma': 0.99, 'ent_coef': 0.014131160990831794, 'n_epochs': 10, 'gae_lambda': 0.95, 'clip_range': 0.2}
+-------------------------------------------------

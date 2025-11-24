@@ -88,7 +88,18 @@ def make_env(seed: int | None = None) -> gym.Env:
     return masked_env
 
 
-def main():
+def train_ppo(
+    learning_rate=3e-4,
+    n_steps=2048,
+    batch_size=256,
+    n_epochs=4,
+    gamma=0.99,
+    gae_lambda=0.95,
+    clip_range=0.2,
+    ent_coef=0.01,
+    vf_coef=0.5,
+    total_timesteps=1_000_000,
+):
     # Seed for reproducibility
     seed = 42
     np.random.seed(seed)
@@ -96,30 +107,31 @@ def main():
 
     env = make_env(seed=seed)
 
-    # We can mess with the hyperparams here
     model = MaskablePPO(
         MaskableActorCriticPolicy,
         env,
         verbose=1,
-        learning_rate=3e-4,
-        n_steps=2048,
-        batch_size=256,
-        n_epochs=4,
-        gamma=0.99,
-        gae_lambda=0.95,
-        clip_range=0.2,
-        ent_coef=0.01,
-        vf_coef=0.5,
+        learning_rate=learning_rate,
+        n_steps=n_steps,
+        batch_size=batch_size,
+        n_epochs=n_epochs,
+        gamma=gamma,
+        gae_lambda=gae_lambda,
+        clip_range=clip_range,
+        ent_coef=ent_coef,
+        vf_coef=vf_coef,
     )
 
-    # Might want to adjust total_timesteps based on compute resources
-    total_timesteps = 1_000_000
     model.learn(total_timesteps=total_timesteps)
-
-    # The model is saved to ./models/ppo_v1 so it can be imported by our player subclass
-    os.makedirs(os.path.join("..", "models"), exist_ok=True)
-    model.save(os.path.join("..", "models", "ppo_v1"))
+    
+    return model
 
 
 if __name__ == "__main__":
-    main()
+    print("Running standard training...")
+    model = train_ppo()
+    
+    # Only save if running this file manually
+    os.makedirs(os.path.join("..", "models"), exist_ok=True)
+    model.save(os.path.join("..", "models", "ppo_v1"))
+    print("Saved ppo_v1 model.")
