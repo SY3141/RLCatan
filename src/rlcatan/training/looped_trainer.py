@@ -3,7 +3,7 @@ import time
 from continue_train_ppo import ppo_train
 
 
-def run_many(num_runs, num_iterations):
+def run_many(num_runs, num_iterations, model_name):
     """
     Executes the ppo_train function multiple times based on provided arguments.
     """
@@ -16,7 +16,7 @@ def run_many(num_runs, num_iterations):
         print(f"==========================\n")
 
         # Call the training function with the dynamic iteration count
-        ppo_train(num_iterations)
+        ppo_train(num_iterations, model_name)
 
     total_time = time.time() - start_time
     print(f"\nAll {num_runs} runs completed in {total_time:.2f} seconds.")
@@ -45,5 +45,13 @@ if __name__ == "__main__":
         help="Number of iterations to pass to ppo_train (default: 1,000,000)",
     )
 
+    parser.add_argument(
+        "-name",
+        "--name",
+        type=str,
+        default="ppo_v4",
+        help="Model name to pass to ppo_train (default: ppo_v4)",
+    )
+
     args = parser.parse_args()
-    run_many(args.runs, args.iterations)
+    run_many(args.runs, args.iterations, args.name)

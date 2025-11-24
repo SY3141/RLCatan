@@ -38,6 +38,7 @@ class PPOPlayer(Player):
     def __init__(
         self,
         color: Color,
+        model_name : Optional[str] = "ppo_v3",
     ):
         super().__init__(color)
 
@@ -45,7 +46,7 @@ class PPOPlayer(Player):
         base_dir = (
             Path(__file__).resolve().parents[3]
         )  # adjust depth to match your layout
-        model_path = base_dir / "rlcatan" / "models" / "ppo_v2"
+        model_path = base_dir / "rlcatan" / "models" / model_name
 
         self.model: MaskablePPO = MaskablePPO.load(model_path, device="cpu")
 

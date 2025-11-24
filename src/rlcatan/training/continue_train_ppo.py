@@ -20,6 +20,7 @@ from catanatron.gym.action_type_filtering import (
 )
 from catanatron.gym.rlcatan_env_wrapper import RLCatanEnvWrapper
 from catanatron.players.weighted_random import WeightedRandomPlayer
+from catanatron.players.value import ValueFunctionPlayer
 from catanatron.models.player import Color
 
 
@@ -46,7 +47,7 @@ def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
       - RLCatanEnvWrapper: filters out some ActionTypes
       - ActionMasker: gives MaskablePPO a valid-action mask
     """
-    base_env = CatanatronEnv(config={"enemies": [WeightedRandomPlayer(Color.RED)]})
+    base_env = CatanatronEnv(config={"enemies": [ValueFunctionPlayer(Color.RED)], "vps_to_win": 15})
     print("Enemy bot:", base_env.enemies)
 
     if seed is not None:
@@ -88,17 +89,15 @@ def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
     return masked_env
 
 
-def ppo_train(step_lim=1_000):
+def ppo_train(step_lim=1_000, model_name="ppo_v4"):
     # Seed for reproducibility
     seed = 42
     np.random.seed(seed)
     random.seed(seed)
 
     env = make_env(seed=seed)
-    model_name = "ppo_v3"
     model_path = os.path.join("..", "models", f"{model_name}.zip")
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print("Using device:", device)
 
     if os.path.exists(model_path):
         print("Loading existing model...")
