@@ -38,7 +38,7 @@ def heuristic_mask(env: RLCatanEnvWrapper, valid_indices: list[int]) -> list[int
     return valid_indices
 
 
-def make_env(seed: int | None = None, filtered_actions=None) -> gym.Env:
+def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
     """
     Build a single training environment:
       - CatanatronEnv (1v1 vs. RandomPlayer)
