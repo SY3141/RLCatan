@@ -56,3 +56,9 @@ To test Placement Player
 
 To test placement on alphabetaPlayer
 `catanatron-play --num 1 --players AB:1:True,ABPP:1:True --config-vps-to-win 15 --config-discard-limit 9`
+
+## Deep Learning Training
+Navigate to training folder under \src\rlcatan\training
+Run
+`python3 looped_trainer.py -runs 5 -iterations 1000000`
+Iterations is the number of training steps, runs is how many times it is trained for those iterations
