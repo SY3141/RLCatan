@@ -11,6 +11,8 @@ from sb3_contrib.common.maskable.policies import MaskableActorCriticPolicy
 from sb3_contrib.common.wrappers import ActionMasker
 from sb3_contrib.ppo_mask import MaskablePPO
 
+from stable_baselines3.common.logger import configure
+
 from catanatron.gym.envs.catanatron_env import CatanatronEnv
 
 from catanatron.models.enums import ActionType
@@ -113,6 +115,10 @@ def ppo_train(step_lim=1_000):
     if os.path.exists(model_path):
         print("Loading existing model...")
         model = MaskablePPO.load(model_path, env=env, device=device)
+
+        # Create a new logger that writes to tensorboard
+        new_logger = configure("./ppo_tensorboard_logs/", ["stdout", "tensorboard"])
+        model.set_logger(new_logger)
     else:
         print("Creating new model...")
         model = MaskablePPO(
@@ -120,6 +126,7 @@ def ppo_train(step_lim=1_000):
             env,
             verbose=1,
             device=device,
+            tensorboard_log="./ppo_tensorboard_logs/",
             learning_rate=3e-4,
             n_steps=2048,
             batch_size=256,
@@ -132,7 +139,7 @@ def ppo_train(step_lim=1_000):
         )
 
     # Might want to adjust total_timesteps based on compute resources
-    total_timesteps = step_lim
+    total_timesteps = 30000
     model.learn(total_timesteps=total_timesteps)
 
     # The model is saved to ./models/ppo_v1 so it can be imported by our player subclass

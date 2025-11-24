@@ -12,15 +12,22 @@ class ResourceRewardWrapper(gym.Wrapper):
         self.last_resource_count = 0
         self.step_count = 0
 
+    def _get_resource_count(self):
+        game = cast(CatanatronEnv, self.env.unwrapped).game
+        p = game.state.current_player
+        p = p() if callable(p) else p
+
+        # Check centralized state resources (Standard Catanatron)
+        if hasattr(game.state, "resources") and hasattr(p, "color"):
+            return sum(game.state.resources.get(p.color, {}).values())
+
+        # Fallback: Check player object directly
+        return sum(getattr(p, "resources", {}).values())
+
     def reset(self, **kwargs):
         obs, info = self.env.reset(**kwargs)
         self.step_count = 0
-
-        catan_env = cast(CatanatronEnv, self.env.unwrapped)
-        game = catan_env.game
-
-        current_player = game.state.current_player
-        self.last_resource_count = sum(current_player.resources.values())
+        self.last_resource_count = self._get_resource_count()
         return obs, info
 
     def step(self, action):
@@ -29,11 +36,7 @@ class ResourceRewardWrapper(gym.Wrapper):
 
         reward = float(reward)
 
-        catan_env = cast(CatanatronEnv, self.env.unwrapped)
-        game = catan_env.game
-
-        current_player = game.state.current_player
-        current_resource_count = sum(current_player.resources.values())
+        current_resource_count = self._get_resource_count()
 
         delta = current_resource_count - self.last_resource_count
         resource_shaping = 0.0
