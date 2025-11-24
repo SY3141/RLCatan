@@ -38,6 +38,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "-iterations",
         "--iterations",
+        "-iter",
+        "--iter",
         type=int,
         default=1_000_000,
         help="Number of iterations to pass to ppo_train (default: 1,000,000)",

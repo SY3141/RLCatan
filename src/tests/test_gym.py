@@ -84,7 +84,7 @@ def test_gym_registration_and_api_works():
         observation, reward, terminated, truncated, info = env.step(action)
         done = terminated or truncated
     env.close()
-    assert reward in [-1, 1] # These are the default terminal rewards
+    assert reward in [-1, 1]  # These are the default terminal rewards
 
 
 def test_invalid_action_reward():
@@ -150,7 +150,7 @@ def test_custom_map():
 
     env = gymnasium.make("catanatron/Catanatron-v0", config={"map_type": "MINI"})
     observation, info = env.reset()
-    assert len(info["valid_actions"]) < 50 # MINI map has fewer actions
+    assert len(info["valid_actions"]) < 50  # MINI map has fewer actions
     assert len(observation) < 614
     # assert env.action_space.n == 260
 
@@ -170,7 +170,9 @@ def test_enemies():
         "catanatron/Catanatron-v0",
         config={
             "enemies": [
-                ValueFunctionPlayer(Color.RED), # When we make a better bot we could replace this to reduce flakiness
+                ValueFunctionPlayer(
+                    Color.RED
+                ),  # When we make a better bot we could replace this to reduce flakiness
                 RandomPlayer(Color.ORANGE),
                 RandomPlayer(Color.WHITE),
             ]
@@ -206,8 +208,8 @@ def test_mixed_rep():
         config={"representation": "mixed"},
     )
     observation, info = env.reset()
-    assert "board" in observation # Image/tensor part
-    assert "numeric" in observation # Feature vector part
+    assert "board" in observation  # Image/tensor part
+    assert "numeric" in observation  # Feature vector part
 
     env.close()
 
@@ -224,9 +226,7 @@ def test_env_runs_with_masked_random_policy():
 
     import numpy as np
 
-    env = gymnasium.make(
-        "catanatron/Catanatron-v0"
-    )
+    env = gymnasium.make("catanatron/Catanatron-v0")
 
     obs, info = env.reset()
     done = False

@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 import random
 from typing import Iterable, cast
-
+import torch
 import gymnasium as gym
 import numpy as np
 from gymnasium.spaces import Discrete
@@ -19,7 +19,8 @@ from catanatron.gym.action_type_filtering import (
     PLAYER_TRADING_ACTION_TYPES,
 )
 from catanatron.gym.rlcatan_env_wrapper import RLCatanEnvWrapper
-import torch
+from catanatron.players.weighted_random import WeightedRandomPlayer
+from catanatron.models.player import Color
 
 
 def heuristic_mask(env: RLCatanEnvWrapper, valid_indices: list[int]) -> list[int]:
@@ -41,11 +42,12 @@ def heuristic_mask(env: RLCatanEnvWrapper, valid_indices: list[int]) -> list[int
 def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
     """
     Build a single training environment:
-      - CatanatronEnv (1v1 vs. RandomPlayer)
+      - CatanatronEnv (1v1 vs. A chosen bot)
       - RLCatanEnvWrapper: filters out some ActionTypes
       - ActionMasker: gives MaskablePPO a valid-action mask
     """
-    base_env = CatanatronEnv(config={"opponent_type": "RandomPlayer"})
+    base_env = CatanatronEnv(config={"enemies": [WeightedRandomPlayer(Color.RED)]})
+    print("Enemy bot:", base_env.enemies)
 
     if seed is not None:
         base_env.reset(seed=seed)

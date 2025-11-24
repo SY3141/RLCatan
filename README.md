@@ -60,5 +60,5 @@ To test placement on alphabetaPlayer
 ## Deep Learning Training
 Navigate to training folder under \src\rlcatan\training
 Run
-`python3 looped_trainer.py -runs 5 -iterations 1000000`
-Iterations is the number of training steps, runs is how many times it is trained for those iterations
+`python3 looped_trainer.py -runs 5 -iter 1000000`
+Iter is the number of training steps, runs is how many times it is trained for those iterations
