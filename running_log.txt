@@ -1,8 +1,0 @@
-[2025-11-24 14:10:09] Trial 0 STARTED: LR=0.00002, Batch=256, Steps=2048, Epochs=5, Gamma=0.999, Ent=0.0006
-[2025-11-24 15:37:29] Trial 2 STARTED: LR=0.00075, Batch=256, Steps=1024, Epochs=10, Gamma=0.99, Ent=0.0141
-[2025-11-24 15:37:29] Trial 3 STARTED: LR=0.00013, Batch=512, Steps=2048, Epochs=4, Gamma=0.99, Ent=0.0001
-[2025-11-24 15:37:29] Trial 4 STARTED: LR=0.00002, Batch=256, Steps=2048, Epochs=4, Gamma=0.99, Ent=0.0014
-[2025-11-24 15:37:29] Trial 1 STARTED: LR=0.00002, Batch=128, Steps=1024, Epochs=4, Gamma=0.995, Ent=0.0001
-Trial 3 FINISHED. Score: -11.00 (+/- 0.00)
-Trial 4 FINISHED. Score: -11.00 (+/- 0.00)
-Trial 1 FINISHED. Score: -11.00 (+/- 0.00)
