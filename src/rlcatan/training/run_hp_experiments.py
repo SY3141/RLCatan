@@ -13,7 +13,7 @@ def main():
     parser.add_argument(
         "--cores", 
         type=int, 
-        default=4, 
+        default=26, 
         help="Number of parallel workers to launch."
     )
     

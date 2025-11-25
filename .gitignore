@@ -343,3 +343,4 @@ TSWLatexianTemp*
 # PostgreSQL data files
 src/db-data/
 src/placement_log.txt
+src/Miniconda3-latest-Linux-x86_64.sh

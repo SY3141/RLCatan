@@ -9,8 +9,8 @@ from train_ppo_v1 import train_ppo
 # Configuration
 STUDY_NAME = "ppo_parallel_search"
 STORAGE_URL = "sqlite:///catan_hyperparams.db"
-TRAINING_STEPS = 5_000 
-N_TRIALS_PER_WORKER = 2  # Each worker will attempt this many trials
+TRAINING_STEPS = 1_000_000 
+N_TRIALS_PER_WORKER = 4  # Each worker will attempt this many trials
 LOG_FILE = "all_trials_log.txt"
 BEST_PARAMS_FILE = "best_params_log.txt"
 
