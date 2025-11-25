@@ -49,8 +49,8 @@ if __name__ == "__main__":
         "-name",
         "--name",
         type=str,
-        default="ppo_v4",
-        help="Model name to pass to ppo_train (default: ppo_v4)",
+        default="ppo_v3",
+        help="Model name to pass to ppo_train (default: ppo_v3)",
     )
 
     args = parser.parse_args()

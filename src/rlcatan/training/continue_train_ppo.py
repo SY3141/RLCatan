@@ -20,9 +20,10 @@ from catanatron.gym.action_type_filtering import (
 )
 from catanatron.gym.rlcatan_env_wrapper import RLCatanEnvWrapper
 from catanatron.players.weighted_random import WeightedRandomPlayer
-from catanatron.players.mcts import MCTSPlayer
-from catanatron.players.playouts import GreedyPlayoutsPlayer
-from catanatron.players.value import ValueFunctionPlayer
+from catanatron.players.mcts import MCTSPlayer #too slow for training
+from catanatron.players.playouts import GreedyPlayoutsPlayer #broken
+from catanatron.players.value import ValueFunctionPlayer #too good for training v3
+from catanatron.players.ppo_player import PPOPlayer #goldilocks bot
 from catanatron.models.player import Color
 
 
@@ -49,7 +50,7 @@ def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
       - RLCatanEnvWrapper: filters out some ActionTypes
       - ActionMasker: gives MaskablePPO a valid-action mask
     """
-    base_env = CatanatronEnv(config={"enemies": [GreedyPlayoutsPlayer(Color.RED)], "vps_to_win": 15})
+    base_env = CatanatronEnv(config={"enemies": [PPOPlayer(Color.RED)], "vps_to_win": 15})
     print("Enemy bot:", base_env.enemies)
 
     if seed is not None:
@@ -91,7 +92,7 @@ def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
     return masked_env
 
 
-def ppo_train(step_lim=1_000, model_name="ppo_v4"):
+def ppo_train(step_lim=1_000, model_name="ppo_v3"):
     # Seed for reproducibility
     seed = 42
     np.random.seed(seed)
