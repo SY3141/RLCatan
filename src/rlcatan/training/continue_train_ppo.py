@@ -20,6 +20,7 @@ from catanatron.gym.action_type_filtering import (
 )
 from catanatron.gym.rlcatan_env_wrapper import RLCatanEnvWrapper
 from catanatron.players.weighted_random import WeightedRandomPlayer
+from catanatron.players.mcts import MCTSPlayer
 from catanatron.players.value import ValueFunctionPlayer
 from catanatron.models.player import Color
 
@@ -47,7 +48,7 @@ def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
       - RLCatanEnvWrapper: filters out some ActionTypes
       - ActionMasker: gives MaskablePPO a valid-action mask
     """
-    base_env = CatanatronEnv(config={"enemies": [ValueFunctionPlayer(Color.RED)], "vps_to_win": 15})
+    base_env = CatanatronEnv(config={"enemies": [MCTSPlayer(Color.RED)], "vps_to_win": 15})
     print("Enemy bot:", base_env.enemies)
 
     if seed is not None:
@@ -110,13 +111,13 @@ def ppo_train(step_lim=1_000, model_name="ppo_v4"):
             verbose=1,
             device=device,
             learning_rate=3e-4,
-            n_steps=2048,
+            n_steps=4096,
             batch_size=256,
             n_epochs=4,
-            gamma=0.99,
+            gamma=0.995,
             gae_lambda=0.95,
             clip_range=0.2,
-            ent_coef=0.01,
+            ent_coef=0.0002,
             vf_coef=0.5,
         )
 
