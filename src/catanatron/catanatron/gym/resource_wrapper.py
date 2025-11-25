@@ -18,6 +18,7 @@ class ResourceRewardWrapper(gym.Wrapper):
         p = p() if callable(p) else p
 
         # Check centralized state resources (Standard Catanatron)
+        # Currently, we treat all resources indiscriminately, so the number of resources is just added together.
         if hasattr(game.state, "resources") and hasattr(p, "color"):
             return sum(game.state.resources.get(p.color, {}).values())
 
@@ -38,6 +39,7 @@ class ResourceRewardWrapper(gym.Wrapper):
 
         current_resource_count = self._get_resource_count()
 
+        # This prevents the bot being punished for spending cards
         delta = current_resource_count - self.last_resource_count
         resource_shaping = 0.0
         if delta > 0:
@@ -45,6 +47,7 @@ class ResourceRewardWrapper(gym.Wrapper):
 
         self.last_resource_count = current_resource_count
 
+        # Applies time/turn decay to reward
         raw_total_reward = reward + resource_shaping
         time_decay = self.decay_factor ** self.step_count
         final_reward = raw_total_reward * time_decay

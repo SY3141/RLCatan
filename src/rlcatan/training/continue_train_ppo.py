@@ -23,7 +23,8 @@ from catanatron.gym.action_type_filtering import (
 from catanatron.gym.rlcatan_env_wrapper import RLCatanEnvWrapper
 import torch
 
-from resource_wrapper import ResourceRewardWrapper
+from catanatron.gym.resource_wrapper import ResourceRewardWrapper
+from catanatron.gym.callbacks import ResourceLogCallback
 
 
 def heuristic_mask(env: RLCatanEnvWrapper, valid_indices: list[int]) -> list[int]:
@@ -138,9 +139,12 @@ def ppo_train(step_lim=1_000):
             vf_coef=0.5,
         )
 
+    # Logs reward function information in Tensorboard
+    callback = ResourceLogCallback()
+
     # Might want to adjust total_timesteps based on compute resources
     total_timesteps = 30000
-    model.learn(total_timesteps=total_timesteps)
+    model.learn(total_timesteps=total_timesteps, callback=callback)
 
     # The model is saved to ./models/ppo_v1 so it can be imported by our player subclass
     os.makedirs(os.path.join("..", "models"), exist_ok=True)
