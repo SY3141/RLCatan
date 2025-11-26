@@ -76,7 +76,7 @@ def objective(trial):
     save_log(LOG_FILE, start_msg)
 
     try:
-        # 2. Train and Evaluate
+        # Train and Evaluate
         # train_ppo returns the ep_rew_mean (float)
         score = train_ppo(
             learning_rate=learning_rate,
@@ -95,7 +95,7 @@ def objective(trial):
         print(end_msg)
         save_log(LOG_FILE, end_msg)
         
-        # 4. Check and Log Best (Post-Trial)
+        # Check and Log Best (Post-Trial)
         # We query the study to see if this trial is the new best
         try:
             study = optuna.load_study(study_name=STUDY_NAME, storage=STORAGE_URL)
@@ -141,8 +141,6 @@ if __name__ == "__main__":
             print(f"Database locked, retrying... {e}")
             time.sleep(1)
 
-    # --- LOGGING LOGIC ---
-    # Only print the configuration header ONCE (checked via file lock)
     config_header = f"--- Experiment Configuration: {TRAINING_STEPS} Timesteps per Trial ---"
     
     with FileLock(LOG_FILE):
@@ -157,10 +155,8 @@ if __name__ == "__main__":
             with open(LOG_FILE, "a") as f:
                 f.write(config_header + "\n")
 
-    # This message prints for every worker so you can track PIDs in CONSOLE ONLY
     worker_msg = f"Worker {os.getpid()} started. Running {N_TRIALS_PER_WORKER} trials."
     print(worker_msg)
-    # REMOVED: save_log(LOG_FILE, worker_msg) -> We do not save this to the file anymore
     
     # Run optimization
     study.optimize(objective, n_trials=N_TRIALS_PER_WORKER)
