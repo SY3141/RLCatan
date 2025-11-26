@@ -337,9 +337,13 @@ TSWLatexianTemp*
 .idea/modules.xml
 .idea/vcs.xml
 .idea/workspace.xml
+.idea/misc.xml
 # all pfs
 *.pdf
 
 # PostgreSQL data files
 src/db-data/
 src/placement_log.txt
+
+# Tensorboard logs
+ppo_tensorboard_logs/
