@@ -9,8 +9,8 @@ from train_ppo_v1 import train_ppo
 # Configuration
 STUDY_NAME = "ppo_parallel_search"
 STORAGE_URL = "sqlite:///catan_hyperparams.db"
-TRAINING_STEPS = 1_000_000 
-N_TRIALS_PER_WORKER = 4  # Each worker will attempt this many trials
+TRAINING_STEPS = 10_000 
+N_TRIALS_PER_WORKER = 1
 LOG_FILE = "all_trials_log.txt"
 BEST_PARAMS_FILE = "best_params_log.txt"
 
@@ -52,7 +52,9 @@ def save_log(filename, message):
             f.write(message + "\n")
 
 def objective(trial):
-    # 1. Suggest Hyperparameters
+    '''Objective function for Optuna hyperparameter optimization.'''
+
+    # 1. Suggest Hyperparameters range for a random search
     learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-3, log=True)
     batch_size = trial.suggest_categorical("batch_size", [128, 256, 512])
     n_steps = trial.suggest_categorical("n_steps", [1024, 2048, 4096])
@@ -63,7 +65,7 @@ def objective(trial):
     clip_range = trial.suggest_categorical("clip_range", [0.1, 0.2, 0.3])
     
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    worker_pid = os.getpid()
+    worker_pid = os.getpid() # Get current process ID for logging
     
     start_msg = (
         f"[{timestamp}] [PID:{worker_pid}] Trial {trial.number} STARTED: "
@@ -89,7 +91,7 @@ def objective(trial):
         )
         
         # 3. Log Result
-        end_msg = f"[{timestamp}] [PID:{worker_pid}] Trial {trial.number} FINISHED. Score: {score:.2f}"
+        end_msg = f"[{timestamp}] [PID:{worker_pid}] Trial {trial.number} FINISHED. Rew Mean Score: {score:.2f}"
         print(end_msg)
         save_log(LOG_FILE, end_msg)
         
@@ -99,7 +101,7 @@ def objective(trial):
             study = optuna.load_study(study_name=STUDY_NAME, storage=STORAGE_URL)
             if study.best_trial.number == trial.number:
                 best_msg = (
-                    f"\n>>> NEW BEST FOUND by PID:{worker_pid} <<<\n"
+                    f"\n>>> NEW BEST FOUND (PID:{worker_pid}) <<<\n"
                     f"Trial: {trial.number}\n"
                     f"Score: {score:.2f}\n"
                     f"Params: {trial.params}\n"
@@ -109,7 +111,7 @@ def objective(trial):
                 print(best_msg)
                 save_log(BEST_PARAMS_FILE, best_msg)
         except Exception as e:
-            # Sometimes accessing best_trial fails if it's the very first trial
+            # error catch for sometimes accessing best_trial fails if it's the very first trial
             pass
 
         return score
@@ -139,7 +141,26 @@ if __name__ == "__main__":
             print(f"Database locked, retrying... {e}")
             time.sleep(1)
 
-    print(f"Worker {os.getpid()} started. Running {N_TRIALS_PER_WORKER} trials.")
+    # --- LOGGING LOGIC ---
+    # Only print the configuration header ONCE (checked via file lock)
+    config_header = f"--- Experiment Configuration: {TRAINING_STEPS} Timesteps per Trial ---"
+    
+    with FileLock(LOG_FILE):
+        already_exists = False
+        if os.path.exists(LOG_FILE):
+            with open(LOG_FILE, "r") as f:
+                if config_header in f.read():
+                    already_exists = True
+        
+        if not already_exists:
+            print(config_header)
+            with open(LOG_FILE, "a") as f:
+                f.write(config_header + "\n")
+
+    # This message prints for every worker so you can track PIDs in CONSOLE ONLY
+    worker_msg = f"Worker {os.getpid()} started. Running {N_TRIALS_PER_WORKER} trials."
+    print(worker_msg)
+    # REMOVED: save_log(LOG_FILE, worker_msg) -> We do not save this to the file anymore
     
     # Run optimization
     study.optimize(objective, n_trials=N_TRIALS_PER_WORKER)
