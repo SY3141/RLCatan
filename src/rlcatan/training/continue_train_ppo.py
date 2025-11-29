@@ -25,7 +25,7 @@ from catanatron.players.playouts import GreedyPlayoutsPlayer #broken
 from catanatron.players.value import ValueFunctionPlayer #too good for training v3
 from catanatron.players.ppo_player import PPOPlayer #goldilocks bot
 from catanatron.models.player import Color
-
+#from stable_baselines3.common.vec_env import SubprocVecEnv
 
 def heuristic_mask(env: RLCatanEnvWrapper, valid_indices: list[int]) -> list[int]:
     """
@@ -50,7 +50,7 @@ def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
       - RLCatanEnvWrapper: filters out some ActionTypes
       - ActionMasker: gives MaskablePPO a valid-action mask
     """
-    base_env = CatanatronEnv(config={"enemies": [PPOPlayer(Color.RED)], "vps_to_win": 15})
+    base_env = CatanatronEnv(config={"enemies": [ValueFunctionPlayer(Color.RED)], "vps_to_win": 15})
     print("Enemy bot:", base_env.enemies)
 
     if seed is not None:
@@ -98,6 +98,7 @@ def ppo_train(step_lim=1_000, model_name="ppo_v3"):
     np.random.seed(seed)
     random.seed(seed)
 
+    #env = SubprocVecEnv([make_env for _ in range(8)]) #trying to use more cores
     env = make_env(seed=seed)
     model_path = os.path.join("..", "models", f"{model_name}.zip")
     device = "cuda" if torch.cuda.is_available() else "cpu"
