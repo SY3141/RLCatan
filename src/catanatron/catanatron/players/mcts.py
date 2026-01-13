@@ -10,7 +10,7 @@ from catanatron.players.tree_search_utils import execute_spectrum, list_prunned_
 
 SIMULATIONS = 10
 epsilon = 1e-8
-EXP_C = 2**0.5
+EXP_C = 2 ** 0.5
 
 
 class MCTSPlayer(Player):

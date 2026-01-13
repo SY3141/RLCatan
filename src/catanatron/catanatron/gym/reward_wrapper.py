@@ -94,9 +94,11 @@ class RewardWrapper(gym.Wrapper):
         # State for tracking previous total and enabling/disabling shaping.
         self.last_resource_total = 0
         self.step_count = 0
-        self._discovered = False          # Set True once we successfully locate a resource mapping.
-        self._shaping_enabled = True      # Turned off if mapping not found.
-        self._missing_logged = False      # Avoid spamming a missing-resource print.
+        self._discovered = (
+            False  # Set True once we successfully locate a resource mapping.
+        )
+        self._shaping_enabled = True  # Turned off if mapping not found.
+        self._missing_logged = False  # Avoid spamming a missing-resource print.
 
     # --- Helper methods for resolving players / resources ---
 
@@ -105,7 +107,10 @@ class RewardWrapper(gym.Wrapper):
         Determine active player's index using common attribute names.
         """
         # Respect explicit override to track a fixed player (e.g., a bot).
-        if self.player_idx_override is not None and 0 <= self.player_idx_override < n_players:
+        if (
+            self.player_idx_override is not None
+            and 0 <= self.player_idx_override < n_players
+        ):
             return self.player_idx_override
 
         # Use the canonical Catanatron field, fall back to 0 if missing/out of range.
@@ -124,7 +129,9 @@ class RewardWrapper(gym.Wrapper):
         p = players[self._active_index(state, len(players))]
         return getattr(p, "color", None)
 
-    def _extract_from_info(self, info: Dict[str, Any], active_color: Any) -> Optional[int]:
+    def _extract_from_info(
+        self, info: Dict[str, Any], active_color: Any
+    ) -> Optional[int]:
         """
         Attempt to read the active player's total resources from the info dict.
         Supports colors stored directly or via .value attribute (Enum compatibility).
@@ -149,11 +156,19 @@ class RewardWrapper(gym.Wrapper):
         Same extraction logic, but searches attributes on the state object directly
         (covers cases where resources are stored only in state, not in info).
         """
-        for attr in [self.resource_attr, "resource_counts", "player_resource_counts", "resources_by_color", "resource_cards_by_color"]:
+        for attr in [
+            self.resource_attr,
+            "resource_counts",
+            "player_resource_counts",
+            "resources_by_color",
+            "resource_cards_by_color",
+        ]:
             if hasattr(state, attr):
                 container = getattr(state, attr)
                 if isinstance(container, dict):
-                    if active_color in container and _valid_resource_dict(container[active_color]):
+                    if active_color in container and _valid_resource_dict(
+                        container[active_color]
+                    ):
                         return _sum(container[active_color])
                     if _valid_resource_dict(container):
                         return _sum(container)
@@ -179,7 +194,9 @@ class RewardWrapper(gym.Wrapper):
             if not self._discovered and not self._missing_logged and self.debug:
                 self._missing_logged = True
                 self._shaping_enabled = False
-                print("[ResourceRewardWrapper] Resource mapping not found; shaping off until available.")
+                print(
+                    "[ResourceRewardWrapper] Resource mapping not found; shaping off until available."
+                )
             return 0
 
         # First successful discovery: enable shaping and optionally log.
@@ -187,7 +204,9 @@ class RewardWrapper(gym.Wrapper):
             self._discovered = True
             self._shaping_enabled = True
             if self.debug:
-                print(f"[ResourceRewardWrapper] Resource mapping discovered; shaping on (total={total}).")
+                print(
+                    f"[ResourceRewardWrapper] Resource mapping discovered; shaping on (total={total})."
+                )
         return total
 
     # --- Gym API methods ---
@@ -222,13 +241,21 @@ class RewardWrapper(gym.Wrapper):
         # Positive resource gain shaping.
         gain_reward = self.gain_scale * max(delta, 0) if self._shaping_enabled else 0.0
         # Negative spend shaping.
-        spend_reward = self.spend_scale * max(-delta, 0) if self._shaping_enabled else 0.0
+        spend_reward = (
+            self.spend_scale * max(-delta, 0) if self._shaping_enabled else 0.0
+        )
 
         # Build bonus if the action decodes to a BUILD_* action.
         build_bonus = 0.0
         try:
-            action_type, _ = cast(CatanatronEnv, self.env.unwrapped).decode_action_index(int(action))
-            if action_type in {ActionType.BUILD_ROAD, ActionType.BUILD_SETTLEMENT, ActionType.BUILD_CITY}:
+            action_type, _ = cast(
+                CatanatronEnv, self.env.unwrapped
+            ).decode_action_index(int(action))
+            if action_type in {
+                ActionType.BUILD_ROAD,
+                ActionType.BUILD_SETTLEMENT,
+                ActionType.BUILD_CITY,
+            }:
                 build_bonus = self.build_scale
         except Exception:
             # Ignore decode errors silently, no bonus applied.

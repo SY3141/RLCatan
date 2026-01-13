@@ -16,7 +16,10 @@ class RLCatanEnvWrapper(gym.Wrapper):
 
     Injects per-player resource counts and exposes filtered valid action indices.
     """
-    def __init__(self, env: gym.Env, excluded_type_groups: Iterable[Iterable[ActionType]] = ()):
+
+    def __init__(
+        self, env: gym.Env, excluded_type_groups: Iterable[Iterable[ActionType]] = ()
+    ):
         super().__init__(env)
         # Flatten all excluded type groups into a single set for O(1) membership checks.
         self._excluded: set[ActionType] = set().union(*excluded_type_groups)
@@ -26,9 +29,15 @@ class RLCatanEnvWrapper(gym.Wrapper):
     def _inject_resource_counts(self, info: Dict[str, Any]):
         base = self.env.unwrapped
         # Obtain the canonical State object regardless of whether base is a CatanatronEnv or a wrapper around it.
-        st = base.game.state if isinstance(base, CatanatronEnv) else getattr(base, "game", None).state
+        st = (
+            base.game.state
+            if isinstance(base, CatanatronEnv)
+            else getattr(base, "game", None).state
+        )
         # Build a {Color -> {RESOURCE -> count}} map by reading from State.player_state.
-        rc = {color: _player_resources(st, color) for color in getattr(st, "colors", [])}
+        rc = {
+            color: _player_resources(st, color) for color in getattr(st, "colors", [])
+        }
         if rc:
             # Expose counts via info so wrappers/callbacks can use them.
             info["resource_counts"] = rc
@@ -46,7 +55,11 @@ class RLCatanEnvWrapper(gym.Wrapper):
         Returns a copy (list()) to avoid accidental in-place modification of the state's list.
         """
         base = self.env.unwrapped
-        st = base.game.state if isinstance(base, CatanatronEnv) else getattr(base, "game", None).state
+        st = (
+            base.game.state
+            if isinstance(base, CatanatronEnv)
+            else getattr(base, "game", None).state
+        )
         return list(getattr(st, "playable_actions", []) or [])
 
     def get_valid_actions(self) -> List[int]:
@@ -58,14 +71,24 @@ class RLCatanEnvWrapper(gym.Wrapper):
         if not actions:
             # Some prompts may not require a choice, so log for diagnostics and return empty.
             base = self.env.unwrapped
-            st = base.game.state if isinstance(base, CatanatronEnv) else getattr(base, "game", None).state
-            print(f"[RLCatanEnvWrapper] No playable_actions (prompt={getattr(st,'current_prompt',None)})")
+            st = (
+                base.game.state
+                if isinstance(base, CatanatronEnv)
+                else getattr(base, "game", None).state
+            )
+            print(
+                f"[RLCatanEnvWrapper] No playable_actions (prompt={getattr(st,'current_prompt',None)})"
+            )
             return []
         # Drop actions whose action_type is in the excluded set, which simplifies the action space.
-        filtered = [a for a in actions if getattr(a, "action_type", None) not in self._excluded]
+        filtered = [
+            a for a in actions if getattr(a, "action_type", None) not in self._excluded
+        ]
         if not filtered:
             # If filtering removed everything, fall back to unfiltered list to avoid empty masks.
-            print("[RLCatanEnvWrapper] Filter removed all actions; using unfiltered indices")
+            print(
+                "[RLCatanEnvWrapper] Filter removed all actions; using unfiltered indices"
+            )
             filtered = actions
         # Map each domain action to its integer index used by the gym Discrete action space.
         # Common indices: 0=ROLL (before rolling), last index may be END_TURN (after rolling).
@@ -97,11 +120,15 @@ class RLCatanEnvWrapper(gym.Wrapper):
 
 def _player_resources(state: Any, color: Any) -> Dict[str, int]:
     """
-        Given a State object and a player color, return a dict mapping containing the resource count for each resource
+    Given a State object and a player color, return a dict mapping containing the resource count for each resource
     """
     # Convert a player color to its numeric index (P{idx}_* fields).
     idx = state.color_to_index.get(color)
     # Read counts from State.player_state using the canonical key pattern:
     #   P{idx}_{RESOURCE}_IN_HAND  (e.g., P0_WOOD_IN_HAND)
     # If idx is None (unknown color), default all resource counts to 0.
-    return {r: int(state.player_state.get(f"P{idx}_{r}_IN_HAND", 0)) for r in RESOURCES} if idx is not None else {r: 0 for r in RESOURCES}
+    return (
+        {r: int(state.player_state.get(f"P{idx}_{r}_IN_HAND", 0)) for r in RESOURCES}
+        if idx is not None
+        else {r: 0 for r in RESOURCES}
+    )
