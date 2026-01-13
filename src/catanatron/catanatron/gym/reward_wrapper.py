@@ -267,7 +267,7 @@ class RewardWrapper(gym.Wrapper):
         # Aggregate shaping and decayed final reward.
         shaping_total = gain_reward + spend_reward + build_bonus
         raw_total = base_reward + shaping_total
-        decay = self.decay_factor ** self.step_count
+        decay = self.decay_factor**self.step_count
         final_reward = raw_total * decay
 
         # Populate detailed reward diagnostics.
