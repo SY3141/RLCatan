@@ -41,9 +41,9 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip" # caching pip dependencies
-      - name: Install core
+      - name: Install core + gym package
         run: | # TODO: Move to python -m build and an automated release(?)
-          pip install .
+          pip install .[gym]
       - name: Debug installed package
         run: |
           python -m pip show catanatron
@@ -60,9 +60,6 @@ jobs:
       - name: Test Library Example
         run: |
           python -W error examples/library_example.py
-      - name: Install Gym
-        run: |
-          pip install .[gym]
       - name: Test Gym Inline
         run: |
           python -c "import gymnasium; import catanatron.gym; env = gymnasium.make('catanatron/Catanatron-v0')"
