@@ -10,7 +10,6 @@ from catanatron.models.enums import ActionType
 
 
 class PlacementPlayer(Player):
-
     def __init__(self, color: str):
         super().__init__(color)
         self.turn = 0
