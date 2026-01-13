@@ -337,6 +337,7 @@ TSWLatexianTemp*
 .idea/modules.xml
 .idea/vcs.xml
 .idea/workspace.xml
+.idea/misc.xml
 # all pfs
 *.pdf
 
@@ -344,3 +345,6 @@ TSWLatexianTemp*
 src/db-data/
 src/placement_log.txt
 src/Miniconda3-latest-Linux-x86_64.sh
+
+# Tensorboard logs
+ppo_tensorboard_logs/
