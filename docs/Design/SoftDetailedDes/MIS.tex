@@ -698,11 +698,7 @@ explainMove & move:AIMove & $\Sigma^{*}$ & - \\
 \item \texttt{modelWeights}: internal representation of learned parameters  
       (vector or tensor values in $\mathbb{R}$ or $\mathbb{R}^{n}$).
 
-\item \texttt{policyNetwork}: function mapping processed state input to  
-      a probability distribution over candidate moves:
-      \[
-          \texttt{policyNetwork}: \texttt{ProcessedState} \rightarrow \text{dist(AIMove)}
-      \]
+\item \texttt{policyNetwork}: An abstract data structure representing the architecture and layers of the DRL model, initialized using \texttt{MODEL\_PATH}.
 
 \item \texttt{lastPredictionCache}: dict mapping AIMove $\rightarrow \mathbb{R}$  
       storing confidence values for the most recent decision.
@@ -724,7 +720,7 @@ None.
 \item transition:
     \begin{itemize}
         \item Converts $state$ using \texttt{preprocessState()}.
-        \item Evaluates result with \texttt{policyNetwork}.
+        \item Evaluates result  by calling \texttt{evaluatePolicy()}.
         \item Updates \texttt{lastPredictionCache} with move-confidence pairs.
     \end{itemize}
 
@@ -761,6 +757,10 @@ None.
 
 \item \texttt{postprocessOutput()}:
       Converts model policy output into a structured AIMove.
+\item \texttt{evaluatePolicy()}: \texttt{ProcessedState} $\rightarrow$ \text{dist(AIMove)}
+\begin{itemize}
+      \item \text{Output}: Returns a probability distribution over possible moves by applying the \texttt{policyNetwork} data structure and \texttt{modelWeights} to the input state.
+\end{itemize}
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
