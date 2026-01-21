@@ -886,7 +886,6 @@ Image Queue (M8)
 \subsubsection{Exported Constants}
 \begin{itemize}
 \item \texttt{QUEUE\_SIZE} $\in \mathbb{Z}^{+}$ - maximum number of frames in the buffer.
-\item \texttt{TIMEOUT} $\in \mathbb{R}^{+}$ - maximum wait time (seconds) for enqueue/dequeue operations.
 \end{itemize}
 
 \subsubsection{Exported Access Programs}
@@ -895,7 +894,7 @@ Image Queue (M8)
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-enqueue & frame:FrameData & $\bot$ & QueueFullError \\
+enqueue & frame:FrameData & - & QueueFullError \\
 dequeue & - & FrameData & QueueEmptyError \\
 peek & - & FrameData & QueueEmptyError \\
 isFull & - & $\mathbb{B}$ & - \\
@@ -973,6 +972,65 @@ None.
 \]
 Resets the queue to an empty state.
 \end{itemize}
+
+\subsubsection{Formalization}
+
+Let the state of this module be the tuple
+\[
+S = (queueBuffer, head, tail, size).
+\]
+
+\noindent \textbf{State Invariants} (must hold in all reachable states):
+\[
+0 \le size \le QUEUE\_SIZE
+\]
+\[
+head \in [0..QUEUE\_SIZE-1] \ \wedge\  tail \in [0..QUEUE\_SIZE-1]
+\]
+\[
+isEmpty()=\top \ \Leftrightarrow\  size=0
+\]
+\[
+isFull()=\top \ \Leftrightarrow\  size=QUEUE\_SIZE
+\]
+
+\noindent \textbf{enqueue(frame: FrameData)} (defined when $isFull()=\bot$):
+\[
+head' = head
+\]
+\[
+queueBuffer'[tail] = frame \ \wedge\  tail' = (tail+1)\bmod QUEUE\_SIZE \ \wedge\  size' = size + 1
+\]
+\[
+\forall i \in [0..QUEUE\_SIZE-1],\ i \ne tail \Rightarrow queueBuffer'[i] = queueBuffer[i]
+\]
+
+\noindent \textbf{dequeue()} (defined when $isEmpty()=\bot$, output is $frame$):
+\[
+frame = queueBuffer[head]
+\]
+\[
+tail' = tail
+\]
+\[
+queueBuffer'[head] = \bot \ \wedge\  head' = (head+1)\bmod QUEUE\_SIZE \ \wedge\  size' = size - 1
+\]
+\[
+\forall i \in [0..QUEUE\_SIZE-1],\ i \ne head \Rightarrow queueBuffer'[i] = queueBuffer[i]
+\]
+
+\noindent \textbf{peek()} (defined when $isEmpty()=\bot$, output is $frame$):
+\[
+frame = queueBuffer[head]
+\]
+\[
+queueBuffer' = queueBuffer \ \wedge\ head' = head \ \wedge\ tail' = tail \ \wedge\ size' = size
+\]
+
+\noindent \textbf{resetQueue()}:
+\[
+head' = 0 \ \wedge\ tail' = 0 \ \wedge\ size' = 0 \ \wedge\ queueBuffer' = queueBuffer
+\]
 
 %%%%%%%%%END OF MODULES ADDED%%%%%%%%%%%%%%%%%%%%
 \newpage
