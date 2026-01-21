@@ -981,56 +981,45 @@ S = (queueBuffer, head, tail, size).
 \]
 
 \noindent \textbf{State Invariants} (must hold in all reachable states):
-\[
-0 \le size \le QUEUE\_SIZE
-\]
-\[
-head \in [0..QUEUE\_SIZE-1] \ \wedge\  tail \in [0..QUEUE\_SIZE-1]
-\]
-\[
-isEmpty()=\top \ \Leftrightarrow\  size=0
-\]
-\[
-isFull()=\top \ \Leftrightarrow\  size=QUEUE\_SIZE
-\]
 
-\noindent \textbf{enqueue(frame: FrameData)} (defined when $isFull()=\bot$):
-\[
-head' = head
-\]
-\[
-queueBuffer'[tail] = frame \ \wedge\  tail' = (tail+1)\bmod QUEUE\_SIZE \ \wedge\  size' = size + 1
-\]
-\[
-\forall i \in [0..QUEUE\_SIZE-1],\ i \ne tail \Rightarrow queueBuffer'[i] = queueBuffer[i]
-\]
+\begin{itemize}
+    \item $0 \le size \le QUEUE\_SIZE$
+    \item $head \in [0..QUEUE\_SIZE-1] \wedge tail \in [0..QUEUE\_SIZE-1]$
+    \item $isEmpty() = \top \iff size = 0$
+    \item $isFull() = \top \iff size = QUEUE\_SIZE$
+\end{itemize}
 
-\noindent \textbf{dequeue()} (defined when $isEmpty()=\bot$, output is $frame$):
-\[
-frame = queueBuffer[head]
-\]
-\[
-tail' = tail
-\]
-\[
-queueBuffer'[head] = \bot \ \wedge\  head' = (head+1)\bmod QUEUE\_SIZE \ \wedge\  size' = size - 1
-\]
-\[
-\forall i \in [0..QUEUE\_SIZE-1],\ i \ne head \Rightarrow queueBuffer'[i] = queueBuffer[i]
-\]
 
-\noindent \textbf{peek()} (defined when $isEmpty()=\bot$, output is $frame$):
-\[
-frame = queueBuffer[head]
-\]
-\[
-queueBuffer' = queueBuffer \ \wedge\ head' = head \ \wedge\ tail' = tail \ \wedge\ size' = size
-\]
 
-\noindent \textbf{resetQueue()}:
-\[
-head' = 0 \ \wedge\ tail' = 0 \ \wedge\ size' = 0 \ \wedge\ queueBuffer' = queueBuffer
-\]
+\paragraph{enqueue(frame: FrameData)}
+\textit{Defined when $isFull() = \bot$}
+\begin{align*}
+    &head' = head \\
+    &queueBuffer'[tail] = frame \wedge tail' = (tail+1) \bmod QUEUE\_SIZE \wedge size' = size + 1 \\
+    &\forall i \in [0..QUEUE\_SIZE-1], i \ne tail \Rightarrow queueBuffer'[i] = queueBuffer[i]
+\end{align*}
+
+\paragraph{dequeue()}
+\textit{Defined when $isEmpty() = \bot$, output is $frame$}
+\begin{align*}
+    &frame = queueBuffer[head] \\
+    &tail' = tail \\
+    &queueBuffer'[head] = \bot \wedge head' = (head+1) \bmod QUEUE\_SIZE \wedge size' = size - 1 \\
+    &\forall i \in [0..QUEUE\_SIZE-1], i \ne head \Rightarrow queueBuffer'[i] = queueBuffer[i]
+\end{align*}
+
+\paragraph{peek()}
+\textit{Defined when $isEmpty() = \bot$, output is $frame$}
+\begin{align*}
+    &frame = queueBuffer[head] \\
+    &queueBuffer' = queueBuffer \wedge head' = head \wedge tail' = tail \wedge size' = size
+\end{align*}
+
+\paragraph{resetQueue()}
+\begin{align*}
+    &head' = 0 \wedge tail' = 0 \wedge size' = 0 \wedge queueBuffer' = queueBuffer
+\end{align*}
+
 
 %%%%%%%%%END OF MODULES ADDED%%%%%%%%%%%%%%%%%%%%
 \newpage
