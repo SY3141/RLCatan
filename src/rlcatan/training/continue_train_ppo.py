@@ -43,7 +43,7 @@ def heuristic_mask(env: RLCatanEnvWrapper, valid_indices: list[int]) -> list[int
     return valid_indices
 
 
-def make_env(seed: int | None = None) -> gym.Env:
+def make_env(seed: int | None = None, enemies=None) -> gym.Env:
     """
     Build a single training environment:
       - CatanatronEnv (1v1 vs. RandomPlayer)
@@ -51,7 +51,11 @@ def make_env(seed: int | None = None) -> gym.Env:
       - RewardWrapper: Adds shaping rewards for resources
       - ActionMasker: gives MaskablePPO a valid-action mask
     """
-    base_env = CatanatronEnv(config={"opponent_type": "RandomPlayer"})
+
+    if enemies is None:
+        base_env = CatanatronEnv(config={"opponent_type": "RandomPlayer"})
+    else:
+        base_env = CatanatronEnv(config={"enemies": enemies})
 
     if seed is not None:
         base_env.reset(seed=seed)

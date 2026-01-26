@@ -32,28 +32,34 @@ class PPOPlayer(Player):
       - 1v1 game (PPO agent vs one opponent)
       - BASE map
       - Vector observation created with `create_sample` + `get_feature_ordering(2)`
-      - Model file at `models/ppo_v1.zip`
+      - Model file at `models/ppo_v2.zip` if no path is provided
     """
 
     def __init__(
         self,
         color: Color,
+        model_path: Optional[str] = None,
+        deterministic: bool = True,
+        device: str = "cpu",
     ):
         super().__init__(color)
 
-        # Load the trained PPO model (.zip extension added automatically)
-        base_dir = (
-            Path(__file__).resolve().parents[3]
-        )  # adjust depth to match your layout
-        model_path = base_dir / "rlcatan" / "models" / "ppo_v2"
+        if model_path is None:
+            # Load the default trained PPO model (.zip extension is added automatically)
+            base_dir = (
+                Path(__file__).resolve().parents[3]
+            )
+            model_path = base_dir / "rlcatan" / "models" / "ppo_v2"
 
-        self.model: MaskablePPO = MaskablePPO.load(model_path, device="cpu")
+        self.model: MaskablePPO = MaskablePPO.load(model_path, device=device)
+        self.deterministic = deterministic
 
         # Feature ordering must match training
-        # During training, CatanatronEnv used num_players=2, BASE map.
+        # During training, we're currently using num_players=2, BASE map.
         self.features: List[str] = get_feature_ordering(num_players=2)
 
-        # Excluding the same ActionType groups as in training
+        # Need to exclude the same ActionType groups as in training
+        # TODO: Setup curriculum learning with progressively fewer exclusions
         self.excluded_type_groups = [
             COMPLEX_DEV_CARD_ACTION_TYPES,
             PLAYER_TRADING_ACTION_TYPES,
@@ -70,9 +76,7 @@ class PPOPlayer(Player):
 
         return obs_vec
 
-    def _indices_from_playable_actions(
-        self, playable_actions: Iterable[Action]
-    ) -> List[int]:
+    def _indices_from_playable_actions(self, playable_actions: Iterable[Action]) -> List[int]:
         """
         Map each playable Action to its discrete action index using the same
         encoding as CatanatronEnv (to_action_space).
@@ -144,7 +148,7 @@ class PPOPlayer(Player):
         # 5. Query PPO policy
         action_int, _ = self.model.predict(
             obs,
-            deterministic=True,
+            deterministic=self.deterministic,
             action_masks=action_mask,
         )
         chosen_index = int(action_int)
