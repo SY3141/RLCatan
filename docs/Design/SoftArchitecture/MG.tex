@@ -35,7 +35,7 @@
 
 \title{Module Guide for \progname{}}
 \author{\authname}
-\date{November 13th, 2025}
+\date{January 19th, 2026}
 
 \maketitle
 
@@ -46,7 +46,8 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-11/13/2025 & 1.0 & Draft Rev 1\\
+11/13/2025 & 1.0 & Rev 1\\
+01/14/2026 & 1.1 & Rev 0\\
 \bottomrule
 \end{tabularx}
 
@@ -99,8 +100,6 @@ Decomposing a system into modules is a commonly accepted approach to developing 
 A module is a work assignment for a programmer or programming team~\citep{ParnasEtAl1984}.
 We advocate a decomposition based on the principle of information hiding~\citep{Parnas1972a}.
 This principle supports design for change, because the ``secrets'' that each module hides represent likely future changes.
-
-
 Our design follows the rules layed out by \citet{ParnasEtAl1984}, as follows:
 \begin{itemize}
 \item System details that are likely to change independently should be the secrets of separate modules.
@@ -111,8 +110,6 @@ Our design follows the rules layed out by \citet{ParnasEtAl1984}, as follows:
 After completing the first stage of the design, the Software Requirements
 Specification (SRS), the Module Guide (MG) is developed~\citep{ParnasEtAl1984}.
 The MG specifies the modular structure of the system and is intended to allow both designers and maintainers to easily identify the parts of the software.
-
-
 The rest of the document is organized as follows. Section
 \ref{SecChange} lists the anticipated and unlikely changes of the software requirements.
 Section \ref{SecMH} summarizes the module decomposition that was constructed according to the likely changes.
@@ -135,7 +132,6 @@ Anticipated changes are listed in Section \ref{SecAchange}, and unlikely changes
 
 Anticipated changes are the source of the information that is to be hidden inside the modules.
 Ideally, changing one of the anticipated changes will only require changing the one module that hides the associated decision.
-
 
 \begin{description}
 \item[\refstepcounter{acnum} \actheacnum \label{acAIModel}:] The specific architecture, heuristics, and reward functions of the RL agent.
@@ -215,7 +211,8 @@ The modules listed below, which are leaves in the hierarchy tree, are the module
 
 The design of the system is intended to satisfy the requirements developed in
 the SRS.
-To satisfy the requirements for real-time operation (NFR.E.4), low-latency communication (FR.S.6.3), and component decoupling (NFR.S.3), a design decision was made to use a message queue middleware (as implemented in \mref{mQueue}) for asynchronous communication between the primary components. This allows the CV, AI, and UI modules to operate independently without blocking each other.
+To satisfy the requirements for real-time operation (NFR.E.4), low-latency communication (FR.S.6.3), and component decoupling (NFR.S.3), a design decision was made to use a message queue middleware (as implemented in \mref{mQueue}) for asynchronous communication between the primary components.
+This allows the CV, AI, and UI modules to operate independently without blocking each other.
 
 \section{Module Decomposition} \label{SecMD}
 
@@ -226,7 +223,6 @@ decomposition is a brief statement of the design decision hidden by the
 module.
 The \emph{Services} field specifies \emph{what} the module will do
 without documenting \emph{how} to do it.
-
 
 \subsection{Hardware Hiding Modules}
 
@@ -239,14 +235,15 @@ This includes the drivers for the camera hardware.
   system.
 This module provides the interface between the hardware (camera) and the
   software.
-
 \item[Implemented By:] OS
 \end{description}
 
 \subsubsection{Computer Vision Model (\mref{mCV})} \label{sec:mCV}
 \begin{description}
-\item[Secrets:]The specific algorithms, libraries (e.g., OpenCV, YOLOv9), and trained models used to interpret a raw video/image feed and detect the physical board layout, pieces, and player actions. Hides the complexity of calibration and error correction.
-\item[Services:]Provides access programs to process camera input, detect board elements, and translate visual features into a structured digital representation of the game state. Provides diagnostic feedback on detection confidence.
+\item[Secrets:]The specific algorithms, libraries (e.g., OpenCV, YOLOv9), and trained models used to interpret a raw video/image feed and detect the physical board layout, pieces, and player actions.
+Hides the complexity of calibration and error correction.
+\item[Services:]Provides access programs to process camera input, detect board elements, and translate visual features into a structured digital representation of the game state.
+Provides diagnostic feedback on detection confidence.
 \item[Implemented By:] \progname{}
 \end{description}
 
@@ -257,28 +254,33 @@ This module provides the interface between the hardware (camera) and the
   the system as specified in the SRS.
 This module serves as a communication layer between the
   hardware-hiding module and the software decision module.
-
 \item[Implemented By:] --
 \end{description}
 
 \subsubsection{User Interface (\mref{mUI})} \label{sec:mUI}
 \begin{description}
-\item[Secrets:]The specific frontend framework (React, JavaScript) and UI/UX design choices used to render the game state and AI suggestions. Hides the details of DOM manipulation and event handling.
-\item[Services:]Provides an interactive, real-time visualization of the Catan board. Displays player moves, resources, and AI-generated move recommendations. Allows users to provide manual corrections to the board state (to satisfy FR.Sa.1).
+\item[Secrets:]The specific frontend framework (React, JavaScript) and UI/UX design choices used to render the game state and AI suggestions.
+Hides the details of DOM manipulation and event handling.
+\item[Services:]Provides an interactive, real-time visualization of the Catan board.
+Displays player moves, resources, and AI-generated move recommendations. Allows users to provide manual corrections to the board state (to satisfy FR.Sa.1).
 \item[Implemented By:] \progname{}
 \end{description}
 
 \subsubsection{Game State Manager (\mref{mState})} \label{sec:mState}
 \begin{description}
-\item[Secrets:]The internal data structure and logic that represent the "Digital Twin" of the Catan board. Hides the complex logic used to enforce the official Catan ruleset and ensure state synchronization.
-\item[Services:]Maintains the single source of truth for the current game state. Tracks player assets and turn data. Provides access programs to update the state and validate all player and AI moves against the game rules.
+\item[Secrets:]The internal data structure and logic that represent the "Digital Twin" of the Catan board.
+Hides the complex logic used to enforce the official Catan ruleset and ensure state synchronization.
+\item[Services:]Maintains the single source of truth for the current game state. Tracks player assets and turn data.
+Provides access programs to update the state and validate all player and AI moves against the game rules.
 \item[Implemented By:] \progname{}
 \end{description}
 
 \subsubsection{Reinforcement Learning Environment (\mref{mEnv})} \label{sec:mEnv}
 \begin{description}
-\item[Secrets:]The implementation details of the Catan game simulator (Catanatron). Hides the specific reward/penalty functions and opponent logic used during AI self-play and training.
-\item[Services:]Simulates the game rules and state transitions of Catan. Provides an interface for the AI model to interact with, perform self-play, and receive feedback for learning. Supports model evaluation and benchmarking.
+\item[Secrets:]The implementation details of the Catan game simulator (Catanatron).
+Hides the specific reward/penalty functions and opponent logic used during AI self-play and training.
+\item[Services:]Simulates the game rules and state transitions of Catan. Provides an interface for the AI model to interact with, perform self-play, and receive feedback for learning.
+Supports model evaluation and benchmarking.
 \item[Implemented By:] \progname{} (as a wrapper around Catanatron)
 \end{description}
 
@@ -295,21 +297,26 @@ The secrets of this module are
 
 \subsubsection{AI Model (\mref{mAI})} \label{sec:mAI}
 \begin{description}
-\item[Secrets:]The specific DRL model architecture (e.g., deep neural network parameters), heuristics, and trained weights used to determine the optimal move. Hides the complex mathematical formulation of the policy $\pi(a \mid s)$.
-\item[Services:]Analyzes a given digital game state to predict optimal player strategies. Provides access programs to request move recommendations, confidence scores, and textual reasoning.
+\item[Secrets:]The specific DRL model architecture (e.g., deep neural network parameters), heuristics, and trained weights used to determine the optimal move.
+Hides the complex mathematical formulation of the policy $\pi(a \mid s)$.
+\item[Services:]Analyzes a given digital game state to predict optimal player strategies.
+Provides access programs to request move recommendations, confidence scores, and textual reasoning.
 \item[Implemented By:] \progname{}
 \end{description}
 
 \subsubsection{Game State Database (\mref{mDB})} \label{sec:mDB}
 \begin{description}
-\item[Secrets:]The specific database technology (e.g., SQL, NoSQL) and schema used to store and retrieve game history. Hides the implementation of data persistence, transactions, and indexing.
-\item[Services:]Stores and maintains complete and consistent records of all game states and player profiles. Provides access programs for efficient read/write operations and structured access to historical game data for post-game analysis or replay.
+\item[Secrets:]The specific database technology (e.g., SQL, NoSQL) and schema used to store and retrieve game history.
+Hides the implementation of data persistence, transactions, and indexing.
+\item[Services:]Stores and maintains complete and consistent records of all game states and player profiles.
+Provides access programs for efficient read/write operations and structured access to historical game data for post-game analysis or replay.
 \item[Implemented By:] \progname{}
 \end{description}
 
 \subsubsection{Image Queue (\mref{mQueue})} \label{sec:mQueue}
 \begin{description}
-\item[Secrets:]The specific data transfer protocol and middleware (e.g., 0MQ/imageMQ) used for low-latency, asynchronous communication between modules. Hides the details of message serialization, authentication, and error handling.
+\item[Secrets:]The specific data transfer protocol and middleware (e.g., 0MQ/imageMQ) used for low-latency, asynchronous communication between modules.
+Hides the details of message serialization, authentication, and error handling.
 \item[Services:]Enables reliable, low-latency data exchange between the CV Model, Game State Manager, AI Model, and UI. Supports asynchronous message-passing mechanisms.
 \item[Implemented By:] \progname{}
 \end{description}
@@ -353,7 +360,7 @@ NFR.S.5 (Data Integrity) & \mref{mDB}, \mref{mState} \\
 \hline
 NFR.S.6 (Availability) & \mref{mQueue}, \mref{mDB} \\
 \hline
-FR.Sa.1, FR.Sa.2, FR.Sa.4, FR.Sa.7, FR.Sa.8, NFR.Sa.1 (UI/Feedback Safety) & \mfref{mUI} \\
+FR.Sa.1, FR.Sa.2, FR.Sa.4, FR.Sa.7, FR.Sa.8, NFR.Sa.1 (UI/Feedback Safety) & \mref{mUI} \\
 \hline
 FR.Sa.3 (AI Validation) & \mref{mState}, \mref{mAI} \\
 \hline
@@ -396,7 +403,8 @@ FR.Sa.12 (Env. Validation) & \mref{mEnv} \\
 \section{Use Hierarchy Between Modules} \label{SecUse}
 
 In this section, the uses hierarchy between modules is provided.
-A module A uses a module B if the correct execution of A depends upon the availability of a correct implementation of B. For our system, the 'uses' relation is not a simple hierarchy, as the main components communicate in a decoupled manner through the Communication Layer (\mref{mQueue}). The relationships are shown in Figure \ref{FigUH}. This graph is a directed acyclic graph (DAG), as required.
+A module A uses a module B if the correct execution of A depends upon the availability of a correct implementation of B. For our system, the 'uses' relation is not a simple hierarchy, as the main components communicate in a decoupled manner through the Communication Layer (\mref{mQueue}).
+The relationships are shown in Figure \ref{FigUH}. This graph is a directed acyclic graph (DAG), as required.
 
 \begin{figure}[H]
 \centering
@@ -407,24 +415,58 @@ A module A uses a module B if the correct execution of A depends upon the availa
 
 \section{User Interfaces}
 
-The detailed design of the User Interface (\mref{mUI}) will be documented using Figma wireframes and mockups. These design artifacts are attached as an appendix to this document (or will be available at a shared link). The design focuses on satisfying NFR.S.2 (Usability) and the specific UI-related safety requirements (e.g., FR.Sa.1, FR.Sa.7).
+The detailed design of the User Interface (\mref{mUI}) will be documented using Figma wireframes and mockups.
+These design artifacts are attached as an appendix to this document (or will be available at a shared link).
+The design focuses on satisfying NFR.S.2 (Usability) and the specific UI-related safety requirements (e.g., FR.Sa.1, FR.Sa.7).
 
 \section{Design of Communication Protocols}
 
-The system's modules communicate via the \mref{mQueue} module. This module implements a publish-subscribe protocol. The design of this protocol is defined by the message topics and data structures (schemas) that are shared between modules.
-
+The system's modules communicate via the \mref{mQueue} module. This module implements a publish-subscribe protocol.
+The design of this protocol is defined by the message topics and data structures (schemas) that are shared between modules.
 Key communication topics will include:
 \begin{itemize}
-    \item \texttt{cv.board.update}: Published by \mref{mCV}, consumed by \mref{mState}. Carries structured data of detected board changes.
-    \item \texttt{state.game.update}: Published by \mmref{mState}, consumed by \mref{mUI} and \mref{mAI}. Carries the new authoritative game state.
-    \item \texttt{ai.request.move}: Published by \mref{mUI} (or other clients), consumed by \mref{mAI}. Requests a move suggestion for the current state.
-    \item \texttt{ai.response.move}: Published by \mref{mAI}, consumed by \mref{mUI}. Provides the suggested optimal move.
+    \item \texttt{cv.board.update}: Published by \mref{mCV}, consumed by \mref{mState}.
+Carries structured data of detected board changes.
+    \item \texttt{state.game.update}: Published by \mref{mState}, consumed by \mref{mUI} and \mref{mAI}.
+Carries the new authoritative game state.
+    \item \texttt{ai.request.move}: Published by \mref{mUI} (or other clients), consumed by \mref{mAI}.
+Requests a move suggestion for the current state.
+    \item \texttt{ai.response.move}: Published by \mref{mAI}, consumed by \mref{mUI}.
+Provides the suggested optimal move.
 \end{itemize}
-The precise JSON or Protobuf schemas for these messages will be defined in the Module Interface Specification (MIS).
 
 \section{Timeline}
 
-The schedule of tasks, milestones, and team member responsibilities is maintained on our GitHub Project Kanban board, as specified in the Development Plan. This allows for dynamic tracking of progress. The board can be accessed here: \href{https://github.com/users/SY3141/projects/1}{github.com/users/SY3141/projects/1}
+The schedule of tasks for the implementation of Revision 0 is detailed below.
+This timeline ensures that the core components are implemented and integrated by the Rev 0 deadline of February 2, 2026.
+Tasks are assigned to specific team members corresponding to the modules defined in this document.
+
+\begin{table}[H]
+\centering
+\caption{Implementation Timeline for Revision 0}
+\label{TblTimeline}
+\begin{tabularx}{\textwidth}{|l|X|l|l|}
+\toprule
+\textbf{Module} & \textbf{Task Description} & \textbf{Assignee} & \textbf{Due Date} \\
+\midrule
+\mref{mAI} & \textbf{Advanced Action Masking}: Refine gym wrappers to strictly filter invalid moves to reduce effective state space. & Jake & Jan 18 \\
+\hline
+\mref{mAI} & \textbf{Heuristic-Guided Exploration}: Integrate human logic heuristics to guide agent exploration during early training. & Rebecca & Jan 22 \\
+\hline
+\mref{mAI} & \textbf{Reward Shaping v2}: Analyze v1 logs to fix behavior loops (e.g., road spamming) and implement complex reward signals. & Jake, Rebecca & Jan 24 \\
+\hline
+\mref{mCV} & \textbf{Exploratory Feasibility Study}: Standalone research script to test if board state can be reliably detected from static images. & Matthew & Jan 28 \\
+\hline
+\mref{mUI} & \textbf{Agent Visualization}: Adapt CLI visualizer or lightweight web view to display agent metrics (Confidence/Win \%) live. & Sunny & Jan 30 \\
+\hline
+\mref{mEnv} & \textbf{Benchmarking Suite}: Setup automated evaluation against baseline bots to generate win-rate graphs. & Sunny & Jan 31 \\
+\hline
+All & \textbf{Rev 0 Training Run}: Execute final 48+ hour training session using finalized v2 rewards and masks. & Team & Feb 1 \\
+\hline
+All & \textbf{Rev 0 Verification}: Analyze final model to ensure it beats Random Baseline $>$95\% and competes with heuristic bots. & Team & Feb 2 \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \bibliographystyle{plainnat}
 
