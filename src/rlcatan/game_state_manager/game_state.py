@@ -44,7 +44,7 @@ class GameStateManager:
             self._current_game_state.is_game_over = True
 
     def _calculate_resources(self, move: MoveData):
-        assets = self.__player_assets[move.player_id]
+        assets = self._player_assets[move.player_id]
         res = assets["resources"]
         structs = assets["structures"]
         
@@ -71,10 +71,10 @@ class GameStateManager:
                 res[r_type] += amount
 
     def _update_scores(self):
-        for p_id in self.__player_assets:
-            structs = self.__player_assets[p_id]["structures"]
+        for p_id in self._player_assets:
+            structs = self._player_assets[p_id]["structures"]
             score = structs.count("settlement") * 1 + structs.count("city") * 2
-            self.__player_assets[p_id]["score"] = score
+            self._player_assets[p_id]["score"] = score
 
     def _check_victory(self):
         for p_id in self._player_assets:
