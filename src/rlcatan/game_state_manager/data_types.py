@@ -1,7 +1,6 @@
 
 from enum import Enum, auto
 
-"""Represents the Move From Player and GameState"""
 class ActionType(Enum):
     BUILD_ROAD = auto()
     BUILD_SETTLEMENT = auto()
