@@ -63,7 +63,9 @@ To test PPObot
 
 
 ## Deep Learning Training
-Navigate to training folder under \src\rlcatan\training
+Navigate to training folder under \src\rlcatan\training using
+`cd src\rlcatan\training`
+
 Run
 `python3 looped_trainer.py -runs 5 -iter 1000000`
 Iter is the number of training steps, runs is how many times it is trained for those iterations
