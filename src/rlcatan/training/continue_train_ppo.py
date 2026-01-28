@@ -22,12 +22,13 @@ from catanatron.gym.action_type_filtering import (
 )
 from catanatron.gym.rlcatan_env_wrapper import RLCatanEnvWrapper
 from catanatron.players.weighted_random import WeightedRandomPlayer
-from catanatron.players.mcts import MCTSPlayer #too slow for training
-from catanatron.players.playouts import GreedyPlayoutsPlayer #broken
-from catanatron.players.value import ValueFunctionPlayer #too good for training v3
-from catanatron.players.ppo_player import PPOPlayer #goldilocks bot
+from catanatron.players.mcts import MCTSPlayer  # too slow for training
+from catanatron.players.playouts import GreedyPlayoutsPlayer  # broken
+from catanatron.players.value import ValueFunctionPlayer  # too good for training v3
+from catanatron.players.ppo_player import PPOPlayer  # goldilocks bot
 from catanatron.models.player import Color
-#from stable_baselines3.common.vec_env import SubprocVecEnv
+
+# from stable_baselines3.common.vec_env import SubprocVecEnv
 from catanatron.gym.reward_wrapper import RewardWrapper
 from catanatron.gym.callbacks import ResourceLogCallback
 
@@ -56,7 +57,9 @@ def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
       - RewardWrapper: Adds shaping rewards for resources
       - ActionMasker: gives MaskablePPO a valid-action mask
     """
-    base_env = CatanatronEnv(config={"enemies": [ValueFunctionPlayer(Color.RED)], "vps_to_win": 15})
+    base_env = CatanatronEnv(
+        config={"enemies": [ValueFunctionPlayer(Color.RED)], "vps_to_win": 15}
+    )
     print("Enemy bot:", base_env.enemies)
 
     if seed is not None:
@@ -68,7 +71,13 @@ def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
     # First wrap: Filter out unwanted ActionTypes
     wrapped_env = RLCatanEnvWrapper(base_env, excluded_type_groups=excluded_type_groups)
     # Second wrap: Add Reward Shaping
-    reward_env = RewardWrapper(wrapped_env, gain_scale=0.1, spend_scale=0.05, decay_factor=0.999, build_scale=0.02)
+    reward_env = RewardWrapper(
+        wrapped_env,
+        gain_scale=0.1,
+        spend_scale=0.05,
+        decay_factor=0.999,
+        build_scale=0.02,
+    )
 
     # Masking function for SB3 MaskablePPO, I adapted it to include heuristic filtering
     def mask_fn(env: gym.Env) -> np.ndarray:
@@ -85,7 +94,9 @@ def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
 
         # Further filter valid actions with heuristics
         # Pass the inner env RLCatanEnvWrapper to the heuristic function
-        filtered_valid = heuristic_mask(cast(RLCatanEnvWrapper, reward_wrapper.env), base_valid)
+        filtered_valid = heuristic_mask(
+            cast(RLCatanEnvWrapper, reward_wrapper.env), base_valid
+        )
 
         # Cast action_space to Discrete to access `n`
         action_space = cast(Discrete, env.action_space)
@@ -108,7 +119,7 @@ def ppo_train(step_lim=1_000, model_name="ppo_v3"):
     np.random.seed(seed)
     random.seed(seed)
 
-    #env = SubprocVecEnv([make_env for _ in range(8)]) #trying to use more cores
+    # env = SubprocVecEnv([make_env for _ in range(8)]) #trying to use more cores
     env = make_env(seed=seed)
     model_path = os.path.join("..", "models", f"{model_name}.zip")
     device = "cuda" if torch.cuda.is_available() else "cpu"
