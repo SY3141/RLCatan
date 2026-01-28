@@ -24,7 +24,7 @@ from catanatron.gym.action_type_filtering import (
 )
 
 
-#PLACEMENT IMPORTS
+# PLACEMENT IMPORTS
 from collections import defaultdict
 
 
@@ -42,7 +42,7 @@ class PPOPlayer(Player):
     def __init__(
         self,
         color: Color,
-        model_name : Optional[str] = "ppo_v3",
+        model_name: Optional[str] = "ppo_v3",
     ):
         super().__init__(color)
         print(f"Initializing PPOPlayer with model '{model_name}'")
@@ -62,10 +62,10 @@ class PPOPlayer(Player):
 
         self.excluded_type_groups = []
 
-        #[     COMPLEX_DEV_CARD_ACTION_TYPES,
+        # [     COMPLEX_DEV_CARD_ACTION_TYPES,
         #     PLAYER_TRADING_ACTION_TYPES,
         # ]
-        #PLACEMENT
+        # PLACEMENT
         self.turn = 0
         self.production_counts = {
             "WHEAT": 0,
@@ -75,7 +75,7 @@ class PPOPlayer(Player):
             "WOOD": 0,
         }  # Tracks resource production counts
 
-    #PLACEMENT
+    # PLACEMENT
     def compute_node_pip_totals(self, board, playable_actions):
         def number_to_pips(number):
             pip_map = {2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 8: 5, 9: 4, 10: 3, 11: 2, 12: 1}
@@ -122,7 +122,7 @@ class PPOPlayer(Player):
 
         return sorted_buildable
 
-    #PLACEMENT
+    # PLACEMENT
     def choose_placement(
         self, game: Game, player_color: str, playable_actions: Iterable[Action]
     ) -> Action:
@@ -250,11 +250,11 @@ class PPOPlayer(Player):
         Returns:
             One of the playable_actions chosen by the PPO policy.
         """
-        #PLACEMENT
+        # PLACEMENT
         if self.turn in [0, 2]:  # placement phase for towns
             self.turn += 1
             return self.choose_placement(game, self.color, playable_actions)
-        #PLACEMENT
+        # PLACEMENT
 
         # 1. Build observation from the current game state
         obs = self._build_observation(game)

@@ -47,7 +47,7 @@ class AlphaBetaPlacementPlayer(Player):
         self.use_value_function = None
         self.epsilon = epsilon
 
-        #PLACEMENT
+        # PLACEMENT
         self.turn = 0
         self.production_counts = {
             "WHEAT": 0,
