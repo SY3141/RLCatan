@@ -44,7 +44,9 @@ def make_env(seed: int | None = None) -> gym.Env:
         PLAYER_TRADING_ACTION_TYPES,
     ]
 
-    wrapped_env = RLCatanEnvWrapper(monitored_env, excluded_type_groups=excluded_type_groups)
+    wrapped_env = RLCatanEnvWrapper(
+        monitored_env, excluded_type_groups=excluded_type_groups
+    )
 
     def mask_fn(env: gym.Env) -> np.ndarray:
         env = cast(RLCatanEnvWrapper, env)
@@ -64,6 +66,7 @@ class RewardTrackerCallback(BaseCallback):
     Callback to capture the 'ep_rew_mean' (mean reward of last 100 episodes)
     from the training buffer at the very end of training.
     """
+
     def __init__(self, verbose=0):
         super().__init__(verbose)
         self.final_mean_reward = -100.0
@@ -71,7 +74,9 @@ class RewardTrackerCallback(BaseCallback):
     def _on_step(self) -> bool:
         # Stable Baselines3 maintains a buffer of the last 100 episode stats
         if len(self.model.ep_info_buffer) > 0:
-            self.final_mean_reward = np.mean([ep_info["r"] for ep_info in self.model.ep_info_buffer])
+            self.final_mean_reward = np.mean(
+                [ep_info["r"] for ep_info in self.model.ep_info_buffer]
+            )
         return True
 
 
@@ -113,7 +118,7 @@ def train_ppo(
 
     try:
         model.learn(total_timesteps=total_timesteps, callback=reward_tracker)
-        
+
         if save_path:
             os.makedirs(os.path.dirname(save_path), exist_ok=True)
             model.save(save_path)
@@ -123,8 +128,11 @@ def train_ppo(
         return reward_tracker.final_mean_reward
 
     except Exception as e:
-        print(f"Training failed with params: LR={learning_rate}, Batch={batch_size}... Error: {e}")
+        print(
+            f"Training failed with params: LR={learning_rate}, Batch={batch_size}... Error: {e}"
+        )
         return -100.0
+
 
 if __name__ == "__main__":
     score = train_ppo(save_path=os.path.join("..", "models", "ppo_v1"))
