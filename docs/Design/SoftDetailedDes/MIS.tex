@@ -1085,6 +1085,17 @@ S = (queueBuffer, head, tail, size).
   what was this experience like?  Are there things in your documentation you
   could have changed to make the process go more smoothly for when an
   ``outsider'' completes some of the implementation?
+
+
+  [Group] Implementing the assigned team's module was a significant learning experience in API design.
+          While their src/reporting\_poc\_README.md outlined the general API surface, it lacked concrete request/response payloads, formal error codes, and a runnable test.
+          This documentation gap forced us to move forward based on assumptions and manual follow-up questions rather than clear technical specifications.
+          We forked their repository and opened a pull request to merge our code, intentionally seeking their review comments to validate our integration.
+          We noted that because a PR-driven workflow wasn't used by the team, we missed out on automated CI/CD feedback, which made validating our integration assumptions more difficult.
+          Moving forward, we’ve realized that truly exceptional modules must include explicit authorization contracts, a short integration checklist, and a tiny runnable test or CI workflow.
+          This ensures that any implementer has a clear source of truth to reproduce expected behavior without needing to ask targeted questions.
+
+
 \end{enumerate}
 
 \end{document}
