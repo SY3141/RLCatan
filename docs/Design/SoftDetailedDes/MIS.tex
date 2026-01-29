@@ -1063,7 +1063,7 @@ S = (queueBuffer, head, tail, size).
   or a proxy (e.g. your peers, stakeholders, potential users)? For those that
   were not, why, and where did they come from?
  
-  [Group] Alot of our design decisions were influenced by discussions with
+  [Group] A lot of our design decisions were influenced by discussions with
           our supervisor who provided insights into the software architecture
           of RL environments. We also consulted with peers who had experience
           in computer vision to refine our CV module design. Some decisions,
@@ -1073,10 +1073,55 @@ S = (queueBuffer, head, tail, size).
   \item While creating the design doc, what parts of your other documents (e.g.
   requirements, hazard analysis, etc), it any, needed to be changed, and why?
   unlimited resources, what could you do to make the project better? (LO\_ProbSolutions)
+
+   [Group]   While developing the design document, several updates were 
+   required in our earlier project artifacts, particularly the hazard 
+   analysis and system requirements.
+
+The most significant change came from refining our system architecture. 
+During hazard analysis we originally treated the digital twin as a 
+simple board state representation. However, while writing the design 
+document we clarified that the digital twin must represent not only 
+the board layout, but also the full game state, player actions, and 
+system input and output interactions. Because of this expanded definition, 
+multiple hazards had to be revised. Risks that were previously limited 
+to incorrect board modeling were broadened to include incorrect state 
+ synchronization, input misinterpretation, and output decision errors. 
+ This led to updated mitigation strategies, such as stronger state 
+ validation checks and clearer interface boundaries between the 
+ AI agent and the game environment.
+
+Our requirements document also changed. Some functional requirements 
+were rewritten to reflect that the system must track and process full 
+game context. Interface requirements became more detailed to define 
+how the model, simulation environment, and data storage components 
+communicate.
+
+These revisions improved consistency across documents and ensured 
+the design accurately reflected the true scope and risks of the system.
+
+With additional resources, we would rent more GPUs to run parallel 
+training jobs, allowing faster experimentation and more extensive model 
+tuning. We would also pay for access to online Catan game history 
+databases to expand our training data and improve model performance 
+and generalization.
+
+
   \item Give a brief overview of other design solutions you considered.  What
   are the benefits and tradeoffs of those other designs compared with the chosen
   design?  From all the potential options, why did you select the documented design?
   (LO\_Explores)
+
+[Group] We explored several alternative design approaches before selecting 
+our final solution. One option was a simpler rule based system that relied 
+on handcrafted heuristics rather than a learning model. The main benefit 
+of this approach was predictability and lower computational cost, as it 
+would not require long training times or large datasets. However, the 
+tradeoff was limited adaptability and weaker performance in complex or 
+unexpected game situations, since the system could only act within 
+predefined rules.
+
+
   \item (After you have implemented another team's module, which means this
   isn't filled in until after the original deadline). What did you learn by
   implementing another team's module? Were all the details you needed in the
