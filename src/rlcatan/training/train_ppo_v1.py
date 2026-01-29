@@ -21,6 +21,7 @@ from catanatron.gym.action_type_filtering import (
     PLAYER_TRADING_ACTION_TYPES,
 )
 from catanatron.gym.rlcatan_env_wrapper import RLCatanEnvWrapper
+from .curriculum import CurriculumManager
 
 
 def heuristic_mask(env: RLCatanEnvWrapper, valid_indices: list[int]) -> list[int]:
@@ -29,7 +30,7 @@ def heuristic_mask(env: RLCatanEnvWrapper, valid_indices: list[int]) -> list[int
     return valid_indices
 
 
-def make_env(seed: int | None = None) -> gym.Env:
+def make_env(seed: int | None = None, disabled_action_names: list[str] | None = None) -> gym.Env:
     base_env = CatanatronEnv(config={"opponent_type": "RandomPlayer"})
 
     if seed is not None:
@@ -39,10 +40,19 @@ def make_env(seed: int | None = None) -> gym.Env:
     # This populates 'ep_info_buffer' which we need for the score
     monitored_env = Monitor(base_env)
 
-    excluded_type_groups: Iterable[Iterable[ActionType]] = [
+    # Build excluded type groups; include curriculum-provided disabled action names as one group
+    excluded_type_groups: list[Iterable[ActionType]] = [
         COMPLEX_DEV_CARD_ACTION_TYPES,
         PLAYER_TRADING_ACTION_TYPES,
     ]
+
+    if disabled_action_names:
+        disabled_set = set()
+        for n in disabled_action_names:
+            if n in ActionType.__members__:
+                disabled_set.add(ActionType[n])
+        if disabled_set:
+            excluded_type_groups.append(disabled_set)
 
     wrapped_env = RLCatanEnvWrapper(monitored_env, excluded_type_groups=excluded_type_groups)
 
@@ -87,12 +97,28 @@ def train_ppo(
     vf_coef=0.5,
     total_timesteps=1_000_000,
     save_path=None,
+    curriculum_json: str | None = None,
 ):
     seed = 42
     np.random.seed(seed)
     random.seed(seed)
 
     env = make_env(seed=seed)
+
+    curriculum = None
+    if curriculum_json:
+        try:
+            curriculum = CurriculumManager.from_json(curriculum_json)
+            # Apply initial phase by adjusting env wrapper excluded sets if provided
+            phase = curriculum.current_phase()
+            disabled_types = phase.get("disabled_action_types", [])
+            # Rebuild env with disabled action names applied
+            env = make_env(seed=seed, disabled_action_names=disabled_types)
+            # Convert string names to ActionType enum members if needed (deferred)
+            # For now, we leave excluded groups unchanged; future change: map disabled_types -> sets
+            print(f"[train_ppo] Loaded curriculum with current phase: {phase.get('name')}")
+        except Exception as e:
+            print(f"[train_ppo] Failed to load curriculum: {e}")
 
     model = MaskablePPO(
         MaskableActorCriticPolicy,
@@ -127,5 +153,11 @@ def train_ppo(
         return -100.0
 
 if __name__ == "__main__":
-    score = train_ppo(save_path=os.path.join("..", "models", "ppo_v1"))
+    # Allow quick local testing by pointing to configs/curriculum.json
+    cfg_path = os.environ.get("RLCATAN_CURRICULUM_JSON", os.path.join("..", "..", "configs", "curriculum.json"))
+    if os.path.exists(cfg_path):
+        print(f"Using curriculum config: {cfg_path}")
+        score = train_ppo(save_path=os.path.join("..", "models", "ppo_v1"), curriculum_json=cfg_path)
+    else:
+        score = train_ppo(save_path=os.path.join("..", "models", "ppo_v1"))
     print(f"Final Training Score (ep_rew_mean): {score}")
