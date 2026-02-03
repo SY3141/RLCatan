@@ -4,6 +4,10 @@ from dataclasses import dataclass, asdict
 import json, os, random
 from typing import List, Optional, Iterable
 
+"""
+A league system for managing AI opponents with Elo ratings.
+"""
+
 @dataclass
 class LeagueMember:
     name: str
@@ -19,12 +23,12 @@ class League:
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
         if os.path.exists(save_path):
-            self._load()
+            self.load()
 
     def add_member(self, m: LeagueMember) -> None:
         """Add a new member to the league and save."""
         self.members.append(m)
-        self._save()
+        self.save()
 
     def get(self, name: str) -> LeagueMember:
         """Get a member by name."""
@@ -55,7 +59,7 @@ class League:
         a.games += 1
         b.games += 1
 
-        self._save()
+        self.save()
 
     def sample_opponent(self, target_elo: float, temperature: float = 150.0) -> LeagueMember:
         """Sample an opponent based on target Elo using a softmax distribution."""
@@ -86,12 +90,12 @@ class League:
 
         return self.sample_opponent(target_elo=target_elo, temperature=temperature)
 
-    def _save(self) -> None:
+    def save(self) -> None:
         """Save the league members to the JSON file."""
         with open(self.save_path, "w", encoding="utf-8") as f:
             json.dump([asdict(m) for m in self.members], f, indent=2)
 
-    def _load(self) -> None:
+    def load(self) -> None:
         """Load the league members from the JSON file."""
         with open(self.save_path, "r", encoding="utf-8") as f:
             raw = json.load(f)
@@ -117,7 +121,7 @@ class League:
             return
 
         # Define baseline names #TODO make configurable once we're beating vf
-        baseline_names = {"random", "vf"}
+        baseline_names = {"main", "random", "vf"}
 
         # Separate baselines and snapshots
         baselines = [m for m in self.members if m.name in baseline_names]
@@ -148,4 +152,4 @@ class League:
             kept_list = [m for m in kept_list if m.name not in drop_names]
 
         self.members = kept_list
-        self._save()
+        self.save()
