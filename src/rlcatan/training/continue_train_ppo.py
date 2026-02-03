@@ -12,6 +12,7 @@ from sb3_contrib.common.wrappers import ActionMasker
 from sb3_contrib.ppo_mask import MaskablePPO
 
 from stable_baselines3.common.logger import configure
+from stable_baselines3.common.monitor import Monitor
 
 from catanatron.gym.envs.catanatron_env import CatanatronEnv
 
@@ -64,6 +65,9 @@ def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
 
     if seed is not None:
         base_env.reset(seed=seed)
+
+    # Wrap with Monitor to provide episode statistics to SB3
+    base_env = Monitor(base_env)
 
     # Excluding complex dev card actions and player trading actions for v1
     excluded_type_groups: Iterable[Iterable[ActionType]] = [filtered_actions]
@@ -153,8 +157,27 @@ def ppo_train(step_lim=1_000, model_name="ppo_v3"):
     # Logs reward function information in Tensorboard
     callback = ResourceLogCallback()
 
-    # Might want to adjust total_timesteps based on compute resources
-    total_timesteps = 3000
+    # Use the provided step_lim (backwards-compatible) so callers can control total timesteps.
+    # If step_lim is falsy (e.g., 0 or None), fall back to the previous default of 3000.
+    total_timesteps = int(step_lim) if step_lim else 3000
+    # Guard: warn if a caller accidentally passed a tiny value (e.g., 1), which would finish training immediately.
+    if total_timesteps < 10:
+        print(
+            "WARNING: total_timesteps is very small ({}). "
+            "This will cause training to finish almost immediately. "
+            "Did you mean to pass a larger number of timesteps?".format(total_timesteps)
+        )
+    # Ensure at least one optimization batch will occur: make sure total_timesteps >= n_steps where possible.
+    try:
+        min_steps = getattr(model, "n_steps", None)
+        if min_steps is not None and total_timesteps < int(min_steps):
+            print(
+                f"Note: model.n_steps={min_steps} > total_timesteps={total_timesteps}. "
+                f"Training will still run but no full optimization batch may occur until more timesteps are provided."
+            )
+    except Exception:
+        pass
+    print(f"Training for total_timesteps={total_timesteps} (step_lim={step_lim})")
     model.learn(total_timesteps=total_timesteps, callback=callback)
 
     # The model is saved to ./models/ppo_v1 so it can be imported by our player subclass
