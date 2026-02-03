@@ -67,9 +67,6 @@ def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
     if seed is not None:
         base_env.reset(seed=seed)
 
-    # Wrap with Monitor to provide episode statistics to SB3
-    base_env = Monitor(base_env)
-
     # Excluding complex dev card actions and player trading actions for v1
     excluded_type_groups: Iterable[Iterable[ActionType]] = [filtered_actions]
 
@@ -114,6 +111,9 @@ def make_env(seed: int | None = None, filtered_actions=[]) -> gym.Env:
 
     # Third wrap: ActionMasker wraps the reward_env
     masked_env = ActionMasker(reward_env, mask_fn)
+
+    # Wrap the outermost env with Monitor so episode stats reflect the final (shaped) reward
+    masked_env = Monitor(masked_env)
 
     return masked_env
 
@@ -177,7 +177,52 @@ def ppo_train(step_lim=1_000, model_name="ppo_v3"):
             return True
 
     episode_logger = EpisodeEndLogger()
-    callback = CallbackList([resource_callback, episode_logger])
+
+    # Per-episode aggregator to show how much shaping contributes vs base reward
+    class PerEpisodeRewardAggregator(BaseCallback):
+        def __init__(self, verbose=0):
+            super().__init__(verbose)
+            self._running_base = 0.0
+            self._running_shaping = 0.0
+            self._running_final = 0.0
+            self._episode_count = 0
+
+        def _on_step(self) -> bool:
+            infos = self.locals.get("infos", [])
+            for info in infos:
+                if not isinstance(info, dict):
+                    continue
+                # Accumulate per-step components if present
+                try:
+                    self._running_base += float(info.get("reward_original", 0.0))
+                except Exception:
+                    pass
+                try:
+                    self._running_shaping += float(info.get("reward_shaping_resource_total", 0.0))
+                except Exception:
+                    pass
+                try:
+                    self._running_final += float(info.get("reward_final", 0.0))
+                except Exception:
+                    pass
+
+                # Monitor attaches 'episode' when an episode finishes
+                if "episode" in info:
+                    self._episode_count += 1
+                    ep = info.get("episode") or {}
+                    print(
+                        f"[PerEpisodeRewardAggregator] Episode #{self._episode_count} finished: "
+                        f"ep_info={ep}, base_sum={self._running_base:.4f}, "
+                        f"shaping_sum={self._running_shaping:.4f}, final_sum={self._running_final:.4f}"
+                    )
+                    # Reset accumulators
+                    self._running_base = 0.0
+                    self._running_shaping = 0.0
+                    self._running_final = 0.0
+            return True
+
+    episode_aggregator = PerEpisodeRewardAggregator()
+    callback = CallbackList([resource_callback, episode_logger, episode_aggregator])
 
     # Use the provided step_lim (backwards-compatible) so callers can control total timesteps.
     # If step_lim is falsy (e.g., 0 or None), fall back to the previous default of 3000.
