@@ -1,6 +1,5 @@
 import os
-import time
-import numpy as np
+import signal
 
 from sb3_contrib.ppo_mask import MaskablePPO
 
@@ -15,6 +14,15 @@ from catanatron.game import Game
 """
 League-based training loop to allow for self-play.
 """
+
+STOP_REQUESTED = False
+
+def _handle_stop(signum, frame):
+    """Signal handler to request to stop the training loop."""
+    print("Signal received, requesting stop. This may take a couple of minutes to finish the current phase and save.")
+    global STOP_REQUESTED
+    STOP_REQUESTED = True
+
 
 def build_opponent(member: LeagueMember):
     """
@@ -35,6 +43,10 @@ def eval_vs_opponent(main_player, opp_player, n_games: int = 20, seed_base: int 
     As Catan is stochastic, elo is updated based on winrate over n_games (one phase).
     This function runs n_games between main_player and opp_player, returning the winrate of main_player.
     This does mean running games that don't contribute to training, but otherwise Elo updates would be too noisy.
+
+    Note that this function doesn't restrict the action space, despite the fact that they were trained with action masking.
+    This might lead to issues but elo won't be as accurate for the true game otherwise.
+    We can monitor this and see how well it works in practice.
     """
 
     # Reusing the existing StatisticsAccumulator to track wins
@@ -66,6 +78,10 @@ def main():
     3. Repeat from step 2
     """
 
+    # Setup signal handlers for graceful stopping
+    signal.signal(signal.SIGTERM, _handle_stop) # Runs on termination signal (e.g. Ctrl+C)
+    signal.signal(signal.SIGINT, _handle_stop)  # Runs on interrupt signal (e.g. kill command, server shutdown)
+
     # Find important paths and ensure league directory exists under models
     base_dir = os.path.dirname(__file__)
     models_dir = os.path.normpath(os.path.join(base_dir, "..", "models"))
@@ -92,10 +108,14 @@ def main():
     # Training parameters (may want to adjust later)
     phase_steps = 50_000
     eval_games = 10
+
     phase = 0
 
     while True:
-        # TODO: add stopping condition based on time
+        # Note that this only checks for stop requests between phases to keep things safe
+        if STOP_REQUESTED:
+            print("Stop complete. Program will now exit.")
+            break
 
         phase += 1
 
@@ -122,7 +142,7 @@ def main():
         model.save(snap_path)
 
         # Add the new snapshot to the league and load it for evaluation
-        league.add_member(LeagueMember(name=snap_name, path=snap_path + ".zip", elo=main_elo))
+        league.add_member(LeagueMember(name=snap_name, path=snap_path, elo=main_elo))
         main_player = PPOPlayer(Color.BLUE, model_path=snap_path, deterministic=True)
 
         # Evaluate main vs opponent to update Elo
@@ -132,9 +152,14 @@ def main():
 
         # Periodic pruning
         if phase % 20 == 0:
-            league.prune(max_members=120, keep_recent=30, keep_top=15)
+            removed = league.prune(max_members=120, keep_recent=30, keep_top=15)
 
-        # Always keep main pointing to latest weights
+            # Remove pruned snapshot files from the disk to keep things clean
+            for snap in removed:
+                if snap.path and os.path.exists(snap.path + ".zip") and snap.name.startswith("snap_"):
+                    os.remove(snap.path)
+
+        # Always keep main pointing to the latest weights
         model.save(os.path.join(models_dir, "ppo_v2"))
         league.get(main_name).path = os.path.join(models_dir, "ppo_v2.zip")
         league.save()

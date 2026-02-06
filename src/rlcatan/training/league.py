@@ -2,7 +2,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, asdict
 import json, os, random
-from typing import List, Optional, Iterable
+from typing import List, Optional
 
 """
 A league system for managing AI opponents with Elo ratings.
@@ -107,18 +107,20 @@ class League:
             max_members: int = 120,
             keep_recent: int = 30,
             keep_top: int = 15,
-    ) -> None:
+    ) -> List[LeagueMember]:
         """
         Bound league size while keeping strong + recent + baselines:
         1. Always keep baselines (currently "random" and "vf").
         2. Keep the most recent `keep_recent` snapshots."
         3. Keep the top `keep_top` snapshots by Elo.
         4. If still over `max_members`, drop the lowest Elo from the remaining.
+
+        Returns the list of removed LeagueMembers so their files can be cleaned up.
         """
 
         # Early exit if already within limits
         if len(self.members) <= max_members:
-            return
+            return []
 
         # Define baseline names #TODO make configurable once we're beating vf
         baseline_names = {"main", "random", "vf"}
@@ -127,12 +129,23 @@ class League:
         baselines = [m for m in self.members if m.name in baseline_names]
         snaps = [m for m in self.members if m.name not in baseline_names]
 
-        # Sort snapshots by "recency" using their naming convention (snap_#)
-        snaps_sorted_by_name = sorted(snaps, key=lambda m: m.name)
+        # Helper to extract the snapshot step from its name
+        def _snap_step(name: str) -> int:
+            if name.startswith("snap_"):
+                try:
+                    return int(name.split("_", 1)[1])
+                except ValueError:
+                    pass
+
+            print("Warning: Unexpected snapshot name format:", name)
+            return -1
+
+        # Sort snapshots by recency (step number)
+        snaps_sorted_by_recency = sorted(snaps, key=lambda m: _snap_step(m.name))
 
         # Find the most recent and top snapshots. These are safe from being pruned.
-        recent = snaps_sorted_by_name[-keep_recent:] if len(
-            snaps_sorted_by_name) > keep_recent else snaps_sorted_by_name
+        recent = snaps_sorted_by_recency[-keep_recent:] if len(
+            snaps_sorted_by_recency) > keep_recent else snaps_sorted_by_recency
 
         top = sorted(snaps, key=lambda m: m.elo, reverse=True)[:keep_top]
 
@@ -151,5 +164,10 @@ class League:
             drop_names = set(m.name for m in extras_sorted[:drop_count])
             kept_list = [m for m in kept_list if m.name not in drop_names]
 
+        kept_names = set(m.name for m in kept_list)
+        removed = [m for m in self.members if m.name not in kept_names]
+
         self.members = kept_list
         self.save()
+
+        return removed
