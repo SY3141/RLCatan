@@ -157,7 +157,7 @@ def main():
             # Remove pruned snapshot files from the disk to keep things clean
             for snap in removed:
                 if snap.path and os.path.exists(snap.path + ".zip") and snap.name.startswith("snap_"):
-                    os.remove(snap.path)
+                    os.remove(snap.path + ".zip")
 
         # Always keep main pointing to the latest weights
         model.save(os.path.join(models_dir, "ppo_v2"))
