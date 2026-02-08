@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import os
 import random
-from typing import Iterable, cast
+from typing import Iterable, cast, Any
 
 import gymnasium as gym
 import numpy as np
@@ -20,17 +20,22 @@ from catanatron.gym.action_type_filtering import (
     COMPLEX_DEV_CARD_ACTION_TYPES,
     PLAYER_TRADING_ACTION_TYPES,
 )
+from catanatron.gym.reward_wrapper import RewardWrapper
 from catanatron.gym.rlcatan_env_wrapper import RLCatanEnvWrapper
 from .curriculum import CurriculumManager
+from .curriculum_callback import CurriculumCallback
 
 
-def heuristic_mask(env: RLCatanEnvWrapper, valid_indices: list[int]) -> list[int]:
-    base_env = cast(CatanatronEnv, env.env)
+def heuristic_mask(env: Any, valid_indices: list[int]) -> list[int]:
     # Placeholder for future heuristics
     return valid_indices
 
 
-def make_env(seed: int | None = None, disabled_action_names: list[str] | None = None) -> gym.Env:
+def make_env(
+    seed: int | None = None,
+    disabled_action_names: list[str] | None = None,
+    reward_shaping: dict[str, Any] | None = None,
+) -> gym.Env:
     base_env = CatanatronEnv(config={"opponent_type": "RandomPlayer"})
 
     if seed is not None:
@@ -56,8 +61,21 @@ def make_env(seed: int | None = None, disabled_action_names: list[str] | None = 
 
     wrapped_env = RLCatanEnvWrapper(monitored_env, excluded_type_groups=excluded_type_groups)
 
+    # Curriculum implemented reward shaping wrapper.
+    if reward_shaping and reward_shaping.get("enabled", True):
+        allowed_keys = {
+            "gain_scale",
+            "spend_scale",
+            "decay_factor",
+            "build_scale",
+            "player_idx",
+            "resource_attr",
+            "debug",
+        }
+        reward_kwargs = {k: v for k, v in reward_shaping.items() if k in allowed_keys}
+        wrapped_env = RewardWrapper(wrapped_env, **reward_kwargs)
+
     def mask_fn(env: gym.Env) -> np.ndarray:
-        env = cast(RLCatanEnvWrapper, env)
         base_valid = env.get_valid_actions()
         filtered_valid = heuristic_mask(env, base_valid)
         action_space = cast(Discrete, env.action_space)
@@ -112,18 +130,24 @@ def train_ppo(
             # Apply initial phase by adjusting env wrapper excluded sets if provided
             phase = curriculum.current_phase()
             disabled_types = phase.get("disabled_action_types", [])
+            reward_shaping = phase.get("reward_shaping")
             # Rebuild env with disabled action names applied
-            env = make_env(seed=seed, disabled_action_names=disabled_types)
-            # Convert string names to ActionType enum members if needed (deferred)
-            # For now, we leave excluded groups unchanged; future change: map disabled_types -> sets
-            print(f"[train_ppo] Loaded curriculum with current phase: {phase.get('name')}")
+            env = make_env(
+                seed=seed,
+                disabled_action_names=disabled_types,
+                reward_shaping=reward_shaping,
+            )
+            print(f"[Curriculum] Starting with phase: {phase.get('name')}")
+            print(f"[Curriculum] Target VP: {phase.get('target_vp')}, Disabled actions: {disabled_types}")
+            if reward_shaping and reward_shaping.get("enabled", True):
+                print(f"[Curriculum] Reward shaping enabled with config: {reward_shaping}")
         except Exception as e:
-            print(f"[train_ppo] Failed to load curriculum: {e}")
+            print(f"[Curriculum] Failed to load: {e}")
 
     model = MaskablePPO(
         MaskableActorCriticPolicy,
         env,
-        verbose=0,
+        verbose=1,
         learning_rate=learning_rate,
         n_steps=n_steps,
         batch_size=batch_size,
@@ -137,9 +161,25 @@ def train_ppo(
 
     reward_tracker = RewardTrackerCallback()
 
+    # Setup curriculum callback if curriculum is provided
+    callbacks = [reward_tracker]
+    if curriculum is not None:
+        curriculum_callback = CurriculumCallback(
+            curriculum=curriculum,
+            env_factory=lambda disabled, reward: make_env(
+                seed=seed,
+                disabled_action_names=disabled,
+                reward_shaping=reward,
+            ),
+            eval_freq=2048,
+            verbose=1,
+        )
+        callbacks.append(curriculum_callback)
+        print("[Curriculum] Curriculum callback enabled")
+
     try:
-        model.learn(total_timesteps=total_timesteps, callback=reward_tracker)
-        
+        model.learn(total_timesteps=total_timesteps, callback=callbacks)
+
         if save_path:
             os.makedirs(os.path.dirname(save_path), exist_ok=True)
             model.save(save_path)
