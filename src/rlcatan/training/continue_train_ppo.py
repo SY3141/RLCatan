@@ -198,7 +198,9 @@ def ppo_train(step_lim=1_000, model_name="ppo_v3"):
                 except Exception:
                     pass
                 try:
-                    self._running_shaping += float(info.get("reward_shaping_resource_total", 0.0))
+                    self._running_shaping += float(
+                        info.get("reward_shaping_resource_total", 0.0)
+                    )
                 except Exception:
                     pass
                 try:

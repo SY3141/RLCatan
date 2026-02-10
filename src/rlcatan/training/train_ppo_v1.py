@@ -59,7 +59,9 @@ def make_env(
         if disabled_set:
             excluded_type_groups.append(disabled_set)
 
-    wrapped_env = RLCatanEnvWrapper(monitored_env, excluded_type_groups=excluded_type_groups)
+    wrapped_env = RLCatanEnvWrapper(
+        monitored_env, excluded_type_groups=excluded_type_groups
+    )
 
     # Curriculum implemented reward shaping wrapper.
     if reward_shaping and reward_shaping.get("enabled", True):
@@ -141,9 +143,13 @@ def train_ppo(
                 reward_shaping=reward_shaping,
             )
             print(f"[Curriculum] Starting with phase: {phase.get('name')}")
-            print(f"[Curriculum] Target VP: {phase.get('target_vp')}, Disabled actions: {disabled_types}")
+            print(
+                f"[Curriculum] Target VP: {phase.get('target_vp')}, Disabled actions: {disabled_types}"
+            )
             if reward_shaping and reward_shaping.get("enabled", True):
-                print(f"[Curriculum] Reward shaping enabled with config: {reward_shaping}")
+                print(
+                    f"[Curriculum] Reward shaping enabled with config: {reward_shaping}"
+                )
         except Exception as e:
             print(f"[Curriculum] Failed to load: {e}")
 
@@ -200,10 +206,15 @@ def train_ppo(
 
 if __name__ == "__main__":
     # Allow quick local testing by pointing to configs/curriculum.json
-    cfg_path = os.environ.get("RLCATAN_CURRICULUM_JSON", os.path.join("..", "..", "configs", "curriculum.json"))
+    cfg_path = os.environ.get(
+        "RLCATAN_CURRICULUM_JSON",
+        os.path.join("..", "..", "configs", "curriculum.json"),
+    )
     if os.path.exists(cfg_path):
         print(f"Using curriculum config: {cfg_path}")
-        score = train_ppo(save_path=os.path.join("..", "models", "ppo_v1"), curriculum_json=cfg_path)
+        score = train_ppo(
+            save_path=os.path.join("..", "models", "ppo_v1"), curriculum_json=cfg_path
+        )
     else:
         score = train_ppo(save_path=os.path.join("..", "models", "ppo_v1"))
     print(f"Final Training Score (ep_rew_mean): {score}")

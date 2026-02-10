@@ -80,7 +80,9 @@ class CurriculumCallback(BaseCallback):
 
         if self.verbose >= 2:
             print(f"\n[Curriculum] Phase: {current_phase.get('name')}")
-            print(f"[Curriculum] Metrics: win_rate={win_rate:.3f}, avg_reward={avg_reward:.3f}, avg_vp={avg_vp:.1f}")
+            print(
+                f"[Curriculum] Metrics: win_rate={win_rate:.3f}, avg_reward={avg_reward:.3f}, avg_vp={avg_vp:.1f}"
+            )
 
         # Try to advance to next phase
         if self.curriculum.advance_if_needed(metrics, episodes_in_phase):
@@ -119,7 +121,9 @@ class CurriculumCallback(BaseCallback):
         if self.verbose >= 1:
             print(f"\n[Curriculum] Starting training with phase: {phase.get('name')}")
             print(f"[Curriculum] Target VP: {phase.get('target_vp')}")
-            print(f"[Curriculum] Disabled actions: {phase.get('disabled_action_types', [])}\n")
+            print(
+                f"[Curriculum] Disabled actions: {phase.get('disabled_action_types', [])}\n"
+            )
 
     def _on_training_end(self) -> None:
         """Called when training ends."""
@@ -130,4 +134,3 @@ class CurriculumCallback(BaseCallback):
 
 
 __all__ = ["CurriculumCallback"]
-

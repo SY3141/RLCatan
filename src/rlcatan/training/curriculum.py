@@ -79,4 +79,3 @@ class CurriculumManager:
 
 
 __all__ = ["CurriculumManager", "PhaseConfig"]
-
