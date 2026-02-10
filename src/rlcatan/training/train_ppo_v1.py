@@ -92,6 +92,7 @@ class RewardTrackerCallback(BaseCallback):
     Callback to capture the 'ep_rew_mean' (mean reward of last 100 episodes)
     from the training buffer at the very end of training.
     """
+
     def __init__(self, verbose=0):
         super().__init__(verbose)
         self.final_mean_reward = -100.0
@@ -99,7 +100,9 @@ class RewardTrackerCallback(BaseCallback):
     def _on_step(self) -> bool:
         # Stable Baselines3 maintains a buffer of the last 100 episode stats
         if len(self.model.ep_info_buffer) > 0:
-            self.final_mean_reward = np.mean([ep_info["r"] for ep_info in self.model.ep_info_buffer])
+            self.final_mean_reward = np.mean(
+                [ep_info["r"] for ep_info in self.model.ep_info_buffer]
+            )
         return True
 
 
@@ -178,7 +181,7 @@ def train_ppo(
         print("[Curriculum] Curriculum callback enabled")
 
     try:
-        model.learn(total_timesteps=total_timesteps, callback=callbacks)
+        model.learn(total_timesteps=total_timesteps, callback=reward_tracker)
 
         if save_path:
             os.makedirs(os.path.dirname(save_path), exist_ok=True)
@@ -189,8 +192,11 @@ def train_ppo(
         return reward_tracker.final_mean_reward
 
     except Exception as e:
-        print(f"Training failed with params: LR={learning_rate}, Batch={batch_size}... Error: {e}")
+        print(
+            f"Training failed with params: LR={learning_rate}, Batch={batch_size}... Error: {e}"
+        )
         return -100.0
+
 
 if __name__ == "__main__":
     # Allow quick local testing by pointing to configs/curriculum.json

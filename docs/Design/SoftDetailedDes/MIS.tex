@@ -1035,32 +1035,112 @@ S = (queueBuffer, head, tail, size).
 
 \newpage{}
 
-\begin{comment}
+
 \section*{Appendix - Reflection}
 
-\wss{Not required for CAS 741 projects}
 
-The information in this section will be used to evaluate the team members on the
-graduate attribute of Problem Analysis and Design.
-
-\input{../../Reflection.tex}
+%\input{../../Reflection.text}
 
 \begin{enumerate}
   \item What went well while writing this deliverable? 
-  \item What pain points did you experience during this deliverable, and how
+   
+  [Group] Our team collaborated effectively, dividing sections based on
+          what each member was most familiar with. Rebecca and Matthew
+          focused on the MIS and MG since they had the most experience with
+          these documents from before. While Sunny and Jake focused on the Software
+          during this time.
+  \item What pain points did you experience during this deliverable, and how  
     did you resolve them?
+
+  [Group] One challenge we faced was ensuring consistency across the documents
+          and ensuring our modules were decoupled enough. We resolved this by
+          having multiple review sessions where we cross-checked each other's
+          sections and provided feedback. This iterative process helped us
+          create modules that were well defined and cohesive.
+  
+  
   \item Which of your design decisions stemmed from speaking to your client(s)
   or a proxy (e.g. your peers, stakeholders, potential users)? For those that
   were not, why, and where did they come from?
+ 
+  [Group] A lot of our design decisions were influenced by discussions with
+          our supervisor who provided insights into the software architecture
+          of RL environments. We also consulted with peers who had experience
+          in computer vision to refine our CV module design. Some decisions,
+          like the choice of data structures, were based on our own research
+          and understanding of best practices in software design.
+
   \item While creating the design doc, what parts of your other documents (e.g.
   requirements, hazard analysis, etc), it any, needed to be changed, and why?
-  \item What are the limitations of your solution?  Put another way, given
   unlimited resources, what could you do to make the project better? (LO\_ProbSolutions)
+
+   [Group]   While developing the design document, several updates were 
+   required in our earlier project artifacts, particularly the hazard 
+   analysis and system requirements.
+
+The most significant change came from refining our system architecture. 
+During hazard analysis we originally treated the digital twin as a 
+simple board state representation. However, while writing the design 
+document we clarified that the digital twin must represent not only 
+the board layout, but also the full game state, player actions, and 
+system input and output interactions. Because of this expanded definition, 
+multiple hazards had to be revised. Risks that were previously limited 
+to incorrect board modeling were broadened to include incorrect state 
+ synchronization, input misinterpretation, and output decision errors. 
+ This led to updated mitigation strategies, such as stronger state 
+ validation checks and clearer interface boundaries between the 
+ AI agent and the game environment.
+
+Our requirements document also changed. Some functional requirements 
+were rewritten to reflect that the system must track and process full 
+game context. Interface requirements became more detailed to define 
+how the model, simulation environment, and data storage components 
+communicate.
+
+These revisions improved consistency across documents and ensured 
+the design accurately reflected the true scope and risks of the system.
+
+With additional resources, we would rent more GPUs to run parallel 
+training jobs, allowing faster experimentation and more extensive model 
+tuning. We would also pay for access to online Catan game history 
+databases to expand our training data and improve model performance 
+and generalization.
+
+
   \item Give a brief overview of other design solutions you considered.  What
   are the benefits and tradeoffs of those other designs compared with the chosen
   design?  From all the potential options, why did you select the documented design?
   (LO\_Explores)
+
+[Group] We explored several alternative design approaches before selecting 
+our final solution. One option was a simpler rule based system that relied 
+on handcrafted heuristics rather than a learning model. The main benefit 
+of this approach was predictability and lower computational cost, as it 
+would not require long training times or large datasets. However, the 
+tradeoff was limited adaptability and weaker performance in complex or 
+unexpected game situations, since the system could only act within 
+predefined rules.
+
+
+  \item (After you have implemented another team's module, which means this
+  isn't filled in until after the original deadline). What did you learn by
+  implementing another team's module? Were all the details you needed in the
+  documentation, or did you need to make assumptions, or ask the other team
+  questions?  If your team also had another team implement one of your modules,
+  what was this experience like?  Are there things in your documentation you
+  could have changed to make the process go more smoothly for when an
+  ``outsider'' completes some of the implementation?
+
+
+  [Group] Implementing the assigned team's module was a significant learning experience in API design.
+          While their src/reporting\_poc\_README.md outlined the general API surface, it lacked concrete request/response payloads, formal error codes, and a runnable test.
+          This documentation gap forced us to move forward based on assumptions and manual follow-up questions rather than clear technical specifications.
+          We forked their repository and opened a pull request to merge our code, intentionally seeking their review comments to validate our integration.
+          We noted that because a PR-driven workflow wasn't used by the team, we missed out on automated CI/CD feedback, which made validating our integration assumptions more difficult.
+          Moving forward, we’ve realized that truly exceptional modules must include explicit authorization contracts, a short integration checklist, and a tiny runnable test or CI workflow.
+          This ensures that any implementer has a clear source of truth to reproduce expected behavior without needing to ask targeted questions.
+
+
 \end{enumerate}
 
-\end{comment}
 \end{document}

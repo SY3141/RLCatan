@@ -47,6 +47,7 @@ class AlphaBetaPlacementPlayer(Player):
         self.use_value_function = None
         self.epsilon = epsilon
 
+        # PLACEMENT
         self.turn = 0
         self.production_counts = {
             "WHEAT": 0,
@@ -161,10 +162,10 @@ class AlphaBetaPlacementPlayer(Player):
             for i, k in enumerate(self.production_counts.keys())
         }  # adds production to production counts
         # Try to find a placement in action whose value matches the node ID
-        with open("placement_log.txt", "a") as f:
-            for action in playable_actions:
-                f.write(f"Action: {action}, Value: {action.value}\n")
-            f.write(f"NEW TURN\n")
+        # with open("placement_log.txt", "a") as f:
+        #     for action in playable_actions:
+        #         f.write(f"Action: {action}, Value: {action.value}\n")
+        #     f.write(f"NEW TURN\n")
 
         for action in playable_actions:
             if action.value == chosen_node[0]:

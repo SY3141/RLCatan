@@ -24,6 +24,10 @@ from catanatron.gym.action_type_filtering import (
 )
 
 
+# PLACEMENT IMPORTS
+from collections import defaultdict
+
+
 class PPOPlayer(Player):
     """
     Catanatron Player that uses a trained MaskablePPO model.
@@ -38,14 +42,15 @@ class PPOPlayer(Player):
     def __init__(
         self,
         color: Color,
+        model_name: Optional[str] = "ppo_v3",
     ):
         super().__init__(color)
-
+        print(f"Initializing PPOPlayer with model '{model_name}'")
         # Load the trained PPO model (.zip extension added automatically)
         base_dir = (
             Path(__file__).resolve().parents[3]
         )  # adjust depth to match your layout
-        model_path = base_dir / "rlcatan" / "models" / "ppo_v2"
+        model_path = base_dir / "rlcatan" / "models" / model_name
 
         self.model: MaskablePPO = MaskablePPO.load(model_path, device="cpu")
 
@@ -54,10 +59,128 @@ class PPOPlayer(Player):
         self.features: List[str] = get_feature_ordering(num_players=2)
 
         # Excluding the same ActionType groups as in training
-        self.excluded_type_groups = [
-            COMPLEX_DEV_CARD_ACTION_TYPES,
-            PLAYER_TRADING_ACTION_TYPES,
+
+        self.excluded_type_groups = []
+
+        # [     COMPLEX_DEV_CARD_ACTION_TYPES,
+        #     PLAYER_TRADING_ACTION_TYPES,
+        # ]
+        # PLACEMENT
+        self.turn = 0
+        self.production_counts = {
+            "WHEAT": 0,
+            "ORE": 0,
+            "BRICK": 0,
+            "SHEEP": 0,
+            "WOOD": 0,
+        }  # Tracks resource production counts
+
+    # PLACEMENT
+    def compute_node_pip_totals(self, board, playable_actions):
+        def number_to_pips(number):
+            pip_map = {2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 8: 5, 9: 4, 10: 3, 11: 2, 12: 1}
+            return pip_map.get(number, 0)
+
+        # Map each node to its adjacent tiles
+        node_to_tiles = defaultdict(list)
+        for _, tile in board.map.land_tiles.items():
+            for node_id in tile.nodes.values():
+                node_to_tiles[node_id].append(tile)
+
+        resource_order = ["WHEAT", "ORE", "BRICK", "SHEEP", "WOOD"]
+        totals = {}
+
+        for node_id, tiles in node_to_tiles.items():
+            pip_list = [0, 0, 0, 0, 0]
+            for tile in tiles:
+                if (
+                    hasattr(tile, "resource")
+                    and tile.resource in resource_order
+                    and isinstance(tile.number, int)
+                ):
+                    pips = number_to_pips(tile.number)
+                    res_index = resource_order.index(tile.resource)
+                    pip_list[res_index] += pips
+            totals[node_id] = pip_list
+
+        # Extract buildable node IDs from playable actions
+        buildable_nodes = {
+            action.value
+            for action in playable_actions
+            if action.action_type == ActionType.BUILD_SETTLEMENT
+        }
+
+        # Filter only buildable nodes
+        buildable_totals = {
+            nid: totals[nid] for nid in buildable_nodes if nid in totals
+        }
+
+        # Sort buildable nodes by total pips (sum of all resources)
+        sorted_buildable = sorted(
+            buildable_totals.items(), key=lambda x: sum(x[1]), reverse=True
+        )
+
+        return sorted_buildable
+
+    # PLACEMENT
+    def choose_placement(
+        self, game: Game, player_color: str, playable_actions: Iterable[Action]
+    ) -> Action:
+        """Called once at the start of the game to read the map.
+        Args:
+            game (Game): complete game state. read-only.
+        """
+        road_actions = [
+            a for a in playable_actions if a.action_type == ActionType.BUILD_ROAD
         ]
+        if road_actions:
+            print(f"Chosen road action: {road_actions[0]}")
+            return road_actions[0]
+
+        most_pip_nodes = self.compute_node_pip_totals(
+            game.state.board, playable_actions
+        )[:10]
+        if self.turn == 0:  # checks for first turn
+            chosen_node = most_pip_nodes[0]
+            # Determine which resource (wheat or ore) has the highest pip potential among top nodes
+            max_ore = max(node[1][1] for node in most_pip_nodes)  # ore index = 1
+            max_wheat = max(node[1][0] for node in most_pip_nodes)  # wheat index = 0
+            if max_ore >= max_wheat:  # Sort by ore pips descendin
+                most_pip_nodes.sort(key=lambda x: x[1][1], reverse=True)
+            else:  # Sort by wheat pips descending
+                most_pip_nodes.sort(key=lambda x: x[1][0], reverse=True)
+
+            # Pick the top node with at least some production of the prioritized resource
+            for node in most_pip_nodes:
+                if node[1][0] > 0 or node[1][1] > 0:
+                    chosen_node = node
+                    break
+        else:
+            # Calculate a score for each node based on production counts
+            best_score = float("-inf")
+            chosen_node = most_pip_nodes[0]
+            for node in most_pip_nodes:
+                score = sum(
+                    [
+                        node[1][i] * list(self.production_counts.values())[i]
+                        for i in range(5)
+                    ]
+                )
+                if score > best_score:
+                    best_score = score
+                    chosen_node = node
+        self.production_counts = {
+            k: self.production_counts[k] + chosen_node[1][i]
+            for i, k in enumerate(self.production_counts.keys())
+        }  # adds production to production counts
+
+        for action in playable_actions:
+            if action.value == chosen_node[0]:
+                return action
+
+        # If not found, fall back to first available action
+        print(f"Node not in playable_actions; using default.")
+        return playable_actions[0]
 
     def _build_observation(self, game) -> np.ndarray:
         """
@@ -127,6 +250,11 @@ class PPOPlayer(Player):
         Returns:
             One of the playable_actions chosen by the PPO policy.
         """
+        # PLACEMENT
+        if self.turn in [0, 2]:  # placement phase for towns
+            self.turn += 1
+            return self.choose_placement(game, self.color, playable_actions)
+        # PLACEMENT
 
         # 1. Build observation from the current game state
         obs = self._build_observation(game)
