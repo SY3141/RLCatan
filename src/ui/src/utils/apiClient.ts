@@ -77,3 +77,23 @@ export async function getMctsAnalysis(
     throw error;
   }
 }
+
+export type BotMeta = {
+  id: string;
+  name?: string;
+  elo: number;
+};
+
+export async function getBots(): Promise<BotMeta[]> {
+  const response = await axios.get(API_URL + "/api/bots");
+  return response.data;
+}
+
+export type CreateGameConfig =
+  | { mode: "human_vs_bot"; numPlayers: number; opponentBotId: string }
+  | { mode: "bot_vs_bot"; numPlayers: number; botAId: string; botBId: string };
+
+export async function createGameConfigured(cfg: CreateGameConfig) {
+  const response = await axios.post(API_URL + "/api/games", cfg);
+  return response.data.game_id;
+}

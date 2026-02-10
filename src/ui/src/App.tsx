@@ -11,6 +11,9 @@ import { StateProvider } from "./store";
 import "./App.scss";
 import ReplayScreen from "./pages/ReplayScreen";
 
+import BotSelectPlay from "./pages/BotSelectPlay";
+import BotSelectBattle from "./pages/BotSelectBattle";
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -35,6 +38,14 @@ function App() {
         >
           <Router>
             <Routes>
+              <Route
+                path="/bots/play"
+                element={<BotSelectPlay />}
+              />
+              <Route
+                path="/bots/battle"
+                element={<BotSelectBattle />}
+              />
               <Route
                 path="/games/:gameId/states/:stateIndex"
                 element={<GameScreen replayMode={true} />}
