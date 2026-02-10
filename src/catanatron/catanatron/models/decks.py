@@ -21,7 +21,6 @@ from catanatron.models.enums import (
     FastResource,
 )
 
-
 ROAD_COST_FREQDECK = [1, 1, 0, 0, 0]
 SETTLEMENT_COST_FREQDECK = [1, 1, 1, 1, 0]
 CITY_COST_FREQDECK = [0, 0, 0, 2, 3]

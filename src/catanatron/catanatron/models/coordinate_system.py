@@ -25,8 +25,8 @@ UNIT_VECTORS = {
 
 
 def add(acoord, bcoord):
-    (x, y, z) = acoord
-    (u, v, w) = bcoord
+    x, y, z = acoord
+    u, v, w = bcoord
     return (x + u, y + v, z + w)
 
 

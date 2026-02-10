@@ -16,7 +16,6 @@ from catanatron.models.map import (
 )
 from catanatron.models.enums import FastBuildingType, SETTLEMENT, CITY
 
-
 # Used to find relationships between nodes and edges
 base_map = CatanMap.from_template(BASE_MAP_TEMPLATE)
 mini_map = CatanMap.from_template(MINI_MAP_TEMPLATE)

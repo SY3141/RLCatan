@@ -3,7 +3,6 @@ import random
 from catanatron.models.player import Player
 from catanatron.models.actions import ActionType
 
-
 WEIGHTS_BY_ACTION_TYPE = {
     ActionType.BUILD_CITY: 10000,
     ActionType.BUILD_SETTLEMENT: 1000,

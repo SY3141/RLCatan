@@ -33,7 +33,6 @@ from catanatron.cli.accumulators import (
 )
 from catanatron.cli.simulation_accumulator import SimulationAccumulator
 
-
 custom_theme = Theme(
     {
         "progress.remaining": "",

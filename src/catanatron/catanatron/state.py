@@ -519,7 +519,7 @@ def apply_action(state: State, action: Action):
 
         state.playable_actions = generate_playable_actions(state)
     elif action.action_type == ActionType.MOVE_ROBBER:
-        (coordinate, robbed_color, robbed_resource) = action.value
+        coordinate, robbed_color, robbed_resource = action.value
         state.board.robber_coordinate = coordinate
         if robbed_color is not None:
             if robbed_resource is None:

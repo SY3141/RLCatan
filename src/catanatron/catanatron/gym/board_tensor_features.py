@@ -110,7 +110,7 @@ def init_tile_coordinate_map():
     height_step = 2  # same here, height is 3, but they overlap a row
     for i in range(HEIGHT // height_step):
         for j in range(WIDTH // width_step):  # +1 b.c. width includes 1/2 water
-            (offset_x, offset_y) = (-2 + j, -2 + i)
+            offset_x, offset_y = (-2 + j, -2 + i)
             cube_coordinate = offset_to_cube((offset_x, offset_y))
 
             maybe_odd_offset = (i % 2) * 2
@@ -164,7 +164,7 @@ def create_board_tensor(game: Game, p0_color: Color, channels_first=False):
         # [   0, 0,    0, 0,    0]
         # [0.33, 0, 0.33, 0, 0.33]
         proba = 0 if tile.number is None else number_probability(tile.number)
-        (y, x) = tile_map[coordinate]  # returns values in (row, column) math def
+        y, x = tile_map[coordinate]  # returns values in (row, column) math def
         channel_idx = 2 * n + resources.index(tile.resource)
         planes[channel_idx][x][y] += proba
         planes[channel_idx][x + 2][y] += proba
@@ -174,7 +174,7 @@ def create_board_tensor(game: Game, p0_color: Color, channels_first=False):
         planes[channel_idx][x + 4][y + 2] += proba
 
     # set 1 robber channel
-    (y, x) = tile_map[game.state.board.robber_coordinate]
+    y, x = tile_map[game.state.board.robber_coordinate]
     planes[2 * n + 5][x][y] = 1
     planes[2 * n + 5][x + 2][y] = 1
     planes[2 * n + 5][x + 4][y] = 1
@@ -189,7 +189,7 @@ def create_board_tensor(game: Game, p0_color: Color, channels_first=False):
         channel_idx_delta = 5 if resource is None else resources.index(resource)
         channel_idx = 2 * n + 5 + 1 + channel_idx_delta
         for node_id in node_ids:
-            (x, y) = node_map[node_id]
+            x, y = node_map[node_id]
             planes[channel_idx][x][y] = 1
 
     result = np.array(planes)

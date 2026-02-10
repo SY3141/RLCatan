@@ -96,7 +96,7 @@ def get_tournament_total_return(game, p0_color):
     """
     sign = simple_total_return(game, p0_color)
     points = get_actual_victory_points(game.state, p0_color)
-    return sign * 1000 + min(points, 10) * 0.9999 ** game.state.num_turns
+    return sign * 1000 + min(points, 10) * 0.9999**game.state.num_turns
 
 
 def get_victory_points_total_return(game, p0_color):
@@ -109,7 +109,7 @@ def get_victory_points_total_return(game, p0_color):
     #   no matter turns.
     points = get_actual_victory_points(game.state, p0_color)
     episode_return = min(points, 10)
-    return episode_return * 0.9999 ** game.state.num_turns
+    return episode_return * 0.9999**game.state.num_turns
 
 
 def get_discounted_returns(rewards, gamma):
