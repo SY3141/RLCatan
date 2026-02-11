@@ -24,6 +24,10 @@ class RLCatanEnvWrapper(gym.Wrapper):
         # Flatten all excluded type groups into a single set for O(1) membership checks.
         self._excluded: set[ActionType] = set().union(*excluded_type_groups)
         self._printed_resources_once = False
+        self._filtered_all_actions_count = 0
+        self._filtered_all_actions_last_prompt = None
+        self._no_playable_actions_count = 0
+        self._no_playable_actions_last_prompt = None
 
     # Resource helpers
     def _inject_resource_counts(self, info: Dict[str, Any]):
@@ -69,16 +73,15 @@ class RLCatanEnvWrapper(gym.Wrapper):
         """
         actions = self._playable_actions()
         if not actions:
-            # Some prompts may not require a choice, so log for diagnostics and return empty.
+            # Some prompts may not require a choice; track for end-of-episode summary.
             base = self.env.unwrapped
             st = (
                 base.game.state
                 if isinstance(base, CatanatronEnv)
                 else getattr(base, "game", None).state
             )
-            print(
-                f"[RLCatanEnvWrapper] No playable_actions (prompt={getattr(st,'current_prompt',None)})"
-            )
+            self._no_playable_actions_count += 1
+            self._no_playable_actions_last_prompt = getattr(st, "current_prompt", None)
             return []
         # Drop actions whose action_type is in the excluded set, which simplifies the action space.
         filtered = [
@@ -86,9 +89,14 @@ class RLCatanEnvWrapper(gym.Wrapper):
         ]
         if not filtered:
             # If filtering removed everything, fall back to unfiltered list to avoid empty masks.
-            print(
-                "[RLCatanEnvWrapper] Filter removed all actions; using unfiltered indices"
+            self._filtered_all_actions_count += 1
+            base = self.env.unwrapped
+            st = (
+                base.game.state
+                if isinstance(base, CatanatronEnv)
+                else getattr(base, "game", None).state
             )
+            self._filtered_all_actions_last_prompt = getattr(st, "current_prompt", None)
             filtered = actions
         # Map each domain action to its integer index used by the gym Discrete action space.
         # Common indices: 0=ROLL (before rolling), last index may be END_TURN (after rolling).
@@ -101,6 +109,11 @@ class RLCatanEnvWrapper(gym.Wrapper):
         with filtered valid actions.
         """
         obs, info = self.env.reset(**kwargs)
+        # Reset per-episode counters to reduce log spam.
+        self._filtered_all_actions_count = 0
+        self._filtered_all_actions_last_prompt = None
+        self._no_playable_actions_count = 0
+        self._no_playable_actions_last_prompt = None
         # Some envs return None or non-dicts; normalize to a dict so we can attach fields.
         if not isinstance(info, dict):
             info = {}
@@ -115,6 +128,19 @@ class RLCatanEnvWrapper(gym.Wrapper):
             info = {}
         # Keep resource counts updated every step so downstream wrappers/callbacks see fresh data.
         self._inject_resource_counts(info)
+        if terminated or truncated:
+            if self._filtered_all_actions_count > 0:
+                print(
+                    "[RLCatanEnvWrapper] Filter removed all actions; "
+                    f"used unfiltered indices {self._filtered_all_actions_count} times "
+                    f"(last prompt={self._filtered_all_actions_last_prompt})"
+                )
+            if self._no_playable_actions_count > 0:
+                print(
+                    "[RLCatanEnvWrapper] No playable_actions encountered "
+                    f"{self._no_playable_actions_count} times "
+                    f"(last prompt={self._no_playable_actions_last_prompt})"
+                )
         return obs, reward, terminated, truncated, info
 
 

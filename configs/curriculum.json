@@ -1,0 +1,58 @@
+{
+  "phases": [
+    {
+      "name": "phase-1-basic",
+      "target_vp": 5,
+      "disabled_action_types": ["MOVE_ROBBER", "BUY_DEVELOPMENT_CARD"],
+      "min_episodes": 100,
+      "advance_threshold": {
+        "metric": "win_rate",
+        "value": 0.6
+      },
+      "reward_shaping": {
+        "enabled": true,
+        "gain_scale": 0.15,
+        "spend_scale": 0.05,
+        "decay_factor": 0.999,
+        "build_scale": 0.02,
+        "debug": false
+      }
+    },
+    {
+      "name": "phase-2-intermediate",
+      "target_vp": 8,
+      "disabled_action_types": ["MOVE_ROBBER"],
+      "min_episodes": 200,
+      "advance_threshold": {
+        "metric": "win_rate",
+        "value": 0.5
+      },
+      "reward_shaping": {
+        "enabled": true,
+        "gain_scale": 0.1,
+        "spend_scale": 0.05,
+        "decay_factor": 0.999,
+        "build_scale": 0.02,
+        "debug": false
+      }
+    },
+    {
+      "name": "phase-3-full",
+      "target_vp": 10,
+      "disabled_action_types": [],
+      "min_episodes": 300,
+      "advance_threshold": {
+        "metric": "win_rate",
+        "value": 0.4
+      },
+      "reward_shaping": {
+        "enabled": true,
+        "gain_scale": 0.05,
+        "spend_scale": 0.03,
+        "decay_factor": 0.999,
+        "build_scale": 0.01,
+        "debug": false
+      }
+    }
+  ]
+}

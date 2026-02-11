@@ -10,7 +10,6 @@ from catanatron.players.value import (
     get_value_fn,
 )
 
-
 ALPHABETA_DEFAULT_DEPTH = 2
 MAX_SEARCH_TIME_SECS = 20
 

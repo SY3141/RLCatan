@@ -5,7 +5,6 @@ import numpy as np
 
 import catanatron.gym
 
-
 # Initialize environment, buffer and episode_start
 num_envs = 4
 envs = gymnasium.vector.AsyncVectorEnv(

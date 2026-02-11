@@ -18,7 +18,6 @@ from catanatron.gym.board_tensor_features import (
     is_graph_feature,
 )
 
-
 BASE_TOPOLOGY = BASE_MAP_TEMPLATE.topology
 TILE_COORDINATES = [x for x, y in BASE_TOPOLOGY.items() if y == LandTile]
 ACTIONS_ARRAY = [
@@ -95,7 +94,7 @@ def from_action_space(action_int, playable_actions):
     """maps action_int to catantron.models.actions.Action"""
     # Get "catan_action" based on space action.
     # i.e. Take first action in playable that matches ACTIONS_ARRAY blueprint
-    (action_type, value) = ACTIONS_ARRAY[action_int]
+    action_type, value = ACTIONS_ARRAY[action_int]
     catan_action = None
     for action in playable_actions:
         normalized = normalize_action(action)

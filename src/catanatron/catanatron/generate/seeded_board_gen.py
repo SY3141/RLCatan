@@ -6,7 +6,6 @@ from catanatron.models.map import TOURNAMENT_MAP
 import random
 import os
 
-
 RESOURCE_COLORS = {
     "WOOD": "#2e8b57",  # green
     "BRICK": "#b22222",  # red

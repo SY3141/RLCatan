@@ -1,6 +1,5 @@
 import timeit
 
-
 result = timeit.timeit("tuple(sorted((a,b)))", setup="a = 20; b = 45", number=2_000_000)
 print("TODAY", result)
 

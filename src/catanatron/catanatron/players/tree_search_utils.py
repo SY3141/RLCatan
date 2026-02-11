@@ -80,7 +80,7 @@ def execute_spectrum(game, action):
             results.append((option_game, number_probability(roll)))
         return results
     elif action.action_type == ActionType.MOVE_ROBBER:
-        (coordinate, robbed_color, _) = action.value
+        coordinate, robbed_color, _ = action.value
         if robbed_color is None:  # no one to steal, then deterministic
             return execute_deterministic(game, action)
 

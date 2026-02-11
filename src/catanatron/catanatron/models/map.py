@@ -264,7 +264,7 @@ def init_port_nodes_cache(
         if not isinstance(tile, Port):
             continue
 
-        (a_noderef, b_noderef) = PORT_DIRECTION_TO_NODEREFS[tile.direction]
+        a_noderef, b_noderef = PORT_DIRECTION_TO_NODEREFS[tile.direction]
         port_nodes[tile.resource].add(tile.nodes[a_noderef])
         port_nodes[tile.resource].add(tile.nodes[b_noderef])
     return port_nodes
@@ -359,7 +359,7 @@ def initialize_tiles(
 
         # create and save tile
         if isinstance(tile_type, tuple):  # is port
-            (_, direction) = tile_type
+            _, direction = tile_type
             port = Port(
                 port_autoinc, shuffled_port_resources.pop(), direction, nodes, edges
             )
