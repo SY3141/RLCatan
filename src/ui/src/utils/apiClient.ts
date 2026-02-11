@@ -78,10 +78,13 @@ export async function getMctsAnalysis(
   }
 }
 
+export type PlayerKey = string;
+
 export type BotMeta = {
   id: string;
   name?: string;
   elo: number;
+  key: PlayerKey;
 };
 
 export async function getBots(): Promise<BotMeta[]> {
@@ -90,10 +93,19 @@ export async function getBots(): Promise<BotMeta[]> {
 }
 
 export type CreateGameConfig =
-  | { mode: "human_vs_bot"; numPlayers: number; opponentBotId: string }
-  | { mode: "bot_vs_bot"; numPlayers: number; botAId: string; botBId: string };
+  | { mode: "human_vs_bot"; numPlayers: number; opponentKey: PlayerKey }
+  | { mode: "bot_vs_bot"; numPlayers: number; botAKey: PlayerKey; botBKey: PlayerKey };
 
 export async function createGameConfigured(cfg: CreateGameConfig) {
-  const response = await axios.post(API_URL + "/api/games", cfg);
+  let players: PlayerKey[] = [];
+
+  if (cfg.mode === "human_vs_bot") {
+    players = ["HUMAN", ...Array(Math.max(0, cfg.numPlayers - 1)).fill(cfg.opponentKey)];
+  } else {
+    const pair: PlayerKey[] = [cfg.botAKey, cfg.botBKey];
+    players = Array.from({ length: cfg.numPlayers }, (_, i) => pair[i % 2]); // A,B,A,B...
+  }
+
+  const response = await axios.post(API_URL + "/api/games", { players });
   return response.data.game_id;
 }

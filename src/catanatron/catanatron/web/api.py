@@ -1,3 +1,4 @@
+import os
 import json
 import logging
 import traceback
@@ -17,12 +18,21 @@ bp = Blueprint("api", __name__, url_prefix="/api")
 
 
 def player_factory(player_key):
+    key, colour = player_key
+
     if player_key[0] == "CATANATRON":
-        return AlphaBetaPlayer(player_key[1], 2, True)
+        return AlphaBetaPlayer(colour, 2, True)
+
     elif player_key[0] == "RANDOM":
-        return RandomPlayer(player_key[1])
+        return RandomPlayer(colour)
+
     elif player_key[0] == "HUMAN":
-        return ValueFunctionPlayer(player_key[1], is_bot=False)
+        return ValueFunctionPlayer(colour, is_bot=False)
+
+    elif isinstance(key, str) and key.startswith("BOT:"):
+        # For now, just make it act like a bot (smoke test)
+        return AlphaBetaPlayer(colour, 2, True)
+
     else:
         raise ValueError("Invalid player key")
 
@@ -161,6 +171,55 @@ def _parse_state_index(state_index_str: str):
             400,
             description="Invalid state_index format. state_index must be an integer or 'latest'.",
         )
+
+def _load_bots():
+    """
+    Temporary bot source:
+    - If BOTS_JSON_PATH is set and points to a JSON file, load it.
+    - Otherwise return a small stub list so the UI works.
+    """
+
+    def _normalize_bot(raw):
+        bot_id = raw.get("id") or raw.get("name")
+        name = raw.get("name") or bot_id
+        elo = raw.get("elo", 0)
+
+        # Key is what /api/games expects in its "players" array
+        key = raw.get("key")
+        if not key:
+            if bot_id == "random":
+                key = "RANDOM"
+            else:
+                key = f"BOT:{bot_id}"
+
+        return {
+            "id": bot_id,
+            "name": name,
+            "elo": elo,
+            "key": key,
+            "path": raw.get("path"),
+            "games": raw.get("games"),
+        }
+
+    path = os.environ.get("BOTS_JSON_PATH")
+
+    if path and os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            return [_normalize_bot(x) for x in data]
+
+    # If no valid JSON file is found, returns a stub list of bots
+    return [
+        {"id": "catanatron_ab_2", "name": "Catanatron (AlphaBeta d2)", "elo": 1500, "key": "CATANATRON"},
+        {"id": "random", "name": "Random", "elo": 1000, "key": "RANDOM"},
+        {"id": "human", "name": "Human", "elo": None, "key": "HUMAN"},
+        {"id": "ppo_v2_2026-02-07", "name": "PPO v2 (2026-02-07)", "elo": 1623, "key": "BOT:ppo_v2_2026-02-07"},
+    ]
+
+
+@bp.route("/bots", methods=("GET",))
+def get_bots_endpoint():
+    return jsonify(_load_bots())
 
 
 # ===== Debugging Routes
