@@ -13,12 +13,14 @@ from catanatron.players.value import ValueFunctionPlayer
 from catanatron.players.minimax import AlphaBetaPlayer
 from catanatron.web.mcts_analysis import GameAnalyzer
 
+from catanatron.players.minimax_placement import AlphaBetaPlacementPlayer
+
 bp = Blueprint("api", __name__, url_prefix="/api")
 
 
 def player_factory(player_key):
     if player_key[0] == "CATANATRON":
-        return AlphaBetaPlayer(player_key[1], 2, True)
+        return AlphaBetaPlacementPlayer(player_key[1], 2, True)
     elif player_key[0] == "RANDOM":
         return RandomPlayer(player_key[1])
     elif player_key[0] == "HUMAN":
