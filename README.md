@@ -67,8 +67,9 @@ Navigate to training folder under \src\rlcatan\training using
 `cd src\rlcatan\training`
 
 Run
-`python3 looped_trainer.py -runs 5 -iter 1000000`
-Iter is the number of training steps, runs is how many times it is trained for those iterations
+`python3 looped_trainer.py -runs 5 -iter 1000000 -name ppo_PF`
+Iter is the number of training steps, runs is how many times it is trained for those iterations. Name is the output file name.
 
 Benchmarking
-`catanatron-play --num 100 --players PPOP:ppo_v3,PPOP:ppo_v3_6 --config-vps-to-win 15 --config-discard-limit 7`
+`catanatron-play --num 100 --players PPOP:ppo_v3,PPOP:ppo_v3_6 --config-vps-to-win 15 --config-discard-limit 9`
+`catanatron-play --num 100 --players F,PPOP:ppo_vRF --config-vps-to-win 15 --config-discard-limit 9`

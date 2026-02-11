@@ -31,7 +31,8 @@ from catanatron.players.ppo_player import PPOPlayer  # goldilocks bot
 from catanatron.models.player import Color
 
 # from stable_baselines3.common.vec_env import SubprocVecEnv
-from catanatron.gym.reward_wrapper import RewardWrapper
+#from catanatron.gym.reward_wrapper import RewardWrapper
+from catanatron.gym.prod_reward_wrapper import RewardWrapper 
 from catanatron.gym.callbacks import ResourceLogCallback
 
 
