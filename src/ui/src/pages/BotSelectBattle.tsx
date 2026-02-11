@@ -46,7 +46,7 @@ export default function BotSelectBattle() {
         botBKey,
       });
 
-    navigate(`/games/${gameId}`);
+      navigate(`/games/${gameId}`);
     } catch (e: any) {
       setError(e?.response?.data?.error ?? e?.message ?? "Failed to start game");
     }
@@ -54,17 +54,48 @@ export default function BotSelectBattle() {
 
   const valid = a && b && a !== b;
 
+  const dropdownStyle = {
+    padding: 12,
+    borderRadius: 6,
+    border: "1px solid #333",
+    backgroundColor: "#1c1c1c",
+    color: "#fff",
+    width: 250,
+    fontSize: 18,
+    maxHeight: 220,
+    overflowY: "auto" as const,
+  };
+
   return (
-    <div style={{ padding: 24, color: "#fff" }}>
-      <h2>Battle two bots</h2>
-      <div style={{ opacity: 0.8, marginBottom: 12 }}>Players: {numPlayers}</div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        color: "#fff",
+        backgroundColor: "#121212",
+        minHeight: "100vh",
+      }}
+    >
+      <h1 style={{ fontSize: "3rem", color: "#ffffff", marginBottom: 24 }}>
+        Battle Two Bots
+      </h1>
+      <div style={{ opacity: 0.8, marginBottom: 12, textAlign: "center" }}>
+        Players: {numPlayers}
+      </div>
 
-      {error && <div style={{ color: "crimson", marginBottom: 12 }}>{error}</div>}
+      {error && (
+        <div style={{ color: "crimson", marginBottom: 12, textAlign: "center" }}>
+          {error}
+        </div>
+      )}
 
-      <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+      <div style={{ display: "flex", justifyContent: "center", gap: 32, marginBottom: 24 }}>
+        {/* Bot A */}
         <div>
-          <div style={{ marginBottom: 6 }}>Bot A</div>
-          <select value={a} onChange={(e) => setA(e.target.value)}>
+          <div style={{ marginBottom: 6, textAlign: "center", color: "#ffccbc" }}>Bot A</div>
+          <select value={a} onChange={(e) => setA(e.target.value)} style={dropdownStyle}>
             {bots.map((x) => (
               <option key={x.id} value={x.id}>
                 {(x.name ?? x.id) + ` (Elo ${x.elo})`}
@@ -73,9 +104,10 @@ export default function BotSelectBattle() {
           </select>
         </div>
 
+        {/* Bot B */}
         <div>
-          <div style={{ marginBottom: 6 }}>Bot B</div>
-          <select value={b} onChange={(e) => setB(e.target.value)}>
+          <div style={{ marginBottom: 6, textAlign: "center", color: "#ffccbc" }}>Bot B</div>
+          <select value={b} onChange={(e) => setB(e.target.value)} style={dropdownStyle}>
             {bots.map((x) => (
               <option key={x.id} value={x.id}>
                 {(x.name ?? x.id) + ` (Elo ${x.elo})`}
@@ -85,11 +117,25 @@ export default function BotSelectBattle() {
         </div>
       </div>
 
-      {!valid && <div style={{ marginTop: 10, color: "crimson" }}>Pick two different bots.</div>}
+      {!valid && (
+        <div style={{ marginTop: 10, color: "crimson", textAlign: "center" }}>
+          Pick two different bots.
+        </div>
+      )}
 
-      <div style={{ marginTop: 16 }}>
-        <Button variant="contained" disabled={!valid} onClick={start}>
-          Start battle
+      <div style={{ textAlign: "center", marginTop: 16 }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          disabled={!valid}
+          onClick={start}
+          style={{
+            padding: "12px 24px",
+            fontSize: "1rem",
+            borderRadius: 8,
+          }}
+        >
+          Start Battle
         </Button>
       </div>
     </div>
