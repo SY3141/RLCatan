@@ -38,6 +38,7 @@ macOS CMD
 4. `pip install -e .`
 4. `pip install -e '.[web,gym,dev]'`
 5. `docker-compose up`
+6. `docker exec -it src-server-1 pip install "gymnasium<=0.29.1" numpy pandas fastparquet sb3_contrib`
 
 
 ## Simulations
@@ -72,3 +73,4 @@ Iter is the number of training steps, runs is how many times it is trained for t
 
 Benchmarking
 `catanatron-play --num 100 --players PPOP:ppo_v3,PPOP:ppo_v3_6 --config-vps-to-win 15 --config-discard-limit 7`
+
