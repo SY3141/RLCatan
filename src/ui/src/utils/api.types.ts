@@ -63,6 +63,7 @@ export type GameState = {
   adjacent_tiles: Record<string, Tile[]>;
   bot_colors: Color[];
   colors: Color[];
+  player_models: Record<string, string>;
   current_color: Color;
   winning_color?: Color;
   current_prompt: string;
