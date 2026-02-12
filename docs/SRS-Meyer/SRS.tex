@@ -137,18 +137,18 @@ The following glossary headers are hyperlinked to their online definitions for f
 \setcounter{subsection}{0}
 
 \subsection{Context and Overall Objective}\label{subsec:context-and-overall-objective}
-The project aims to create an \AI{} agent, named \textbf{RLCatan}, that learns to play the board game \emph{\Catan{}} competitively using deep reinforcement learning (PPO). The system serves as both a tool for players of all skill levels to compete against opponents matched to their ability level, and as a reference implementation demonstrating how to apply software engineering principles to large-scale \AI{} and machine learning challenges. \textbf{Critically, this project exemplifies experiential learning}[15], where the development team gains deep expertise in ML systems, full-stack development, and production deployment through hands-on implementation rather than passive study. The purpose is to develop a fully-functional, scalable \AI{} opponent system with an Elo rating league for opponent selection, curriculum-based training for improved learning, and a web-based interface for gameplay, analysis, and model management. The \AI{} agent can be used for practice, skill improvement, and strategic analysis across all player skill levels. The project addresses the challenges of creating an \AI{} for a game with a large state space, stochastic elements like dice rolls, and partially observable information through progressive curriculum learning and competitive self-play via Elo leagues. Core implementation includes a trained \RL{} agent (PPO) with Elo rating tracking, a curriculum learning system for progressive training phases, a web-based game interface built with React, replay functionality with game state analysis, dynamic bot selection based on player skill level, and comprehensive model versioning and management. The digital twin concept has been implemented as a web interface displaying game states digitally rather than a computer vision system observing physical boards (which remains as future work).
+The project aims to create an \AI{} agent, \textbf{RLCatan}, that learns to play \emph{\Catan{}} competitively using PPO-based reinforcement learning. The system supports players of all skill levels by providing Elo-matched opponents and a web interface for gameplay and analysis. It also serves as a reference implementation for building end-to-end ML systems and an \textbf{experiential learning} exemplar[15] through hands-on development. The project addresses large state space complexity, stochasticity, and partial observability via curriculum learning and self-play; the digital twin is implemented as a web UI (vision-based sensing remains future work).
 
 \subsection{Current Situation}\label{subsec:current-situation}
 Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a significant technical challenge for \AI{} development. This complexity limits players' ability to practice against opponents appropriate to their skill level. Existing \emph{\Catan{}} AI implementations typically offer only a single difficulty level, preventing novice players from learning fundamentals and denying competitive players access to truly challenging opponents. The lack of a multi-tiered \AI{} system with skill-based matchmaking restricts training opportunities for players at all levels who wish to improve their game. Additionally, the technical challenges of training effective \AI{} agents for large state-space games like \emph{\Catan{}} remain under-documented in software engineering contexts, limiting educational value for future researchers and companies exploring similar \AI{} systems. The RLCatan project will address these limitations by creating a comprehensive system designed to tackle these specific technical and usability hurdles.
 
 \subsection{Expected Benefits}\label{subsec:expected-benefits}
 \begin{itemize}
-    \item {Enhanced Player Skill and Engagement Across All Levels} – The RLCatan \AI{} provides scalable difficulty through Elo-rated opponents, allowing novice players to learn fundamentals while advanced players face competitive challenges. In-game advice helps players understand strategies, and multi-level play enables skill progression.
-    \item {Strategic Insights and Learning} – Offers post-game advice by analyzing key moments and explaining alternative moves to improve understanding and performance.
-    \item {\AI{} Innovation and Research Contribution} – The project contributes to \AI{} research by addressing large state spaces, stochastic elements, and partially observable environments through curriculum learning and Elo-based training strategies.
-    \item {Software Engineering and ML Integration Reference} – This project serves as a comprehensive case study in applying software engineering principles to machine learning systems, demonstrating: (1) integration with third-party libraries (Catanatron) as grey-box components, (2) architectural patterns for connecting frontend UI with backend services and trained models, and (3) methodologies for managing ML model versioning, training pipelines, and deployment at scale. Future companies and researchers can leverage this as a reference implementation for building production-grade deep learning systems.
-    \item {Experiential Learning Exemplar} – This project embodies the principles of experiential learning[15], where knowledge is created through the transformation of experience. The development team engages in a complete cycle of concrete experience (implementing complex ML systems), reflective observation (analyzing training results and system performance), abstract conceptualization (understanding ML theory and software architecture patterns), and active experimentation (iterating on models and system design). This hands-on approach to learning reinforcement learning, full-stack development, and production ML deployment provides far deeper understanding than purely theoretical study, making it an exemplary case of learning-by-doing in advanced software engineering.
+    \item {Skill-Appropriate Gameplay} – Elo-based opponents let novices learn fundamentals and advanced players face stronger competition.
+    \item {Strategic Insight} – Replay and post-game analysis highlight key decisions and alternatives.
+    \item {\AI{} Research Contribution} – Curriculum learning and self-play in a large state-space game provide reusable ML insights.
+    \item {Software Engineering Reference} – Demonstrates integration of UI, backend, simulator, and trained models in a production-style architecture.
+    \item {Experiential Learning Exemplar} – The team learns by building, testing, and iterating a full ML system; details are elaborated in Section~\ref{subsec:se-ml-learning}.
 \end{itemize}
 
 \subsection{Functionality Overview}\label{subsec:functionality-overview}
@@ -248,55 +248,19 @@ To ensure the system addresses the needs of its target audience, we have identif
 \end{itemize}
 
 \subsection{Software Engineering and ML Learning Value}\label{subsec:se-ml-learning}
-Beyond serving as a game-playing system, RLCatan functions as a comprehensive reference implementation demonstrating industry-relevant software engineering practices for machine learning systems. More importantly, it serves as an \textbf{exemplar of experiential learning}[15] in advanced software engineering and machine learning.
+RLCatan is a reference implementation for end-to-end ML system design and an \textbf{experiential learning} exemplar[15]. The team completes Kolb’s cycle (experience, reflection, conceptualization, experimentation) by building and iterating a production-style system.
 
 \hspace{1cm}
 
-\noindent\textbf{Experiential Learning Through Practice:} This project embodies Kolb's Experiential Learning Cycle:
+\noindent\textbf{Key learning outcomes:}
 \begin{itemize}
-    \item \textbf{Concrete Experience:} Hands-on implementation of a complete ML system from data pipeline to deployment, wrestling with real technical challenges rather than simplified textbook examples.
-    \item \textbf{Reflective Observation:} Analyzing training curves, debugging model performance, reviewing architectural decisions, and understanding why certain approaches succeeded or failed.
-    \item \textbf{Abstract Conceptualization:} Developing deep understanding of ML theory, software architecture patterns, and systems integration through direct application rather than passive learning.
-    \item \textbf{Active Experimentation:} Iterating on model designs, testing different training strategies (curriculum learning, Elo leagues), and refining system architecture based on empirical results.
+    \item \textbf{Integration Architecture:} Grey-box integration with Catanatron, interface adaptation, and dependency management.
+    \item \textbf{Full-Stack ML System Design:} Frontend, backend, training pipeline, model serving, and database working as one system.
+    \item \textbf{Advanced Training Methods:} Curriculum learning, Elo-based self-play, and model versioning in practice.
+    \item \textbf{Production ML Concerns:} Monitoring, rollback, and reproducible training runs.
 \end{itemize}
 
-The project demonstrates that complex concepts like reinforcement learning, distributed systems, and production ML are best learned through doing, not just reading.
-
-\hspace{1cm}
-
-\noindent\textbf{Integration Architecture:} The project exemplifies how to integrate third-party libraries (Catanatron) as grey-box components within a larger ML system. Through experiential learning, the team gains practical knowledge of managing external dependencies, adapting interfaces, and handling version compatibility across complex software stacks—knowledge that cannot be gained from documentation alone.
-
-\hspace{1cm}
-
-\noindent\textbf{Full-Stack ML System Design:} The architecture demonstrates end-to-end ML system design, connecting:
-\begin{itemize}
-    \item Frontend (React/TypeScript) for user interaction and visualization
-    \item Backend (Flask) for business logic and API management
-    \item ML Training Pipeline (Python/PyTorch) for model development
-    \item Model Serving Infrastructure for inference deployment
-    \item Database Systems (PostgreSQL) for persistent storage of game states, ratings, and metrics
-\end{itemize}
-
-Each component requires hands-on problem-solving, providing experiential learning opportunities that build genuine expertise.
-
-\hspace{1cm}
-
-\noindent\textbf{Advanced Training Methodologies:} The implementation showcases state-of-the-art techniques:
-\begin{itemize}
-    \item \textbf{\CurriculumLearning{}:} Progressive complexity management for efficient learning in large state spaces
-    \item \textbf{\Elo{} Rating Systems:} Skill-based matchmaking and opponent selection for self-play training
-    \item \textbf{Model Versioning:} Managing multiple model snapshots with associated performance metrics
-\end{itemize}
-
-Implementing these advanced techniques provides experiential learning that transforms theoretical knowledge into practical expertise.
-
-\hspace{1cm}
-
-\noindent\textbf{Production ML Challenges:} The project addresses real-world ML deployment concerns including model storage, version management, performance monitoring, and scalable inference serving. By encountering and solving these challenges firsthand, the development team gains experiential knowledge of production ML systems that is invaluable for future careers.
-
-\hspace{1cm}
-
-\noindent\textbf{Educational Impact:} Future companies and researchers developing deep learning systems for complex domains (robotics, autonomous systems, game AI, decision support) can reference this project's architecture, training strategies, and integration patterns as a template for their own implementations. More critically, this project demonstrates the power of experiential learning in software engineering education: the team's deep understanding of ML systems comes not from lectures or textbooks, but from the direct experience of building, debugging, and deploying a production-grade system.
+This provides a practical template for future teams and demonstrates why learning-by-doing is essential for complex ML systems.
 
 
 \newpage{}
@@ -1643,7 +1607,7 @@ The following safety and security requirements have been ported from our hazard 
     We'll need expertise in deep reinforcement learning (DRL) andneural networks, which are at the core of our system.
     A significant area of focus will be understanding how to apply heuristics to guide the DRL model for optimal performance.
     Additionally, we'll need to develop a deep understanding of the digital twin concept to accurately model the physical game board.
-    Finally, mastering computer vision (CV) will be crucial for processing visual input from a camera to represent the game state digitally.
+    Finally, mastering computer vision (CV) will be crucial for processing visual input from a camera to represent the game state.
 
     \item For DRL and DNN's: Independent research using academic papers, online resources, and tutorials.
     We could also have regular discussions with our supervisor, Dr. Istvan David, who is an expert in the field, as his feedback has already been very helpful.
