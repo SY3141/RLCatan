@@ -6,18 +6,6 @@
     "games": 83
   },
   {
-    "name": "vf",
-    "path": null,
-    "elo": 1217.7826756217855,
-    "games": 269
-  },
-  {
-    "name": "main",
-    "path": "/nfs/u50/yaoh24/RLCatan/src/rlcatan/models/ppo_v2.zip",
-    "elo": -4625.831555424171,
-    "games": 1422
-  },
-  {
     "name": "snap_66566144",
     "path": "/nfs/u50/yaoh24/RLCatan/src/rlcatan/models/league/snap_66566144",
     "elo": -4272.267612665742,

@@ -283,7 +283,6 @@ def _load_bots():
         {"id": "weighted_random", "name": "Weighted Random", "elo": 1050, "key": "WEIGHTED_RANDOM_PLAYER"},
         {"id": "random", "name": "Random", "elo": 1000, "key": "RANDOM"},
         {"id": "human", "name": "Human", "elo": None, "key": "HUMAN"},
-        {"id": "ppo_v2_2026-02-07", "name": "PPO v2 (2026-02-07)", "elo": 1623, "key": "BOT:ppo_v2_2026-02-07"},
     ]
 
     path = os.environ.get("BOTS_JSON_PATH")
