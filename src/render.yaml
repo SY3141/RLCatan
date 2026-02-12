@@ -1,6 +1,6 @@
 services:
   # PostgreSQL Database
-  - type: pgsql
+  - type: postgres
     name: rlcatan-db
     plan: free
     databaseName: rlcatan
