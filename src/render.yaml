@@ -1,32 +1,20 @@
 services:
-  # PostgreSQL Database
-  - type: postgres
-    name: rlcatan-db
-    plan: free
-    databaseName: rlcatan
-    user: rlcatan_user
-
-  # Web Service Backend API
   - type: web
     name: rlcatan-backend
     runtime: python
-    plan: free
     buildCommand: pip install --upgrade pip && pip install -e .[web]
     startCommand: gunicorn --bind 0.0.0.0:$PORT catanatron.web.wsgi:app
     healthCheckPath: /api/stress-test
     envVars:
       - key: PYTHON_VERSION
-        value: "3.12"
-      - key: DATABASE_URL
-        fromDatabase:
-          name: rlcatan-db
-          property: connectionString
+        value: 3.12
       - key: SECRET_KEY
         generateValue: true
       - key: FLASK_ENV
         value: production
-      # Path to league.json containing trained bot models
       - key: BOTS_JSON_PATH
         value: /app/rlcatan/models/league/league.json
+      - key: DATABASE_URL
+        value: "sqlite:///:memory:"
 
 
