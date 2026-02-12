@@ -9,6 +9,7 @@ from pathlib import Path
 from flask import Response, Blueprint, jsonify, abort, request
 
 from catanatron.web.models import upsert_game_state, get_game_state
+from catanatron.web.mcts_analysis import GameAnalyzer
 from catanatron.json import GameEncoder, action_from_json
 from catanatron.models.player import Color, Player, RandomPlayer
 from catanatron.game import Game

@@ -1,9 +1,16 @@
 [
+  
   {
     "name": "random",
     "path": null,
     "elo": 767.7842405007309,
     "games": 83
+  },
+  {
+    "name": "ppo_v3",
+    "path": "/nfs/u50/yaoh24/RLCatan/src/rlcatan/models/ppo_v3",
+    "elo": 1200,
+    "games": 1
   },
   {
     "name": "snap_66566144",
