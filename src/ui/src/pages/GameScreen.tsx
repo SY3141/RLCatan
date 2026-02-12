@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { GridLoader } from "react-spinners";
 import { useSnackbar } from "notistack";
@@ -16,12 +16,13 @@ import { type StateIndex, getState, postAction } from "../utils/apiClient";
 import { dispatchSnackbar } from "../components/Snackbar";
 import { getHumanColor } from "../utils/stateUtils";
 import AnalysisBox from "../components/AnalysisBox";
-import { Divider } from "@mui/material";
+import { Divider, Button } from "@mui/material";
 
 const ROBOT_THINKING_TIME = 300;
 
 function GameScreen({ replayMode }: { replayMode: boolean }) {
   const { gameId, stateIndex } = useParams();
+  const navigate = useNavigate();
   const { state, dispatch } = useContext(store);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [isBotThinking, setIsBotThinking] = useState(false);
@@ -93,6 +94,15 @@ function GameScreen({ replayMode }: { replayMode: boolean }) {
       <RightDrawer>
         <AnalysisBox stateIndex={"latest"}/>
         <Divider />
+        <div style={{ padding: 10, display: 'flex', justifyContent: 'center' }}>
+          <Button 
+            variant="contained" 
+            onClick={() => navigate(`/replays/${gameId}`)}
+            style={{ width: "100%" }}
+          >
+            Watch Replay
+          </Button>
+        </div>
       </RightDrawer>
     </main>
   );

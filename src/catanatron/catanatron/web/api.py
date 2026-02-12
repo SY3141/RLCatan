@@ -9,6 +9,7 @@ from pathlib import Path
 from flask import Response, Blueprint, jsonify, abort, request
 
 from catanatron.web.models import upsert_game_state, get_game_state
+from catanatron.web.mcts_analysis import GameAnalyzer
 from catanatron.json import GameEncoder, action_from_json
 from catanatron.models.player import Color, Player, RandomPlayer
 from catanatron.game import Game
@@ -57,38 +58,39 @@ def _resolve_model_path(raw_path: str) -> Path:
 def player_factory(player_key):
     key, color = player_key
 
+    player = None
     if player_key[0] == "CATANATRON":
-        return AlphaBetaPlayer(color, 2, True)
+        player = AlphaBetaPlayer(color, 2, True)
     
-    if player_key[0] == "FINAL_BOSS":
-        return AlphaBetaPlacementPlayer(color, 2, True)
+    elif player_key[0] == "FINAL_BOSS":
+        player = AlphaBetaPlacementPlayer(color, 2, True)
     
     elif player_key[0] == "VALUE_FUNCTION":
-        return ValueFunctionPlayer(color, is_bot=True)
+        player = ValueFunctionPlayer(color, is_bot=True)
     
     elif player_key[0] == "MCTS_PLAYER":
-        return MCTSPlayer(color, num_simulations=100)
+        player = MCTSPlayer(color, num_simulations=100)
     
     elif player_key[0] == "GREEDY_PLAYER":
-        return GreedyPlayoutsPlayer(color, num_playouts=50)
+        player = GreedyPlayoutsPlayer(color, num_playouts=50)
     
     elif player_key[0] == "VP_PLAYER":
-        return VictoryPointPlayer(color)
+        player = VictoryPointPlayer(color)
     
     elif player_key[0] == "PLACEMENT_PLAYER":
-        return PlacementPlayer(color)
+        player = PlacementPlayer(color)
     
     elif player_key[0] == "WEIGHTED_RANDOM_PLAYER":
-        return WeightedRandomPlayer(color)
+        player = WeightedRandomPlayer(color)
 
     elif player_key[0] == "RANDOM":
-        return RandomPlayer(color)
+        player = RandomPlayer(color)
 
     elif player_key[0] == "HUMAN":
-        return ValueFunctionPlayer(color, is_bot=False)
+        player = ValueFunctionPlayer(color, is_bot=False)
 
     # load bots by name from league.json (Their keys are expected to be in the format "BOT:bot_name")
-    if isinstance(key, str) and key.startswith("BOT:"):
+    elif isinstance(key, str) and key.startswith("BOT:"):
         bot_name = key.split(":", 1)[1]
         bots = _load_league_bots_by_name()
         bot = bots.get(bot_name)
@@ -103,9 +105,13 @@ def player_factory(player_key):
 
         model_path = _resolve_model_path(raw_path)
 
-        return PPOPlayer(color=color, model_path=str(model_path), device="cpu", deterministic=True)
+        player = PPOPlayer(color=color, model_path=str(model_path), device="cpu", deterministic=True)
+    
+    if player is None:
+        raise ValueError(f"Invalid player key: {key}")
 
-    raise ValueError(f"Invalid player key: {key}")
+    player.bot_name = key
+    return player
 
 
 @bp.route("/games", methods=("POST",))

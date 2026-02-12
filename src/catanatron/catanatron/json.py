@@ -88,6 +88,10 @@ class GameEncoder(json.JSONEncoder):
                 "actions": [self.default(a) for a in obj.state.actions],
                 "player_state": obj.state.player_state,
                 "colors": obj.state.colors,
+                "player_models": {
+                    p.color.name: getattr(p, "bot_name", None)
+                    for p in obj.state.players
+                },
                 "bot_colors": list(
                     map(
                         lambda p: p.color, filter(lambda p: p.is_bot, obj.state.players)
