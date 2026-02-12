@@ -627,6 +627,22 @@ The original vision for a computer vision system to observe physical board state
 
 No external APIs or hardware interfaces are required for the system.
 
+\subsection{Normal Operation}\label{subsec:normal-operation}
+\begin{itemize}
+    \item User initiates a game session through the web interface.
+    \item Backend initializes a game state via Catanatron and loads the selected \AI{} model.
+    \item The \AI{} agent and player alternate turns while the UI reflects state updates in real time.
+    \item Game state and results are persisted for replay and analysis.
+\end{itemize}
+
+\subsection{Undesired Event Handling}\label{subsec:undesired-event-handling}
+\begin{itemize}
+    \item {Model Load Failure} – System returns a clear error message and falls back to a baseline opponent if available.
+    \item {Simulation Error} – Game session terminates gracefully with logs preserved for debugging.
+    \item {UI Disconnect} – Session state is persisted; user can reconnect and resume from the last saved state.
+    \item {Invalid Move Request} – Backend rejects the move and returns valid action options.
+\end{itemize}
+
 \subsection{Detailed Usage Scenarios}\label{subsec:detailed-usage-scenarios}
 
 \noindent\textbf{Use Case Name:} Human vs \RL{} Agent Gameplay Session
