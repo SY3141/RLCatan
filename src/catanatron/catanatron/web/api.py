@@ -10,9 +10,22 @@ from catanatron.web.models import upsert_game_state, get_game_state
 from catanatron.json import GameEncoder, action_from_json
 from catanatron.models.player import Color, Player, RandomPlayer
 from catanatron.game import Game
+from catanatron.web.mcts_analysis import GameAnalyzer
+
 from catanatron.players.value import ValueFunctionPlayer
 from catanatron.players.minimax import AlphaBetaPlayer
-from catanatron.web.mcts_analysis import GameAnalyzer
+from catanatron.players.minimax_placement import AlphaBetaPlacementPlayer
+
+
+from catanatron.players.value import ValueFunctionPlayer
+from catanatron.players.minimax import AlphaBetaPlayer, SameTurnAlphaBetaPlayer
+from catanatron.players.search import VictoryPointPlayer
+from catanatron.players.mcts import MCTSPlayer
+from catanatron.players.playouts import GreedyPlayoutsPlayer
+from catanatron.players.weighted_random import WeightedRandomPlayer
+from catanatron.players.placement import PlacementPlayer
+
+#from catanatron.players.ppo_player import PPOPlayer
 
 bp = Blueprint("api", __name__, url_prefix="/api")
 
@@ -22,6 +35,27 @@ def player_factory(player_key):
 
     if player_key[0] == "CATANATRON":
         return AlphaBetaPlayer(colour, 2, True)
+    
+    if player_key[0] == "FINAL_BOSS":
+        return AlphaBetaPlacementPlayer(colour, 2, True)
+    
+    elif player_key[0] == "VALUE_FUNCTION":
+        return ValueFunctionPlayer(colour, is_bot=True)
+    
+    elif player_key[0] == "MCTS_PLAYER":
+        return MCTSPlayer(colour, num_simulations=100)
+    
+    elif player_key[0] == "GREEDY_PLAYER":
+        return GreedyPlayoutsPlayer(colour, num_playouts=50)
+    
+    elif player_key[0] == "VP_PLAYER":
+        return VictoryPointPlayer(colour)
+    
+    elif player_key[0] == "PLACEMENT_PLAYER":
+        return PlacementPlayer(colour)
+    
+    elif player_key[0] == "WEIGHTED_RANDOM_PLAYER":
+        return WeightedRandomPlayer(colour)
 
     elif player_key[0] == "RANDOM":
         return RandomPlayer(colour)
@@ -201,20 +235,29 @@ def _load_bots():
             "games": raw.get("games"),
         }
 
-    path = os.environ.get("BOTS_JSON_PATH")
-
-    if path and os.path.exists(path):
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            return [_normalize_bot(x) for x in data]
-
-    # If no valid JSON file is found, returns a stub list of bots
-    return [
+    default_bots = [
         {"id": "catanatron_ab_2", "name": "Catanatron (AlphaBeta d2)", "elo": 1500, "key": "CATANATRON"},
+        {"id": "final_boss", "name": "Final Boss (AlphaBeta Placement)", "elo": 1600, "key": "FINAL_BOSS"},
+        {"id": "value_function", "name": "Value Function Bot", "elo": 1400, "key": "VALUE_FUNCTION"},
+        {"id": "mcts", "name": "MCTS (100 sims)", "elo": 1450, "key": "MCTS_PLAYER"},
+        {"id": "greedy", "name": "Greedy Playouts (50)", "elo": 1300, "key": "GREEDY_PLAYER"},
+        {"id": "vp_player", "name": "Victory Point Bot", "elo": 1200, "key": "VP_PLAYER"},
+        {"id": "placement_player", "name": "Placement Only Bot", "elo": 1100, "key": "PLACEMENT_PLAYER"},
+        {"id": "weighted_random", "name": "Weighted Random", "elo": 1050, "key": "WEIGHTED_RANDOM_PLAYER"},
         {"id": "random", "name": "Random", "elo": 1000, "key": "RANDOM"},
         {"id": "human", "name": "Human", "elo": None, "key": "HUMAN"},
         {"id": "ppo_v2_2026-02-07", "name": "PPO v2 (2026-02-07)", "elo": 1623, "key": "BOT:ppo_v2_2026-02-07"},
     ]
+
+    path = os.environ.get("BOTS_JSON_PATH")
+
+    json_bots = []
+    if path and os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            json_bots = [_normalize_bot(x) for x in data]
+    
+    return default_bots + json_bots
 
 
 @bp.route("/bots", methods=("GET",))

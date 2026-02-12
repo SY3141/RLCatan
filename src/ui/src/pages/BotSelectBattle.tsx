@@ -52,7 +52,7 @@ export default function BotSelectBattle() {
     }
   };
 
-  const valid = a && b && a !== b;
+  const valid = a && b;
 
   const dropdownStyle = {
     padding: 12,
@@ -119,7 +119,7 @@ export default function BotSelectBattle() {
 
       {!valid && (
         <div style={{ marginTop: 10, color: "crimson", textAlign: "center" }}>
-          Pick two different bots.
+          Pick two bots.
         </div>
       )}
 
