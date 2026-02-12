@@ -3,6 +3,8 @@ import json
 import logging
 import traceback
 from typing import List
+from functools import lru_cache
+from pathlib import Path
 
 from flask import Response, Blueprint, jsonify, abort, request
 
@@ -10,13 +12,8 @@ from catanatron.web.models import upsert_game_state, get_game_state
 from catanatron.json import GameEncoder, action_from_json
 from catanatron.models.player import Color, Player, RandomPlayer
 from catanatron.game import Game
-from catanatron.web.mcts_analysis import GameAnalyzer
 
-from catanatron.players.value import ValueFunctionPlayer
-from catanatron.players.minimax import AlphaBetaPlayer
 from catanatron.players.minimax_placement import AlphaBetaPlacementPlayer
-
-
 from catanatron.players.value import ValueFunctionPlayer
 from catanatron.players.minimax import AlphaBetaPlayer, SameTurnAlphaBetaPlayer
 from catanatron.players.search import VictoryPointPlayer
@@ -24,51 +21,91 @@ from catanatron.players.mcts import MCTSPlayer
 from catanatron.players.playouts import GreedyPlayoutsPlayer
 from catanatron.players.weighted_random import WeightedRandomPlayer
 from catanatron.players.placement import PlacementPlayer
-
-#from catanatron.players.ppo_player import PPOPlayer
+from catanatron.players.ppo_player import PPOPlayer
 
 bp = Blueprint("api", __name__, url_prefix="/api")
 
+@lru_cache(maxsize=1)
+def _load_league_bots_by_name() -> dict[str, dict]:
+    """
+    Loads the league json once and returns a mapping:
+      bot_name -> bot_record
+    """
+    bots_path = os.environ.get("BOTS_JSON_PATH")
+    if not bots_path:
+        return {}
+
+    data = json.loads(Path(bots_path).read_text(encoding="utf-8"))
+    return {b["name"]: b for b in data}
+
+
+def _resolve_model_path(raw_path: str) -> Path:
+    p = Path(raw_path)
+
+    # If this is an HPC absolute path (e.g., /nfs/.../rlcatan/...), remap into the container
+    if p.is_absolute() and "rlcatan" in p.parts:
+        idx = p.parts.index("rlcatan")
+        p = Path("/app").joinpath(*p.parts[idx:])
+
+    # If path is relative, treat it as relative to /app
+    if not p.is_absolute():
+        p = Path("/app") / p
+
+    return p
+
 
 def player_factory(player_key):
-    key, colour = player_key
+    key, color = player_key
 
     if player_key[0] == "CATANATRON":
-        return AlphaBetaPlayer(colour, 2, True)
+        return AlphaBetaPlayer(color, 2, True)
     
     if player_key[0] == "FINAL_BOSS":
-        return AlphaBetaPlacementPlayer(colour, 2, True)
+        return AlphaBetaPlacementPlayer(color, 2, True)
     
     elif player_key[0] == "VALUE_FUNCTION":
-        return ValueFunctionPlayer(colour, is_bot=True)
+        return ValueFunctionPlayer(color, is_bot=True)
     
     elif player_key[0] == "MCTS_PLAYER":
-        return MCTSPlayer(colour, num_simulations=100)
+        return MCTSPlayer(color, num_simulations=100)
     
     elif player_key[0] == "GREEDY_PLAYER":
-        return GreedyPlayoutsPlayer(colour, num_playouts=50)
+        return GreedyPlayoutsPlayer(color, num_playouts=50)
     
     elif player_key[0] == "VP_PLAYER":
-        return VictoryPointPlayer(colour)
+        return VictoryPointPlayer(color)
     
     elif player_key[0] == "PLACEMENT_PLAYER":
-        return PlacementPlayer(colour)
+        return PlacementPlayer(color)
     
     elif player_key[0] == "WEIGHTED_RANDOM_PLAYER":
-        return WeightedRandomPlayer(colour)
+        return WeightedRandomPlayer(color)
 
     elif player_key[0] == "RANDOM":
-        return RandomPlayer(colour)
+        return RandomPlayer(color)
 
     elif player_key[0] == "HUMAN":
-        return ValueFunctionPlayer(colour, is_bot=False)
+        return ValueFunctionPlayer(color, is_bot=False)
 
-    elif isinstance(key, str) and key.startswith("BOT:"):
-        # For now, just make it act like a bot (smoke test)
-        return AlphaBetaPlayer(colour, 2, True)
+    # load bots by name from league.json (Their keys are expected to be in the format "BOT:bot_name")
+    if isinstance(key, str) and key.startswith("BOT:"):
+        bot_name = key.split(":", 1)[1]
+        bots = _load_league_bots_by_name()
+        bot = bots.get(bot_name)
 
-    else:
-        raise ValueError("Invalid player key")
+        if bot is None:
+            abort(400, description=f"Unknown bot '{bot_name}'")
+
+        raw_path = bot.get("path")
+
+        if not raw_path:
+            abort(400, description=f"Bot '{bot_name}' has no model path")
+
+        model_path = _resolve_model_path(raw_path)
+
+        return PPOPlayer(color=color, model_path=str(model_path), device="cpu", deterministic=True)
+
+    raise ValueError(f"Invalid player key: {key}")
 
 
 @bp.route("/games", methods=("POST",))
