@@ -19,8 +19,12 @@ Launches the test runner (vitest) in the interactive watch mode.<br />
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `dist` folder.
+
+## Deployment (Vercel)
+
+Set the project root to `src/ui`, configure the build command as `npm run build`, and use `dist` as the output directory.
+Set `CTRON_API_URL` in Vercel Environment Variables for the backend API base URL.
 
 ## Learn More
 
