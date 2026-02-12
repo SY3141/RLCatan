@@ -49,7 +49,8 @@
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
 Oct 6th & All & Draft of SRS\\
-Oct 10th & All & Completion of SRS\\
+Oct 10th & All & Completion of SRS (Revision 0)\\
+Feb 10th 2026 & All & Revision 1: Updated to reflect implemented features, Elo self-play league, curriculum learning, and multi-level opponent selection\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -93,6 +94,9 @@ Added a safety requirements section & This allows us to port over the hazard ana
 \hypertarget{glossary-cv}{}
 \hypertarget{glossary-llm}{}
 \hypertarget{glossary-gamestate}{}
+\hypertarget{glossary-elo}{}
+\hypertarget{glossary-curriculum}{}
+\hypertarget{glossary-experiential}{}
 
 % ===== Internal references (used throughout document) =====
 \newcommand{\Catan}{\hyperlink{glossary-catan}{Catan}}
@@ -102,6 +106,9 @@ Added a safety requirements section & This allows us to port over the hazard ana
 \newcommand{\CV}{\hyperlink{glossary-cv}{CV}}
 \newcommand{\LLM}{\hyperlink{glossary-llm}{LLM}}
 \newcommand{\GameState}{\hyperlink{glossary-gamestate}{Game State}}
+\newcommand{\Elo}{\hyperlink{glossary-elo}{Elo}}
+\newcommand{\CurriculumLearning}{\hyperlink{glossary-curriculum}{Curriculum Learning}}
+\newcommand{\ExperientialLearning}{\hyperlink{glossary-experiential}{Experiential Learning}}
 
 \section*{Glossary}
 \addcontentsline{toc}{section}{Glossary}
@@ -115,6 +122,9 @@ The following glossary headers are hyperlinked to their online definitions for f
     \item \hypertarget{glossary-cv}{\CVExt{}} – An area of AI that trains computers to interpret and understand visual information, such as the physical \emph{Catan} board.[5]
     \item \hypertarget{glossary-llm}{\LLMExt{}} – A machine learning model trained on large amounts of text data to generate and understand language.[6]
     \item \hypertarget{glossary-gamestate}{\GameStateExt{}} – The current configuration of the game, including player resources, board layout, and dice rolls.[7]
+    \item \hypertarget{glossary-elo}{\textbf{Elo Rating}} – A numerical rating system for competitive players (human or AI) that reflects their skill level and enables skill-matched matchmaking. Named after Arpad Elo, the system updates ratings based on game results against opponents of different ratings.
+    \item \hypertarget{glossary-curriculum}{\textbf{Curriculum Learning}} – A machine learning training strategy where the model learns progressively through ordered phases of increasing complexity. In this project, curriculum phases simplify game rules initially (e.g., lower victory points) and gradually increase to full complexity.
+    \item \hypertarget{glossary-experiential}{\textbf{Experiential Learning}} – An educational philosophy and learning process where knowledge is created through the transformation of experience, following Kolb's cycle: concrete experience, reflective observation, abstract conceptualization, and active experimentation. In software engineering, this means learning by actually building and deploying systems rather than only studying theory.[15]
 \end{itemize}
 
 
@@ -127,33 +137,41 @@ The following glossary headers are hyperlinked to their online definitions for f
 \setcounter{subsection}{0}
 
 \subsection{Context and Overall Objective}\label{subsec:context-and-overall-objective}
-The project aims to create an \AI{} agent, named \textbf{RLCatan}, that learns to play the board game \emph{\Catan{}} competitively using deep reinforcement learning. The purpose is to develop a decision-making support tool that aids players by providing strategic advice. This tool will also serve as a powerful \AI{} opponent for practice. The project addresses the challenges of creating an \AI{} for a game with a large state space, stochastic elements like dice rolls, and partially observable information. The final product will be a \DigitalTwin{} that uses computer vision to observe a physical game and provide real-time strategic suggestions.
+The project aims to create an \AI{} agent, \textbf{RLCatan}, that learns to play \emph{\Catan{}} competitively using PPO-based reinforcement learning. The system supports players of all skill levels by providing Elo-matched opponents and a web interface for gameplay and analysis. It also serves as a reference implementation for building end-to-end ML systems and an \textbf{experiential learning} exemplar[15] through hands-on development. The project addresses large state space complexity, stochasticity, and partial observability via curriculum learning and self-play; the digital twin is implemented as a web UI (vision-based sensing remains future work).
 
 \subsection{Current Situation}\label{subsec:current-situation}
-Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a significant technical challenge for \AI{} development. This complexity limits players' ability to practice against a consistently challenging opponent and prevents a deeper, data-driven understanding of the game's optimal strategies. The lack of a high-level \AI{} bot also restricts training opportunities for competitive players who wish to improve their game. The RLCatan project will address this limitation by creating a tool designed to tackle these specific technical hurdles.
+Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a significant technical challenge for \AI{} development. This complexity limits players' ability to practice against opponents appropriate to their skill level. Existing \emph{\Catan{}} AI implementations typically offer only a single difficulty level, preventing novice players from learning fundamentals and denying competitive players access to truly challenging opponents. The lack of a multi-tiered \AI{} system with skill-based matchmaking restricts training opportunities for players at all levels who wish to improve their game. Additionally, the technical challenges of training effective \AI{} agents for large state-space games like \emph{\Catan{}} remain under-documented in software engineering contexts, limiting educational value for future researchers and companies exploring similar \AI{} systems. The RLCatan project will address these limitations by creating a comprehensive system designed to tackle these specific technical and usability hurdles.
 
 \subsection{Expected Benefits}\label{subsec:expected-benefits}
 \begin{itemize}
-    \item {Enhanced Player Skill and Engagement} – The RLCatan \AI{} provides in-game advice, helping novice players understand the game and allowing advanced players to refine strategies.
-    \item {Strategic Insights and Learning} – Offers post-game advice by analyzing key moments and explaining alternative moves to improve understanding and performance.
-    \item {\AI{} Innovation and Research Contribution} – The project contributes to \AI{} research by addressing large state spaces, stochastic elements, and partially observable environments, demonstrating the team's technical capabilities.
+    \item {Skill-Appropriate Gameplay} – Elo-based opponents let novices learn fundamentals and advanced players face stronger competition.
+    \item {Strategic Insight} – Replay and post-game analysis highlight key decisions and alternatives.
+    \item {\AI{} Research Contribution} – Curriculum learning and self-play in a large state-space game provide reusable ML insights.
+    \item {Software Engineering Reference} – Demonstrates integration of UI, backend, simulator, and trained models in a production-style architecture.
+    \item {Experiential Learning Exemplar} – The team learns by building, testing, and iterating a full ML system; details are elaborated in Section~\ref{subsec:se-ml-learning}.
 \end{itemize}
 
 \subsection{Functionality Overview}\label{subsec:functionality-overview}
 \begin{itemize}
-    \item {\GameState{} capture} – A camera captures the physical board state.
-    \item {Data processing} – Converts captured images into a digital representation of the board and player data.
-    \item {\AI{} analysis} – Reinforcement learning model determines optimal actions.
-    \item {Output} – Provides move suggestions to the player's device.
-    \item {Post-game advice} – Offers insights on key moments after the game concludes.
-    \item {Simulation} – \AI{} can simulate gameplay as a competing player.
+    \item {\AI{} Agent Training} – A PPO-based reinforcement learning agent trained through curriculum learning phases and self-play against opponents from an Elo league.
+    \item {Elo Self-Play League System} – A competitive league infrastructure that maintains Elo ratings for all trained model snapshots and baseline opponents (random, value function, etc.), enabling dynamic opponent selection based on player skill level.
+    \item {Curriculum Learning Framework} – Progressive training phases that start with simplified game rules (e.g., lower victory points, disabled complex actions) and gradually advance to full complexity, improving learning efficiency and convergence.
+    \item {Game Simulation Environment} – A Python-based simulator (Catanatron) that supports training, benchmarking, and evaluation of \AI{} agents with configurable rule variations.
+    \item {Web-based Game Interface} – A React/TypeScript interface for viewing live games and interacting with the \AI{} agent in real-time, with intuitive opponent selection by difficulty level.
+    \item {Game Replay and Analysis} – Functionality to replay past games and display strategic analysis (e.g., win probability at each game state via MCTS-based evaluation).
+    \item {Dynamic Opponent Selection} – Players can select opponents matched to their current Elo rating or choose specific difficulty levels, enabling skill-appropriate gameplay.
+    \item {Model Versioning and Management} – Comprehensive tracking of model snapshots, training history, and Elo ratings for model introspection and version rollback.
+    \item {Digital Twin Representation} – A digital display of the current board and game state, updated in real-time as gameplay progresses (web-based, not vision-based).
 \end{itemize}
 
 \subsection{High-Level Usage Scenarios}\label{subsec:high-level-usage-scenarios}
 \begin{itemize}
-    \item {Scenario 1: In-game advice} – Players show the current board state; the system suggests the optimal next move.
-    \item {Scenario 2: Post-game analysis} – Players review performance; the system highlights key moments and alternative strategies.
-    \item {Scenario 3: Training against the \AI{}} – Players play a full game against RLCatan, which acts as a competitive opponent for practice.
+    \item {Scenario 1: Playing Against Skill-Matched \AI{}} – Users select their skill level or enter their own Elo rating, and the system recommends or directly assigns an opponent from the Elo league. Users then play a match through the web interface with real-time board visualization and optional move recommendations.
+    \item {Scenario 2: Multi-Level Player Progression} – A novice player starts with a low-Elo opponent, practices, and gradually challenges higher-rated opponents as their skill improves. The system dynamically suggests progressively more difficult opponents based on win rates.
+    \item {Scenario 3: Replaying Past Games and Analysis} – Users access historical games, step through each turn, and view strategic analysis (e.g., win probability calculations) at each state to learn from both wins and losses.
+    \item {Scenario 4: Bot Selection and Benchmarking} – Developers or advanced users select specific trained models from the league, configure them against each other or baselines, and evaluate performance through statistical analysis and match results.
+    \item {Scenario 5: Curriculum-Based Training} – Developers run training loops configured with curriculum phases, monitoring phase transitions and reward metrics as the \AI{} agent progresses from simplified to full-complexity game rules.
+    \item {Scenario 6: Model Versioning and Rollback} – Developers view historical model versions with their associated Elo ratings, select previous versions for deployment if needed, or analyze performance trends across training iterations.
 \end{itemize}
 \begin{figure}[H]
     \makebox[\textwidth][c]{\includegraphics[width=1.4\textwidth]{activity_diagram.png}}
@@ -164,17 +182,25 @@ Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a si
 
 \subsection{Limitations and Exclusions}\label{subsec:limitations-and-exclusions}
 \begin{itemize}
+    \item {Computer Vision (Out of Scope)} – The system does not process physical board images. All game states are provided programmatically through the game simulator, not detected via camera.
+    \item {Real-time Physical Board Tracking} – The system does not use sensors or cameras to observe a physical game setup.
     \item {Physical interaction with the board} – The system will not move pieces or manipulate the board.
-    \item {Full real-time tracking} – Focus is on capturing static frames, not continuous video streams.
-    \item {Hidden information tracking} – The \AI{} will not access information that is hidden from players.
+    \item {Hidden information tracking} – The \AI{} will not access information that is hidden from players (respects game rules).
     \item {Support for expansions} – The scope is limited to standard Settlers of \emph{\Catan{}} rules; expansions are excluded.
+    \item {Natural Language Explanations} – LLM-based strategic explanations are not yet implemented; analysis is provided through numerical metrics.
+    \item {Smart Glasses Integration} – Augmented reality features are not implemented.
+    \item {Human Persona Modeling} – Trading behavior prediction based on player personas is not implemented.
 \end{itemize}
 
 \subsection{Stakeholders and Requirements Sources}\label{subsec:stakeholders-and-requirements-sources}
 \textbf{Stakeholders:}
 \begin{itemize}
     \item Society – General public interested in board game strategy.
-    \item Players of \emph{\Catan{}} – End-users seeking skill improvement.
+    \item Players of \emph{\Catan{}} – End-users of all skill levels seeking appropriate opponents and skill improvement.
+    \item Software Engineering Researchers and Practitioners – Professionals and students seeking reference implementations for integrating ML systems with production software architectures.
+    \item Machine Learning Community – Researchers exploring curriculum learning and Elo-based training strategies for large state-space games.
+    \item Software Engineering Educators – Academic institutions seeking real-world examples of experiential learning in advanced software engineering, demonstrating the value of learning-by-doing for complex ML systems.
+    \item Development Team – Team members gaining hands-on expertise in production ML systems through experiential learning.
     \item Project Supervisor – Dr. Istvan David.
     \item Department of Computing and Software (CAS) – Hosting organization.
 \end{itemize}
@@ -182,45 +208,62 @@ Despite its popularity, the inherent complexity of \emph{\Catan{}} presents a si
 \noindent\textbf{Requirements Sources:}
 \begin{itemize}
     \item Project documentation – Initial description provided by Dr. Istvan David.
-    \item Competitive \emph{\Catan{}} players – Consulted for strategic insights and advanced gameplay knowledge.
+    \item Competitive \emph{\Catan{}} players – Consulted for strategic insights, gameplay knowledge, and multi-level difficulty requirements.
     \item Open-source libraries – Catanatron[10], OpenCV[11], and YOLOv9[12] were consulted to inform the technical requirements.
-    \item Academic research – Reinforcement learning and computer vision papers guide \AI{} design.
+    \item Academic research – Reinforcement learning, curriculum learning[14], Elo rating systems[13], and computer vision papers guide \AI{} design.
     \item Industry standards – PEP 8[9] and Google style guides[8] define coding standards.
 \end{itemize}
 
 
 \subsection{User Profiles}\label{subsec:User Profiles}
-To ensure the system addresses the needs of its target audience, we have identified three distinct user profiles within the "Players of \emph{\Catan{}}" stakeholder group.
+To ensure the system addresses the needs of its target audience, we have identified three distinct user profiles within the "Players of \emph{\Catan{}}" stakeholder group, aligned with the Elo league system for appropriate opponent matching.
 
 \hspace{1cm}
 
-\noindent\textbf{1. The Novice Player}
+\noindent\textbf{1. The Novice Player (Low Elo: 800-1100)}
 \begin{itemize}
     \item \textbf{Game Knowledge:} Limited understanding of strategic depth; often focuses on basic rules and immediate resource needs.
-    \item \textbf{Goals:} To learn the fundamentals, understand optimal building placements, and avoid common mistakes.
+    \item \textbf{Goals:} To learn the fundamentals, understand optimal building placements, and avoid common mistakes. Seeks skill progression with appropriate difficulty scaling.
     \item \textbf{Digital Literacy:} Varies, but expects a simple, intuitive, and highly guided interface.
-    \item \textbf{Rationale:} The system's in-game advice functionality and clear user interface are primarily tailored for this user. The \AI{} provides straightforward recommendations, helping them make informed decisions and build a foundational understanding of the game without feeling overwhelmed.
+    \item \textbf{Elo Matching:} The system matches this player against low-Elo opponents, with gradual progression as win rate improves. The \AI{} provides straightforward recommendations and encouragement.
+    \item \textbf{Rationale:} The system's in-game advice functionality and Elo-based opponent selection are primarily tailored for this user. The curriculum learning phases trained on simplified rules also benefit novice players who face fewer complex game states early on.
 \end{itemize}
 
-\noindent\textbf{2. The Intermediate Player}
+\noindent\textbf{2. The Intermediate Player (Medium Elo: 1100-1400)}
 \begin{itemize}
     \item \textbf{Game Knowledge:} Has a solid grasp of the rules and common strategies but struggles with adapting to complex game states or high-level opponent plays.
-    \item \textbf{Goals:} To improve their win rate, discover new strategies, and understand the trade-offs of different moves.
+    \item \textbf{Goals:} To improve their win rate, discover new strategies, and understand the trade-offs of different moves. Wants to challenge themselves with appropriately difficult opponents.
     \item \textbf{Digital Literacy:} Generally comfortable with technology and can navigate more detailed features.
-    \item \textbf{Rationale:} This user benefits most from the system's post-game analysis, which will highlight key strategic moments and explain why alternative moves would have been better. This provides the deeper, data-driven insights needed to advance their skills beyond a basic level.
+    \item \textbf{Elo Matching:} The system recommends mid-tier opponents and progressively offers slightly higher-Elo opponents as performance improves. Post-game analysis highlights key strategic moments.
+    \item \textbf{Rationale:} This user benefits most from the system's post-game analysis and dynamic opponent scaling. The Elo league provides meaningful progression and competitive feedback.
 \end{itemize}
 
-\noindent\textbf{3. The Competitive Player}
+\noindent\textbf{3. The Competitive Player (High Elo: 1400+)}
 \begin{itemize}
     \item \textbf{Game Knowledge:} Extensive knowledge of the game, including advanced strategies, common openings, and opponent metagame.
-    \item \textbf{Goals:} To find the absolute optimal play in any given situation, test new theories, and practice against a highly challenging opponent.
-    \item \textbf{Digital Literacy:} High; they are willing to engage with complex data visualizations and advanced settings.
-    \item \textbf{Rationale:} The \AI{} model's ability to serve as a competitive opponent is crucial for this user profile. They can use the system to play thousands of simulated games to refine their strategies and test a variety of theoretical game paths. The confidence scoring and detailed analysis are also of great value to them, as they can validate their intuition against the model's computations.
+    \item \textbf{Goals:} To find the absolute optimal play in any given situation, test new theories, and practice against the most challenging opponents. May aspire to master the trained model or contribute to model development.
+    \item \textbf{Digital Literacy:} High; they are willing to engage with complex data visualizations, advanced settings, and model versioning interfaces.
+    \item \textbf{Elo Matching:} This player selects high-Elo opponents, accesses model versioning history, and may examine the Elo league standings. Can participate in benchmarking activities.
+    \item \textbf{Rationale:} The \AI{} model's ability to serve as a competitive opponent through the Elo league is crucial for this user profile. They can use the system to play thousands of simulated games against top-rated models to refine their strategies. Access to model versions and Elo ratings enables strategic analysis.
 \end{itemize}
+
+\subsection{Software Engineering and ML Learning Value}\label{subsec:se-ml-learning}
+RLCatan is a reference implementation for end-to-end ML system design and an \textbf{experiential learning} exemplar[15]. The team completes Kolb’s cycle (experience, reflection, conceptualization, experimentation) by building and iterating a production-style system.
+
+\hspace{1cm}
+
+\noindent\textbf{Key learning outcomes:}
+\begin{itemize}
+    \item \textbf{Integration Architecture:} Grey-box integration with Catanatron, interface adaptation, and dependency management.
+    \item \textbf{Full-Stack ML System Design:} Frontend, backend, training pipeline, model serving, and database working as one system.
+    \item \textbf{Advanced Training Methods:} Curriculum learning, Elo-based self-play, and model versioning in practice.
+    \item \textbf{Production ML Concerns:} Monitoring, rollback, and reproducible training runs.
+\end{itemize}
+
+This provides a practical template for future teams and demonstrates why learning-by-doing is essential for complex ML systems.
 
 
 \newpage{}
-
 
 
 \phantomsection
@@ -237,34 +280,41 @@ To ensure the system addresses the needs of its target audience, we have identif
 \raggedright The following is a list of elements in the environment that may affect or be affected by the system and the project.
 It includes other systems to which the system must be interfaced:
 \begin{itemize}
-    \item {Physical \emph{\Catan{}} board and pieces} – The physical game setup that the system observes.
-    \item {Players} – Human participants who interact with the physical game and receive decision support.
-    \item {Cameras} – Hardware that captures the physical board state for the \DigitalTwin{}.
-    \item {OpenAI Gym} – Provides a training/testing environment for reinforcement learning agents.
-    \item {Reinforcement Learning Agent} – Learns strategies through the simulator and connects with the \DigitalTwin{} for real-time decision support.
-    \item {Optional components:}
+    \item {Game Simulator (Catanatron)} – The Python library that provides complete \emph{\Catan{}} game simulation, rule enforcement, and state management, serving as the foundational integration point for the project.
+    \item {Elo League System} – Infrastructure for tracking and managing competitive ratings of trained model snapshots and baseline opponents, enabling dynamic opponent matching.
+    \item {Curriculum Learning Manager} – System for defining and managing progressive training phases with configurable rule variations and advancement thresholds.
+    \item {Players} – Human users of varying skill levels interacting with the web interface and AI agents competing against each other or the player.
+    \item {Web Browser} – Client environment where the React UI runs, displaying the game state and accepting user input.
+    \item {Web Server} – Flask-based backend that processes game logic, manages Elo ratings, and serves API endpoints to the frontend.
+    \item {Database Server} – PostgreSQL instance storing game history, player profiles, match statistics, Elo ratings, and curriculum progress.
+    \item {Training Infrastructure} – GPU-enabled servers or local machines for running \RL{} training loops with curriculum phases and league-based opponent selection.
+    \item {Optional/Future components:}
     \begin{itemize}
-        \item {Smart glasses} – Provide players with an augmented view of the game and recommendations.
-        \item {\LLM{} service/API} – Generates natural language explanations of strategies.
+        \item {Computer Vision System} – (Deferred) Would process camera input to track physical board state in future versions.
+        \item {\LLM{} service/API} – (Deferred) Would generate natural language explanations of strategies in future versions.
+        \item {Smart glasses} – (Deferred) Would provide augmented reality visualization in future versions.
     \end{itemize}
 \end{itemize}
 
 \subsection{Constraints}\label{subsec:constraints}
 \begin{itemize}
     \item {Game rules of \emph{\Catan{}}} – The \RL{} agent must strictly follow the official rules of the game.
-    \item {Real-time operation} – The system must process board states and provide recommendations fast enough to be useful during live play.
-    \item {Camera limits (\CV{})} – Accuracy of \GameState{} detection is restricted by available hardware (resolution of camera, field of view, lighting).
-    \item {Simulator environment} – The \RL{} agent is limited to the APIs and mechanics provided by the \emph{\Catan{}} simulator.
+    \item {Web Server Performance} – The system must process game states and API requests fast enough to provide responsive gameplay.
+    \item {Simulator Accuracy} – The game simulator must correctly implement all game mechanics to ensure the \AI{} learns valid strategies.
+    \item {Model Loading} – The \RL{} agent model must be efficiently loaded and kept in memory during gameplay.
     \item {Computational resources} – Training and running the \RL{} agent is bounded by available GPU/CPU capacity.
+    \item {Database Performance} – Game state lookups and historical queries must be efficient for real-time and replay functionality.
     \item {Timeframe} – The project must be completed within the allocated time frame.
+    \item {Browser Compatibility} – The web interface must function across major browsers (Chrome, Firefox, Safari, Edge).
 \end{itemize}
 
 \subsection{Assumptions}\label{subsec:assumptions}
 \begin{itemize}
-    \item {Players will follow standard \emph{Catan{}} rules} – The system assumes human players will adhere to official game rules and employ logical gameplay.
-    \item {Stable lighting and camera angle} – The computer vision module assumes it can reliably see the board, even if real-world conditions could vary.
-    \item {Network Reliability} – The system assumes the network connection will be reliable enough for real-time suggestions.
-    \item {Device Reliability} - The system assumes the player’s device will function properly without crashes or interruptions.
+    \item {Game rules compliance} – The system assumes human players and \AI{} agents will adhere to official game rules and employ valid gameplay.
+    \item {Network Reliability} – The system assumes the network connection will be reliable enough for web-based gameplay and API communication.
+    \item {Device Reliability} – The system assumes the user's device and browser will function properly without crashes or interruptions.
+    \item {Simulator Accuracy} – The system assumes the Catanatron simulator accurately represents game state transitions and rule enforcement.
+    \item {Model Stability} – The system assumes trained \RL{} models will remain stable and valid between training sessions and versions.
 \end{itemize}
 
 \subsection{Effects}\label{subsec:effects}
@@ -371,32 +421,27 @@ Additionally, we shall abide by the following legal and regulatory factors:
 The system is separated into a list of major components:
 
 \begin{itemize}
-    \item Game State Manager: The component
-    in charge of transferring a static/real-time physical board state to a 
-    digital representation, via \CV{} or sensors.
+    \item Game Simulation Engine: The Python-based Catanatron library that simulates the complete game state, rules, and mechanics for both training and gameplay.
 
-    \item Reinforcement Learning Environment: The training
-    environment for the model, acting as a representation of the game's state and the
-    moves that can be made on a given turn.
+    \item Reinforcement Learning Agent (PPO): The trained PPO model capable of making strategic decisions in \emph{\Catan{}} games through learned policy and value functions.
 
-    \item \AI{} model: The pre-trained model,
-    responsible for providing a move prompt to be sent to the user.
+    \item \Elo{} League System: A competitive rating infrastructure that maintains Elo ratings for trained model snapshots, baseline opponents (random, value function), and provides dynamic opponent selection. Handles rating updates based on match outcomes and manages league member storage and pruning.
 
-    \item User Interface: The visual
-    representation of the current \GameState{}, appended with the move suggested by
-    the model, displayed to the user so they can make use of the model's advice.
+    \item Curriculum Learning Manager: A system for managing progressive training phases with configurable rule variations (e.g., lower victory points, disabled actions), advancement thresholds based on metrics, and phase tracking across training runs.
 
-    \item \GameState{} Database: A database for
-    storing each \GameState{} in a given game, for traceability and for providing
-    context to an \LLM{} for post-game review.
+    \item Game State Manager: The component responsible for maintaining and synchronizing the current game state throughout gameplay, accessible to both the \AI{} agent and the user interface.
 
-    \item Image Queue: The component
-    in charge of communication between various components, such as sending the read
-    board state to the board representation or transferring the model's provided
-    move to the UI\@.
+    \item Backend API Server: Flask-based REST API that handles game logic, state management, Elo rating queries, curriculum phase management, user requests, and communicates with the frontend.
 
-    \item Computer Vision Model: The component
-    in charge of interpreting the physical board state from camera input.
+    \item User Interface: React/TypeScript-based web interface providing interactive board visualization, game controls, replay functionality, dynamic opponent/difficulty selection via Elo ratings, and strategic analysis displays.
+
+    \item Game State Database: PostgreSQL database for persisting game states, player profiles, match results, Elo ratings, curriculum progress, and historical data for replay and analysis.
+
+    \item Analysis Module: MCTS-based or heuristic-based evaluation component providing strategic insights such as win probability at each game state.
+
+    \item Model Storage and Versioning: Persistent storage for trained \RL{} agent models with versioning, checkpoint management, and Elo rating association for easy retrieval of specific model versions.
+
+    \item Training Pipeline: Orchestration system for curriculum-based training with Elo league integration, managing phase transitions, opponent selection for self-play, and logging/tracking training metrics.
 \end{itemize}
 
 
@@ -407,14 +452,18 @@ The system is separated into a list of major components:
 
 \subsubsection{Computer Vision Model}
 
+\textbf{Implementation Status: NOT IMPLEMENTED (Out of Scope)}
+
+The original vision for a computer vision system to observe physical board states has been descoped from the current implementation. The following requirements are listed for historical reference and future development:
+
 \textbf{Functional Requirements}
 
 \begin{itemize}
-  \item \label{FR.S.1.1}\textbf{FR.S.1.1} Process live or captured camera input to detect board elements, player actions, and resource placements.
-  \item \label{FR.S.1.2}\textbf{FR.S.1.2} Translate visual features into structured \GameState{} data for the Game State Manager.
-  \item \label{FR.S.1.3}\textbf{FR.S.1.3} Detect and correct inconsistencies or occlusions in visual recognition.
-  \item \label{FR.S.1.4}\textbf{FR.S.1.4} Calibrate dynamically for lighting, camera angle, and board orientation.
-  \item \label{FR.S.1.5}\textbf{FR.S.1.5} Provide visual diagnostics and confidence metrics for detected states.
+  \item \label{FR.S.1.1}\textbf{FR.S.1.1 (DEFERRED)} Process live or captured camera input to detect board elements, player actions, and resource placements.
+  \item \label{FR.S.1.2}\textbf{FR.S.1.2 (DEFERRED)} Translate visual features into structured \GameState{} data for the Game State Manager.
+  \item \label{FR.S.1.3}\textbf{FR.S.1.3 (DEFERRED)} Detect and correct inconsistencies or occlusions in visual recognition.
+  \item \label{FR.S.1.4}\textbf{FR.S.1.4 (DEFERRED)} Calibrate dynamically for lighting, camera angle, and board orientation.
+  \item \label{FR.S.1.5}\textbf{FR.S.1.5 (DEFERRED)} Provide visual diagnostics and confidence metrics for detected states.
 \end{itemize}
 
 \subsubsection{Reinforcement Learning Environment}
@@ -435,9 +484,34 @@ The system is separated into a list of major components:
 \begin{itemize}
   \item \label{FR.S.3.1}\textbf{FR.S.3.1} Analyze the digital \GameState{} to predict optimal player strategies.
   \item \label{FR.S.3.2}\textbf{FR.S.3.2} Evaluate potential moves based on resource availability, player position, and opponent behavior.
-  \item \label{FR.S.3.3}\textbf{FR.S.3.3} Adapt dynamically to changing game conditions through reinforcement or supervised learning.
+  \item \label{FR.S.3.3}\textbf{FR.S.3.3} Adapt dynamically to changing game conditions through curriculum-guided reinforcement learning.
   \item \label{FR.S.3.4}\textbf{FR.S.3.4} Provide move recommendations with confidence scores and textual reasoning.
   \item \label{FR.S.3.5}\textbf{FR.S.3.5} Integrate with the Reinforcement Learning Environment for continuous improvement.
+\end{itemize}
+
+\subsubsection{\Elo{} League System}
+
+\textbf{Functional Requirements}
+
+\begin{itemize}
+  \item \label{FR.S.3.6}\textbf{FR.S.3.6} Maintain Elo ratings for all trained model snapshots and baseline opponents.
+  \item \label{FR.S.3.7}\textbf{FR.S.3.7} Update Elo ratings based on match outcomes between league members using the standard Elo formula.
+  \item \label{FR.S.3.8}\textbf{FR.S.3.8} Support dynamic opponent selection by matching players to Elo-rated opponents within their skill range.
+  \item \label{FR.S.3.9}\textbf{FR.S.3.9} Provide temperature-based sampling for opponent selection to balance challenge and feasibility.
+  \item \label{FR.S.3.10}\textbf{FR.S.3.10} Manage league member storage and implement pruning strategies to maintain league size within reasonable bounds.
+  \item \label{FR.S.3.11}\textbf{FR.S.3.11} Expose league standings and member statistics through API endpoints for user interface display.
+\end{itemize}
+
+\subsubsection{\CurriculumLearning{} Manager}
+
+\textbf{Functional Requirements}
+
+\begin{itemize}
+  \item \label{FR.S.3.12}\textbf{FR.S.3.12} Define and manage curriculum phases with configurable rule variations (e.g., victory point targets, disabled action types).
+  \item \label{FR.S.3.13}\textbf{FR.S.3.13} Automatically advance to the next curriculum phase based on metric thresholds and minimum episode requirements.
+  \item \label{FR.S.3.14}\textbf{FR.S.3.14} Support optional cycling back to earlier phases or continuous training through the same phase.
+  \item \label{FR.S.3.15}\textbf{FR.S.3.15} Log curriculum phase transitions and training metrics for analysis and debugging.
+  \item \label{FR.S.3.16}\textbf{FR.S.3.16} Integrate curriculum phases with Elo league opponent selection during training.
 \end{itemize}
 
 \subsubsection{User Interface}
@@ -451,6 +525,8 @@ The system is separated into a list of major components:
   \item \label{FR.S.4.4}\textbf{FR.S.4.4} Present \AI{}-generated move recommendations clearly, with visual highlighting or overlays.
   \item \label{FR.S.4.5}\textbf{FR.S.4.5} Support desktop and mobile layouts for accessibility and responsiveness.
   \item \label{FR.S.4.6}\textbf{FR.S.4.6} Log user interactions and decisions for post-game analysis.
+  \item \label{FR.S.4.7}\textbf{FR.S.4.7} Display Elo ratings and league standings for informed opponent selection.
+  \item \label{FR.S.4.8}\textbf{FR.S.4.8} Allow users to filter opponents by difficulty level or select specific opponents from the league.
 \end{itemize}
 
 
@@ -464,6 +540,8 @@ The system is separated into a list of major components:
   \item \label{FR.S.5.3}\textbf{FR.S.5.3} Support efficient read and write operations for real-time synchronization.
   \item \label{FR.S.5.4}\textbf{FR.S.5.4} Ensure data persistence across sessions and support recovery after interruptions.
   \item \label{FR.S.5.5}\textbf{FR.S.5.5} Provide structured access to historical game data for training or replay features.
+  \item \label{FR.S.5.6}\textbf{FR.S.5.6} Maintain Elo ratings and match history for all league members.
+  \item \label{FR.S.5.7}\textbf{FR.S.5.7} Track curriculum phase progress and training metrics across runs.
 \end{itemize}
 
 
@@ -513,6 +591,22 @@ The system is separated into a list of major components:
 
 No external APIs or hardware interfaces are required for the system.
 
+\subsection{Normal Operation}\label{subsec:normal-operation}
+\begin{itemize}
+    \item User initiates a game session through the web interface.
+    \item Backend initializes a game state via Catanatron and loads the selected \AI{} model.
+    \item The \AI{} agent and player alternate turns while the UI reflects state updates in real time.
+    \item Game state and results are persisted for replay and analysis.
+\end{itemize}
+
+\subsection{Undesired Event Handling}\label{subsec:undesired-event-handling}
+\begin{itemize}
+    \item {Model Load Failure} – System returns a clear error message and falls back to a baseline opponent if available.
+    \item {Simulation Error} – Game session terminates gracefully with logs preserved for debugging.
+    \item {UI Disconnect} – Session state is persisted; user can reconnect and resume from the last saved state.
+    \item {Invalid Move Request} – Backend rejects the move and returns valid action options.
+\end{itemize}
+
 \subsection{Detailed Usage Scenarios}\label{subsec:detailed-usage-scenarios}
 
 \noindent\textbf{Use Case Name:} Human vs \RL{} Agent Gameplay Session
@@ -555,6 +649,49 @@ No external APIs or hardware interfaces are required for the system.
 \noindent\textbf{Justification:}
 
 Testing the agent against human input ensures it handles unpredictable behaviors and can offer a meaningful challenge. This scenario is also key for validating real-world deployment feasibility.
+
+\vspace{1em}
+
+\noindent\textbf{Use Case Name:} \Elo{}-Based Opponent Selection for Skill-Matched Play
+
+\noindent\textbf{Primary Actor:} Human Player (any skill level)
+
+\noindent\textbf{Stakeholders and Interests:}
+\begin{itemize}
+    \item Novice Players: Want opponents that match their skill level for a fair learning experience.
+    \item Intermediate Players: Seek progressively challenging opponents to improve their gameplay.
+    \item Competitive Players: Want access to the highest-rated opponents for maximum challenge.
+    \item Developers: Validate that the Elo league system provides appropriate skill-based matchmaking.
+\end{itemize}
+
+\noindent\textbf{Preconditions:}
+\begin{itemize}
+    \item Elo league system is populated with trained model snapshots and baseline opponents.
+    \item User interface displays available opponents with their Elo ratings.
+    \item Player has an estimated or tracked Elo rating (or can select a difficulty preference).
+\end{itemize}
+
+\noindent\textbf{Postconditions (Success Guarantees):}
+\begin{itemize}
+    \item Player is matched with an opponent within their skill range.
+    \item Game completes with appropriate challenge level.
+    \item Elo ratings are updated based on match outcome (if applicable).
+\end{itemize}
+
+\noindent\textbf{Main Success Scenario (Basic Flow):}
+\begin{itemize}
+    \item Player selects "Play vs AI" from the main menu.
+    \item System displays Elo league standings with opponent options.
+    \item Player either: (a) enters their skill level or Elo rating, or (b) selects a specific opponent from the league.
+    \item System recommends suitable opponents based on Elo proximity using temperature-based sampling.
+    \item Player confirms opponent selection.
+    \item Game initializes with the selected Elo-rated opponent.
+    \item After game completion, Elo ratings are updated if player is tracked in the league.
+\end{itemize}
+
+\noindent\textbf{Justification:}
+
+The Elo-based opponent selection ensures that players of all skill levels can enjoy appropriately challenging games. This scenario validates the core value proposition: a bot that any level Catan player can play against. It also demonstrates software engineering principles for implementing skill-based matchmaking in AI systems.
 
 
 
@@ -637,13 +774,11 @@ vspace{1em}
 \textbf{Reasoning} & \textbf{Date} \\
 \hline
 \hyperref[FR.S.3.1]{FR.S.3.1} & Strategy Prediction & M &
-\parbox[t]{4cm}{Analyzes the \GameState{} to suggest optimal player
-moves.} &
+\parbox[t]{4cm}{Analyzes the \GameState{} to suggest optimal player moves.} &
 2025-12-06 \\
 \hline
 \hyperref[FR.S.3.2]{FR.S.3.2} & Adaptive Learning & S &
-\parbox[t]{4cm}{Improves predictions using past games and player
-behavior.} &
+\parbox[t]{4cm}{Improves predictions through curriculum-guided training.} &
 2025-12-06 \\
 \hline
 \hyperref[FR.S.3.3]{FR.S.3.3} & Confidence Scoring & C &
@@ -651,11 +786,75 @@ behavior.} &
 2025-12-12 \\
 \hline
 \hyperref[FR.S.3.4]{FR.S.3.4} & Integration with Twin & M &
-\parbox[t]{4cm}{Maintains synchronized data exchange with the digital
-twin.} &
+\parbox[t]{4cm}{Maintains synchronized data exchange with the digital twin.} &
 2025-12-18 \\
 \hline
+\end{tabular}
 
+\vspace{1em}
+
+\subsubsection*{\Elo{} League System}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
+\textbf{Reasoning} & \textbf{Date} \\
+\hline
+\hyperref[FR.S.3.6]{FR.S.3.6} & Elo Rating Maintenance & M &
+\parbox[t]{4cm}{Maintains accurate Elo ratings enabling skill-based matchmaking.} &
+2026-01-15 \\
+\hline
+\hyperref[FR.S.3.7]{FR.S.3.7} & Rating Updates & M &
+\parbox[t]{4cm}{Updates ratings based on match outcomes using standard Elo formula.} &
+2026-01-15 \\
+\hline
+\hyperref[FR.S.3.8]{FR.S.3.8} & Dynamic Opponent Selection & M &
+\parbox[t]{4cm}{Enables players to select opponents matched to their skill level.} &
+2026-01-22 \\
+\hline
+\hyperref[FR.S.3.9]{FR.S.3.9} & Temperature-based Sampling & S &
+\parbox[t]{4cm}{Balances challenge and fairness in opponent selection.} &
+2026-01-22 \\
+\hline
+\hyperref[FR.S.3.10]{FR.S.3.10} & League Pruning & S &
+\parbox[t]{4cm}{Maintains reasonable league size while keeping strong models.} &
+2026-01-29 \\
+\hline
+\hyperref[FR.S.3.11]{FR.S.3.11} & League API Endpoints & M &
+\parbox[t]{4cm}{Exposes league data for UI display and analysis.} &
+2026-02-01 \\
+\hline
+\end{tabular}
+
+\vspace{1em}
+
+\subsubsection*{\CurriculumLearning{} Manager}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{ID} & \textbf{Requirement Name} & \textbf{Priority} &
+\textbf{Reasoning} & \textbf{Date} \\
+\hline
+\hyperref[FR.S.3.12]{FR.S.3.12} & Phase Management & M &
+\parbox[t]{4cm}{Defines and manages curriculum phases with configurable complexity.} &
+2026-01-08 \\
+\hline
+\hyperref[FR.S.3.13]{FR.S.3.13} & Automatic Advancement & M &
+\parbox[t]{4cm}{Progresses through phases based on performance metrics.} &
+2026-01-15 \\
+\hline
+\hyperref[FR.S.3.14]{FR.S.3.14} & Phase Cycling & S &
+\parbox[t]{4cm}{Supports flexible phase management strategies.} &
+2026-01-22 \\
+\hline
+\hyperref[FR.S.3.15]{FR.S.3.15} & Metric Logging & S &
+\parbox[t]{4cm}{Records phase transitions for analysis and debugging.} &
+2026-01-29 \\
+\hline
+\hyperref[FR.S.3.16]{FR.S.3.16} & League Integration & M &
+\parbox[t]{4cm}{Integrates curriculum phases with Elo league during training.} &
+2026-02-01 \\
+\hline
 \end{tabular}
 
 \vspace{1em}
@@ -668,29 +867,32 @@ twin.} &
 \textbf{Reasoning} & \textbf{Date} \\
 \hline
 \hyperref[FR.S.4.1]{FR.S.4.1} & Interactive Board View & M &
-\parbox[t]{4cm}{Displays real-time board updates and player actions
-clearly.} &
+\parbox[t]{4cm}{Displays real-time board updates and player actions clearly.} &
 2025-11-06 \\
 \hline
 \hyperref[FR.S.4.2]{FR.S.4.2} & Action Controls & M &
-\parbox[t]{4cm}{Allows players to build, trade, and manage turns
-easily.} &
+\parbox[t]{4cm}{Allows players to build, trade, and manage turns easily.} &
 2025-11-06 \\
 \hline
 \hyperref[FR.S.4.3]{FR.S.4.3} & Multi-Platform Support & S &
-\parbox[t]{4cm}{Ensures compatibility with desktop and mobile
-devices.} &
+\parbox[t]{4cm}{Ensures compatibility with desktop and mobile devices.} &
 2025-11-06 \\
 \hline
 \hyperref[FR.S.4.4]{FR.S.4.4} & Visual Indicators & S &
-\parbox[t]{4cm}{Shows player resources, turns, and notifications for
-clarity.} &
+\parbox[t]{4cm}{Shows player resources, turns, and notifications for clarity.} &
 2025-11-06 \\
 \hline
 \hyperref[FR.S.4.5]{FR.S.4.5} & \AI{} Suggestion Display & C &
-\parbox[t]{4cm}{Provides a clear interface for \AI{} recommendations
-and feedback.} &
+\parbox[t]{4cm}{Provides a clear interface for \AI{} recommendations and feedback.} &
 2025-11-06 \\
+\hline
+\hyperref[FR.S.4.7]{FR.S.4.7} & Elo Display & M &
+\parbox[t]{4cm}{Shows Elo ratings and league standings for opponent selection.} &
+2026-01-29 \\
+\hline
+\hyperref[FR.S.4.8]{FR.S.4.8} & Opponent Filtering & M &
+\parbox[t]{4cm}{Allows filtering opponents by difficulty or direct selection.} &
+2026-02-01 \\
 \hline
 \end{tabular}
 
@@ -727,6 +929,14 @@ purposes.} &
 \parbox[t]{4cm}{Synchronizes database updates with \DigitalTwin{}
 actions.} &
 2025-10-30 \\
+\hline
+\hyperref[FR.S.5.6]{FR.S.5.6} & Elo Rating Storage & M &
+\parbox[t]{4cm}{Maintains Elo ratings and match history for league members.} &
+2026-01-29 \\
+\hline
+\hyperref[FR.S.5.7]{FR.S.5.7} & Curriculum Progress Tracking & S &
+\parbox[t]{4cm}{Tracks curriculum phase progress and training metrics.} &
+2026-02-01 \\
 \hline
 \end{tabular}
 
@@ -1032,13 +1242,15 @@ Each predicate ensures the acting player has sufficient resources and that the m
 
 \subsection{Imposed Technical Choices}\label{subsec:technicalchoices}
 \begin{itemize}
-    \item {Programming languages} – Python for backend and \AI{} development; JavaScript with React for frontend implementation.
-    \item {\AI{} framework} – Reinforcement learning agent trained using the OpenAI Gym \emph{\Catan{}} simulator.
-    \item {\CV{}} – Implemented using either OpenCV[11] or YOLOv9[12] for board state detection and tracking.
-    \item {Data Transfer} - Communication with the UI will be handled by a reliable low-latency communication middleware, such as 0MQ/imageMQ.
-
-    \item {Version control and collaboration} – GitHub for repository management with branching, pull requests, CI/CD pipelines, and a Kanban board for task tracking.
-    \item {License} – MIT License for open-source code distribution and collaboration.
+    \item {Programming languages} – Python for backend and \AI{} development; TypeScript/JavaScript with React for frontend implementation.
+    \item {\AI{} framework} – Reinforcement learning agent (PPO) trained using Stable Baselines3 and the Catanatron game simulator; compatible with OpenAI Gym.
+    \item {Web Backend} – Flask with Flask-CORS for REST API development and server-side game logic.
+    \item {Frontend Framework} – React with TypeScript and Vite as the build tool for the web interface.
+    \item {Database} – PostgreSQL for game state persistence and historical data storage.
+    \item {Containerization} – Docker and Docker Compose for consistent deployment across environments.
+    \item {Computer Vision} – (Deferred) Originally planned for OpenCV or YOLOv9; currently out of scope pending future implementation.
+    \item {Version control and collaboration} – GitHub for repository management with branching, pull requests, CI/CD pipelines, and Kanban board for task tracking.
+    \item {License} – GPL-3.0-or-later for the catanatron library; other dependencies follow their respective open-source licenses.
 \end{itemize}
 
 \subsection{Schedule and Milestones}\label{subsec:schedule}
@@ -1106,14 +1318,16 @@ Code Cleanup and Documentation & Refactor code, remove unnecessary files, write 
 
 \subsection{Required Technology Elements}\label{subsec:requiredtech}
 \begin{itemize}
-    \item {Primary Programming Language} – Python is the primary language for the project's backend development.
-    \item {Game Simulation Library} – The project will utilize the open-source library Catanatron[10] for simulating \emph{\Catan{}} games and training the \AI{} model.
-    \item {Web Framework} – React and JavaScript will be used to build the user interface and \DigitalTwin{}.
-    \item {\CV{} Libraries} – OpenCV[11] and YOLOv9[12] will be used for image recognition and processing of the physical board state.
-    \item {Hardware} – The project will require a GPU for training the reinforcement learning model.
-    \item {Version Control} – GitHub will be used for version control and collaboration.
-    \item {Static Code Analysis} – SonarQube is planned for static code analysis.
-    \item {Continuous Integration/Continuous Deployment (CI/CD)} – GitHub Actions will be used to implement CI for automated testing, and potentially CD for deployment pipelines. Deployment pipelines will be developed if a computing node for \RL{} agent training is available.
+    \item {Primary Programming Language} – Python for backend and machine learning components; TypeScript/JavaScript for frontend.
+    \item {Game Simulation Library} – Catanatron[10] for complete \emph{\Catan{}} game simulation and rule enforcement.
+    \item {Reinforcement Learning Framework} – Stable Baselines3 with PPO algorithm for training and deploying the \AI{} agent.
+    \item {Web Framework} – Flask with Flask-CORS for building the REST API backend; React with TypeScript for the user interface.
+    \item {Database} – PostgreSQL for persistent game state storage and historical data management.
+    \item {Containerization} – Docker and Docker Compose for deployment and environment consistency.
+    \item {\CV{} Libraries} – (Deferred) OpenCV and YOLOv9 planned for future computer vision integration.
+    \item {Hardware} – GPU recommended for efficient \RL{} model training and inference.
+    \item {Version Control} – GitHub for source code management and collaboration.
+    \item {Continuous Integration} – GitHub Actions for automated testing and build pipelines.
 \end{itemize}
 
 \subsection{Risk and Mitigation Analysis}\label{subsec:risk}
@@ -1194,7 +1408,7 @@ The following safety and security requirements have been ported from our hazard 
 
     \includegraphics[width=1.7\textheight]{requirement_dependency_diagram.png}
 
-    \captionof{figure}{\textit{Requirement dependency diagram showing requirement traceability.}}
+    \captionof{figure}{\textit{Requirement traceability matrix showing dependencies between requirements.}}
     \label{fig:requirements-diagram}
 \end{landscape}
 
@@ -1215,6 +1429,9 @@ The following safety and security requirements have been ported from our hazard 
     \item "Catanatron GitHub Repository," [Online]. Available: \url{https://github.com/bcollazo/catanatron}. [Accessed 10 October 2025].
     \item "OpenCV," [Online]. Available: \url{https://docs.opencv.org/4.x/d1/dfb/intro.html}. [Accessed 10 October 2025].
     \item "YoloV9," [Online]. Available: \url{https://docs.ultralytics.com/models/yolov9/}. [Accessed 10 October 2025].
+    \item A. E. Elo, "The Rating of Chessplayers, Past and Present," Arco Publishing, 1978.
+    \item Y. Bengio, J. Louradour, R. Collobert, and J. Weston, "Curriculum learning," in Proceedings of the 26th International Conference on Machine Learning (ICML), 2009, pp. 41–48.
+    \item D. A. Kolb, "Experiential Learning: Experience as the Source of Learning and Development," Prentice Hall, 1984. See also: \url{https://en.wikipedia.org/wiki/Experiential_learning}. [Accessed 11 February 2026].
 \end{enumerate}
 \newpage{}
 
@@ -1307,8 +1524,8 @@ The following safety and security requirements have been ported from our hazard 
     \item The main way we will gain the necessary reinforcement learning and computer vision
     knowledge is through research and self-study. We will read papers and articles on these topics,
     as well as experimenting with different techniques and approaches. Also, many of us are taking
-    the 4AL3 course this term, which focuses on machine learning and will provide us with a strong
-    foundation in this area. For competitive \emph{\Catan{}} strategies, we will leverage the expertise of
+    the 4AL3 course this term, which focuses on the application of machine learning.
+    This will provide us with a strong foundation in this area. For competitive \emph{\Catan{}} strategies, we will leverage the expertise of
     competitive players as well as our own experience playing the game. We will also study existing \emph{\Catan{}} bots
     to understand their strategies and approaches.
 
@@ -1390,7 +1607,7 @@ The following safety and security requirements have been ported from our hazard 
     We'll need expertise in deep reinforcement learning (DRL) andneural networks, which are at the core of our system.
     A significant area of focus will be understanding how to apply heuristics to guide the DRL model for optimal performance.
     Additionally, we'll need to develop a deep understanding of the digital twin concept to accurately model the physical game board.
-    Finally, mastering computer vision (CV) will be crucial for processing visual input from a camera to represent the game state digitally.
+    Finally, mastering computer vision (CV) will be crucial for processing visual input from a camera to represent the game state.
 
     \item For DRL and DNN's: Independent research using academic papers, online resources, and tutorials.
     We could also have regular discussions with our supervisor, Dr. Istvan David, who is an expert in the field, as his feedback has already been very helpful.
