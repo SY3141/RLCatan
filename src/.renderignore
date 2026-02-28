@@ -1,0 +1,62 @@
+# Render Ignore File
+# Files and directories to exclude from deployment
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Testing
+.pytest_cache/
+.benchmarks/
+tests/
+test/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation
+docs/
+documentation/
+examples/
+
+# Database
+db-data/
+*.db
+*.sqlite
+
+# Logs
+*.log
+placement_log.txt
+
+# Docker
+docker-compose.yml
+Dockerfile*
+.dockerignore
+
+# UI (frontend)
+ui/
+
+# Development
+.git/
+.gitignore
+*.md
+README.md
+CODE_OF_CONDUCT.md
+LICENSE
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+

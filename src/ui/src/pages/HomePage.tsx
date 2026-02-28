@@ -48,7 +48,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <Button variant="contained" color="primary" onClick={goPlayVsBot}>
+            <Button variant="contained" color="secondary" onClick={goPlayVsBot}>
               Play Against a Bot
             </Button>
 

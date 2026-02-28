@@ -24,6 +24,7 @@ function DrawerContent({ gameState }: { gameState: GameState }) {
           playerState={gameState.player_state}
           playerKey={key}
           color={color}
+          botName={gameState.player_models?.[color]}
         />
         <Divider />
       </React.Fragment>

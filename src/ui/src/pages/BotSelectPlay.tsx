@@ -31,7 +31,7 @@ export default function BotSelectPlay() {
   }, []);
 
   const start = async () => {
-  setError("");
+    setError("");
     try {
       const opponentKey = bots.find((x) => x.id === selected)?.key;
       if (!opponentKey) throw new Error("Selected bot has no key");
@@ -48,32 +48,66 @@ export default function BotSelectPlay() {
     }
   };
 
+  const dropdownStyle = {
+    padding: 12,
+    borderRadius: 6,
+    border: "1px solid #333",
+    backgroundColor: "#1c1c1c",
+    color: "#fff",
+    width: 300,
+    fontSize: 18,
+    maxHeight: 220,
+    overflowY: "auto" as const,
+  };
+
   return (
-    <div style={{ padding: 24, color: "#fff" }}>
-      <h2>Play against a bot</h2>
-      <div style={{ opacity: 0.8, marginBottom: 12 }}>Players: {numPlayers}</div>
-
-      {error && <div style={{ color: "crimson", marginBottom: 12 }}>{error}</div>}
-
-      <div style={{ display: "flex", flexDirection: "column", gap: 8, maxWidth: 520 }}>
-        {bots.map((b) => (
-          <label key={b.id} style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <input
-              type="radio"
-              name="bot"
-              value={b.id}
-              checked={selected === b.id}
-              onChange={() => setSelected(b.id)}
-            />
-            <span style={{ flex: 1 }}>{b.name ?? b.id}</span>
-            <span style={{ fontVariantNumeric: "tabular-nums" }}>Elo {b.elo}</span>
-          </label>
-        ))}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        color: "#fff",
+        backgroundColor: "#121212",
+        minHeight: "100vh",
+      }}
+    >
+      <h1 style={{ fontSize: "3rem", color: "#ffffff", marginBottom: 24 }}>
+        Play Against a Bot
+      </h1>
+      <div style={{ opacity: 0.8, marginBottom: 12, textAlign: "center" }}>
+        Players: {numPlayers}
       </div>
 
-      <div style={{ marginTop: 16 }}>
-        <Button variant="contained" disabled={!selected} onClick={start}>
-          Start game
+      {error && (
+        <div style={{ color: "crimson", marginBottom: 12, textAlign: "center" }}>
+          {error}
+        </div>
+      )}
+
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+        <select value={selected} onChange={(e) => setSelected(e.target.value)} style={dropdownStyle}>
+          {bots.map((b) => (
+            <option key={b.id} value={b.id}>
+              {(b.name ?? b.id) + ` (Elo ${b.elo})`}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div style={{ textAlign: "center" }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          disabled={!selected}
+          onClick={start}
+          style={{
+            padding: "12px 24px",
+            fontSize: "1rem",
+            borderRadius: 8,
+          }}
+        >
+          Start Game
         </Button>
       </div>
     </div>

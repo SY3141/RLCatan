@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: rlcatan-backend
+    runtime: python
+    buildCommand: pip install --upgrade pip && pip install -e .[web]
+    startCommand: gunicorn --bind 0.0.0.0:$PORT catanatron.web.wsgi:app
+    healthCheckPath: /api/stress-test
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_ENV
+        value: production
+      - key: BOTS_JSON_PATH
+        value: /app/rlcatan/models/league/league.json
+      - key: DATABASE_URL
+        value: "sqlite:///:memory:"
+
+
