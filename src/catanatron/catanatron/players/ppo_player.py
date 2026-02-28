@@ -60,10 +60,7 @@ class PPOPlayer(Player):
 
         # Need to exclude the same ActionType groups as in training
         # TODO: Setup curriculum learning with progressively fewer exclusions
-        self.excluded_type_groups = [
-            COMPLEX_DEV_CARD_ACTION_TYPES,
-            PLAYER_TRADING_ACTION_TYPES,
-        ]
+        self.excluded_type_groups = []
 
     def _build_observation(self, game) -> np.ndarray:
         """
