@@ -49,7 +49,7 @@ class PPOPlayer(Player):
             base_dir = (
                 Path(__file__).resolve().parents[3]
             )
-            model_path = base_dir / "rlcatan" / "models" / "ppo_v2"
+            model_path = base_dir / "rlcatan" / "models" / "ppo_v3"
 
         self.model: MaskablePPO = MaskablePPO.load(model_path, device=device)
         self.deterministic = deterministic
@@ -60,10 +60,12 @@ class PPOPlayer(Player):
 
         # Need to exclude the same ActionType groups as in training
         # TODO: Setup curriculum learning with progressively fewer exclusions
-        self.excluded_type_groups = [
+        self.excluded_type_groups = []
+        '''
             COMPLEX_DEV_CARD_ACTION_TYPES,
             PLAYER_TRADING_ACTION_TYPES,
         ]
+        '''
 
     def _build_observation(self, game) -> np.ndarray:
         """
