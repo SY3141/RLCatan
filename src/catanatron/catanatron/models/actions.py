@@ -5,6 +5,7 @@ by current player). Main function is generate_playable_actions.
 
 import operator as op
 from functools import reduce
+from enum import Enum
 from typing import Any, Dict, List, Set, Tuple, Union
 
 from catanatron.models.decks import (
@@ -317,3 +318,28 @@ def inner_maritime_trade_possibilities(hand_freqdeck, bank_freqdeck, port_resour
                     trade_offers.add(trade_offer)
 
     return trade_offers
+
+
+def _serialize_value(value: Any) -> Any:
+    """Actions can come in various types based on what they represent.
+       This helper function recursively converts them into serializable formats."""
+
+    if isinstance(value, Enum):
+        return value.value
+    if isinstance(value, tuple):
+        return [_serialize_value(v) for v in value]
+    if isinstance(value, list):
+        return [_serialize_value(v) for v in value]
+    if isinstance(value, dict):
+        return {str(k): _serialize_value(v) for k, v in value.items()}
+
+    return value
+
+
+def serialize_action(action: Action) -> Dict[str, Any]:
+    """Convert an Action object into a serializable dictionary."""
+    return {
+        "color": action.color.value,
+        "action_type": action.action_type.value,
+        "value": _serialize_value(action.value),
+    }

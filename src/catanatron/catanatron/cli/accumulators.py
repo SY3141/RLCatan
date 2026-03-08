@@ -128,3 +128,22 @@ class JsonDataAccumulator(GameAccumulator):
         filepath = os.path.join(self.output, f"{game.id}.json")
         with open(filepath, "w") as f:
             f.write(json.dumps(game, cls=GameEncoder))
+
+
+class ExplanationAccumulator(GameAccumulator):
+    """
+    Accumulates the final decision info from each player in each game, for use in LLM move explanation.
+    """
+
+    def step(self, game_before_action, action):
+        snapshot = game_before_action.copy()
+        player = snapshot.state.current_player()
+
+        if not player.is_bot:
+            return  # Don't want to try to explain a human players moves back to them
+
+        decision_info = getattr(player, "last_decision_info", None)
+
+        # TODO
+        packet = build_explanation_packet(snapshot, action, decision_info)
+        store_or_send(packet)
