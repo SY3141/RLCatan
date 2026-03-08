@@ -74,3 +74,6 @@ Iter is the number of training steps, runs is how many times it is trained for t
 Benchmarking
 `catanatron-play --num 100 --players PPOP:ppo_v3,PPOP:ppo_v3_6 --config-vps-to-win 15 --config-discard-limit 7`
 
+Unit tests example
+
+`python -m pytest src/tests/web/test_api_extra.py`
