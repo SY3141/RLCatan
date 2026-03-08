@@ -32,7 +32,7 @@ class PPOPlayer(Player):
       - 1v1 game (PPO agent vs one opponent)
       - BASE map
       - Vector observation created with `create_sample` + `get_feature_ordering(2)`
-      - Model file at `models/ppo_v2.zip` if no path is provided
+      - Model file at `models/ppo_v4.zip` if no path is provided
     """
 
     def __init__(
@@ -49,7 +49,7 @@ class PPOPlayer(Player):
             base_dir = (
                 Path(__file__).resolve().parents[3]
             )
-            model_path = base_dir / "rlcatan" / "models" / "ppo_v3"
+            model_path = base_dir / "rlcatan" / "models" / "ppo_v4"
 
         self.model: MaskablePPO = MaskablePPO.load(model_path, device=device)
         self.deterministic = deterministic

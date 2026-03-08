@@ -23,6 +23,7 @@ from catanatron.players.playouts import GreedyPlayoutsPlayer
 from catanatron.players.weighted_random import WeightedRandomPlayer
 from catanatron.players.placement import PlacementPlayer
 from catanatron.players.ppo_player import PPOPlayer
+from werkzeug.exceptions import HTTPException
 
 bp = Blueprint("api", __name__, url_prefix="/api")
 
@@ -225,6 +226,8 @@ def mcts_analysis_endpoint(game_id, state_index):
             mimetype="application/json",
         )
 
+    except HTTPException:
+        raise
     except Exception as e:
         logging.error(f"Error in MCTS analysis endpoint: {str(e)}")
         logging.error(traceback.format_exc())
