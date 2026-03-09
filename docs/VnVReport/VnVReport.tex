@@ -268,6 +268,142 @@ This section will not be appropriate for every project.
 
 \section{Unit Testing}
 
+This section outlines the unit testing strategy and details the specific test cases used to verify individual components of the RLCatan system.
+The automated unit tests focus on ensuring that API endpoints, internal path resolution logic, and analysis interfaces function correctly in isolation.
+
+\subsection{Unit Testing Scope}
+
+The scope of these unit tests covers the backend API endpoints, path resolution utilities, and the Monte Carlo Tree Search (MCTS) analysis integration.
+Modules and underlying models developed by external dependencies are out of scope for these unit tests and are assumed to be verified by their respective maintainers.
+
+\subsection{Tests for Functional Requirements}
+
+\subsubsection{API and Game Management Module}
+
+\begin{enumerate}
+
+\item{\texttt{test_get_bots_endpoint}\}
+Type: Functional, Dynamic, Automatic
+
+Initial State: The API server is initialized and ready to receive requests.
+
+Input: A simple HTTP GET request to the \texttt{/api/bots} URL.
+
+Output: A 200 OK status code and a JSON response containing a list of available bot objects.
+
+Test Case Derivation: Ensures the bot registry is populated correctly by checking that the returned list includes standard bot IDs like \texttt{catanatron_ab_2}, \texttt{random}, and \texttt{human}, and confirms that the total number of available bots is at least 10.
+
+How test will be performed: Automated unit test using an HTTP test client.
+
+\item{\texttt{test_stress_test_endpoint}\}
+Type: Functional, Dynamic, Automatic
+
+Initial State: The API server is initialized.
+
+Input: An HTTP GET request to the \texttt{/api/stress-test} endpoint.
+
+Output: A 200 OK status code and a JSON object representing the game state.
+
+Test Case Derivation: Verifies that the system can successfully create and advance a game instance without crashing by validating that the response contains essential game data structures, specifically "nodes" and "edges".
+
+How test will be performed: Automated unit test using an HTTP test client.
+
+\item{\texttt{test_player_factory_custom_bot}\}
+Type: Functional, Dynamic, Automatic
+
+Initial State: Internal functions are mocked to simulate a custom bot named "my_custom_bot".
+
+Input: A POST request to \texttt{/api/games} with "BOT:my_custom_bot" in the player list.
+
+Output: A successful 200 OK response containing a \texttt{game_id}.
+
+Test Case Derivation: Confirms that the backend correctly identifies the custom bot prefix, retrieves the mocked configuration, and attempts to instantiate the appropriate player class (like PPOPlayer) with the correct model path.
+
+How test will be performed: Automated unit test with mocked dependencies.
+
+\item{\texttt{test_create_game_all_player_types}\}
+Type: Functional, Dynamic, Automatic
+
+Initial State: The API server is initialized.
+
+Input: A series of POST requests to \texttt{/api/games}, where each request uses a different player type (e.g., CATANATRON, VALUE_FUNCTION, HUMAN) in the configuration.
+
+Output: A 200 OK status code and a valid \texttt{game_id} for each request.
+
+Test Case Derivation: Serves as a comprehensive smoke test to verify that every registered player class is correctly implemented and can be initialized by the game engine.
+
+How test will be performed: Automated unit test iterating through all supported built-in player types.
+
+\end{enumerate}
+
+\subsubsection{Path Resolution Module}
+
+This module tests the utility functions responsible for safely and accurately resolving file paths for model assets across different deployment environments.
+
+\begin{enumerate}
+
+\item{\texttt{test_resolve_model_path_absolute_hpc}\}
+Type: Functional, Dynamic, Automatic
+
+Initial State: Path resolution utilities are loaded.
+
+Input: A specific string representing an absolute file path typical of an HPC setup (e.g., \texttt{/nfs/features/rlcatan/...}).
+
+Output: A normalized string path that has been rebased to the application's local directory structure (e.g., starting with \texttt{/app}).
+
+Test Case Derivation: Ensures that absolute paths from training environments are correctly mapped to valid paths in the deployment environment.
+
+How test will be performed: Automated unit test.
+
+\item{\texttt{test_resolve_model_path_relative}\}
+Type: Functional, Dynamic, Automatic
+
+Initial State: Path resolution utilities are loaded.
+
+Input: A standard relative path string (e.g., \texttt{data/models/v2}).
+
+Output: An absolute path that correctly appends the input to the application's root directory.
+
+Test Case Derivation: Confirms the system can locate local model files correctly by asserting that the resolved path ends with the expected \texttt{app/data/models/v2} suffix.
+
+How test will be performed: Automated unit test.
+
+\end{enumerate}
+
+\subsubsection{Game Analysis Module}
+
+This module verifies the integration with the Monte Carlo Tree Search (MCTS) engine to ensure active games can be properly analyzed.
+
+\begin{enumerate}
+
+\item{\texttt{test_mcts_analysis_endpoint}\}
+Type: Functional, Dynamic, Automatic
+
+Initial State: A valid game is created via the API, and the GameAnalyzer is mocked to return fixed win probabilities.
+
+Input: A GET request to that game's analysis URL (\texttt{.../mcts-analysis}).
+
+Output: A 200 OK status and a JSON response where success is True.
+
+Test Case Derivation: Proves the endpoint correctly interfaces with the analysis engine by validating that the returned win probabilities match the mocked values (e.g., RED=0.5).
+
+How test will be performed: Automated unit test with a mocked GameAnalyzer.
+
+\item{\texttt{test_mcts_analysis_endpoint_not_found}\}
+Type: Functional, Dynamic, Automatic
+
+Initial State: The API server is initialized.
+
+Input: A GET request to the analysis endpoint with a non-existent game ID (e.g., 99999).
+
+Output: An error status code, specifically checking for either a 404 Not Found or a 500 Internal Server Error.
+
+Test Case Derivation: Confirms that the application handles invalid game IDs without crashing or returning a false success.
+
+How test will be performed: Automated unit test using an HTTP test client.
+
+\end{enumerate}
+
 \section{Changes Due to Testing}
 
 \wss{This section should highlight how feedback from the users and from 
