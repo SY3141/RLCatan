@@ -70,6 +70,7 @@ jobs:
       - name: Install the rest of the dependencies
         run: |
           pip install .[web,dev]
+          python -m pip install black==25.9.0
       - name: Lint with black
         run: |
           black catanatron --check
