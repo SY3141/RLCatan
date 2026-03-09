@@ -46,9 +46,7 @@ class PPOPlayer(Player):
 
         if model_path is None:
             # Load the default trained PPO model (.zip extension is added automatically)
-            base_dir = (
-                Path(__file__).resolve().parents[3]
-            )
+            base_dir = Path(__file__).resolve().parents[3]
             model_path = base_dir / "rlcatan" / "models" / "ppo_v4"
 
         self.model: MaskablePPO = MaskablePPO.load(model_path, device=device)
@@ -61,11 +59,11 @@ class PPOPlayer(Player):
         # Need to exclude the same ActionType groups as in training
         # TODO: Setup curriculum learning with progressively fewer exclusions
         self.excluded_type_groups = []
-        '''
+        """
             COMPLEX_DEV_CARD_ACTION_TYPES,
             PLAYER_TRADING_ACTION_TYPES,
         ]
-        '''
+        """
 
     def _build_observation(self, game) -> np.ndarray:
         """
@@ -78,7 +76,9 @@ class PPOPlayer(Player):
 
         return obs_vec
 
-    def _indices_from_playable_actions(self, playable_actions: Iterable[Action]) -> List[int]:
+    def _indices_from_playable_actions(
+        self, playable_actions: Iterable[Action]
+    ) -> List[int]:
         """
         Map each playable Action to its discrete action index using the same
         encoding as CatanatronEnv (to_action_space).

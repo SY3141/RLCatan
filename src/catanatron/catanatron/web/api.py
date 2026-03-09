@@ -27,6 +27,7 @@ from werkzeug.exceptions import HTTPException
 
 bp = Blueprint("api", __name__, url_prefix="/api")
 
+
 @lru_cache(maxsize=1)
 def _load_league_bots_by_name() -> dict[str, dict]:
     """
@@ -62,25 +63,25 @@ def player_factory(player_key):
     player = None
     if player_key[0] == "CATANATRON":
         player = AlphaBetaPlayer(color, 2, True)
-    
+
     elif player_key[0] == "FINAL_BOSS":
         player = AlphaBetaPlacementPlayer(color, 2, True)
-    
+
     elif player_key[0] == "VALUE_FUNCTION":
         player = ValueFunctionPlayer(color, is_bot=True)
-    
+
     elif player_key[0] == "MCTS_PLAYER":
         player = MCTSPlayer(color, num_simulations=100)
-    
+
     elif player_key[0] == "GREEDY_PLAYER":
         player = GreedyPlayoutsPlayer(color, num_playouts=50)
-    
+
     elif player_key[0] == "VP_PLAYER":
         player = VictoryPointPlayer(color)
-    
+
     elif player_key[0] == "PLACEMENT_PLAYER":
         player = PlacementPlayer(color)
-    
+
     elif player_key[0] == "WEIGHTED_RANDOM_PLAYER":
         player = WeightedRandomPlayer(color)
 
@@ -106,8 +107,10 @@ def player_factory(player_key):
 
         model_path = _resolve_model_path(raw_path)
 
-        player = PPOPlayer(color=color, model_path=str(model_path), device="cpu", deterministic=True)
-    
+        player = PPOPlayer(
+            color=color, model_path=str(model_path), device="cpu", deterministic=True
+        )
+
     if player is None:
         raise ValueError(f"Invalid player key: {key}")
 
@@ -252,6 +255,7 @@ def _parse_state_index(state_index_str: str):
             description="Invalid state_index format. state_index must be an integer or 'latest'.",
         )
 
+
 def _load_bots():
     """
     Temporary bot source:
@@ -282,14 +286,49 @@ def _load_bots():
         }
 
     default_bots = [
-        {"id": "catanatron_ab_2", "name": "Catanatron (AlphaBeta d2)", "elo": 1500, "key": "CATANATRON"},
-        {"id": "final_boss", "name": "Final Boss (AlphaBeta Placement)", "elo": 1600, "key": "FINAL_BOSS"},
-        {"id": "value_function", "name": "Value Function Bot", "elo": 1400, "key": "VALUE_FUNCTION"},
+        {
+            "id": "catanatron_ab_2",
+            "name": "Catanatron (AlphaBeta d2)",
+            "elo": 1500,
+            "key": "CATANATRON",
+        },
+        {
+            "id": "final_boss",
+            "name": "Final Boss (AlphaBeta Placement)",
+            "elo": 1600,
+            "key": "FINAL_BOSS",
+        },
+        {
+            "id": "value_function",
+            "name": "Value Function Bot",
+            "elo": 1400,
+            "key": "VALUE_FUNCTION",
+        },
         {"id": "mcts", "name": "MCTS (100 sims)", "elo": 1450, "key": "MCTS_PLAYER"},
-        {"id": "greedy", "name": "Greedy Playouts (50)", "elo": 1300, "key": "GREEDY_PLAYER"},
-        {"id": "vp_player", "name": "Victory Point Bot", "elo": 1200, "key": "VP_PLAYER"},
-        {"id": "placement_player", "name": "Placement Only Bot", "elo": 1100, "key": "PLACEMENT_PLAYER"},
-        {"id": "weighted_random", "name": "Weighted Random", "elo": 1050, "key": "WEIGHTED_RANDOM_PLAYER"},
+        {
+            "id": "greedy",
+            "name": "Greedy Playouts (50)",
+            "elo": 1300,
+            "key": "GREEDY_PLAYER",
+        },
+        {
+            "id": "vp_player",
+            "name": "Victory Point Bot",
+            "elo": 1200,
+            "key": "VP_PLAYER",
+        },
+        {
+            "id": "placement_player",
+            "name": "Placement Only Bot",
+            "elo": 1100,
+            "key": "PLACEMENT_PLAYER",
+        },
+        {
+            "id": "weighted_random",
+            "name": "Weighted Random",
+            "elo": 1050,
+            "key": "WEIGHTED_RANDOM_PLAYER",
+        },
         {"id": "random", "name": "Random", "elo": 1000, "key": "RANDOM"},
         {"id": "human", "name": "Human", "elo": None, "key": "HUMAN"},
     ]
@@ -301,7 +340,7 @@ def _load_bots():
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
             json_bots = [_normalize_bot(x) for x in data]
-    
+
     return default_bots + json_bots
 
 
