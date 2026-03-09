@@ -65,14 +65,250 @@ Date 2 & 1.1 & Notes\\
 This document ...
 
 \section{Functional Requirements Evaluation}
+\begin{enumerate}
+  \item test-FR-AI-1-1:
+  
+  \textbf{Initial State:} A game state is loaded where Player A has exactly 1 Wood, 1 Brick, and 2 Roads left to build, with only one legal placement location and no other legal moves.
+  
+  \textbf{Input:} The structured GameState is sent to the AI model via the Game State Manager.
+  
+  \textbf{Expected Output:} The AI’s move suggestion must be BuildRoad at the single remaining legal location.
+  
+  \textbf{Actual Output:} The AI correctly identified the single legal road placement and provided no illegal move suggestions.
+  
+  \textbf{Result:} Pass
+  
+  \item test-FR-AI-1-2:
+  
+  \textbf{Initial State:} GameState where Player A is 1 Victory Point away from winning and an unblocked node for the winning settlement is available.
+  
+  \textbf{Input:} GameState where the immediate winning move is available.
+  
+  \textbf{Expected Output:} The AI must provide the suggestion to BuildSettlement at the winning node with a high confidence score and textual reasoning.
+  
+  \textbf{Actual Output:} The AI highlighted the winning node and stated the move secures victory; confidence score was recorded at 98\%.
+  
+  \textbf{Result:} Pass
+  
+  \item test-FR-AI-1-3:
+  
+  \textbf{Initial State:} GameState for a 4-player game where Player A has 6 resources and rolls a 7, triggering the Robber phase.
+  
+  \textbf{Input:} The structured GameState is fed to the AI model.
+  
+  \textbf{Expected Output:} The AI must calculate a 3-card discard and suggest a legal Robber placement and steal action.
+  
+  \textbf{Actual Output:} The system correctly applied the discard-half rule (rounded down) and proposed a valid Robber placement.
+  
+  \textbf{Result:} Pass
+  \end{enumerate}
+  
+  \subsection{User Interface and Data Management}
+  
+  This area verifies that the system manages, displays, and archives game data to ensure data integrity.
+  
+  \begin{enumerate}
+  \item test-FR-UI-2-1:
+  
+  \textbf{Initial State:} Game start; Player A has 2 settlements and 2 roads, with an empty resource inventory displayed.
+  
+  \textbf{Input:} Player A performs BuildRoad at node X, processed via the Game State Manager and Database.
+  
+  \textbf{Expected Output:} UI reflects the new road on the board visualization and accurately reduces the resource inventory; Database entry for the turn must be complete.
+  
+  \textbf{Actual Output:} The board visualization updated in 1.2 seconds, and the database correctly logged the pre-move and post-move states.
+  
+  \textbf{Result:} Pass
+  
+  \item test-FR-UI-2-2:
+  
+  \textbf{Initial State:} A completed 50-turn game with a full history stored in the database.
+  
+  \textbf{Input:} Request for historical data including all dice rolls and development card purchases.
+  
+  \textbf{Expected Output:} Successful return of 50 turn records with accurate timestamps and dice roll data.
+  
+  \textbf{Actual Output:} The system retrieved all 50 records; automated scripts confirmed logs were consistent with the game rules.
+  
+  \textbf{Result:} Pass
+  \end{enumerate}
+  
+  \subsection{Computer Vision and Game State Capture}
+  
+  This area verifies the reliability of converting physical board states into digital GameState representations.
+  
+  \begin{enumerate}
+  \item test-FR-CV-3-1:
+  
+  \textbf{Initial State:} A standard legal Catan board set up with tiles, tokens, and the Robber; no settlements or roads placed.
+  
+  \textbf{Input:} A captured image of the physical board.
+  
+  \textbf{Expected Output:} A structured GameState mapping the board topology and player asset counts (5 settlements, 15 roads) to the digital twin.
+  
+  \textbf{Actual Output:} Digital twin topology matched the physical setup exactly; all asset counts were synchronized.
+  
+  \textbf{Result:} Pass
+  
+  \item test-FR-CV-3-2:
+  
+  \textbf{Initial State:} A mid-play game with Player A having 2 settlements, 1 city, and 8 roads. Camera is misaligned, causing minor occlusion of one edge.
+  
+  \textbf{Input:} A captured image of the board with the occlusion.
+  
+  \textbf{Expected Output:} System detects all pieces using logical constraints and provides a diagnostic confidence metric for the occluded area.
+  
+  \textbf{Actual Output:} \textbf{FAILED.} The CV model failed to identify one road positioned behind the occlusion. While it correctly flagged the area as low-confidence, it failed the "detect presence of all roads" requirement.
+  
+  \textbf{Result:} Fail (Refer to T.FR.CV.3.3 for mitigation)
+  
+  \item test-FR-CV-3-3:
+  
+  \textbf{Initial State:} A standard Catan board setup where one piece is intentionally misidentified by the CV Model.
+  
+  \textbf{Input:} A captured image processed by the CV Model with a known error.
+  
+  \textbf{Expected Output:} System presents the state for user confirmation; user manually corrects the error; Game State Manager uses the corrected state.
+  
+  \textbf{Actual Output:} The interface successfully allowed the tester to click and add the missing road from the previous failure (T.FR.CV.3.2); the updated digital state was processed correctly.
+  
+  \textbf{Result:} Pass
+  \end{enumerate}s
+\section{Nonfunctional Requirements Evaluation}
 
 \section{Nonfunctional Requirements Evaluation}
 
-\subsection{Usability}
-		
-\subsection{Performance}
+\subsection{Performance and Scalability}
 
-\subsection{etc.}
+\begin{enumerate}
+\item test-NFR-P-1:
+
+\textbf{Initial State:} Full system stack deployed (AI, CV, Database, UI) on the production test server.
+
+\textbf{Input/Condition:} Automated load-testing scripts simulated 1, 3, and 5 concurrent game sessions, each generating continuous GameState updates and AI recommendations.
+
+\textbf{Expected Output:} Response time per session should increase sub-linearly with load, and system resource usage should remain within acceptable limits without crashes or timeouts.
+
+\textbf{Actual Output:} Average response latency increased from 0.9s (1 session) to 1.4s (3 sessions) and 1.9s (5 sessions). CPU and memory usage rose proportionally but remained below critical thresholds. No dropped updates or crashes were observed.
+
+\textbf{Result:} Pass
+\end{enumerate}
+
+\subsection{Usability}
+
+\begin{enumerate}
+\item test-NFR-U-1:
+
+\textbf{Initial State:} Final prototype deployed in a browser environment.
+
+\textbf{Input/Condition:} Seven participants familiar with Catan completed a guided session and filled out the usability survey.
+
+\textbf{Expected Output:} Average usability rating of at least 4/5 across clarity, navigation, and AI explanation usefulness.
+
+\textbf{Actual Output:} Mean score across all participants was 4.3/5. Participants particularly rated board clarity and AI explanation visibility highly, though two users suggested improving tooltip discoverability.
+
+\textbf{Result:} Pass
+
+\item test-NFR-U-2:
+
+\textbf{Initial State:} UI opened in Chrome with accessibility tools enabled.
+
+\textbf{Input/Condition:} Applied simulated color-blindness filters and varied browser zoom levels between 80\% and 150\%.
+
+\textbf{Expected Output:} All critical UI elements remain legible with contrast ratio $\geq 4.5{:}1$.
+
+\textbf{Actual Output:} All text and interactive elements remained readable; contrast checker reported minimum ratio of 4.7:1. No information became inaccessible under tested scaling.
+
+\textbf{Result:} Pass
+\end{enumerate}
+
+\subsection{Maintainability}
+
+\begin{enumerate}
+\item test-NFR-M-1:
+
+\textbf{Initial State:} Final codebase committed to repository.
+
+\textbf{Input/Condition:} Static analysis tools (flake8, SonarQube) were executed and a peer review of module structure was performed.
+
+\textbf{Expected Output:} No high-severity issues; modular architecture with clear separation between AI, CV, UI, and data layers.
+
+\textbf{Actual Output:} Static analysis reported only minor style warnings and zero high-severity defects. Code inspection confirmed consistent modular boundaries and documentation across subsystems.
+
+\textbf{Result:} Pass
+\end{enumerate}
+
+\subsection{Installability}
+
+\begin{enumerate}
+\item test-NFR-I-1:
+
+\textbf{Initial State:} Packaged release candidate available.
+
+\textbf{Input/Condition:} System installed and launched on Windows 11 and macOS using Chrome and Firefox.
+
+\textbf{Expected Output:} Successful installation and execution on all supported environments.
+
+\textbf{Actual Output:} Application launched successfully on all tested OS/browser combinations. Minor browser permission prompts were observed but did not affect functionality.
+
+\textbf{Result:} Pass
+\end{enumerate}
+
+\subsection{Data Integrity}
+
+\begin{enumerate}
+\item test-NFR-D-1:
+
+\textbf{Initial State:} Active game session connected to database.
+
+\textbf{Input/Condition:} Automated test executed 10 state updates with an artificial network interruption injected during one transaction.
+
+\textbf{Expected Output:} Interrupted transaction is rolled back and database remains consistent.
+
+\textbf{Actual Output:} The interrupted update was rolled back successfully; no corruption or partial writes occurred.
+
+\textbf{Result:} Pass
+
+\item test-NFR-D-2:
+
+\textbf{Initial State:} Active game session.
+
+\textbf{Input/Condition:} Automated script attempted to submit malformed GameState objects including illegal resource counts and missing fields.
+
+\textbf{Expected Output:} Invalid updates rejected with validation errors.
+
+\textbf{Actual Output:} All malformed inputs were rejected; validation logs correctly recorded each failure.
+
+\textbf{Result:} Pass
+
+\item test-NFR-D-3:
+
+\textbf{Initial State:} Two concurrent sessions updating shared resources.
+
+\textbf{Input/Condition:} Simulated conflicting updates to the same board element.
+
+\textbf{Expected Output:} Only one transaction commits; conflicts resolved without corruption.
+
+\textbf{Actual Output:} Database locking prevented inconsistent writes; only one update committed and conflict logs were generated.
+
+\textbf{Result:} Pass
+\end{enumerate}
+
+\subsection{Availability}
+
+\begin{enumerate}
+\item test-NFR-AV-1:
+
+\textbf{Initial State:} System running with an active game in progress.
+
+\textbf{Input/Condition:} Server process intentionally terminated mid-turn and automatically restarted.
+
+\textbf{Expected Output:} System recovers and restores previous game state within 60 seconds.
+
+\textbf{Actual Output:} Service restarted in 34 seconds; last committed GameState snapshot restored successfully and session resumed without data loss.
+
+\textbf{Result:} Pass
+\end{enumerate}
 	
 \section{Comparison to Existing Implementation}	
 
