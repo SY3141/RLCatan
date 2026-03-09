@@ -1,8 +1,11 @@
 \documentclass[12pt, titlepage]{article}
-
+\usepackage{float}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage[table]{xcolor}
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -30,8 +33,8 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+March 4th & 1.0 & Draft from VNV plan\\
+March 9th & 1.1 & Final VNV report\\
 \bottomrule
 \end{tabularx}
 
@@ -44,11 +47,9 @@ Date 2 & 1.1 & Notes\\
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule 
-  T & Test\\
+  AI & Artifical Intelligence\\
   \bottomrule
 \end{tabular}\\
-
-\wss{symbols, abbreviations or acronyms -- you can reference the SRS tables if needed}
 
 \newpage
 
@@ -143,22 +144,72 @@ Date 2 & 1.1 & Notes\\
 \textbf{Trace:} NFR.S.1
 \end{enumerate}
 
-\subsection{Usability}
+\subsection{Usability (QUALITY EVALUATED)}
 
 \begin{enumerate}
 \item test-NFR-U-1:
 
 \textbf{Initial State:} Final prototype deployed in a browser.
 
-\textbf{Input/Condition:} 5--7 participants familiar with Catan play a full game against the AI bot and explore all interface options (build, trade, end turn).
+\textbf{Input/Condition:} 5--7 participants familiar with Catan play a full game against the AI bot and explore all interface options and take a UI survery.
 
 \textbf{Expected Output:} Players can understand the interface and perform actions without guidance; overall experience is intuitive.
 
-\textbf{Actual Output:} All participants successfully completed games. Users rated clarity, navigation, and understanding of AI bot behavior as 4.3/5 on average. Some suggestions for improving tooltip visibility were noted.
+\textbf{Actual Output:} All participants successfully completed games. Users rated clarity, navigation, and understanding of AI bot behavior as 3.5/5 on average. Some suggestions for improving certain UI aspects are noted, see below.
 
 \textbf{Result:} Pass
 
 \textbf{Trace:} NFR.S.2
+
+\subsubsection*{Verification with Data}
+
+The usability requirement was verified by collecting quantitative feedback across three core components. Data indicates that while game flow and general interface clarity are sufficient, there is a distinct "mid-range" dip in scores regarding the **Intuition between Real-Life Catan and the Bot UI**, specifically regarding color-coding and piece representation.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Participant} & \textbf{Clarity} & \textbf{Flow} & \textbf{Catan-to-Bot Intuition} & \textbf{User Avg.} \\ \hline
+Participant 1 & 3.5 & 4.0 & 2.5 & \textbf{3.3} \\ \hline
+Participant 2 & 4.0 & 4.5 & 3.0 & \textbf{3.8} \\ \hline
+Participant 3 & 3.0 & 3.5 & 2.5 & \textbf{3.0} \\ \hline
+Participant 4 & 4.5 & 4.5 & 3.0 & \textbf{4.0} \\ \hline
+Participant 5 & 3.5 & 4.0 & 3.0 & \textbf{3.5} \\ \hline
+Participant 6 & 3.0 & 3.5 & 2.5 & \textbf{3.0} \\ \hline
+Participant 7 & 4.0 & 4.5 & 3.0 & \textbf{3.8} \\ \hline
+\rowcolor[HTML]{F2F2F2} 
+\textbf{Component Avg.} & \textbf{3.6} & \textbf{4.1} & \textbf{2.8} & \textbf{3.5} \\ \hline
+\end{tabular}
+\caption{Usability Component Breakdown (NFR.S.2)}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    ybar,
+    bar width=25pt,
+    ylabel={Average Score (1-5)},
+    symbolic x coords={Clarity, Game Flow, Intuition},
+    xtick=data,
+    ymin=0, ymax=5,
+    ytick={1,2,3,4,5},
+    nodes near coords,
+    nodes near coords align={vertical},
+    ymajorgrids=true,
+    grid style=dashed,
+    width=0.85\textwidth,
+    height=7cm,
+    title={Usability Scores by Component}
+]
+\addplot[fill=blue!50] coordinates {
+    (Clarity,3.6) (Game Flow,4.1) (Intuition,2.8)
+};
+\end{axis}
+\end{tikzpicture}
+\caption{Visual Comparison of Usability Categories}
+\end{figure}
 
 \item test-NFR-U-2:
 
@@ -175,7 +226,7 @@ Date 2 & 1.1 & Notes\\
 \textbf{Trace:} NFR.S.2
 \end{enumerate}
 
-\subsection{Maintainability}
+\subsection{Maintainability (QUALITY EVALUATED)}
 
 \begin{enumerate}
 \item test-NFR-M-1:
@@ -192,6 +243,8 @@ Date 2 & 1.1 & Notes\\
 
 \textbf{Trace:} NFR.S.3
 \end{enumerate}
+
+Verification with Data:
 
 \subsection{Installability}
 
@@ -414,8 +467,80 @@ should be highlighted.}
 \section{Automated Testing}
 		
 \section{Trace to Requirements}
-		
+
+\subsection{Functional Requirements Trace}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Test Case ID} & \textbf{Traced Requirements} \\ \hline
+test-FR-AI-1-1 & FR.S.3.1, FR.S.3.2, FR.S.2.1 \\ \hline
+test-FR-AI-1-2 & FR.S.3.1, FR.S.3.2 \\ \hline
+test-FR-UI-1-1 & FR.S.5.1, FR.S.5.5, FR.S.7.3 \\ \hline
+\end{tabular}
+\caption{Functional Test Case Traceability}
+\label{tab:functional-trace}
+\end{table}
+
+\subsection{Nonfunctional Requirements Trace}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Test Case ID} & \textbf{Traced Requirements} \\ \hline
+test-NFR-P-1 & NFR.S.1 \\ \hline
+test-NFR-U-1 & NFR.S.2 \\ \hline
+test-NFR-U-2 & NFR.S.2 \\ \hline
+test-NFR-M-1 & NFR.S.3 \\ \hline
+test-NFR-I-1 & NFR.S.4 \\ \hline
+test-NFR-D-1 & NFR.S.5 \\ \hline
+test-NFR-D-2 & NFR.S.5 \\ \hline
+test-NFR-AV-1 & NFR.S.6 \\ \hline
+\end{tabular}
+\caption{Nonfunctional Test Case Traceability}
+\label{tab:nonfunctional-trace}
+\end{table}
+
+\medskip
+
 \section{Trace to Modules}		
+\subsection{Functional Modules Trace}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Test Case ID} & \textbf{Traced Modules} \\ \hline
+test-FR-AI-1-1 & AI Agent, Game State Manager \\ \hline
+test-FR-AI-1-2 & AI Agent, Game State Manager \\ \hline
+test-FR-UI-1-1 & User Interface, Game State Database \\ \hline
+\end{tabular}
+\caption{Functional Test Case to Module Traceability}
+\label{tab:functional-module-trace}
+\end{table}
+
+\subsection{Nonfunctional Modules Trace}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Test Case ID} & \textbf{Traced Modules} \\ \hline
+test-NFR-P-1 & AI Agent, Game State Manager, UI \\ \hline
+test-NFR-U-1 & UI \\ \hline
+test-NFR-U-2 & UI \\ \hline
+test-NFR-M-1 & All Modules \\ \hline
+test-NFR-I-1 & UI \\ \hline
+test-NFR-D-1 & Game State Database \\ \hline
+test-NFR-D-2 & Game State Database, UI \\ \hline
+test-NFR-AV-1 & Game State Manager, Database \\ \hline
+\end{tabular}
+\caption{Nonfunctional Test Case to Module Traceability}
+\label{tab:nonfunctional-module-trace}
+\end{table}
+
 
 \section{Code Coverage Metrics}
 
