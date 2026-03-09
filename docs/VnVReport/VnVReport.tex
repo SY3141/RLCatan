@@ -1,5 +1,5 @@
 \documentclass[12pt, titlepage]{article}
-
+\usepackage{float}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
@@ -278,8 +278,80 @@ should be highlighted.}
 \section{Automated Testing}
 		
 \section{Trace to Requirements}
-		
+
+\subsection{Functional Requirements Trace}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Test Case ID} & \textbf{Traced Requirements} \\ \hline
+test-FR-AI-1-1 & FR.S.3.1, FR.S.3.2, FR.S.2.1 \\ \hline
+test-FR-AI-1-2 & FR.S.3.1, FR.S.3.2 \\ \hline
+test-FR-UI-1-1 & FR.S.5.1, FR.S.5.5, FR.S.7.3 \\ \hline
+\end{tabular}
+\caption{Functional Test Case Traceability}
+\label{tab:functional-trace}
+\end{table}
+
+\subsection{Nonfunctional Requirements Trace}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Test Case ID} & \textbf{Traced Requirements} \\ \hline
+test-NFR-P-1 & NFR.S.1 \\ \hline
+test-NFR-U-1 & NFR.S.2 \\ \hline
+test-NFR-U-2 & NFR.S.2 \\ \hline
+test-NFR-M-1 & NFR.S.3 \\ \hline
+test-NFR-I-1 & NFR.S.4 \\ \hline
+test-NFR-D-1 & NFR.S.5 \\ \hline
+test-NFR-D-2 & NFR.S.5 \\ \hline
+test-NFR-AV-1 & NFR.S.6 \\ \hline
+\end{tabular}
+\caption{Nonfunctional Test Case Traceability}
+\label{tab:nonfunctional-trace}
+\end{table}
+
+\medskip
+
 \section{Trace to Modules}		
+\subsection{Functional Modules Trace}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Test Case ID} & \textbf{Traced Modules} \\ \hline
+test-FR-AI-1-1 & AI Agent, Game State Manager \\ \hline
+test-FR-AI-1-2 & AI Agent, Game State Manager \\ \hline
+test-FR-UI-1-1 & User Interface, Game State Database \\ \hline
+\end{tabular}
+\caption{Functional Test Case to Module Traceability}
+\label{tab:functional-module-trace}
+\end{table}
+
+\subsection{Nonfunctional Modules Trace}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Test Case ID} & \textbf{Traced Modules} \\ \hline
+test-NFR-P-1 & AI Agent, Game State Manager, UI \\ \hline
+test-NFR-U-1 & UI \\ \hline
+test-NFR-U-2 & UI \\ \hline
+test-NFR-M-1 & All Modules \\ \hline
+test-NFR-I-1 & UI \\ \hline
+test-NFR-D-1 & Game State Database \\ \hline
+test-NFR-D-2 & Game State Database, UI \\ \hline
+test-NFR-AV-1 & Game State Manager, Database \\ \hline
+\end{tabular}
+\caption{Nonfunctional Test Case to Module Traceability}
+\label{tab:nonfunctional-module-trace}
+\end{table}
+
 
 \section{Code Coverage Metrics}
 
