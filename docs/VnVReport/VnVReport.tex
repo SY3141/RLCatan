@@ -4,6 +4,7 @@
 \usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage{pgfplots}
+\usepackage{comment}
 \pgfplotsset{compat=1.18}
 \usepackage[table]{xcolor}
 \hypersetup{
@@ -14,6 +15,7 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
+\usepackage{graphicx}
 
 \input{../Comments}
 \input{../Common}
@@ -233,11 +235,11 @@ Participant 7 & 4.0 & 4.5 & 3.0 & \textbf{3.8} \\ \hline
 
 \textbf{Initial State:} Complete codebase committed to repository.
 
-\textbf{Input/Condition:} Run static analysis (flake8, SonarQube) and perform peer review of module structure (AI bot, CV, UI, Database).
+\textbf{Input/Condition:} Run static analysis (SonarQube) and perform peer review of module structure (AI bot, CV, UI, Database).
 
-\textbf{Expected Output:} No high-severity issues; code is modular and well-documented for easy updates.
+\textbf{Expected Output:} High rating for maintainability (B or higher), meaning code is modular and well-documented for easy updates.
 
-\textbf{Actual Output:} Static analysis reported only minor style warnings. Peer review confirmed clear module separation and sufficient documentation.
+\textbf{Actual Output:} Static analysis with SonarQube reported an A rating for maintainability. As an aside, the codebase also passed SonarQube's quality gate, although it seems there are some security issues we will need to consider (out of scope for now). Peer review confirmed clear module separation and sufficient documentation.
 
 \textbf{Result:} Pass
 
@@ -245,6 +247,11 @@ Participant 7 & 4.0 & 4.5 & 3.0 & \textbf{3.8} \\ \hline
 \end{enumerate}
 
 Verification with Data:
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{sonarqube_report}
+    \caption{SonarQube Quality Report}
+\end{figure}
 
 \subsection{Installability}
 
@@ -458,14 +465,19 @@ How test will be performed: Automated unit test using an HTTP test client.
 \end{enumerate}
 
 \section{Changes Due to Testing}
-
-\wss{This section should highlight how feedback from the users and from 
-the supervisor (when one exists) shaped the final product.  In particular 
-the feedback from the Rev 0 demo to the supervisor (or to potential users) 
-should be highlighted.}
+On going from rev1 to the final demo we will be
+creating a huge UI overhaul to address the usability issues identified in our testing. This will include a more intuitive layout,
+clearer visual cues for game actions, and improved color-coding to enhance the connection between the real-life Catan game and the bot's interface.
+We will also be incorporating a LLM-based feedback system to provide the players insight into why certain moves are made since our usability testing discovered some confusion in users.
+We will also need to refactor some of the codebase based on the maintainability tests we ran to improve readability and modularity. This will involve restructuring certain modules, adding more detailed comments,
+and ensuring consistent coding standards across the project.
 
 \section{Automated Testing}
-		
+
+For our functional and non functional requierments evaluation there were a couple bash scripts that we made to test
+but nothing to exstenvie , it was mostly manually. The CI/CD pipeline was our big portion of automated tests that we created.
+It ensures that our codebase remains stable and reliable. This automated testing process includes running unit tests, integration tests, and static code analysis to catch issues early in the development cycle.
+
 \section{Trace to Requirements}
 
 \subsection{Functional Requirements Trace}
@@ -512,8 +524,7 @@ test-NFR-AV-1 & NFR.S.6 \\ \hline
 \end{table}
 
 \medskip
-
-\section{Trace to Modules}		
+\section{Trace to Modules}
 \subsection{Functional Modules Trace}
 
 \begin{table}[H]
@@ -544,19 +555,18 @@ test-FR-UI-1-1 & User Interface, Game State Database \\ \hline
 \begin{tabular}{|l|l|}
 \hline
 \textbf{Test Case ID} & \textbf{Traced Modules} \\ \hline
-test-NFR-P-1 & AI Agent, Game State Manager, UI \\ \hline
-test-NFR-U-1 & UI \\ \hline
-test-NFR-U-2 & UI \\ \hline
-test-NFR-M-1 & All Modules \\ \hline
-test-NFR-I-1 & UI \\ \hline
-test-NFR-D-1 & Game State Database \\ \hline
-test-NFR-D-2 & Game State Database, UI \\ \hline
-test-NFR-AV-1 & Game State Manager, Database \\ \hline
+test-NFR-P-1  & AI Model, Game State Manager, User Interface \\ \hline
+test-NFR-U-1  & User Interface \\ \hline
+test-NFR-U-2  & User Interface \\ \hline
+test-NFR-M-1  & All Modules \\ \hline
+test-NFR-I-1  & User Interface \\ \hline
+test-NFR-D-1  & Game State Database \\ \hline
+test-NFR-D-2  & Game State Database, User Interface \\ \hline
+test-NFR-AV-1 & Game State Manager, Game State Database \\ \hline
 \end{tabular}
 \caption{Nonfunctional Test Case to Module Traceability}
 \label{tab:nonfunctional-module-trace}
 \end{table}
-
 
 \section{Code Coverage Metrics}
 
