@@ -4,6 +4,7 @@
 \usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage{pgfplots}
+\usepackage{comment}
 \pgfplotsset{compat=1.18}
 \usepackage[table]{xcolor}
 \hypersetup{
@@ -333,8 +334,8 @@ Modules and underlying models developed by external dependencies are out of scop
 
 \subsubsection{API and Game Management Module}
 
+\begin{comment}
 \begin{enumerate}
-
 \item{\texttt{test_get_bots_endpoint}\}
 Type: Functional, Dynamic, Automatic
 
@@ -456,16 +457,21 @@ Test Case Derivation: Confirms that the application handles invalid game IDs wit
 How test will be performed: Automated unit test using an HTTP test client.
 
 \end{enumerate}
-
+\end{comment}
 \section{Changes Due to Testing}
-
-\wss{This section should highlight how feedback from the users and from 
-the supervisor (when one exists) shaped the final product.  In particular 
-the feedback from the Rev 0 demo to the supervisor (or to potential users) 
-should be highlighted.}
+On going from rev1 to the final demo we will be
+creating a huge UI overhaul to address the usability issues identified in our testing. This will include a more intuitive layout,
+clearer visual cues for game actions, and improved color-coding to enhance the connection between the real-life Catan game and the bot's interface.
+We will also be incorporating a LLM-based feedback system to provide the players insight into why certain moves are made since our usability testing
+refactor some of the codebase to improve readability and modularity. This will involve restructuring certain modules, adding more detailed comments,
+and ensuring consistent coding standards across the project.
 
 \section{Automated Testing}
-		
+	
+For our functional and non functional requierments evaluation there were a couple bash scripts that we made to test
+but nothing to exstenvie , it was mostly manually. The CI/CD pipeline was our big portion of automated tests that we created.
+It ensures that our codebase remains stable and reliable. This automated testing process includes running unit tests, integration tests, and static code analysis to catch issues early in the development cycle.
+
 \section{Trace to Requirements}
 
 \subsection{Functional Requirements Trace}
@@ -504,8 +510,7 @@ test-NFR-AV-1 & NFR.S.6 \\ \hline
 \end{table}
 
 \medskip
-
-\section{Trace to Modules}		
+\section{Trace to Modules}
 \subsection{Functional Modules Trace}
 
 \begin{table}[H]
@@ -513,8 +518,8 @@ test-NFR-AV-1 & NFR.S.6 \\ \hline
 \begin{tabular}{|l|l|}
 \hline
 \textbf{Test Case ID} & \textbf{Traced Modules} \\ \hline
-test-FR-AI-1-1 & AI Agent, Game State Manager \\ \hline
-test-FR-AI-1-2 & AI Agent, Game State Manager \\ \hline
+test-FR-AI-1-1 & AI Model, Game State Manager \\ \hline
+test-FR-AI-1-2 & AI Model, Game State Manager \\ \hline
 test-FR-UI-1-1 & User Interface, Game State Database \\ \hline
 \end{tabular}
 \caption{Functional Test Case to Module Traceability}
@@ -528,19 +533,18 @@ test-FR-UI-1-1 & User Interface, Game State Database \\ \hline
 \begin{tabular}{|l|l|}
 \hline
 \textbf{Test Case ID} & \textbf{Traced Modules} \\ \hline
-test-NFR-P-1 & AI Agent, Game State Manager, UI \\ \hline
-test-NFR-U-1 & UI \\ \hline
-test-NFR-U-2 & UI \\ \hline
-test-NFR-M-1 & All Modules \\ \hline
-test-NFR-I-1 & UI \\ \hline
-test-NFR-D-1 & Game State Database \\ \hline
-test-NFR-D-2 & Game State Database, UI \\ \hline
-test-NFR-AV-1 & Game State Manager, Database \\ \hline
+test-NFR-P-1  & AI Model, Game State Manager, User Interface \\ \hline
+test-NFR-U-1  & User Interface \\ \hline
+test-NFR-U-2  & User Interface \\ \hline
+test-NFR-M-1  & All Modules \\ \hline
+test-NFR-I-1  & User Interface \\ \hline
+test-NFR-D-1  & Game State Database \\ \hline
+test-NFR-D-2  & Game State Database, User Interface \\ \hline
+test-NFR-AV-1 & Game State Manager, Game State Database \\ \hline
 \end{tabular}
 \caption{Nonfunctional Test Case to Module Traceability}
 \label{tab:nonfunctional-module-trace}
 \end{table}
-
 
 \section{Code Coverage Metrics}
 
