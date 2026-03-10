@@ -631,16 +631,38 @@ graduate attribute of Reflection.
 \end{enumerate}
     
 \subsection{Answers}
+For this reflection, we decided all of the questions were better answered as one cohesive reflection rather than answering each question individually.
     \begin{enumerate}
         \item I would say overall this deliverable went quite smoothly.
         It certainly felt like less of a time crunch than previous docs such as the SRS.
         I think this is mostly because we did a good job with the original VnV plan, so carrying out the plan didn’t have many major hurdles.
         As we’ll mention in a later answer, we did have to make some minor modifications to some planned tests, but mostly they were executed very closely to how they were originally written.
-
-        \item 
-        \item 
-        \item 
         \item
-    \end{enumerate}
+        The main pain point was recruiting participants for the usability study. Because Catan has a steep learning curve, we needed testers who already understood the game to provide meaningful feedback. Finding enough qualified users was challenging. We resolved this by reaching out to student groups and personal networks to recruit seven participants, which allowed us to complete the usability evaluation despite a tighter schedule.  
+        Another significant challenge was the shift away from the original Computer Vision (CV)
+        system. The technical complexity of real-time board detection proved to be too resource-intensive
+        We resolved this by pivoting to a browser-based bot that users could play against or watch,
+        which kept the focus on learning and gameplay rather than CV hardware issues.
+        \item
+        Several decisions in this deliverable were guided by client and proxy feedback.
+        The suggestion of an LLM-based explanation system came from our supervisor, who
+        suggested a tool that could explain its reasoning in natural language after hearing about our usability issues.
+        Usability insights were collected from a proxy group of peers and acquaintances familiar with Catan, 
+        helping us refine interface clarity, navigation, and tooltip visibility. 
+        Other decisions, including removing the CV module and shifting from an AI recommendation
+        engine to a playable learning bot, were internal pivots to make the system more practical and 
+        accessible in a browser environment.
+        \item
+        The Verification and Validation activities deviated from the original plan due to these
+        shifts in scope and architecture. Initial plans emphasized CV accuracy and board 
+        reconstruction, but these were replaced with evaluations of UI responsiveness and AI logic 
+        transparency. We also transitioned from testing recommendation accuracy to assessing the 
+        educational value and gameplay flow of the bot. Furthermore, many planned requirement 
+        tests were written before the final codebase structure was known, making some tests 
+        redundant or infeasible. In future projects, we would treat the VnV Plan as a living document, 
+        updating it alongside code development to better anticipate architectural changes and evolving project goals.
+      \item
+      \end{enumerate}
+    
 
 \end{document}
