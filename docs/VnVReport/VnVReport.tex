@@ -636,7 +636,7 @@ For this reflection, we decided all of the questions were better answered as one
         \item I would say overall this deliverable went quite smoothly.
         It certainly felt like less of a time crunch than previous docs such as the SRS.
         I think this is mostly because we did a good job with the original VnV plan, so carrying out the plan didn’t have many major hurdles.
-        As we’ll mention in a later answer, we did have to make some minor modifications to some planned tests, but mostly they were executed very closely to how they were originally written.
+        As I’ll mention in a later answer, we did have to make some minor modifications to some planned tests, but mostly they were executed very closely to how they were originally written.
         \item
         The main pain point was recruiting participants for the usability study. Because Catan has a steep learning curve, we needed testers who already understood the game to provide meaningful feedback. Finding enough qualified users was challenging. We resolved this by reaching out to student groups and personal networks to recruit seven participants, which allowed us to complete the usability evaluation despite a tighter schedule.  
         Another significant challenge was the shift away from the original Computer Vision (CV)
@@ -661,7 +661,13 @@ For this reflection, we decided all of the questions were better answered as one
         tests were written before the final codebase structure was known, making some tests 
         redundant or infeasible. In future projects, we would treat the VnV Plan as a living document, 
         updating it alongside code development to better anticipate architectural changes and evolving project goals.
-      \item
+      \item CI/CD was a critical part of our development process.
+        It was actually one of the first things we set up when we started the project, since our project integrates with the Catanatron simulator.
+        It was essential to have automated testing in place to ensure that new code didn’t break existing functionality.
+        We also set up linting and coveralls for coverage reports on each commit at that time, which has helped us maintain code quality and came in handy for the coverage section of this report.
+        We always checked for passing tests before merging any PRs, and on a couple occasions that helped catch some regressions and integration issues before they became a problem.
+        I'll be sticking to this approach for future projects, as it's been a great help keeping the codebase in order.
+        After working with SonarQube in this report, I'm also considering adding that to the pipeline for future projects as well, to get more info on quality over time rather than the single snapshot we took here.
       \end{enumerate}
     
 
