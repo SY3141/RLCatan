@@ -498,8 +498,9 @@ It ensures that our codebase remains stable and reliable. This automated testing
 
 \subsection{Functional Requirements Trace}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{|l|l|}
 \hline
 \textbf{Test Case ID} & \textbf{Traced Requirements} \\ \hline
@@ -515,13 +516,14 @@ test-FR-UI-1-1 & FR.S.5.1, FR.S.5.5, FR.S.7.3 \\ \hline
 \texttt{test\_mcts\_analysis\_endpoint} & FR.S.3.1, FR.S.3.4, FR.S.2.4 \\ \hline
 \texttt{test\_mcts\_analysis\_endpoint\_not\_found} & FR.S.7.5 \\ \hline
 \end{tabular}
+} %
 \caption{Functional Test Case Traceability}
 \label{tab:functional-trace}
 \end{table}
 
 \subsection{Nonfunctional Requirements Trace}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|l|}
 \hline
@@ -545,6 +547,7 @@ test-NFR-AV-1 & NFR.S.6 \\ \hline
 
 \begin{table}[H]
 \centering
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{|l|l|}
 \hline
 \textbf{Test Case ID} & \textbf{Traced Modules} \\ \hline
@@ -560,6 +563,7 @@ test-FR-UI-1-1 & User Interface, Game State Database \\ \hline
 \texttt{test\_mcts\_analysis\_endpoint} & AI Model, Game State Manager \\ \hline
 \texttt{test\_mcts\_analysis\_endpoint\_not\_found} & Game State Manager \\ \hline
 \end{tabular}
+} %
 \caption{Functional Test Case to Module Traceability}
 \label{tab:functional-module-trace}
 \end{table}
