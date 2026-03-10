@@ -481,12 +481,17 @@ How test will be performed: Automated unit test using an HTTP test client.
 \end{enumerate}
 
 \section{Changes Due to Testing}
-On going from rev1 to the final demo we will be
-creating a huge UI overhaul to address the usability issues identified in our testing. This will include a more intuitive layout,
+Going from rev1 to the final demo, we will be
+overhauling the UI to address the usability issues identified in our testing. This will include a more intuitive layout,
 clearer visual cues for game actions, and improved color-coding to enhance the connection between the real-life Catan game and the bot's interface.
-We will also be incorporating a LLM-based feedback system to provide the players insight into why certain moves are made since our usability testing discovered some confusion in users.
-We will also need to refactor some of the codebase based on the maintainability tests we ran to improve readability and modularity. This will involve restructuring certain modules, adding more detailed comments,
-and ensuring consistent coding standards across the project.
+We will also be incorporating a LLM-based feedback system to provide the players insight into why certain moves are made, since our usability testing found this to be an area of confusion.
+The maintainability analysis with SonarQube also revealed some areas for improvement.
+While our codebase received a high maintainability rating, there were still many medium and low severity maintainability issues found, as well as a couple high severity issues (largely dependency based) that we'll close going forward.
+This will involve restructuring certain modules, adding more detailed comments, and ensuring consistent coding standards across the project.
+In the process of analysing maintainability, the static analysis also revealed some security and reliability problems.
+Many of these issues are likely out of scope for now, but we'll still sort through them for anything critical and make the corresponding changes.
+Overall, the conclusions we've drawn from this testing have changed our priorities from improving the model's decision-making, to enhancing the user experience and code quality.
+We believe this will have a more significant impact on the success of the project as we pursue the path of turning our model into a method of experiential learning.
 
 \section{Automated Testing}
 
