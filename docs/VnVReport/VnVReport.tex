@@ -335,7 +335,7 @@ Modules and underlying models developed by external dependencies are out of scop
 
 \begin{enumerate}
 
-\item{\texttt{test_get_bots_endpoint}\}
+\item[\texttt{test_get_bots_endpoint}]
 Type: Functional, Dynamic, Automatic
 
 Initial State: The API server is initialized and ready to receive requests.
@@ -348,7 +348,7 @@ Test Case Derivation: Ensures the bot registry is populated correctly by checkin
 
 How test will be performed: Automated unit test using an HTTP test client.
 
-\item{\texttt{test_stress_test_endpoint}\}
+\item[\texttt{test_stress_test_endpoint}]
 Type: Functional, Dynamic, Automatic
 
 Initial State: The API server is initialized.
@@ -361,7 +361,7 @@ Test Case Derivation: Verifies that the system can successfully create and advan
 
 How test will be performed: Automated unit test using an HTTP test client.
 
-\item{\texttt{test_player_factory_custom_bot}\}
+\item[\texttt{test_player_factory_custom_bot}]
 Type: Functional, Dynamic, Automatic
 
 Initial State: Internal functions are mocked to simulate a custom bot named "my_custom_bot".
@@ -374,7 +374,7 @@ Test Case Derivation: Confirms that the backend correctly identifies the custom 
 
 How test will be performed: Automated unit test with mocked dependencies.
 
-\item{\texttt{test_create_game_all_player_types}\}
+\item[\texttt{test_create_game_all_player_types}]
 Type: Functional, Dynamic, Automatic
 
 Initial State: The API server is initialized.
@@ -395,7 +395,7 @@ This module tests the utility functions responsible for safely and accurately re
 
 \begin{enumerate}
 
-\item{\texttt{test_resolve_model_path_absolute_hpc}\}
+\item[\texttt{test_resolve_model_path_absolute_hpc}]
 Type: Functional, Dynamic, Automatic
 
 Initial State: Path resolution utilities are loaded.
@@ -408,7 +408,7 @@ Test Case Derivation: Ensures that absolute paths from training environments are
 
 How test will be performed: Automated unit test.
 
-\item{\texttt{test_resolve_model_path_relative}\}
+\item[\texttt{test_resolve_model_path_relative}]
 Type: Functional, Dynamic, Automatic
 
 Initial State: Path resolution utilities are loaded.
@@ -429,7 +429,7 @@ This module verifies the integration with the Monte Carlo Tree Search (MCTS) eng
 
 \begin{enumerate}
 
-\item{\texttt{test_mcts_analysis_endpoint}\}
+\item[\texttt{test_mcts_analysis_endpoint}]
 Type: Functional, Dynamic, Automatic
 
 Initial State: A valid game is created via the API, and the GameAnalyzer is mocked to return fixed win probabilities.
@@ -442,7 +442,7 @@ Test Case Derivation: Proves the endpoint correctly interfaces with the analysis
 
 How test will be performed: Automated unit test with a mocked GameAnalyzer.
 
-\item{\texttt{test_mcts_analysis_endpoint_not_found}\}
+\item[\texttt{test_mcts_analysis_endpoint_not_found}]
 Type: Functional, Dynamic, Automatic
 
 Initial State: The API server is initialized.
@@ -478,6 +478,14 @@ should be highlighted.}
 test-FR-AI-1-1 & FR.S.3.1, FR.S.3.2, FR.S.2.1 \\ \hline
 test-FR-AI-1-2 & FR.S.3.1, FR.S.3.2 \\ \hline
 test-FR-UI-1-1 & FR.S.5.1, FR.S.5.5, FR.S.7.3 \\ \hline
+\texttt{test\_get\_bots\_endpoint} & FR.S.7.5 \\ \hline
+\texttt{test\_stress\_test\_endpoint} & FR.S.7.1, NFR.S.1 \\ \hline
+\texttt{test\_player\_factory\_custom\_bot} & FR.S.2.5 \\ \hline
+\texttt{test\_create\_game\_all\_player\_types} & FR.S.2.1, FR.S.2.5 \\ \hline
+\texttt{test\_resolve\_model\_path\_absolute\_hpc} & NFR.E.3, FR.S.2.2 \\ \hline
+\texttt{test\_resolve\_model\_path\_relative} & NFR.E.3, FR.S.2.2 \\ \hline
+\texttt{test\_mcts\_analysis\_endpoint} & FR.S.3.1, FR.S.3.4, FR.S.2.4 \\ \hline
+\texttt{test\_mcts\_analysis\_endpoint\_not\_found} & FR.S.7.5 \\ \hline
 \end{tabular}
 \caption{Functional Test Case Traceability}
 \label{tab:functional-trace}
@@ -513,9 +521,17 @@ test-NFR-AV-1 & NFR.S.6 \\ \hline
 \begin{tabular}{|l|l|}
 \hline
 \textbf{Test Case ID} & \textbf{Traced Modules} \\ \hline
-test-FR-AI-1-1 & AI Agent, Game State Manager \\ \hline
-test-FR-AI-1-2 & AI Agent, Game State Manager \\ \hline
+test-FR-AI-1-1 & AI Model, Game State Manager \\ \hline
+test-FR-AI-1-2 & AI Model, Game State Manager \\ \hline
 test-FR-UI-1-1 & User Interface, Game State Database \\ \hline
+\texttt{test\_get\_bots\_endpoint} & Game State Manager \\ \hline
+\texttt{test\_stress\_test\_endpoint} & Game State Manager, Reinforcement Learning Environment \\ \hline
+\texttt{test\_player\_factory\_custom\_bot} & Reinforcement Learning Environment \\ \hline
+\texttt{test\_create\_game\_all\_player\_types} & Reinforcement Learning Environment, Game State Manager \\ \hline
+\texttt{test\_resolve\_model\_path\_absolute\_hpc} & AI Model, Reinforcement Learning Environment \\ \hline
+\texttt{test\_resolve\_model\_path\_relative} & AI Model, Reinforcement Learning Environment \\ \hline
+\texttt{test\_mcts\_analysis\_endpoint} & AI Model, Game State Manager \\ \hline
+\texttt{test\_mcts\_analysis\_endpoint\_not\_found} & Game State Manager \\ \hline
 \end{tabular}
 \caption{Functional Test Case to Module Traceability}
 \label{tab:functional-module-trace}
