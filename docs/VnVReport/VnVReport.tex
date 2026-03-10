@@ -14,6 +14,7 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
+\usepackage{graphicx}
 
 \input{../Comments}
 \input{../Common}
@@ -233,11 +234,11 @@ Participant 7 & 4.0 & 4.5 & 3.0 & \textbf{3.8} \\ \hline
 
 \textbf{Initial State:} Complete codebase committed to repository.
 
-\textbf{Input/Condition:} Run static analysis (flake8, SonarQube) and perform peer review of module structure (AI bot, CV, UI, Database).
+\textbf{Input/Condition:} Run static analysis (SonarQube) and perform peer review of module structure (AI bot, CV, UI, Database).
 
-\textbf{Expected Output:} No high-severity issues; code is modular and well-documented for easy updates.
+\textbf{Expected Output:} High rating for maintainability (B or higher), meaning code is modular and well-documented for easy updates.
 
-\textbf{Actual Output:} Static analysis reported only minor style warnings. Peer review confirmed clear module separation and sufficient documentation.
+\textbf{Actual Output:} Static analysis with SonarQube reported an A rating for maintainability. As an aside, the codebase also passed SonarQube's quality gate, although it seems there are some security issues we will need to consider (out of scope for now). Peer review confirmed clear module separation and sufficient documentation.
 
 \textbf{Result:} Pass
 
@@ -245,6 +246,11 @@ Participant 7 & 4.0 & 4.5 & 3.0 & \textbf{3.8} \\ \hline
 \end{enumerate}
 
 Verification with Data:
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{sonarqube_report}
+    \caption{SonarQube Quality Report}
+\end{figure}
 
 \subsection{Installability}
 
