@@ -342,7 +342,9 @@ Modules and underlying models developed by external dependencies are out of scop
 
 \begin{enumerate}
 
-\item[\texttt{test_get_bots_endpoint}]
+\item
+\texttt{test\_get\_bots\_endpoint}
+
 Type: Functional, Dynamic, Automatic
 
 Initial State: The API server is initialized and ready to receive requests.
@@ -351,11 +353,13 @@ Input: A simple HTTP GET request to the \texttt{/api/bots} URL.
 
 Output: A 200 OK status code and a JSON response containing a list of available bot objects.
 
-Test Case Derivation: Ensures the bot registry is populated correctly by checking that the returned list includes standard bot IDs like \texttt{catanatron_ab_2}, \texttt{random}, and \texttt{human}, and confirms that the total number of available bots is at least 10.
+Test Case Derivation: Ensures the bot registry is populated correctly by checking that the returned list includes standard bot IDs like \texttt{catanatron\_ab\_2}, \texttt{random}, and \texttt{human}, and confirms that the total number of available bots is at least 10.
 
 How test will be performed: Automated unit test using an HTTP test client.
 
-\item[\texttt{test_stress_test_endpoint}]
+\item
+\texttt{test\_stress\_test\_endpoint}
+
 Type: Functional, Dynamic, Automatic
 
 Initial State: The API server is initialized.
@@ -368,27 +372,31 @@ Test Case Derivation: Verifies that the system can successfully create and advan
 
 How test will be performed: Automated unit test using an HTTP test client.
 
-\item[\texttt{test_player_factory_custom_bot}]
+\item
+\texttt{test\_player\_factory\_custom\_bot}
+
 Type: Functional, Dynamic, Automatic
 
-Initial State: Internal functions are mocked to simulate a custom bot named "my_custom_bot".
+Initial State: Internal functions are mocked to simulate a custom bot named \"my\_custom\_bot\".
 
-Input: A POST request to \texttt{/api/games} with "BOT:my_custom_bot" in the player list.
+Input: A POST request to \texttt{/api/games} with "BOT:my\_custom\_bot" in the player list.
 
-Output: A successful 200 OK response containing a \texttt{game_id}.
+Output: A successful 200 OK response containing a \texttt{game\_id}.
 
 Test Case Derivation: Confirms that the backend correctly identifies the custom bot prefix, retrieves the mocked configuration, and attempts to instantiate the appropriate player class (like PPOPlayer) with the correct model path.
 
 How test will be performed: Automated unit test with mocked dependencies.
 
-\item[\texttt{test_create_game_all_player_types}]
+\item
+\texttt{test\_create\_game\_all\_player\_types}
+
 Type: Functional, Dynamic, Automatic
 
 Initial State: The API server is initialized.
 
-Input: A series of POST requests to \texttt{/api/games}, where each request uses a different player type (e.g., CATANATRON, VALUE_FUNCTION, HUMAN) in the configuration.
+Input: A series of POST requests to \texttt{/api/games}, where each request uses a different player type (e.g., CATANATRON, VALUE\_FUNCTION, HUMAN) in the configuration.
 
-Output: A 200 OK status code and a valid \texttt{game_id} for each request.
+Output: A 200 OK status code and a valid \texttt{game\_id} for each request.
 
 Test Case Derivation: Serves as a comprehensive smoke test to verify that every registered player class is correctly implemented and can be initialized by the game engine.
 
@@ -402,7 +410,9 @@ This module tests the utility functions responsible for safely and accurately re
 
 \begin{enumerate}
 
-\item[\texttt{test_resolve_model_path_absolute_hpc}]
+\item
+\texttt{test\_resolve\_model\_path\_absolute\_hpc}]
+
 Type: Functional, Dynamic, Automatic
 
 Initial State: Path resolution utilities are loaded.
@@ -415,7 +425,9 @@ Test Case Derivation: Ensures that absolute paths from training environments are
 
 How test will be performed: Automated unit test.
 
-\item[\texttt{test_resolve_model_path_relative}]
+\item
+\texttt{test\_resolve\_model\_path\_relative}
+
 Type: Functional, Dynamic, Automatic
 
 Initial State: Path resolution utilities are loaded.
@@ -436,7 +448,9 @@ This module verifies the integration with the Monte Carlo Tree Search (MCTS) eng
 
 \begin{enumerate}
 
-\item[\texttt{test_mcts_analysis_endpoint}]
+\item
+\texttt{test\_mcts\_analysis\_endpoint}
+
 Type: Functional, Dynamic, Automatic
 
 Initial State: A valid game is created via the API, and the GameAnalyzer is mocked to return fixed win probabilities.
@@ -449,7 +463,9 @@ Test Case Derivation: Proves the endpoint correctly interfaces with the analysis
 
 How test will be performed: Automated unit test with a mocked GameAnalyzer.
 
-\item[\texttt{test_mcts_analysis_endpoint_not_found}]
+\item
+\texttt{test\_mcts\_analysis\_endpoint\_not\_found}
+
 Type: Functional, Dynamic, Automatic
 
 Initial State: The API server is initialized.
