@@ -341,6 +341,7 @@ export default function ActionsToolbar({
           <ResourceCards
             playerState={gameState.player_state}
             playerKey={playerKey(gameState, humanColor)}
+            size="large"
           />
         )}
         <Hidden breakpoint={{ size: "lg", direction: "up" }}>
