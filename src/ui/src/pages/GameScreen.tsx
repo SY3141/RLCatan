@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { GridLoader } from "react-spinners";
@@ -26,12 +26,14 @@ function GameScreen({ replayMode }: { replayMode: boolean }) {
   const { state, dispatch } = useContext(store);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [isBotThinking, setIsBotThinking] = useState(false);
+  const lastProcessedStateIndex = useRef(-1);
 
   // Load game state
   useEffect(() => {
     if (!gameId) {
       return;
     }
+    lastProcessedStateIndex.current = -1;
 
     (async () => {
       const gameState = await getState(gameId, stateIndex as StateIndex);
@@ -48,6 +50,11 @@ function GameScreen({ replayMode }: { replayMode: boolean }) {
       state.gameState.bot_colors.includes(state.gameState.current_color) &&
       !state.gameState.winning_color
     ) {
+      if (lastProcessedStateIndex.current === state.gameState.state_index) {
+        return;
+      }
+      lastProcessedStateIndex.current = state.gameState.state_index;
+
       // Make bot click next action.
       (async () => {
         setIsBotThinking(true);
