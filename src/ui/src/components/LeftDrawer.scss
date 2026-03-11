@@ -27,6 +27,13 @@ $dark-divider: rgb(0 0 0 / 80%);
     scrollbar-color: #454545 variables.$dark-gray;
     .action {
       padding: variables.$sm-gutter;
+      font-weight: bold; // Bold text
+
+      // High contrast colors for log
+      &.RED { color: lighten(variables.$red, 20%); }
+      &.BLUE { color: lighten(variables.$blue, 20%); }
+      &.ORANGE { color: lighten(variables.$orange, 10%); }
+      &.WHITE { color: white; text-shadow: 0 0 2px black; } 
     }
   }
 }

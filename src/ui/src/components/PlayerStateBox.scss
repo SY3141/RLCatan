@@ -1,49 +1,144 @@
 @use "../variables.scss";
 
+@keyframes jump {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
 .resource-cards {
-  height: 40px;
   display: flex;
   gap: 6px;
-
   margin-bottom: variables.$sm-gutter;
 
-  .card {
-    border-radius: 4px;
-    div {
-      background: #151313;
-      color: white;
+  .resource-card-container {
+    &.animate-jump {
+      animation: jump 0.3s ease-in-out;
+    }
+  }
 
-      width: 21px;
-      height: 36px;
+  // SMALL variant (mimics original design with border effect)
+  &.small {
+    height: 40px;
+    
+    .resource-card-container {
+        width: 25px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
 
+        // Container background acts as the border color
+        &.wood-cards { background: variables.$wood; }
+        &.brick-cards { background: variables.$brick; }
+        &.wheat-cards { background: variables.$wheat; }
+        &.sheep-cards { background: variables.$darker-sheep; }
+        &.ore-cards { background: variables.$ore; }
+        &.dev-cards { background: purple; }
+
+        .card-visual {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            color: white;
+            border-radius: 4px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 800;
+            position: relative;
+        }
+
+        .label {
+            display: none; 
+        }
+
+        .short-label {
+             font-size: 0.7rem; // Matches original dev-card sizing
+        }
+    }
+  }
+
+  // LARGE variant (Solid fill, rectangular, text below)
+  &.large {
+    height: auto;
+    // Align items to top so they don't stretch weirdly 
+    align-items: flex-start; 
+    gap: 12px;
+
+    .resource-card-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: bold;
-      position: relative;
-    }
-  }
-  .wood-cards {
-    background: variables.$wood;
-  }
-  .brick-cards {
-    background: variables.$brick;
-  }
-  .wheat-cards {
-    background: variables.$wheat;
-  }
-  .sheep-cards {
-    background: variables.$darker-sheep;
-  }
-  .ore-cards {
-    background: variables.$ore;
-  }
-  .dev-cards {
-    background: purple;
-    div {
-      font-size: 0.7rem;
+      width: 70px; // Wrapper width to center label
+
+      .card-visual {
+        width: 60px;  
+        height: 90px; // Larger Rectangle
+        border-radius: 8px;
+        color: white;
+        background-color: transparent !important; // Ensure no base color leaks
+        background-image: none !important;        // Ensure no gradients
+        position: relative; 
+        box-shadow: none; // Remove shadow to address "weird artifact" concern
+        
+        display: block; // Reset flex from small if needed, but we redefine children pos
+
+        // Resource Color Fill directly on the visual part
+        // We need to target the PARENT's class to style this child
+      }
+
+      // Apply backgrounds to .card-visual based on container class
+      &.wood-cards .card-visual { background-color: variables.$wood !important; }
+      &.brick-cards .card-visual { background-color: variables.$brick !important; }
+      &.wheat-cards .card-visual { background-color: variables.$wheat !important; }
+      &.sheep-cards .card-visual { background-color: variables.$darker-sheep !important; }
+      &.ore-cards .card-visual { background-color: variables.$ore !important; }
+      &.dev-cards .card-visual { background-color: purple !important; }
+
+      .card-visual {
+
+        // Count at top-left
+        .count {
+            position: absolute;
+            top: 5px;
+            left: 8px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        // Short label (VP, KN) bottom-right or centered?
+        .short-label {
+            position: absolute;
+            bottom: 5px;
+            right: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            opacity: 0.9;
+        }
+      }
+
+      .label {
+        margin-top: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #ddd; // Light text for dark backgrounds? Or assumes this is on dark background?
+                     // ActionsToolbar seems to be footer-like. 
+                     // Let's use a dynamic color or assume dark theme context if implies.
+                     // The .actions-toolbar in ActionsToolbar.scss doesn't specify bg, but App usually has one.
+                     // If it's light theme, #ddd is invisible.
+                     // Given "solid fill", usually implies colorful cards. 
+                     // Let's stick to standard text color or inherit.
+        color: inherit; 
+        text-align: center;
+        text-transform: capitalize;
+      }
     }
   }
 }
@@ -52,9 +147,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
-  width: 25px;
-  height: 40px;
 }
 
 .player-state-box {

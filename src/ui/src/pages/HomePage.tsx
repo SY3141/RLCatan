@@ -20,7 +20,7 @@ export default function HomePage() {
 
   return (
     <div className="home-page">
-      <h1 className="logo">Catanatron</h1>
+      <h1 className="logo">Catan Arena</h1>
 
       <div className="switchable">
         {!loading ? (

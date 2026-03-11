@@ -1,12 +1,16 @@
 @use "../variables.scss";
 
 .state-summary {
-  height: 60px;
+  min-height: 60px;
+  height: auto; // Allow growing to fit larger cards
   width: 100%;
   max-width: variables.$sm-breakpoint;
   margin: 0 auto;
   display: flex;
-  padding: variables.$sm-gutter;
+  padding: 5px variables.$sm-gutter 20px;
+  box-sizing: border-box; 
+  align-items: flex-start; // Align items to top
+  
   .open-drawer-btn {
     color: white;
     margin-right: variables.$sm-gutter;
@@ -29,6 +33,38 @@ $btn-height: 60px;
     min-width: 60px;
     width: 100px;
     height: $btn-height;
+    
+    // Improved Aesthetics
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    
+    &:hover {
+      transform: translateY(-2px);
+    }
+    
+    &:active {
+      transform: translateY(1px);
+    }
+
+    &.MuiButton-containedPrimary {
+      background: linear-gradient(45deg, #1e88e5 30%, #0d47a1 90%);
+      box-shadow: 0 3px 5px 2px rgba(13, 71, 161, .3);
+
+      &:hover {
+         box-shadow: 0 6px 10px 4px rgba(13, 71, 161, .3); 
+      }
+    }
+
+    &.MuiButton-containedSecondary {
+      background: linear-gradient(45deg, #43a047 30%, #1b5e20 90%);
+      box-shadow: 0 3px 5px 2px rgba(27, 94, 32, .3);
+
+      &:hover {
+         box-shadow: 0 6px 10px 4px rgba(27, 94, 32, .3); 
+      }
+    }
   }
 
   .confirm-btn {
