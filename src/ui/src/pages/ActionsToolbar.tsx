@@ -36,6 +36,9 @@ import "./ActionsToolbar.scss";
 import { useSnackbar } from "notistack";
 import { dispatchSnackbar } from "../components/Snackbar";
 
+import diceIcon from "../assets/dice.svg";
+import robberIcon from "../assets/robber.svg";
+
 function PlayButtons() {
   const { gameId } = useParams();
   if (!gameId) {
@@ -262,7 +265,19 @@ function PlayButtons() {
         disabled={gameState.is_initial_build_phase || isRoadBuilding}
         variant="contained"
         color="primary"
-        startIcon={<NavigateNextIcon />}
+        startIcon={
+          isRoll ? (
+            <img src={diceIcon} style={{ width: 24, height: 24 }} alt="roll" />
+          ) : isMoveRobber ? (
+            <img
+              src={robberIcon}
+              style={{ width: 24, height: 24 }}
+              alt="robber"
+            />
+          ) : (
+            <NavigateNextIcon />
+          )
+        }
         onClick={
           isDiscard
             ? proceedAction
