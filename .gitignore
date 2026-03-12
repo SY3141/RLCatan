@@ -348,3 +348,5 @@ src/Miniconda3-latest-Linux-x86_64.sh
 
 # Tensorboard logs
 ppo_tensorboard_logs/
+.vercel
+.env*.local
