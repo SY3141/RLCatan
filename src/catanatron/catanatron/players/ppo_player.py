@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os.path
 from pathlib import Path
 from typing import Iterable, List, Optional, cast
 
@@ -11,7 +10,6 @@ from sb3_contrib.ppo_mask import MaskablePPO
 from catanatron.models.player import Player, Color
 from catanatron.models.enums import Action, ActionType
 from catanatron.features import create_sample, get_feature_ordering
-from catanatron.models.actions import serialize_action
 
 from catanatron.gym.envs.catanatron_env import (
     ACTIONS_ARRAY,
@@ -69,7 +67,7 @@ class PPOPlayer(Player):
         '''
 
         # Stores the info to pass to the LLM move explainer. Updated on each decide() call
-        self.last_decision_info = None
+        self._pending_decision_details = None
 
     def _build_observation(self, game) -> np.ndarray:
         """
@@ -165,32 +163,27 @@ class PPOPlayer(Player):
         chosen_action = from_action_space(chosen_index, list(playable_actions))
 
         # 7. Store info for move explanation (LLM)
-        self.last_decision_info = {
-            # Color of the player making the decision (storing this separately makes it easier to access later)
-            "actor": self.color.value,
-
-            # Prompt is deprecated, but still useful for now. The is_* flags are its replacement, they're added too
-            "prompt": game.state.current_prompt.value, # Current prompt (e.g. "BUILD_INITIAL_SETTLEMENT", "PLAY_TURN", etc.)
-            "is_initial_build_phase": game.state.is_initial_build_phase,
-            "is_discarding": game.state.is_discarding,
-            "is_moving_knight": game.state.is_moving_knight,
-            "is_road_building": game.state.is_road_building,
-
+        self._pending_decision_details = {
             # Observation data and actions presented/chosen. Knowing what the other move options were is important for explaining why a move was chosen
             "obs": obs.tolist(),
-            "playable_actions": [serialize_action(a) for a in playable_actions],
             "all_valid_indices": all_valid_indices,
             "filtered_indices": filtered_indices,
             "chosen_index": chosen_index,
-            "chosen_action": serialize_action(chosen_action),
             "deterministic": self.deterministic,
         }
 
         return chosen_action
 
+    def get_decision_details(self, game, playable_actions, chosen_action):
+        """ Return the details of the last decision, for use in LLM move explanation."""
+        details = getattr(self, "_pending_decision_details", {})
+        self._pending_decision_details = {}
+
+        return details
+
     def reset_state(self):
         """
         Reset any internal state between games. For PPOPlayer, that's just clearing the last_decision_info for now.
         """
-        self.last_decision_info = None
+        self._pending_decision_details = None
         super().reset_state()

@@ -150,7 +150,7 @@ class Game:
         action = (
             decide_fn(player, self, actions)
             if decide_fn is not None
-            else player.decide(self, actions)
+            else player.decide_with_context(self, actions)
         )
         # Call accumulator.step here, because we want game_before_action, action
         if len(accumulators) > 0:

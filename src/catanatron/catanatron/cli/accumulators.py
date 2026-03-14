@@ -140,7 +140,7 @@ class ExplanationAccumulator(GameAccumulator):
         player = snapshot.state.current_player()
 
         if not player.is_bot:
-            return  # Don't want to try to explain a human players moves back to them
+            return  # Don't want to try to explain a human player's moves back to them
 
         decision_info = getattr(player, "last_decision_info", None)
 
